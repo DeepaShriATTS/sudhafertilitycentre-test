@@ -43,7 +43,7 @@ const steps = [
     duration: "Pregnancy Confirmation",
     icon: GiBabyFace,
     description:
-      "Finally, the long-awaited moment arrives with an early blood test confirming the baby's formation. Our team won’t say goodbye once you’re pregnant; we walk with you safely into your first trimester!",
+      "Finally, the long-awaited moment arrives with an early blood test confirming the baby's formation. Our team won’t say goodbye once you’re pregnant; we walk with you safely into your Postpartum!",
   },
 ];
 

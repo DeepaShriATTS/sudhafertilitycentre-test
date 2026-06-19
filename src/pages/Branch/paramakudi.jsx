@@ -11,7 +11,7 @@ import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 // import SoundharyaNivasini from "@/assets/branch/Paramakudi/SoundharyaNivasini.webp";
 import SudhaAbout from "@/assets/branch/theni/theni_about.webp";
 import Hospital from "@/assets/branch/theni/Theni.webp";
-import {  Theni } from "@/middleware/imagesroute";
+import { Theni } from "@/middleware/imagesroute";
 
 import ImageGrid from "@/components/imagegrid";
 import Buttonbottm from "@/components/button";
@@ -221,7 +221,7 @@ function ParamakudiPage() {
                       <span className="text-[#FDCB58]">Paramakudi</span>
                     </h1>
                     <p className="mt-4 text-[22px] leading-[1.6]">
-                     Your journey to parenthood begins here.
+                      Your journey to parenthood begins here.
                     </p>
                     <Button
                       styleClass="mt-6"
@@ -272,10 +272,10 @@ function ParamakudiPage() {
                       </h3>
 
                       <p className="mt-3 text-gray-600">
-                       Sudha Fertility Centre has been a pioneer in fertility care across Tamil Nadu, supporting thousands of couples and achieving successful outcomes. The new Paramakudi branch is built with the same vision to provide world-class fertility services locally, without families having to travel far.
-                      </p> <br/>
+                        Sudha Fertility Centre has been a pioneer in fertility care across Tamil Nadu, supporting thousands of couples and achieving successful outcomes. The new Paramakudi branch is built with the same vision to provide world-class fertility services locally, without families having to travel far.
+                      </p> <br />
                       <p className="mt-3 text-gray-600">
-                       Here, our specialists combine medical precision with compassionate care. Every consultation is designed to understand each couple's unique needs, and every treatment plan is tailored to give the best chance of success. Beyond medical services, we focus on emotional support, ensuring couples feel guided and cared for throughout their journey.
+                        Here, our specialists combine medical precision with compassionate care. Every consultation is designed to understand each couple's unique needs, and every treatment plan is tailored to give the best chance of success. Beyond medical services, we focus on emotional support, ensuring couples feel guided and cared for throughout their journey.
                       </p>
                       <h3 className="text-[#173366] mt-3 font-semibold">
                         Best Fertility Treatments in Paramakudi:
@@ -303,7 +303,7 @@ function ParamakudiPage() {
                     </p>
 
                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                      
+
                       <li>IVF - In Vitro Fertilization </li>
                       <li>IUI - Intrauterine Insemination</li>
                       <li>ICSI - Intracytoplasmic Sperm Injection</li>
@@ -325,15 +325,15 @@ function ParamakudiPage() {
                       Gynaecological care and surgeries:
                     </p>
 
-                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                      
+                    <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
+
                       <li>C‑section and normal delivery </li>
                       <li>Laparoscopy and Hysteroscopy</li>
                       <li>Myomectomy and cervical cerclage</li>
                       <li>
                         Fertility preservation procedures
                       </li>
-                     
+
                     </ul>
 
                     <p className="mt-3 text-gray-600">
@@ -347,12 +347,12 @@ function ParamakudiPage() {
                       />
                     </div>
                     <h3 className=" text-[#173366] font-semibold mt-3">
-                    Why Sudha Fertility Centre is the Best IVF Hospital in Paramakudi?  
+                      Why Sudha Fertility Centre is the Best IVF Hospital in Paramakudi?
                     </h3>
                     <p className="mt-3 text-gray-600">
-                     Sudha Fertility Centre has earned its reputation through consistent success rates and patient‑focused care. In Paramakudi, we bring the same strengths:                    </p>
-                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                      
+                      Sudha Fertility Centre has earned its reputation through consistent success rates and patient‑focused care. In Paramakudi, we bring the same strengths:                    </p>
+                    <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
+
                       <li>Affordable treatments without compromising quality</li>
                       <li>Quick diagnostic reports to avoid delays in treatment</li>
                       <li>Experienced specialists with proven expertise</li>
@@ -360,11 +360,11 @@ function ParamakudiPage() {
                         Outstanding IVF success rates recognized across Tamil Nadu
                       </li>
                       <li>Custom treatment plans for each individual</li>
-                     
+
                     </ul>
 
                     <p className="mt-3 text-gray-600">
-                        Families choose Sudha not only for medical excellence but also for the warmth and care they experience at every step.
+                      Families choose Sudha not only for medical excellence but also for the warmth and care they experience at every step.
                     </p>
                   </motion.div>
 
@@ -422,8 +422,8 @@ function ParamakudiPage() {
                       <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
                         Dr.S.Pradeepa Sudhakar.,
                       </h4>
-                       <p className="text-md text-[#000000] mt-3">
-                        DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
+                      <p className="text-md text-[#000000] mt-3">
+                        MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
                       </p>
                       {/* <p className="text-[#000000] mt-3">
                         Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS)
@@ -523,7 +523,7 @@ function ParamakudiPage() {
                   >
                     <ImageGrid images={Paramakudi.gallery} />
                   </motion.div> */}
-                   <motion.div
+                  <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
@@ -578,7 +578,7 @@ function ParamakudiPage() {
                               Address
                             </p>
                             <p className="font-semibold">
-                             Gandhiji Main Road, near Taluk Office, SPM Colony, Attupalam, Paramakudi, Tamil Nadu 623707.
+                              Gandhiji Main Road, near Taluk Office, SPM Colony, Attupalam, Paramakudi, Tamil Nadu 623707.
                             </p>
                             <Link href="https://maps.app.goo.gl/gVtpKeuCQyh1pqDe6">
                               <button className="button-all mt-4  md:mx-0 md:mr-auto flex items-center gap-2">

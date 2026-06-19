@@ -273,16 +273,16 @@ function TirupathurPage() {
                       </h3>
 
                       <p className="mt-3 text-gray-600">
-                       Tirupattur, known for its heritage and strong family values, now welcomes Sudha Fertility Centre. Our branch here is more than just a medical facility; it is a place where couples can find hope, guidance, and care without having to travel far. We understand that fertility care is not only about advanced procedures but also about emotional strength. That’s why our specialists in Tirupattur focus on listening to couples, understanding their journey, and creating treatment plans that suit their unique needs.
+                        Tirupattur, known for its heritage and strong family values, now welcomes Sudha Fertility Centre. Our branch here is more than just a medical facility; it is a place where couples can find hope, guidance, and care without having to travel far. We understand that fertility care is not only about advanced procedures but also about emotional strength. That’s why our specialists in Tirupattur focus on listening to couples, understanding their journey, and creating treatment plans that suit their unique needs.
                       </p> <br />
                       <p className="mt-3 text-gray-600">
-                       Every patient is treated with compassion, and every consultation is designed to provide clarity and confidence. With advanced technology, experienced doctors, and a supportive environment, Sudha Fertility Centre in Tirupattur stands as a trusted partner for families longing to welcome a child.
+                        Every patient is treated with compassion, and every consultation is designed to provide clarity and confidence. With advanced technology, experienced doctors, and a supportive environment, Sudha Fertility Centre in Tirupattur stands as a trusted partner for families longing to welcome a child.
                       </p>
                       <h3 className="text-[#173366] mt-3 font-semibold">
                         Best Fertility Treatments Offered  in  Tirupathur:
                       </h3>
                       <p className="mt-3 text-gray-600">
-                       The Tirupattur branch offers a complete range of fertility treatments, supported by advanced technology and experienced doctors. Our approach is comprehensive, from basic fertility solutions to advanced reproductive techniques; everything is available under one roof. Couples can begin their journey here with confidence, knowing that they are guided by specialists who care deeply about their success.
+                        The Tirupattur branch offers a complete range of fertility treatments, supported by advanced technology and experienced doctors. Our approach is comprehensive, from basic fertility solutions to advanced reproductive techniques; everything is available under one roof. Couples can begin their journey here with confidence, knowing that they are guided by specialists who care deeply about their success.
                       </p>
 
 
@@ -302,36 +302,36 @@ function TirupathurPage() {
                     transition={{ duration: 0.5 }}
                   >
                     <p className="mt-3 mb-3 text-gray-600">
-                    Core fertility treatments include:
+                      Core fertility treatments include:
                     </p>
 
                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                        <li>IVF – In Vitro Fertilization</li>
-                         <li>IUI – Intrauterine Insemination</li>
-                          <li>ICSI – Intracytoplasmic Sperm Injection</li>
-                             <li>IMSI – Intracytoplasmic Morphologically Selected Sperm Injection</li>
-                                 <li>TESE – Testicular Sperm Extraction</li>
-                                    <li>PESA – Percutaneous Epididymal Sperm Aspiration</li>
-                                        <li>LAH – Laser Assisted Hatching</li>
-                                          <li>Ovarian Rejuvenation (ABCD)</li>
-                                          <li>FET – Frozen Embryo Transfer</li>
-                                          <li>Endometrium PRP – Platelet-Rich Plasma Therapy</li>
+                      <li>IVF – In Vitro Fertilization</li>
+                      <li>IUI – Intrauterine Insemination</li>
+                      <li>ICSI – Intracytoplasmic Sperm Injection</li>
+                      <li>IMSI – Intracytoplasmic Morphologically Selected Sperm Injection</li>
+                      <li>TESE – Testicular Sperm Extraction</li>
+                      <li>PESA – Percutaneous Epididymal Sperm Aspiration</li>
+                      <li>LAH – Laser Assisted Hatching</li>
+                      <li>Ovarian Rejuvenation (ABCD)</li>
+                      <li>FET – Frozen Embryo Transfer</li>
+                      <li>Endometrium PRP – Platelet-Rich Plasma Therapy</li>
                     </ul>
 
-                     <p className="mt-3 mb-3 text-gray-600">
-                    Gynaecological care and surgeries:
+                    <p className="mt-3 mb-3 text-gray-600">
+                      Gynaecological care and surgeries:
                     </p>
 
                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                        <li>C-section and Normal Delivery</li>
-                        <li>Laparoscopy and Hysteroscopy</li>
-                        <li>Myomectomy and Cervical Cerclage</li>
-                        <li>Fertility Preservation Procedures</li>
+                      <li>C-section and Normal Delivery</li>
+                      <li>Laparoscopy and Hysteroscopy</li>
+                      <li>Myomectomy and Cervical Cerclage</li>
+                      <li>Fertility Preservation Procedures</li>
                     </ul>
 
 
 
-                  
+
                     <div className="w-full lg:w-1/2 mt-5 sm-block hidden">
                       <Image
                         src={SudhaAbout}
@@ -340,17 +340,17 @@ function TirupathurPage() {
                       />
                     </div>
                     <h3 className=" text-[#173366] font-semibold mt-3">
-                     Why Sudha Fertility Centre is the Best IVF Hospital in Tirupattur?
+                      Why Sudha Fertility Centre is the Best IVF Hospital in Tirupattur?
 
                     </h3>
                     <p className="mt-3 text-gray-600">
-                     Sudha Fertility Centre has earned its reputation through consistent success rates and patient‑focused care. In Tirupattur, we bring the same strengths but with a local touch, affordable treatments, quick diagnostic services, and specialists who understand the needs of families here.
+                      Sudha Fertility Centre has earned its reputation through consistent success rates and patient‑focused care. In Tirupattur, we bring the same strengths but with a local touch, affordable treatments, quick diagnostic services, and specialists who understand the needs of families here.
 
                     </p>
                     <p className="mt-3 text-gray-600">
-                        Couples choose Sudha not only for medical excellence but also for the warmth of our approach. We believe in transparency, timely care, and personalised treatment plans. Our outstanding IVF success rates make us the trusted choice for fertility care in Tirupattur.
+                      Couples choose Sudha not only for medical excellence but also for the warmth of our approach. We believe in transparency, timely care, and personalised treatment plans. Our outstanding IVF success rates make us the trusted choice for fertility care in Tirupattur.
                     </p>
-               
+
                   </motion.div>
 
                   <hr className="mt-4" />
@@ -370,17 +370,17 @@ function TirupathurPage() {
                         Facilities
                       </h3>
                       <p className=" text-gray-600 mt-3">
-                       Our Tirupattur branch is equipped with modern infrastructure and advanced technology to support fertility treatments and patient care.
+                        Our Tirupattur branch is equipped with modern infrastructure and advanced technology to support fertility treatments and patient care.
 
                       </p>
 
                       <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                                              <li>State-of-the-Art IVF Laboratory</li>
-                                              <li>Quick Diagnostic Equipment for Faster Results</li>
-                                              <li>24/7 Medical Support with Trained Staff</li>
-                                              <li>Comfortable Consultation and Recovery Spaces</li>
-                                              <li>Affordable Treatment Packages</li>
-                                              <li>Full-Time Fertility Support Team</li>
+                        <li>State-of-the-Art IVF Laboratory</li>
+                        <li>Quick Diagnostic Equipment for Faster Results</li>
+                        <li>24/7 Medical Support with Trained Staff</li>
+                        <li>Comfortable Consultation and Recovery Spaces</li>
+                        <li>Affordable Treatment Packages</li>
+                        <li>Full-Time Fertility Support Team</li>
                       </ul>
 
                     </div>
@@ -414,24 +414,24 @@ function TirupathurPage() {
                       <h3 className="text-[20px] font-semibold mt-3 leading-[1.4]">
                         Vice President, Sudha Hospitals Pvt. Ltd.
                       </h3>
-                      
+
 
                       <p className="text-md text-[#000000] mt-3">
-                        DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
+                        MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
                       </p>
 
 
 
                       <p className=" text-gray-600 mt-3 ">
-                       Dr. S. Pradeepa Sudhakar is renowned for her exceptional clinical skills and in-depth expertise in fertility-enhancing procedures and advanced reproductive technologies. With a dedicated focus on patient care and impressive success rates, she has assisted countless couples in achieving their dream of becoming parents.
+                        Dr. S. Pradeepa Sudhakar is renowned for her exceptional clinical skills and in-depth expertise in fertility-enhancing procedures and advanced reproductive technologies. With a dedicated focus on patient care and impressive success rates, she has assisted countless couples in achieving their dream of becoming parents.
 
                       </p>
                       <div className="sm-block hidden">
                         <p className="text-md  text-gray-600 mt-3">
-                          In her role as Vice President of Sudha Fertility Centre, Dr. Pradeepa has successfully led the strategic expansion of the organization, establishing over 40 branches within a mere five years. 
+                          In her role as Vice President of Sudha Fertility Centre, Dr. Pradeepa has successfully led the strategic expansion of the organization, establishing over 40 branches within a mere five years.
                         </p>
                         <p className="text-md  text-gray-600 mt-3">
-                            Her commitment to medical excellence is complemented by her compassionate counselling services, which provide support and guidance to patients throughout their fertility journeys.
+                          Her commitment to medical excellence is complemented by her compassionate counselling services, which provide support and guidance to patients throughout their fertility journeys.
                         </p>
 
 

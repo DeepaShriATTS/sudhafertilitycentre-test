@@ -361,8 +361,8 @@ function TirunelveliPage() {
                       <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
                         Dr.S.Pradeepa Sudhakar.,
                       </h4>
-                       <p className="text-md text-[#000000] mt-3">
-                        DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
+                      <p className="text-md text-[#000000] mt-3">
+                        MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
                       </p>
                       {/* <p className="text-[#000000] mt-3">
                         Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS)

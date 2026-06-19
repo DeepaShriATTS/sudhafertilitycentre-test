@@ -11,7 +11,7 @@ import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 // import SoundharyaNivasini from "@/assets/branch/ Viluppuram/SoundharyaNivasini.webp";
 import SudhaAbout from "@/assets/branch/theni/theni_about.webp";
 import Hospital from "@/assets/branch/theni/Theni.webp";
-import {  Theni } from "@/middleware/imagesroute";
+import { Theni } from "@/middleware/imagesroute";
 
 import ImageGrid from "@/components/imagegrid";
 import Buttonbottm from "@/components/button";
@@ -26,14 +26,14 @@ import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
 import { MarqueeComponent } from "@/components/marqueeSlider";
-import { Ambattur,  Viluppuram } from "@/middleware/imagesroute";
+import { Ambattur, Viluppuram } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
 import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
-function  ViluppuramPage() {
+function ViluppuramPage() {
   const [visibleCount, setVisibleCount] = useState(5);
   const [openIndex, setOpenIndex] = useState(null);
   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
@@ -47,7 +47,7 @@ function  ViluppuramPage() {
       setVisibleCount(5); // Reset to initial count when showing less
       setShowAll(false); // Properly toggle state
     } else {
-      setVisibleCount( Viluppuram.faqs.length); // Show all FAQs
+      setVisibleCount(Viluppuram.faqs.length); // Show all FAQs
       setShowAll(true); // Properly toggle state
     }
   };
@@ -61,7 +61,7 @@ function  ViluppuramPage() {
 
 
 
-  const  ViluppuramReview = [
+  const ViluppuramReview = [
     {
       quote:
         `Very very thanks to  Viluppuram sudha hospital and Dr. Nivasini mam and nursing staff. Today my best day my life my wife has positive result( isci). Best fertility centre in  Viluppuram`,
@@ -90,7 +90,7 @@ function  ViluppuramPage() {
     {
       quote:
         "I am Chandrika Eswaran, I am now seeing in sudha hospital  Viluppuram Here Dr .Nivasini mam gives one support for me. This makes me to  continue this hospital. Nursing staff also so good speech Counsellor  vanitha also so good speaker totally this hospital is so good. Their speech make to continue her . By Gods grace as well as the doctors way of speech  I got positive vibration . By that now i am conceive  I am so happy. Management wise totally so good .I support sudha hospital.",
-      name: "Sandhya E", 
+      name: "Sandhya E",
       title: "Patient",
     },
     {
@@ -221,7 +221,7 @@ function  ViluppuramPage() {
                       <span className="text-[#FDCB58]"> Viluppuram</span>
                     </h1>
                     <p className="mt-4 text-[22px] leading-[1.6]">
-                     Parenthood made possible with fertility expertise and care.
+                      Parenthood made possible with fertility expertise and care.
                     </p>
                     <Button
                       styleClass="mt-6"
@@ -272,8 +272,8 @@ function  ViluppuramPage() {
                       </h3>
 
                       <p className="mt-3 text-gray-600">
-                       Sudha Fertility Centre in Viluppuram is a place where couples find both medical care and genuine emotional support. We understand that fertility care is not just about procedures; it is about guiding families through one of the most important journeys of their lives. That’s why our specialists spend time listening, explaining, and designing treatment plans that respect each couple’s unique needs. Every consultation is detailed, every explanation is transparent, and every step is taken with empathy.
-                      </p> <br/>
+                        Sudha Fertility Centre in Viluppuram is a place where couples find both medical care and genuine emotional support. We understand that fertility care is not just about procedures; it is about guiding families through one of the most important journeys of their lives. That’s why our specialists spend time listening, explaining, and designing treatment plans that respect each couple’s unique needs. Every consultation is detailed, every explanation is transparent, and every step is taken with empathy.
+                      </p> <br />
                       <p className="mt-3 text-gray-600">
                         At Sudha Fertility Centre in Viluppuram, couples are never left feeling uncertain. They are empowered with the knowledge about fertility and reassured with care. With proven success rates and advanced facilities, Viluppuram’s branch reflects Sudha Fertility Centre’s commitment to making parenthood possible for all families.
                       </p>
@@ -283,7 +283,7 @@ function  ViluppuramPage() {
                       <p className="mt-3 text-gray-600">
                         At Viluppuram, fertility care is delivered with clarity and confidence. Couples are guided through every treatment option, with doctors explaining how each procedure works and what outcomes to expect. We believe that informed decisions lead to better results, so our specialists ensure that no question goes unanswered. Treatments are carefully planned, never rushed, and tailored to suit individual medical needs.
                       </p>
-                     
+
                     </div>
                     <div className="w-full lg:w-1/2 mt-5 sm-hidden">
                       <Image
@@ -300,98 +300,98 @@ function  ViluppuramPage() {
                     transition={{ duration: 0.5 }}
                   >
                     <p className="mt-3 mb-3 text-gray-600">
-                     Our primary fertility treatments encompass a variety of options designed to assist individuals on their journey to parenthood:
+                      Our primary fertility treatments encompass a variety of options designed to assist individuals on their journey to parenthood:
                     </p>
 
                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
 
-                                         <li>
-                                              <strong>Normal Delivery:</strong>{" "}
-                                              <span>A natural childbirth experience tailored for mothers.</span>
-                                          </li>
+                      <li>
+                        <strong>Normal Delivery:</strong>{" "}
+                        <span>A natural childbirth experience tailored for mothers.</span>
+                      </li>
 
-                                          <li>
-                                              <strong>IVF (In Vitro Fertilization):</strong>{" "}
-                                              <span>
-                                                  A comprehensive process that supports conception through laboratory
-                                                  techniques.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>IVF (In Vitro Fertilization):</strong>{" "}
+                        <span>
+                          A comprehensive process that supports conception through laboratory
+                          techniques.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>IUI (Intrauterine Insemination):</strong>{" "}
-                                              <span>
-                                                  A procedure that involves placing sperm directly into the uterus to
-                                                  increase the chances of pregnancy.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>IUI (Intrauterine Insemination):</strong>{" "}
+                        <span>
+                          A procedure that involves placing sperm directly into the uterus to
+                          increase the chances of pregnancy.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>ICSI (Intracytoplasmic Sperm Injection):</strong>{" "}
-                                              <span>
-                                                  A specialized method where a single sperm is injected directly into an
-                                                  egg to facilitate fertilization.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>ICSI (Intracytoplasmic Sperm Injection):</strong>{" "}
+                        <span>
+                          A specialized method where a single sperm is injected directly into an
+                          egg to facilitate fertilization.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>IMSI (Intracytoplasmic Morphologically Selected Sperm Injection):</strong>{" "}
-                                              <span>
-                                                  An advanced version of ICSI that utilizes carefully selected sperm for
-                                                  improved outcomes.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>IMSI (Intracytoplasmic Morphologically Selected Sperm Injection):</strong>{" "}
+                        <span>
+                          An advanced version of ICSI that utilizes carefully selected sperm for
+                          improved outcomes.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>TESE (Testicular Sperm Extraction):</strong>{" "}
-                                              <span>
-                                                  A procedure designed to extract sperm directly from the testicles for use
-                                                  in fertility treatments.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>TESE (Testicular Sperm Extraction):</strong>{" "}
+                        <span>
+                          A procedure designed to extract sperm directly from the testicles for use
+                          in fertility treatments.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>PESA (Percutaneous Epididymal Sperm Aspiration):</strong>{" "}
-                                              <span>
-                                                  A technique that collects sperm from the epididymis, enhancing fertility
-                                                  options.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>PESA (Percutaneous Epididymal Sperm Aspiration):</strong>{" "}
+                        <span>
+                          A technique that collects sperm from the epididymis, enhancing fertility
+                          options.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>LAH (Laser Assisted Hatching):</strong>{" "}
-                                              <span>
-                                                  A method that helps embryos implant more effectively into the uterine
-                                                  lining.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>LAH (Laser Assisted Hatching):</strong>{" "}
+                        <span>
+                          A method that helps embryos implant more effectively into the uterine
+                          lining.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>Ovarian Rejuvenation (ABCD):</strong>{" "}
-                                              <span>
-                                                  A treatment approach that utilizes the patient's own blood cells to
-                                                  rejuvenate the ovaries and enhance egg quality.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>Ovarian Rejuvenation (ABCD):</strong>{" "}
+                        <span>
+                          A treatment approach that utilizes the patient's own blood cells to
+                          rejuvenate the ovaries and enhance egg quality.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>FET (Frozen Embryo Transfer):</strong>{" "}
-                                              <span>
-                                                  A process that involves implanting embryos that have been previously
-                                                  frozen for future use.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>FET (Frozen Embryo Transfer):</strong>{" "}
+                        <span>
+                          A process that involves implanting embryos that have been previously
+                          frozen for future use.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>Endometrium PRP (Platelet-Rich Plasma):</strong>{" "}
-                                              <span>
-                                                  A treatment designed to enrich the uterine lining, promoting better
-                                                  chances for implantation.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>Endometrium PRP (Platelet-Rich Plasma):</strong>{" "}
+                        <span>
+                          A treatment designed to enrich the uterine lining, promoting better
+                          chances for implantation.
+                        </span>
+                      </li>
                     </ul>
 
-                   
+
 
                     <p className="mt-3 text-gray-600">
                       Besides this, we also offer other gynaec-related surgeries like Laparoscopy, SSG, Cervical cerclage, C-section, Myomectomy, OBS, ERA, Cyct and fluid aspiration, as well as other fertility preservation processes.
@@ -404,40 +404,40 @@ function  ViluppuramPage() {
                       />
                     </div>
                     <h3 className=" text-[#173366] font-semibold mt-3">
-                      Why Sudha Fertility Centre is the Best Fertility Hospital in Viluppuram? 
+                      Why Sudha Fertility Centre is the Best Fertility Hospital in Viluppuram?
                     </h3>
                     <p className="mt-3 text-gray-600">
-                    Families in Viluppuram choose Sudha Fertility Centre because we combine affordability with excellence. Our specialists are known for simplifying complex treatments, making couples feel comfortable and confident. Success rates are consistently high, but what sets us apart is the way we care.
-                   </p>
-                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                      
-                                          <li>
-                                              Our facilities are equipped with advanced laboratories and diagnostic
-                                              tools.
-                                          </li>
+                      Families in Viluppuram choose Sudha Fertility Centre because we combine affordability with excellence. Our specialists are known for simplifying complex treatments, making couples feel comfortable and confident. Success rates are consistently high, but what sets us apart is the way we care.
+                    </p>
+                    <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
 
-                                          <li>
-                                              Our team consists of highly skilled fertility specialists and nurses.
-                                          </li>
+                      <li>
+                        Our facilities are equipped with advanced laboratories and diagnostic
+                        tools.
+                      </li>
 
-                                          <li>
-                                              We offer high-quality treatments at competitive prices.
-                                          </li>
+                      <li>
+                        Our team consists of highly skilled fertility specialists and nurses.
+                      </li>
 
-                                          <li>
-                                              Every patient receives a personalized treatment plan tailored to their
-                                              needs.
-                                          </li>
+                      <li>
+                        We offer high-quality treatments at competitive prices.
+                      </li>
 
-                                          <li>
-                                              Comprehensive counselling and guidance are provided at every stage of your
-                                              fertility treatment.
-                                          </li>
-                     
+                      <li>
+                        Every patient receives a personalized treatment plan tailored to their
+                        needs.
+                      </li>
+
+                      <li>
+                        Comprehensive counselling and guidance are provided at every stage of your
+                        fertility treatment.
+                      </li>
+
                     </ul>
 
                     <p className="mt-3 text-gray-600">
-                       Families choose Sudha Fertility Centre because they feel cared for, not just treated, and that makes us the trusted choice for fertility care in Viluppuram.
+                      Families choose Sudha Fertility Centre because they feel cared for, not just treated, and that makes us the trusted choice for fertility care in Viluppuram.
                     </p>
                   </motion.div>
 
@@ -458,25 +458,25 @@ function  ViluppuramPage() {
                         Facilities
                       </h3>
                       <p className=" text-gray-600 mt-3">
-                                              Sudha Fertility Centre in Viluppuram is dedicated to offering comfort, confidence, and convenience. Every space, from consultation rooms to laboratories, is built to make couples feel at ease. We provide,
-                           d technology to support fertility treatments and patient care. By blending technology with compassionate care, Sudha Fertility Centre in  Viluppuram stands as a trusted partner for couples on their path to parenthood                      </p>
+                        Sudha Fertility Centre in Viluppuram is dedicated to offering comfort, confidence, and convenience. Every space, from consultation rooms to laboratories, is built to make couples feel at ease. We provide,
+                        d technology to support fertility treatments and patient care. By blending technology with compassionate care, Sudha Fertility Centre in  Viluppuram stands as a trusted partner for couples on their path to parenthood                      </p>
                       <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                                              <li>Top-Tier IVF Laboratory</li>
+                        <li>Top-Tier IVF Laboratory</li>
 
-                                              <li>State-of-the-Art Surgical Facilities</li>
+                        <li>State-of-the-Art Surgical Facilities</li>
 
-                                              <li>Cost-Effective Treatment Solutions</li>
+                        <li>Cost-Effective Treatment Solutions</li>
 
-                                              <li>Thorough Diagnostic Services</li>
+                        <li>Thorough Diagnostic Services</li>
 
-                                              <li>Committed Medical Team</li>
+                        <li>Committed Medical Team</li>
 
-                                              <li>Ongoing Medical Care Provided</li>
+                        <li>Ongoing Medical Care Provided</li>
 
-                                              <li>Round-the-Clock Pharmacy Services</li>
+                        <li>Round-the-Clock Pharmacy Services</li>
                       </ul>
                       <p className=" text-gray-600 mt-3">By blending modern infrastructure with compassionate care, Sudha Fertility Centre in the Viluppuram branch ensures that families receive world-class treatment in a welcoming environment.
-                        </p>
+                      </p>
                     </div>
                     <div className="w-full lg:w-1/2 mt-5">
                       <ImageSlider images={Ambattur.Facilities.Facilitiesimg} />
@@ -500,14 +500,14 @@ function  ViluppuramPage() {
                         in  Viluppuram
                       </h3>
                       <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
-                       Meet Dr.S.Pradeepa Sudhakar.,
+                        Meet Dr.S.Pradeepa Sudhakar.,
                       </h4>
                       <h3 className="text-[20px] font-semibold mt-3 leading-[1.4]">
                         Chief Experts of Sudha Fertility Centre in  Viluppuram
                       </h3>
-                      
-                       <p className="text-md text-[#000000] mt-3">
-                        DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
+
+                      <p className="text-md text-[#000000] mt-3">
+                        MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
                       </p>
                       {/* <p className="text-[#000000] mt-3">
                         Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS)
@@ -517,11 +517,11 @@ function  ViluppuramPage() {
                       </p>
 
                       <p className=" text-gray-600 mt-3 ">
-                       Dr. S. Pradeepa Sudhakar is celebrated for her exceptional clinical skills and deep expertise in fertility treatments and advanced reproductive technologies. With a strong focus on patient care and impressive success rates, she has significantly contributed to helping many couples achieve their dreams of becoming parents.
+                        Dr. S. Pradeepa Sudhakar is celebrated for her exceptional clinical skills and deep expertise in fertility treatments and advanced reproductive technologies. With a strong focus on patient care and impressive success rates, she has significantly contributed to helping many couples achieve their dreams of becoming parents.
                       </p>
                       <div className="sm-block hidden">
                         <p className="text-md  text-gray-600 mt-3">
-                         As the Vice President of Sudha Fertility Centre, Dr. Pradeepa has effectively guided the organization’s growth, expanding to over 40 branches in just five years. Her commitment to medical excellence is complemented by her compassionate counseling, providing crucial support and guidance to patients throughout their fertility journeys.
+                          As the Vice President of Sudha Fertility Centre, Dr. Pradeepa has effectively guided the organization’s growth, expanding to over 40 branches in just five years. Her commitment to medical excellence is complemented by her compassionate counseling, providing crucial support and guidance to patients throughout their fertility journeys.
                         </p>
                         <h3 className="text-[20px] font-semibold mt-4">Awards & Achievements:</h3>
                         <ul className="text-gray-600 list-disc pl-4 mt-3 leading-[2.2]">
@@ -607,7 +607,7 @@ function  ViluppuramPage() {
                   >
                     <ImageGrid images={ Viluppuram.gallery} />
                   </motion.div> */}
-                   <motion.div
+                  <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
@@ -663,8 +663,8 @@ function  ViluppuramPage() {
                             </p>
                             <p className="font-semibold">
 
-                            Viswalingam Layout, No:1, Thiru Vi Ka Street, Viluppuram, Tamil Nadu 605602
-                             </p>
+                              Viswalingam Layout, No:1, Thiru Vi Ka Street, Viluppuram, Tamil Nadu 605602
+                            </p>
                             <Link href="https://maps.app.goo.gl/i6YW48u2Axcqo4Zp6">
                               <button className="button-all mt-4  md:mx-0 md:mr-auto flex items-center gap-2">
                                 <p>Get Directions</p>
@@ -744,7 +744,7 @@ function  ViluppuramPage() {
             <h2 className=" font-semibold text-center mb-6">
               Frequently Asked Questions
             </h2>
-            { Viluppuram.faqs.slice(0, visibleCount).map((faq, index) => (
+            {Viluppuram.faqs.slice(0, visibleCount).map((faq, index) => (
               <FAQItem
                 key={index}
                 question={faq.question}
@@ -753,7 +753,7 @@ function  ViluppuramPage() {
                 toggle={() => toggleFAQ(index)}
               />
             ))}
-            { Viluppuram.faqs.length > 5 && ( // Ensure button is shown if there are more than 5 FAQs
+            {Viluppuram.faqs.length > 5 && ( // Ensure button is shown if there are more than 5 FAQs
               <div className="text-center mt-16">
                 <button
                   className="button-all mx-auto"
@@ -819,4 +819,4 @@ function  ViluppuramPage() {
   );
 }
 
-export default  ViluppuramPage;
+export default ViluppuramPage;

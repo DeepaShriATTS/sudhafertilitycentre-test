@@ -499,7 +499,7 @@ function FertilityCentreinBanjaraHillsHyderabad() {
                     </h2>
 
                     <p className="text-gray-600 mt-3">
-                       Dr.S.Pradeepa Sudhakar — DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS) and Vice President of
+                      Dr.S.Pradeepa Sudhakar — MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS) and Vice President of
                       Sudha Hospitals Pvt. Ltd. Dr. Pradeepa is one of India's
                       most recognised IVF specialists — a member of ASRM, ESHRE,
                       ISAR, FOGSI, and Faculty of the International Federation
@@ -596,7 +596,7 @@ function FertilityCentreinBanjaraHillsHyderabad() {
                     </div>
 
                     <p className="text-md text-gray-600">
-                      For a personalised success probability estimate based on your age, AMH level, and diagnosis, book a FREE consultation at our Banjara Hills centre. 
+                      For a personalised success probability estimate based on your age, AMH level, and diagnosis, book a FREE consultation at our Banjara Hills centre.
                     </p>
 
                     <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
@@ -604,13 +604,13 @@ function FertilityCentreinBanjaraHillsHyderabad() {
                     </h2>
                     <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
                       <li>
-                       Jubilee Hills (3–7 minutes by car) 
+                        Jubilee Hills (3–7 minutes by car)
                       </li>
                       <li>
-                        Punjagutta / Somajiguda (8–12 minutes) 
+                        Punjagutta / Somajiguda (8–12 minutes)
                       </li>
                       <li>
-                        Road No. 12, Banjara Hills (within walking distance) 
+                        Road No. 12, Banjara Hills (within walking distance)
                       </li>
                       <li>Kavuri Hills / Madhapur (10–15 minutes) </li>
                       <li>Gachibowli / Hitech City (15–20 minutes) </li>
@@ -619,7 +619,7 @@ function FertilityCentreinBanjaraHillsHyderabad() {
                     </ul>
 
                     <p className="text-gray-600 mt-3">
-                     Free parking is available at our centre. We are well connected by Hyderabad Metro (nearest station: Punjagutta Station, 0.8 km) and local auto/cab services. 
+                      Free parking is available at our centre. We are well connected by Hyderabad Metro (nearest station: Punjagutta Station, 0.8 km) and local auto/cab services.
                     </p>
 
                     <h2 className="text-[#173366] mb-3 mt-3  font-semibold">
@@ -798,7 +798,7 @@ function FertilityCentreinBanjaraHillsHyderabad() {
               Book Your FREE Appointment at Our Banjara Hills Centre
             </h3>
             <p className="text-gray-600 mt-3">
-             Your closest fertility specialist is right here in Banjara Hills. Whether you are just beginning your fertility journey or seeking a second opinion after previous treatment, <Link href="/fertility-centre-in-hyderabad" className="text-[#033ab1]">Sudha Fertility Centre</Link> is ready to support you with expertise, compassion and transparency. Call us on +91 76-7007-6006, WhatsApp us, or <Link href="/contact-us">book your FREE appointment online</Link>. Walk-in appointments are welcome subject to availability. 
+              Your closest fertility specialist is right here in Banjara Hills. Whether you are just beginning your fertility journey or seeking a second opinion after previous treatment, <Link href="/fertility-centre-in-hyderabad" className="text-[#033ab1]">Sudha Fertility Centre</Link> is ready to support you with expertise, compassion and transparency. Call us on +91 76-7007-6006, WhatsApp us, or <Link href="/contact-us">book your FREE appointment online</Link>. Walk-in appointments are welcome subject to availability.
             </p>
           </section>
         </div>

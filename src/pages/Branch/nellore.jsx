@@ -11,7 +11,7 @@ import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 // import SoundharyaNivasini from "@/assets/branch/ Nellore/SoundharyaNivasini.webp";
 import SudhaAbout from "@/assets/branch/theni/theni_about.webp";
 import Hospital from "@/assets/branch/theni/Theni.webp";
-import {  Theni } from "@/middleware/imagesroute";
+import { Theni } from "@/middleware/imagesroute";
 
 import ImageGrid from "@/components/imagegrid";
 import Buttonbottm from "@/components/button";
@@ -26,14 +26,14 @@ import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
 import { MarqueeComponent } from "@/components/marqueeSlider";
-import { Ambattur,  Nellore } from "@/middleware/imagesroute";
+import { Ambattur, Nellore } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
 import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
-function  NellorePage() {
+function NellorePage() {
   const [visibleCount, setVisibleCount] = useState(5);
   const [openIndex, setOpenIndex] = useState(null);
   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
@@ -47,7 +47,7 @@ function  NellorePage() {
       setVisibleCount(5); // Reset to initial count when showing less
       setShowAll(false); // Properly toggle state
     } else {
-      setVisibleCount( Nellore.faqs.length); // Show all FAQs
+      setVisibleCount(Nellore.faqs.length); // Show all FAQs
       setShowAll(true); // Properly toggle state
     }
   };
@@ -61,7 +61,7 @@ function  NellorePage() {
 
 
 
-  const  NelloreReview = [
+  const NelloreReview = [
     {
       quote:
         `Very very thanks to  Nellore sudha hospital and Dr. Nivasini mam and nursing staff. Today my best day my life my wife has positive result( isci). Best fertility centre in  Nellore`,
@@ -214,14 +214,14 @@ function  NellorePage() {
                     transition={{ duration: 0.5 }}
                   >
                     <h2 className="text-[#FFC65C]  font-semibold uppercase">
-                     Namaskaram Nellore
+                      Namaskaram Nellore
                     </h2>
                     <h1 className="font-bold mt-4">
                       Best Fertility Centre In <br className="hidden sm:block" />
                       <span className="text-[#FDCB58]"> Nellore</span>
                     </h1>
                     <p className="mt-4 text-[22px] leading-[1.6]">
-                    Expert medical care for your parenthood journey.
+                      Expert medical care for your parenthood journey.
                     </p>
                     <Button
                       styleClass="mt-6"
@@ -272,10 +272,10 @@ function  NellorePage() {
                       </h3>
 
                       <p className="mt-3 text-gray-600">
-                       Hello Nellore, Sudha Fertility is now in your city. We bring advanced fertility consulting and therapies closer to you. Our Nellore branch is here to help families and couples begin their parenthood journey. Sudha Fertility Centre offers world-class treatment locally. High-standard care is now accessible for every family.
-                      </p> <br/>
+                        Hello Nellore, Sudha Fertility is now in your city. We bring advanced fertility consulting and therapies closer to you. Our Nellore branch is here to help families and couples begin their parenthood journey. Sudha Fertility Centre offers world-class treatment locally. High-standard care is now accessible for every family.
+                      </p> <br />
                       <p className="mt-3 text-gray-600">
-                       We understand that fertility care is not just about medical procedures; it's about hope, patience, and trust. Our specialists bring years of experience and proven success rates, ensuring couples receive the best possible chance of conceiving. Established with modern infrastructure and a patient-friendly approach, Sudha Fertility Centre in Nellore stands out as the best fertility hospital there.
+                        We understand that fertility care is not just about medical procedures; it's about hope, patience, and trust. Our specialists bring years of experience and proven success rates, ensuring couples receive the best possible chance of conceiving. Established with modern infrastructure and a patient-friendly approach, Sudha Fertility Centre in Nellore stands out as the best fertility hospital there.
                       </p>
                       <h3 className="text-[#173366] mt-3 font-semibold">
                         Best Fertility Treatments Offered in  Nellore:
@@ -283,7 +283,7 @@ function  NellorePage() {
                       <p className="mt-3 text-gray-600">
                         Sudha Fertility Centre is recognized for its exceptional approach to fertility treatments, combining state-of-the-art medical practices with the expertise of highly knowledgeable specialists. This commitment ensures outstanding service across all areas of fertility care. Sudha Fertility Centre in Nellore offers a range of advanced fertility treatments, supported by well-equipped facilities and a dedicated team. Our specialists are devoted to supporting couples through every step of their journey, from initial consultation to treatment, with compassion and meticulous attention to detail.
                       </p>
-                     
+
                     </div>
                     <div className="w-full lg:w-1/2 mt-5 sm-hidden">
                       <Image
@@ -300,91 +300,91 @@ function  NellorePage() {
                     transition={{ duration: 0.5 }}
                   >
                     <p className="mt-3 mb-3 text-gray-600">
-                     Our core fertility treatments include:
+                      Our core fertility treatments include:
                     </p>
 
                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
 
-                                         <li>
-                                              <strong>Normal Delivery:</strong>{" "}
-                                              <span>A natural childbirth experience tailored for mothers.</span>
-                                          </li>
+                      <li>
+                        <strong>Normal Delivery:</strong>{" "}
+                        <span>A natural childbirth experience tailored for mothers.</span>
+                      </li>
 
-                                          <li>
-                                              <strong>IVF (In Vitro Fertilization):</strong>{" "}
-                                              <span>
-                                                   In Vitro Fertilization, a process to assist with conception.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>IVF (In Vitro Fertilization):</strong>{" "}
+                        <span>
+                          In Vitro Fertilization, a process to assist with conception.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>IUI (Intrauterine Insemination):</strong>{" "}
-                                              <span>
-                                                 Intrauterine Insemination, a method of placing sperm directly into the uterus.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>IUI (Intrauterine Insemination):</strong>{" "}
+                        <span>
+                          Intrauterine Insemination, a method of placing sperm directly into the uterus.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>ICSI (Intracytoplasmic Sperm Injection):</strong>{" "}
-                                              <span>
-                                                 Intracytoplasmic Sperm Injection, a technique for fertilizing an egg with a single sperm.
+                      <li>
+                        <strong>ICSI (Intracytoplasmic Sperm Injection):</strong>{" "}
+                        <span>
+                          Intracytoplasmic Sperm Injection, a technique for fertilizing an egg with a single sperm.
 
-                                              </span>
-                                          </li>
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>IMSI (Intracytoplasmic Morphologically Selected Sperm Injection):</strong>{" "}
-                                              <span>
-                                                  Intracytoplasmic Morphologically Selected Sperm Injection, a specialized form of ICSI using selected sperm.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>IMSI (Intracytoplasmic Morphologically Selected Sperm Injection):</strong>{" "}
+                        <span>
+                          Intracytoplasmic Morphologically Selected Sperm Injection, a specialized form of ICSI using selected sperm.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>TESE (Testicular Sperm Extraction):</strong>{" "}
-                                              <span>
-                                                 Testicular Sperm Extraction, a procedure to retrieve sperm directly from the testicles.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>TESE (Testicular Sperm Extraction):</strong>{" "}
+                        <span>
+                          Testicular Sperm Extraction, a procedure to retrieve sperm directly from the testicles.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>PESA (Percutaneous Epididymal Sperm Aspiration):</strong>{" "}
-                                              <span>
-                                                  Percutaneous Epididymal Sperm Aspiration, a technique to collect sperm from the epididymis.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>PESA (Percutaneous Epididymal Sperm Aspiration):</strong>{" "}
+                        <span>
+                          Percutaneous Epididymal Sperm Aspiration, a technique to collect sperm from the epididymis.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>LAH (Laser Assisted Hatching):</strong>{" "}
-                                              <span>
-                                                  Laser Assisted Hatching, a method to improve embryo implantation.
+                      <li>
+                        <strong>LAH (Laser Assisted Hatching):</strong>{" "}
+                        <span>
+                          Laser Assisted Hatching, a method to improve embryo implantation.
 
-                                              </span>
-                                          </li>
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>Ovarian Rejuvenation (ABCD):</strong>{" "}
-                                              <span>
-                                                  Treatment using the patient's own blood cells to revive the ovaries and improve egg quality.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>Ovarian Rejuvenation (ABCD):</strong>{" "}
+                        <span>
+                          Treatment using the patient's own blood cells to revive the ovaries and improve egg quality.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>FET (Frozen Embryo Transfer):</strong>{" "}
-                                              <span>
-                                                 Frozen Embryo Transfer, a process of implanting previously frozen embryos.
-                                              </span>
-                                          </li>
+                      <li>
+                        <strong>FET (Frozen Embryo Transfer):</strong>{" "}
+                        <span>
+                          Frozen Embryo Transfer, a process of implanting previously frozen embryos.
+                        </span>
+                      </li>
 
-                                          <li>
-                                              <strong>Endometrium PRP (Platelet-Rich Plasma):</strong>{" "}
-                                              <span>
-                                                  Platelet-Rich Plasma treatment for the uterine lining.
+                      <li>
+                        <strong>Endometrium PRP (Platelet-Rich Plasma):</strong>{" "}
+                        <span>
+                          Platelet-Rich Plasma treatment for the uterine lining.
 
-                                              </span>
-                                          </li>
+                        </span>
+                      </li>
                     </ul>
 
-                   
+
 
                     <p className="mt-3 text-gray-600">
                       In addition, we provide a range of gynaecological surgeries, including laparoscopy, cesarean sections, SSG, hysteroscopy, cervical cerclage, endometrial receptivity analysis (ERA), myomectomy, ovarian biopsy, and cyst and fluid aspiration. We also offer various fertility preservation options
@@ -397,38 +397,38 @@ function  NellorePage() {
                       />
                     </div>
                     <h3 className=" text-[#173366] font-semibold mt-3">
-                     Why Sudha Fertility Centre is the Best Fertility Hospital in Nellore?
+                      Why Sudha Fertility Centre is the Best Fertility Hospital in Nellore?
                     </h3>
                     <p className="mt-3 text-gray-600">
-                        Sudha Fertility Centre is recognized for its exceptional IVF success rates, cost-effective treatments, and prompt diagnostic services. Located in Nellore, we offer these advantages to families who appreciate both high-quality medical care and compassionate support.
-                   </p>
-                     <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                      
-                                          <li>
-                                              Counselling and guidance at every stage of the fertility treatment.
+                      Sudha Fertility Centre is recognized for its exceptional IVF success rates, cost-effective treatments, and prompt diagnostic services. Located in Nellore, we offer these advantages to families who appreciate both high-quality medical care and compassionate support.
+                    </p>
+                    <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
 
-                                          </li>
+                      <li>
+                        Counselling and guidance at every stage of the fertility treatment.
 
-                                          <li>
-                                             Top-quality treatments at affordable costs.
+                      </li>
 
-                                          </li>
+                      <li>
+                        Top-quality treatments at affordable costs.
 
-                                          <li>
-                                              Each one gets a personalised plan and treatments.
+                      </li>
 
-                                          </li>
+                      <li>
+                        Each one gets a personalised plan and treatments.
 
-                                          <li>
-                                            Well-equipped labs and diagnostic tools.
+                      </li>
 
-                                          </li>
+                      <li>
+                        Well-equipped labs and diagnostic tools.
 
-                                          <li>
-                                              Highly intellectual fertility doctors and nurses.
+                      </li>
 
-                                          </li>
-                     
+                      <li>
+                        Highly intellectual fertility doctors and nurses.
+
+                      </li>
+
                     </ul>
 
                     <p className="mt-3 text-gray-600">
@@ -454,26 +454,26 @@ function  NellorePage() {
                         Facilities
                       </h3>
                       <p className=" text-gray-600 mt-3">
-                          Being the best fertility hospital in Nellore, Sudha Fertility Centre offers numerous facilities, from an advanced laboratory to modern fertility equipment. So, Sudha Fertility Centre is the absolute hospital for couples seeking standard fertility treatments in Nellore.                      </p>
+                        Being the best fertility hospital in Nellore, Sudha Fertility Centre offers numerous facilities, from an advanced laboratory to modern fertility equipment. So, Sudha Fertility Centre is the absolute hospital for couples seeking standard fertility treatments in Nellore.                      </p>
                       <ul className="text-gray-600 mt-3 list-disc pl-4 leading-[2.2]">
-                                              <li>Affordable Treatment Options</li>
+                        <li>Affordable Treatment Options</li>
 
-                                              <li>Comprehensive Diagnostic Services</li>
+                        <li>Comprehensive Diagnostic Services</li>
 
-                                              <li>Cost-Effective Treatment Solutions</li>
+                        <li>Cost-Effective Treatment Solutions</li>
 
-                                              <li>Premier IVF Laboratory</li>
+                        <li>Premier IVF Laboratory</li>
 
-                                              <li>Continuous Medical Care Available</li>
+                        <li>Continuous Medical Care Available</li>
 
-                                              <li>Dedicated Medical Team</li>
+                        <li>Dedicated Medical Team</li>
 
-                                              <li>Advanced Surgical Theatres</li>
+                        <li>Advanced Surgical Theatres</li>
 
-                                              <li>24/7 Pharmacy Services</li>
+                        <li>24/7 Pharmacy Services</li>
 
                       </ul>
-                     
+
                     </div>
                     <div className="w-full lg:w-1/2 mt-5">
                       <ImageSlider images={Ambattur.Facilities.Facilitiesimg} />
@@ -497,14 +497,14 @@ function  NellorePage() {
                         in  Nellore
                       </h3>
                       <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
-                       Introducing  Dr.S.Pradeepa Sudhakar.,
+                        Introducing  Dr.S.Pradeepa Sudhakar.,
                       </h4>
                       <h3 className="text-[20px] font-semibold mt-3 leading-[1.4]">
                         Chief Experts of Sudha Fertility Centre in  Nellore
                       </h3>
-                      
-                       <p className="text-md text-[#000000] mt-3">
-                        DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
+
+                      <p className="text-md text-[#000000] mt-3">
+                        MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
                       </p>
                       {/* <p className="text-[#000000] mt-3">
                         Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS)
@@ -518,7 +518,7 @@ function  NellorePage() {
                       </p>
                       <div className="sm-block hidden">
                         <p className="text-md  text-gray-600 mt-3">
-                         As the Vice President of Sudha Fertility Centre, Dr. Pradeepa has successfully overseen the strategic growth of the organization, expanding to over 40 branches in just five years. Her dedication to medical excellence is matched by her compassionate counseling services, offering essential support and guidance to patients throughout their fertility journeys.
+                          As the Vice President of Sudha Fertility Centre, Dr. Pradeepa has successfully overseen the strategic growth of the organization, expanding to over 40 branches in just five years. Her dedication to medical excellence is matched by her compassionate counseling services, offering essential support and guidance to patients throughout their fertility journeys.
                         </p>
                         <h3 className="text-[20px] font-semibold mt-4">Awards & Achievements:</h3>
                         <ul className="text-gray-600 list-disc pl-4 mt-3 leading-[2.2]">
@@ -604,7 +604,7 @@ function  NellorePage() {
                   >
                     <ImageGrid images={ Nellore.gallery} />
                   </motion.div> */}
-                   <motion.div
+                  <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
@@ -740,7 +740,7 @@ function  NellorePage() {
             <h2 className=" font-semibold text-center mb-6">
               Frequently Asked Questions
             </h2>
-            { Nellore.faqs.slice(0, visibleCount).map((faq, index) => (
+            {Nellore.faqs.slice(0, visibleCount).map((faq, index) => (
               <FAQItem
                 key={index}
                 question={faq.question}
@@ -749,7 +749,7 @@ function  NellorePage() {
                 toggle={() => toggleFAQ(index)}
               />
             ))}
-            { Nellore.faqs.length > 5 && ( // Ensure button is shown if there are more than 5 FAQs
+            {Nellore.faqs.length > 5 && ( // Ensure button is shown if there are more than 5 FAQs
               <div className="text-center mt-16">
                 <button
                   className="button-all mx-auto"
@@ -815,4 +815,4 @@ function  NellorePage() {
   );
 }
 
-export default  NellorePage;
+export default NellorePage;

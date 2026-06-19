@@ -185,7 +185,7 @@ function SivangangaiPage() {
 
   return (
     <>
-    <NotFound/>
+      <NotFound />
     </>
     // <>
     //   <div className="relative w-full min-h-[850px] md:min-h-[600px] lg:min-h-[600px]">
@@ -437,7 +437,7 @@ function SivangangaiPage() {
     //                     Dr.S.Pradeepa Sudhakar.,
     //                   </h4>
     //                    <p className="text-md text-[#000000] mt-3">
-    //                     DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
+    //                     MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
     //                   </p>
     //                   {/* <p className="text-[#000000] mt-3">
     //                     Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS)

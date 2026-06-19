@@ -408,11 +408,11 @@ function ErodePage() {
                       <h3 className="text-[20px] font-semibold mt-2 leading-[1.4]">
                         Chief Experts of Sudha Fertility Centre in Erode
                       </h3>
-                       <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
+                      <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
                         Dr.S.Pradeepa Sudhakar.,
                       </h4>
                       <p className="text-md text-[#000000] mt-3">
-                       DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist 
+                        MBBS, DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART
                       </p>
                       {/* <p className="text-[#000000] mt-3">
                         Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS)
@@ -448,7 +448,7 @@ function ErodePage() {
                       />
                     </div>
                   </motion.div>
-                  
+
                   <motion.div className="sm-hidden">
                     <p className="text-md  text-gray-600 mt-3">
                       As the Vice President of Sudha Fertility Centre, she has spearheaded the strategic growth of the organization, resulting in the successful establishment of over 40 branches within just five years. Alongside her medical excellence, Dr. Pradeepa is also recognized for her compassionate counselling services that support and guide patients through every stage of their fertility journey.
