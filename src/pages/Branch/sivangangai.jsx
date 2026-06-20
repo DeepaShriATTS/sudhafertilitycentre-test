@@ -28,6 +28,8 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import NotFound from "@/app/not-found";
+import { sivangangaiVideos } from "@/middleware/videosRoute";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function SivangangaiPage() {
   const [visibleCount, setVisibleCount] = useState(5);

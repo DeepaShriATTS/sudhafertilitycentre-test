@@ -11,6 +11,7 @@ export default function SearchableSelect({
   error = "",
   theme = "light", // "light" | "dark"
   className = "",
+  align = "bottom",
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -101,7 +102,9 @@ export default function SearchableSelect({
 
       {/* Dropdown Panel */}
       {isOpen && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-hidden flex flex-col">
+        <div className={`absolute z-50 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-hidden flex flex-col ${
+          align === "top" ? "bottom-full mb-1" : "mt-1"
+        }`}>
           {/* Search Input Bar */}
           <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-100 bg-gray-50">
             <Search size={16} className="text-gray-400 shrink-0" />

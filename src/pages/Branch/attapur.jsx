@@ -27,6 +27,8 @@ import BranchForm from "@/components/branchForm";
 import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+import { ambatturVideos } from "@/middleware/videosRoute";
 
 function AttapurPage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -785,12 +787,15 @@ function AttapurPage() {
       <section>
         {/* <div className="container mx-auto">
             <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
+        {/* <MarqueeComponent
           items={Attapur.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
-        />
+        /> */}
+
+          <GallerySlider items={ambatturVideos} />
+
         <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

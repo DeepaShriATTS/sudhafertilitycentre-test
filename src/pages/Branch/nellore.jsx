@@ -781,12 +781,15 @@ function NellorePage() {
           speed="fast"
           className="custom-class"
         /> */}
-        <MarqueeComponent
+        {/* <MarqueeComponent
           items={Theni.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
-        />
+        /> */}
+
+        <GallerySlider items={nelloreVideos} />
+
         <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

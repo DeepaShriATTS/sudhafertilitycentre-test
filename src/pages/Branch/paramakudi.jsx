@@ -32,6 +32,8 @@ import BranchForm from "@/components/branchForm";
 import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
+import { paramakudiVideos } from "@/middleware/videosRoute";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function ParamakudiPage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -700,12 +702,13 @@ function ParamakudiPage() {
           speed="fast"
           className="custom-class"
         /> */}
-        <MarqueeComponent
+        {/* <MarqueeComponent
           items={Theni.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
-        />
+        /> */}
+        <GallerySlider items={paramakudiVideos} />
         <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

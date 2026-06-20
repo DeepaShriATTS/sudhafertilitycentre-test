@@ -33,6 +33,9 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
+import { TirupathurVideos } from "@/middleware/videosRoute";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+
 function TirupathurPage() {
   const [visibleCount, setVisibleCount] = useState(5);
   const [openIndex, setOpenIndex] = useState(null);
@@ -693,12 +696,15 @@ function TirupathurPage() {
           speed="fast"
           className="custom-class"
         /> */}
-        <MarqueeComponent
+        {/* <MarqueeComponent
           items={Theni.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
-        />
+        /> */}
+
+           <GallerySlider items={TirupathurVideos} />
+
         <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

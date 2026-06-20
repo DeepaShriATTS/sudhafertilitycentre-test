@@ -30,6 +30,10 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
+import { TrichyVideos } from "@/middleware/videosRoute";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+
+
 function TrichyPage() {
   const [visibleCount, setVisibleCount] = useState(5);
   const [openIndex, setOpenIndex] = useState(null);
@@ -672,12 +676,14 @@ function TrichyPage() {
       <section>
         {/* <div className="container mx-auto">
             <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
+        {/* <MarqueeComponent
           items={Trichy.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
-        />
+        /> */}
+
+           <GallerySlider items={TrichyVideos} />
         <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

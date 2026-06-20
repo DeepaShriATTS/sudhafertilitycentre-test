@@ -54,6 +54,7 @@ import { Homevideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 import JourneyCard from "@/components/JourneyCard/journeyCard";
 // import { Homevideos } from "@/components/videoCard/videoCard";
+import FertilityChatbot from "@/components/fertilityChatbot/fertilityChatbot";
 
 const FAQ = [
   {
@@ -1005,6 +1006,10 @@ function Home() {
         
         <GallerySlider items={Homevideos} />
        
+      </section>
+
+      <section className="mt-[70px] lg:mt-[100px] ">
+        <FertilityChatbot />
       </section>
     </>
   );

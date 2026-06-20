@@ -28,6 +28,10 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
+import { TiruppurVideos } from "@/middleware/videosRoute";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+
+
 function TiruppurPage() {
   const [visibleCount, setVisibleCount] = useState(5);
   const [openIndex, setOpenIndex] = useState(null);
@@ -660,12 +664,15 @@ function TiruppurPage() {
       <section>
         {/* <div className="container mx-auto">
             <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
+        {/* <MarqueeComponent
           items={Tiruppur.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
-        />
+        /> */}
+
+        <GallerySlider items={TiruppurVideos} />
+
         <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

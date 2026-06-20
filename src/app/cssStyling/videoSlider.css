@@ -1,0 +1,585 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ── Section wrapper ── */
+.gs-section {
+    padding: 40px 0 56px;
+    font-family: 'Inter', sans-serif;
+    width: 100%;
+    background: linear-gradient(135deg, #ebf2fe 0%, #e1f0ff 100%);
+    border-radius: 20px;
+}
+
+.gs-container {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* ── Swiper outer clip wrapper ── */
+.gs-swiper-outer {
+    overflow: hidden;
+    padding: 24px 0;
+    margin: 0 -16px;
+}
+
+/* ── Swiper ── */
+.gs-swiper {
+    width: 100%;
+    padding: 4px 16px 36px !important;
+    overflow: visible;
+}
+
+.gs-swiper .swiper-slide {
+    height: auto;
+}
+
+/* ── Card outer wrapper ── */
+.gs-card-outer {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+        filter 0.4s ease-out;
+    filter: blur(8px);
+    opacity: 0.35;
+    transform: scale(0.82) translateZ(0);
+    pointer-events: none;
+    will-change: transform, opacity, filter;
+    backface-visibility: hidden;
+}
+
+.swiper-slide-active .gs-card-outer {
+    filter: none;
+    opacity: 1;
+    transform: scale(1.15) translateZ(0);
+    pointer-events: auto;
+    position: relative;
+    z-index: 5;
+}
+
+.gs-stack-layer {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.gs-stack-layer-1 {
+    top: 10px;
+    bottom: -10px;
+    transform: scale(0.97);
+    z-index: 0;
+    background: #f1f4fa;
+}
+
+.gs-stack-layer-2 {
+    top: 20px;
+    bottom: -20px;
+    transform: scale(0.93);
+    z-index: -1;
+    background: #e4e9f3;
+}
+
+.gs-card {
+    position: relative;
+    z-index: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.swiper-slide-active .gs-card {
+    box-shadow: 0 24px 56px rgba(23, 51, 102, 0.18);
+}
+
+.gs-thumb-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #1a1d24 0%, #0f1117 100%);
+    overflow: hidden;
+}
+
+.gs-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+    display: block;
+}
+
+.gs-card-outer:hover .gs-thumb {
+    transform: scale(1.08);
+}
+
+.gs-thumb-fallback {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #1a1d24 0%, #0f1117 100%);
+}
+
+.gs-thumb-fallback-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 20px;
+    backdrop-filter: blur(8px);
+}
+
+.gs-thumb-fallback-text {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    padding: 0 12px;
+    font-weight: 500;
+}
+
+.gs-play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(2px);
+}
+
+.swiper-slide-active .gs-card-outer:hover .gs-play-overlay {
+    opacity: 1;
+}
+
+.gs-play-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 12px 32px rgba(23, 51, 102, 0.35);
+}
+
+.swiper-slide-active .gs-card-outer:hover .gs-play-circle {
+    transform: scale(1.15);
+    box-shadow: 0 16px 48px rgba(23, 51, 102, 0.45);
+}
+
+.gs-play-circle svg {
+    color: #173366;
+    font-size: 20px;
+    margin-left: 3px;
+}
+
+.gs-playlist-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.72);
+    backdrop-filter: blur(4px);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+.gs-playlist-badge svg {
+    font-size: 11px;
+    color: #fff;
+}
+
+.gs-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 40px;
+}
+
+.gs-cta h3 {
+    font-weight: 700;
+    text-align: center;
+    margin: 0;
+    font-size: 1.1rem;
+    color: #173366;
+    letter-spacing: -0.3px;
+}
+
+.swiper-wrapper {
+    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Modal ── */
+.gs-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 12, 20, 0.78);
+    backdrop-filter: blur(6px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: gs-fade-in 0.25s ease-out;
+}
+
+@keyframes gs-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.gs-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 1180px;
+    background: #0f1117;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    animation: gs-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    flex-direction: column;
+    max-height: 88vh;
+}
+
+@keyframes gs-pop-in {
+    from {
+        transform: scale(0.92);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.gs-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 20px;
+    background: #14161d;
+    flex-shrink: 0;
+}
+
+.gs-modal-title {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gs-modal-close {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.gs-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.08);
+}
+
+/* ── Body: fixed player (left/main) + scrollable playlist (right) ── */
+.gs-modal-body {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    min-height: 0;
+    /* required for child overflow to scroll correctly */
+}
+
+.gs-modal-player-col {
+    flex: 1 1 68%;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: #000;
+}
+
+.gs-modal-player-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    flex-shrink: 0;
+}
+
+.gs-modal-player-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.gs-modal-fallback,
+.gs-modal-loading {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 24px;
+}
+
+.gs-now-playing-info {
+    padding: 14px 18px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+}
+
+.gs-now-playing-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 6px;
+    line-height: 1.4;
+}
+
+.gs-auto-advance-note {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+/* ── Playlist sidebar (corner of the modal, scrollable) ── */
+.gs-modal-playlist-col {
+    flex: 1 1 32%;
+    max-width: 360px;
+    min-width: 260px;
+    background: #181a22;
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.gs-playlist-col-header {
+    padding: 14px 16px 10px;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.gs-playlist-col-title {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gs-playlist-col-title svg {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.gs-playlist-col-count {
+    margin: 4px 0 0;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* Scrollable list — this is the "scroll to view playlist videos" area */
+.gs-playlist-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.gs-playlist-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.gs-playlist-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.gs-playlist-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+}
+
+.gs-playlist-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.gs-playlist-item {
+    display: flex;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.18s ease;
+    align-items: flex-start;
+}
+
+.gs-playlist-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.gs-playlist-item.is-active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.gs-playlist-item-thumb-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 104px;
+    aspect-ratio: 16 / 9;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #0b0c10;
+}
+
+.gs-playlist-item-thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gs-playlist-item-index {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.gs-playlist-item.is-active .gs-playlist-item-index {
+    background: rgba(23, 51, 102, 0.55);
+}
+
+.gs-playlist-item-duration {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 0.62rem;
+    font-weight: 600;
+    padding: 1px 4px;
+    border-radius: 3px;
+}
+
+.gs-playlist-item-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.gs-playlist-item-title {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.35;
+    display: -webkit-box;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.gs-playlist-item.is-active .gs-playlist-item-title {
+    color: #8ab4ff;
+}
+
+.gs-playlist-item-now-playing {
+    margin: 4px 0 0;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #8ab4ff;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.gs-playlist-state-msg {
+    padding: 20px 16px;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+@media (max-width: 760px) {
+    .gs-modal-body {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .gs-modal-playlist-col {
+        max-width: 100%;
+        min-width: 0;
+        border-left: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        max-height: 280px;
+    }
+}
+
+@media (max-width: 640px) {
+    .gs-modal-backdrop {
+        padding: 0;
+    }
+
+    .gs-modal-content {
+        border-radius: 0;
+        max-width: 100%;
+        max-height: 100%;
+        height: 100%;
+    }
+}
+

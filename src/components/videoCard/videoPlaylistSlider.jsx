@@ -3,18 +3,91 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { FaPlay, FaFilm, FaTimes, FaList } from "react-icons/fa";
+import { FaPlay, FaFilm, FaTimes, FaList, FaCheck } from "react-icons/fa";
 import Buttonbottm from "@/components/button";
 import { getYoutubeThumbnail } from "@/middleware/videosRoute"; // adjust path if your data/util file lives elsewhere
 
 import "swiper/css";
 import "swiper/css/navigation";
+import {videoSliderCss} from "../../app/cssStyling/videoSlider.css";
+
+// Max number of playlist videos that will play automatically, back to back,
+// before the player stops and waits for a manual click.
+const MAX_AUTO_PLAY_COUNT = 2;
+
+// Loaded once and reused — avoids re-injecting the YouTube IFrame API script
+// every time the modal opens.
+let youtubeApiPromise = null;
+function loadYoutubeIframeApi() {
+  if (typeof window === "undefined") return Promise.resolve(null);
+  if (window.YT && window.YT.Player) return Promise.resolve(window.YT);
+  if (youtubeApiPromise) return youtubeApiPromise;
+
+  youtubeApiPromise = new Promise((resolve) => {
+    const previousCallback = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      previousCallback?.();
+      resolve(window.YT);
+    };
+
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  });
+
+  return youtubeApiPromise;
+}
+
+// Extract an 11-character YouTube video ID from any common single-video URL
+// shape: youtu.be/<id>, youtube.com/watch?v=<id>, youtube.com/embed/<id>, etc.
+function getVideoIdFromUrl(value) {
+  if (!value) return null;
+
+  try {
+    const parsedUrl = new URL(value);
+
+    // youtu.be/<id>
+    if (parsedUrl.hostname.includes("youtu.be")) {
+      const id = parsedUrl.pathname.replace("/", "").split("/")[0];
+      return id || null;
+    }
+
+    // youtube.com/watch?v=<id>
+    const vParam = parsedUrl.searchParams.get("v");
+    if (vParam) return vParam;
+
+    // youtube.com/embed/<id> or /shorts/<id>
+    const pathMatch = parsedUrl.pathname.match(/\/(embed|shorts)\/([^/?]+)/);
+    if (pathMatch) return pathMatch[2];
+
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 export default function GallerySlider({ items = [] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [failedImages, setFailedImages] = useState({});
   const [modalItem, setModalItem] = useState(null); // item whose playlist is open in the modal
+  const [playlistVideos, setPlaylistVideos] = useState([]);
+  const [playlistLoading, setPlaylistLoading] = useState(false);
+  const [playlistError, setPlaylistError] = useState(null);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [autoPlayCount, setAutoPlayCount] = useState(0);
+  const [autoAdvanceStopped, setAutoAdvanceStopped] = useState(false);
+
   const swiperInstanceRef = useRef(null);
+  const playerRef = useRef(null); // YT.Player instance
+  const playerContainerRef = useRef(null); // div the player mounts into
+  const stateRef = useRef({ currentVideoIndex: 0, autoPlayCount: 0 }); // avoids stale closures inside YT event callbacks
+
+  // Keep a ref mirror of state so the YouTube player's onStateChange callback
+  // (registered once per player instance) always reads fresh values.
+  useEffect(() => {
+    stateRef.current.currentVideoIndex = currentVideoIndex;
+    stateRef.current.autoPlayCount = autoPlayCount;
+  }, [currentVideoIndex, autoPlayCount]);
 
   // Extract a YouTube playlist ID from a playlist URL (?list=...)
   const getPlaylistId = (value) => {
@@ -30,12 +103,6 @@ export default function GallerySlider({ items = [] }) {
     }
   };
 
-  const getPlaylistEmbedUrl = (item) => {
-    const playlistId = getPlaylistId(item.videoUrl);
-    if (!playlistId) return null;
-    return `https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1&rel=0`;
-  };
-
   // Resolve a thumbnail for the card. Prefer item.firstVideoUrl (a single-video
   // URL) since getYoutubeThumbnail needs a video ID, not a playlist ID — a
   // thumbnail built from item.thumbnail/item.videoUrl (a playlist URL) will be broken.
@@ -44,6 +111,22 @@ export default function GallerySlider({ items = [] }) {
     if (item.firstVideoUrl) return getYoutubeThumbnail(item.firstVideoUrl);
     if (item.thumbnail) return item.thumbnail;
     return null;
+  };
+
+  // Reorder a fetched playlist so the video matching item.firstVideoUrl plays
+  // first, instead of whatever the scraper happened to return at index 0.
+  // The rest of the playlist order is preserved for "up next".
+  const orderPlaylistWithFirstVideoFirst = (videos, item) => {
+    const preferredId = getVideoIdFromUrl(item?.firstVideoUrl);
+    if (!preferredId) return videos;
+
+    const preferredIndex = videos.findIndex((video) => video.id === preferredId);
+    if (preferredIndex <= 0) return videos; // already first, or not found in this batch
+
+    const reordered = [...videos];
+    const [preferredVideo] = reordered.splice(preferredIndex, 1);
+    reordered.unshift(preferredVideo);
+    return reordered;
   };
 
   const handleImageError = (id) => {
@@ -57,10 +140,27 @@ export default function GallerySlider({ items = [] }) {
     setModalItem(item);
   };
 
-  const closeModal = useCallback(() => {
-    setModalItem(null);
-    swiperInstanceRef.current?.autoplay?.start();
+  const destroyPlayer = useCallback(() => {
+    if (playerRef.current) {
+      try {
+        playerRef.current.destroy();
+      } catch {
+        // player may already be in a torn-down state — safe to ignore
+      }
+      playerRef.current = null;
+    }
   }, []);
+
+  const closeModal = useCallback(() => {
+    destroyPlayer();
+    setModalItem(null);
+    setPlaylistVideos([]);
+    setPlaylistError(null);
+    setCurrentVideoIndex(0);
+    setAutoPlayCount(0);
+    setAutoAdvanceStopped(false);
+    swiperInstanceRef.current?.autoplay?.start();
+  }, [destroyPlayer]);
 
   const handleSlideChange = (swiper) => {
     setActiveIndex(swiper.realIndex);
@@ -69,6 +169,141 @@ export default function GallerySlider({ items = [] }) {
   const handleSwiper = (swiper) => {
     swiperInstanceRef.current = swiper;
   };
+
+  // Play a specific video by its position in the playlistVideos list.
+  // `isAutoAdvance` distinguishes a user click (resets the auto-play budget)
+  // from the automatic "next video" transition (consumes the budget).
+  const playVideoAt = useCallback(
+    (index, { isAutoAdvance = false } = {}) => {
+      const video = playlistVideos[index];
+      if (!video || !playerRef.current) return;
+
+      setCurrentVideoIndex(index);
+
+      if (isAutoAdvance) {
+        setAutoPlayCount((prev) => prev + 1);
+      } else {
+        // Manual selection always re-arms the auto-advance budget so the
+        // viewer gets up to MAX_AUTO_PLAY_COUNT fresh auto-plays from here.
+        setAutoPlayCount(1);
+        setAutoAdvanceStopped(false);
+      }
+
+      try {
+        playerRef.current.loadVideoById(video.id);
+      } catch {
+        // ignore — player may not be ready yet
+      }
+    },
+    [playlistVideos]
+  );
+
+  // Fetch playlist video list from our server-side scraper API whenever a
+  // new modalItem is opened.
+  useEffect(() => {
+    if (!modalItem) return;
+
+    const playlistId = getPlaylistId(modalItem.videoUrl);
+    if (!playlistId) {
+      setPlaylistError("No playlist found for this item.");
+      return;
+    }
+
+    let cancelled = false;
+    setPlaylistLoading(true);
+    setPlaylistError(null);
+
+    fetch(`/api/playlist?list=${encodeURIComponent(playlistId)}&limit=25`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        if (data.error || !data.videos?.length) {
+          setPlaylistError(data.error || "No videos found in this playlist.");
+          setPlaylistVideos([]);
+          return;
+        }
+        // Always surface item.firstVideoUrl as the first video to play,
+        // regardless of the order the scraper returned the playlist in.
+        setPlaylistVideos(orderPlaylistWithFirstVideoFirst(data.videos, modalItem));
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setPlaylistError("Couldn't load playlist videos. Please try again.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setPlaylistLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [modalItem]);
+
+  // Once we have the video list, load the IFrame API and mount a real
+  // YT.Player so we can listen for ENDED and control auto-advance.
+  useEffect(() => {
+    if (!modalItem || playlistVideos.length === 0) return;
+    if (!playerContainerRef.current) return;
+
+    let cancelled = false;
+
+    loadYoutubeIframeApi().then((YT) => {
+      if (cancelled || !YT || !playerContainerRef.current) return;
+
+      destroyPlayer();
+
+      // Prefer the explicit firstVideoUrl id if we have one — falls back to
+      // playlistVideos[0].id (which orderPlaylistWithFirstVideoFirst has
+      // already moved to the front when a match was found).
+      const preferredId =
+        getVideoIdFromUrl(modalItem.firstVideoUrl) || playlistVideos[0].id;
+
+      playerRef.current = new YT.Player(playerContainerRef.current, {
+        videoId: preferredId,
+        playerVars: {
+          autoplay: 1,
+          rel: 0,
+          modestbranding: 1,
+        },
+        events: {
+          onStateChange: (event) => {
+            if (event.data !== YT.PlayerState.ENDED) return;
+
+            const { currentVideoIndex: curIdx, autoPlayCount: count } =
+              stateRef.current;
+
+            if (count >= MAX_AUTO_PLAY_COUNT) {
+              setAutoAdvanceStopped(true);
+              return;
+            }
+
+            const nextIndex = curIdx + 1;
+            if (nextIndex >= playlistVideos.length) {
+              setAutoAdvanceStopped(true);
+              return;
+            }
+
+            playVideoAt(nextIndex, { isAutoAdvance: true });
+          },
+        },
+      });
+
+      // Keep the "now playing" sidebar/index in sync with whichever video we
+      // actually told the player to load.
+      const startIndex = playlistVideos.findIndex((v) => v.id === preferredId);
+      setCurrentVideoIndex(startIndex >= 0 ? startIndex : 0);
+      setAutoPlayCount(1); // the first video counts toward the auto-play budget
+      setAutoAdvanceStopped(false);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+    // playVideoAt intentionally omitted — it's recreated when playlistVideos
+    // changes, which is already a dependency here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [modalItem, playlistVideos, destroyPlayer]);
 
   // Close on Escape key
   useEffect(() => {
@@ -93,445 +328,91 @@ export default function GallerySlider({ items = [] }) {
     }
   }, [modalItem]);
 
+  // Clean up the player if the component unmounts while modal is open
+  useEffect(() => {
+    return () => destroyPlayer();
+  }, [destroyPlayer]);
+
   if (!items || items.length === 0) {
     return null;
   }
 
-  const modalEmbedUrl = modalItem ? getPlaylistEmbedUrl(modalItem) : null;
-
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        /* ── Section wrapper ── */
-        .gs-section {
-          padding: 40px 0 56px;
-          font-family: 'Inter', sans-serif;
-          width: 100%;
-          background: linear-gradient(135deg, #ebf2fe 0%, #e1f0ff 100%);
-          border-radius: 20px;
-        }
-
-        .gs-container {
-          width: 100%;
-          max-width: 1600px;
-          margin: 0 auto;
-          padding: 0 16px;
-        }
-
-        /* ── Swiper ── */
-        .gs-swiper {
-          width: 100%;
-          padding: 20px 0 36px !important;
-          overflow: visible;
-        }
-
-        .gs-swiper .swiper-slide {
-          height: auto;
-        }
-
-        /* ── Card outer wrapper (handles stack + active-state animation) ── */
-        .gs-card-outer {
-          position: relative;
-          cursor: pointer;
-          transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
-            opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
-            filter 0.4s ease-out;
-          filter: blur(8px);
-          opacity: 0.35;
-          transform: scale(0.82) translateZ(0);
-          pointer-events: none;
-          will-change: transform, opacity, filter;
-          backface-visibility: hidden;
-        }
-
-        .swiper-slide-active .gs-card-outer {
-          filter: none;
-          opacity: 1;
-          transform: scale(1.15) translateZ(0);
-          pointer-events: auto;
-          position: relative;
-          z-index: 5;
-        }
-
-        /* Stacked "deck" layers behind the card — reads as a playlist, not a single video */
-        .gs-stack-layer {
-          position: absolute;
-          left: 6%;
-          right: 6%;
-          border-radius: 16px;
-          background: #fff;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-        }
-
-        .gs-stack-layer-1 {
-          top: 10px;
-          bottom: -10px;
-          transform: scale(0.97);
-          z-index: 0;
-          background: #f1f4fa;
-        }
-
-        .gs-stack-layer-2 {
-          top: 20px;
-          bottom: -20px;
-          transform: scale(0.93);
-          z-index: -1;
-          background: #e4e9f3;
-        }
-
-        /* ── Card ── */
-        .gs-card {
-          position: relative;
-          z-index: 1;
-          border-radius: 20px;
-          overflow: hidden;
-          background: #fff;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-          transition: box-shadow 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .swiper-slide-active .gs-card {
-          box-shadow: 0 24px 56px rgba(23, 51, 102, 0.18);
-        }
-
-        /* ── Thumbnail area ── */
-        .gs-thumb-wrap {
-          position: relative;
-          width: 100%;
-          aspect-ratio: 16 / 9;
-          background: linear-gradient(135deg, #1a1d24 0%, #0f1117 100%);
-          overflow: hidden;
-        }
-
-        .gs-thumb {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-          display: block;
-        }
-
-        .gs-card-outer:hover .gs-thumb {
-          transform: scale(1.08);
-        }
-
-        /* Fallback when image fails */
-        .gs-thumb-fallback {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 12px;
-          background: linear-gradient(135deg, #1a1d24 0%, #0f1117 100%);
-        }
-
-        .gs-thumb-fallback-icon {
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.08);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255,255,255,0.35);
-          font-size: 20px;
-          backdrop-filter: blur(8px);
-        }
-
-        .gs-thumb-fallback-text {
-          font-size: 0.8rem;
-          color: rgba(255,255,255,0.3);
-          text-align: center;
-          padding: 0 12px;
-          font-weight: 500;
-        }
-
-        /* ── Play overlay ── */
-        .gs-play-overlay {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 2;
-          background: rgba(0, 0, 0, 0.2);
-          opacity: 0;
-          transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-          backdrop-filter: blur(2px);
-        }
-
-        .swiper-slide-active .gs-card-outer:hover .gs-play-overlay {
-          opacity: 1;
-        }
-
-        .gs-play-circle {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          background: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-          box-shadow: 0 12px 32px rgba(23, 51, 102, 0.35);
-        }
-
-        .swiper-slide-active .gs-card-outer:hover .gs-play-circle {
-          transform: scale(1.15);
-          box-shadow: 0 16px 48px rgba(23, 51, 102, 0.45);
-        }
-
-        .gs-play-circle svg {
-          color: #173366;
-          font-size: 20px;
-          margin-left: 3px;
-        }
-
-        /* ── Playlist badge ── */
-        .gs-playlist-badge {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          z-index: 3;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 5px 10px;
-          border-radius: 999px;
-          background: rgba(0, 0, 0, 0.72);
-          backdrop-filter: blur(4px);
-          color: #fff;
-          font-size: 0.7rem;
-          font-weight: 600;
-          letter-spacing: 0.2px;
-        }
-
-        .gs-playlist-badge svg {
-          font-size: 11px;
-          color: #fff;
-        }
-
-        /* ── CTA row ── */
-        .gs-cta {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-wrap: wrap;
-          gap: 16px;
-          margin-top: 40px;
-        }
-
-        .gs-cta h3 {
-          font-weight: 700;
-          text-align: center;
-          margin: 0;
-          font-size: 1.1rem;
-          color: #173366;
-          letter-spacing: -0.3px;
-        }
-
-        .swiper-wrapper {
-          transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        /* ── Modal ── */
-        .gs-modal-backdrop {
-          position: fixed;
-          inset: 0;
-          background: rgba(10, 12, 20, 0.78);
-          backdrop-filter: blur(6px);
-          z-index: 1000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 24px;
-          animation: gs-fade-in 0.25s ease-out;
-        }
-
-        @keyframes gs-fade-in {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        .gs-modal-content {
-          position: relative;
-          width: 100%;
-          max-width: 1100px;
-          background: #0f1117;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-          animation: gs-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes gs-pop-in {
-          from { transform: scale(0.92); opacity: 0; }
-          to { transform: scale(1); opacity: 1; }
-        }
-
-        .gs-modal-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-          padding: 16px 20px;
-          background: #14161d;
-        }
-
-        .gs-modal-title {
-          margin: 0;
-          font-family: 'Inter', sans-serif;
-          font-size: 1rem;
-          font-weight: 600;
-          color: #fff;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        .gs-modal-close {
-          flex-shrink: 0;
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          border: none;
-          background: rgba(255, 255, 255, 0.1);
-          color: #fff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: background 0.2s ease, transform 0.2s ease;
-        }
-
-        .gs-modal-close:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: scale(1.08);
-        }
-
-        .gs-modal-player-wrap {
-          position: relative;
-          width: 100%;
-          aspect-ratio: 16 / 9;
-          background: #000;
-        }
-
-        .gs-modal-iframe {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          border: none;
-        }
-
-        .gs-modal-fallback {
-          width: 100%;
-          height: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: rgba(255, 255, 255, 0.6);
-          font-family: 'Inter', sans-serif;
-          font-size: 0.9rem;
-          text-align: center;
-          padding: 24px;
-        }
-
-        @media (max-width: 640px) {
-          .gs-modal-backdrop {
-            padding: 0;
-          }
-          .gs-modal-content {
-            border-radius: 0;
-            max-width: 100%;
-            height: 100%;
-          }
-          .gs-modal-player-wrap {
-            aspect-ratio: auto;
-            flex: 1;
-            height: calc(100% - 68px);
-          }
-        }
+      <style jsx>{`
+       videoSliderCss
       `}</style>
-
       <section className="gs-section">
         <div className="gs-container">
-          <Swiper
-            onSwiper={handleSwiper}
-            modules={[Autoplay]}
-            loop={true}
-            centeredSlides={true}
-            speed={700}
-            spaceBetween={56}
-            slidesPerView={3}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            onSlideChange={handleSlideChange}
-            className="gs-swiper"
-          >
-            {items.map((item, index) => {
-              const thumbSrc = resolveThumbnail(item);
-              const videoCount = item.videoCount || item.itemCount;
+          <div className="gs-swiper-outer">
+            <Swiper
+              onSwiper={handleSwiper}
+              modules={[Autoplay]}
+              loop={true}
+              centeredSlides={true}
+              speed={700}
+              spaceBetween={56}
+              slidesPerView={3}
+              autoplay={{
+                delay: 5000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              onSlideChange={handleSlideChange}
+              className="gs-swiper"
+            >
+              {items.map((item, index) => {
+                const thumbSrc = resolveThumbnail(item);
+                const videoCount = item.videoCount || item.itemCount;
 
-              return (
-                <SwiperSlide key={item.id}>
-                  <div
-                    className="gs-card-outer"
-                    onClick={() => handleCardClick(item, index)}
-                  >
-                    {/* Stacked layers behind the card to read as "playlist" */}
-                    <div className="gs-stack-layer gs-stack-layer-2" />
-                    <div className="gs-stack-layer gs-stack-layer-1" />
+                return (
+                  <SwiperSlide key={item.id}>
+                    <div
+                      className="gs-card-outer"
+                      onClick={() => handleCardClick(item, index)}
+                    >
+                      <div className="gs-stack-layer gs-stack-layer-2" />
+                      <div className="gs-stack-layer gs-stack-layer-1" />
 
-                    <div className="gs-card">
-                      {/* Thumbnail area */}
-                      <div className="gs-thumb-wrap">
-                        {!failedImages[item.id] && thumbSrc ? (
-                          <img
-                            src={thumbSrc}
-                            alt={item.title}
-                            className="gs-thumb"
-                            onError={() => handleImageError(item.id)}
-                          />
-                        ) : (
-                          <div className="gs-thumb-fallback">
-                            <div className="gs-thumb-fallback-icon">
-                              <FaFilm />
+                      <div className="gs-card">
+                        <div className="gs-thumb-wrap">
+                          {!failedImages[item.id] && thumbSrc ? (
+                            <img
+                              src={thumbSrc}
+                              alt={item.title}
+                              className="gs-thumb"
+                              onError={() => handleImageError(item.id)}
+                            />
+                          ) : (
+                            <div className="gs-thumb-fallback">
+                              <div className="gs-thumb-fallback-icon">
+                                <FaFilm />
+                              </div>
+                              <span className="gs-thumb-fallback-text">
+                                {item.title || "No preview available"}
+                              </span>
                             </div>
-                            <span className="gs-thumb-fallback-text">
-                              {item.title || "No preview available"}
-                            </span>
+                          )}
+
+                          <div className="gs-playlist-badge">
+                            <FaList />
+                            <span>{videoCount ? `${videoCount} videos` : "Playlist"}</span>
                           </div>
-                        )}
 
-                        {/* Playlist badge — top right */}
-                        <div className="gs-playlist-badge">
-                          <FaList />
-                          <span>{videoCount ? `${videoCount} videos` : "Playlist"}</span>
-                        </div>
-
-                        {/* Play overlay */}
-                        <div className="gs-play-overlay">
-                          <div className="gs-play-circle">
-                            <FaPlay />
+                          <div className="gs-play-overlay">
+                            <div className="gs-play-circle">
+                              <FaPlay />
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </SwiperSlide>
-              );
-            })}
-          </Swiper>
+                  </SwiperSlide>
+                );
+              })}
+            </Swiper>
+          </div>
 
-          {/* CTA */}
           <div className="gs-cta">
             <h3>Childless Couples to Happy Parents</h3>
             <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
@@ -539,16 +420,10 @@ export default function GallerySlider({ items = [] }) {
         </div>
       </section>
 
-      {/* ── Playlist Modal ── */}
+      {/* ── Playlist Modal: fixed player + scrollable playlist sidebar ── */}
       {modalItem && (
-        <div
-          className="gs-modal-backdrop"
-          onClick={closeModal}
-        >
-          <div
-            className="gs-modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className="gs-modal-backdrop" onClick={closeModal}>
+          <div className="gs-modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="gs-modal-header">
               <p className="gs-modal-title">{modalItem.title}</p>
               <button
@@ -561,20 +436,97 @@ export default function GallerySlider({ items = [] }) {
               </button>
             </div>
 
-            <div className="gs-modal-player-wrap">
-              {modalEmbedUrl ? (
-                <iframe
-                  className="gs-modal-iframe"
-                  src={modalEmbedUrl}
-                  title={modalItem.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : (
-                <div className="gs-modal-fallback">
-                  No playlist available for this item.
+            <div className="gs-modal-body">
+              {/* Main player column — video stays fixed here while the list scrolls */}
+              <div className="gs-modal-player-col">
+                <div className="gs-modal-player-wrap">
+                  {playlistLoading && (
+                    <div className="gs-modal-loading">Loading playlist…</div>
+                  )}
+                  {!playlistLoading && playlistError && (
+                    <div className="gs-modal-fallback">{playlistError}</div>
+                  )}
+                  {/* The YT.Player API mounts the iframe into this div itself */}
+                  {!playlistLoading && !playlistError && (
+                    <div
+                      ref={playerContainerRef}
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+                    />
+                  )}
                 </div>
-              )}
+
+                {!playlistLoading && !playlistError && playlistVideos[currentVideoIndex] && (
+                  <div className="gs-now-playing-info">
+                    <p className="gs-now-playing-title">
+                      {playlistVideos[currentVideoIndex].title}
+                    </p>
+                    <p className="gs-auto-advance-note">
+                      {autoAdvanceStopped
+                        ? "Auto-play finished — pick another video to keep watching."
+                        : `Playing video ${currentVideoIndex + 1} of ${playlistVideos.length} · auto-plays up to ${MAX_AUTO_PLAY_COUNT} videos`}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Playlist sidebar — scrollable list of videos, tucked in the corner */}
+              <div className="gs-modal-playlist-col">
+                <div className="gs-playlist-col-header">
+                  <p className="gs-playlist-col-title">
+                    <FaList /> Up next
+                  </p>
+                  {playlistVideos.length > 0 && (
+                    <p className="gs-playlist-col-count">
+                      {playlistVideos.length} videos in this playlist
+                    </p>
+                  )}
+                </div>
+
+                <div className="gs-playlist-scroll">
+                  {playlistLoading && (
+                    <div className="gs-playlist-state-msg">Loading videos…</div>
+                  )}
+                  {!playlistLoading && playlistError && (
+                    <div className="gs-playlist-state-msg">{playlistError}</div>
+                  )}
+                  {!playlistLoading &&
+                    !playlistError &&
+                    playlistVideos.map((video, idx) => {
+                      const isActive = idx === currentVideoIndex;
+                      return (
+                        <div
+                          key={video.id}
+                          className={`gs-playlist-item${isActive ? " is-active" : ""}`}
+                          onClick={() => playVideoAt(idx)}
+                        >
+                          <div className="gs-playlist-item-thumb-wrap">
+                            <img src={video.thumbnail} alt={video.title} loading="lazy" />
+                            {isActive ? (
+                              <div className="gs-playlist-item-index">
+                                <FaPlay style={{ fontSize: 10 }} />
+                              </div>
+                            ) : (
+                              <div className="gs-playlist-item-index">{idx + 1}</div>
+                            )}
+                            {video.duration && (
+                              <span className="gs-playlist-item-duration">
+                                {video.duration}
+                              </span>
+                            )}
+                          </div>
+                          <div className="gs-playlist-item-text">
+                            <p className="gs-playlist-item-title">{video.title}</p>
+                            {isActive && (
+                              <p className="gs-playlist-item-now-playing">
+                                <FaCheck style={{ fontSize: 9 }} /> Now playing
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
             </div>
           </div>
         </div>

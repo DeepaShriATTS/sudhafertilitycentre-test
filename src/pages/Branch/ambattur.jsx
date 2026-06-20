@@ -32,6 +32,8 @@ import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
 import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import Link from "next/link";
+import { ambatturVideos } from "@/middleware/videosRoute";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -681,12 +683,13 @@ function AmbatturPage() {
       <section>
         {/* <div className="container mx-auto">
             <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
+        {/* <MarqueeComponent
           items={Ambattur.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
-        />
+        /> */}
+        <GallerySlider items={ambatturVideos} />
         <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
           <h3 className=" font-bold text-center ">
             Childless Couples to Happy Parents

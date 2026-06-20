@@ -303,6 +303,7 @@ export const DatePicker = ({
   required = false,
   error,
   readOnly = false,
+  align = "bottom",
 }) => {
   const today = new Date();
   const [open,    setOpen]    = useState(false);
@@ -397,7 +398,7 @@ export const DatePicker = ({
       )}
 
       {open && (
-        <div className="absolute top-[calc(100%+6px)] left-0 z-50">
+        <div className={`absolute left-0 z-50 ${align === "top" ? "bottom-[calc(100%+6px)]" : "top-[calc(100%+6px)]"}`}>
           {panel === "day" && (
             <CalendarGrid
               view={view}

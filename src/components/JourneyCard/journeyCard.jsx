@@ -43,7 +43,7 @@ const steps = [
     duration: "Pregnancy Confirmation",
     icon: GiBabyFace,
     description:
-      "Finally, the long-awaited moment arrives with an early blood test confirming the baby's formation. Our team won’t say goodbye once you’re pregnant; we walk with you safely into your Postpartum!",
+      "Finally, the long-awaited moment arrives with an early blood test confirming the baby's formation. Our team won’t say goodbye once you’re pregnant; we walk with you safely till your Postpartum!",
   },
 ];
 
@@ -76,7 +76,7 @@ export default function IVFProcessTimeline() {
               left: "calc(10% + 40px)",
               right: "calc(10% + 40px)",
               height: 1,
-              backgroundColor: "#C9D9EE",
+              backgroundColor: "#e5e7eb",
             }}
           />
 
@@ -87,7 +87,7 @@ export default function IVFProcessTimeline() {
               return (
                 <div
                   key={step.id}
-                  className="flex flex-col items-center text-center flex-1 relative px-3"
+                  className="flex flex-col items-center text-center flex-1 relative px-3   "
                 >
                   {/* Circle icon */}
                   <div
@@ -102,8 +102,8 @@ export default function IVFProcessTimeline() {
 
                   {/* Step label */}
                   <p
-                    className="text-xs font-bold tracking-widest uppercase mb-1"
-                    style={{ color: "#ffc65c" }}
+                    className="text-xs font-bold tracking-widest uppercase mb-1  px-2 py-1 rounded-md"
+                    style={{ backgroundColor: "#ffc65c", color: "#053081ff" }}
                   >
                     Step {step.id}
                   </p>
