@@ -644,7 +644,7 @@ function OngolePage() {
           speed="fast"
           className="custom-class"
         /> */}
-           <GallerySlider items={ambatturVideos} />
+           <GallerySlider items={ongoleVideos} />
         <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

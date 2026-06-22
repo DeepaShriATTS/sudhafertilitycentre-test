@@ -31,7 +31,7 @@ const slides = [
   },
 ];
 
-const SLIDE_DURATION = 5000;
+const SLIDE_DURATION = 4500;
 const FADE_MS = 1400;
 
 const BannerSlider = () => {

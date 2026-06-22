@@ -33,6 +33,9 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
+import { nelloreVideos } from "@/middleware/videosRoute";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+
 function NellorePage() {
   const [visibleCount, setVisibleCount] = useState(5);
   const [openIndex, setOpenIndex] = useState(null);

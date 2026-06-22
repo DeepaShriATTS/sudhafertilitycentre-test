@@ -28,7 +28,7 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
-import { ambatturVideos } from "@/middleware/videosRoute";
+import { attapurVideos } from "@/middleware/videosRoute";
 
 function AttapurPage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -794,7 +794,7 @@ function AttapurPage() {
           className="custom-class"
         /> */}
 
-          <GallerySlider items={ambatturVideos} />
+          <GallerySlider items={attapurVideos} />
 
         <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">

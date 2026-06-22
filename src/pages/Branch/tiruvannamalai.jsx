@@ -28,7 +28,7 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
-import { TirupathurVideos } from "@/middleware/videosRoute";
+import { tiruvannamalaiVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function TiruvannamalaiPage() {
@@ -576,7 +576,7 @@ function TiruvannamalaiPage() {
           className="custom-class"
         /> */}
 
-           <GallerySlider items={ambatturVideos} />
+           <GallerySlider items={tiruvannamalaiVideos} />
         <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

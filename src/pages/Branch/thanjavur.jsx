@@ -29,7 +29,7 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
-import { tenaliVideos } from "@/middleware/videosRoute";
+import {  thanjavurVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function ThanjavurPage() {
@@ -676,7 +676,7 @@ function ThanjavurPage() {
           className="custom-class"
         /> */}
 
-           <GallerySlider items={ambatturVideos} />
+           <GallerySlider items={thanjavurVideos} />
         <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

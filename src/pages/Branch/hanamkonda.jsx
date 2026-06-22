@@ -28,7 +28,7 @@ import BranchForm from "@/components/branchForm";
 import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
-import { hanmkondaVideos } from "@/middleware/videosRoute";
+import { hanamkondaVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function HanamkondaPage() {
@@ -746,7 +746,7 @@ function HanamkondaPage() {
           className="custom-class"
         /> */}
 
-        <GallerySlider items={hanmkondaVideos} />
+        <GallerySlider items={hanamkondaVideos} />
 
         
         <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">

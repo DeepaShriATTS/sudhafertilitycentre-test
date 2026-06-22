@@ -29,7 +29,7 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
-import { VijayawadaVideos } from "@/middleware/videosRoute";
+import { vijayawadaVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 
@@ -671,7 +671,7 @@ function VijayawadaPage() {
           className="custom-class"
         /> */}
 
-           <GallerySlider items={TirupathurVideos} />
+           <GallerySlider items={vijayawadaVideos} />
 
         <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">

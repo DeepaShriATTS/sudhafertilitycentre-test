@@ -29,7 +29,7 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
-import { tenaliVideos } from "@/middleware/videosRoute";
+import {  tirunelveliVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function TirunelveliPage() {
@@ -636,7 +636,7 @@ function TirunelveliPage() {
           className="custom-class"
         /> */}
 
-           <GallerySlider items={ambatturVideos} />
+           <GallerySlider items={tirunelveliVideos} />
 
         <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">

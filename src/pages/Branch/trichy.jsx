@@ -30,7 +30,7 @@ import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
-import { TrichyVideos } from "@/middleware/videosRoute";
+import { trichyVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 
@@ -683,7 +683,7 @@ function TrichyPage() {
           className="custom-class"
         /> */}
 
-           <GallerySlider items={TrichyVideos} />
+           <GallerySlider items={trichyVideos} />
         <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents
