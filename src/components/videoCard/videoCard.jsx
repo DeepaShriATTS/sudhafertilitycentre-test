@@ -145,7 +145,7 @@ export const videos = [
         <div className="flex gap-4 overflow-hidden">
           {videos.slice(currentIndex, currentIndex + videosPerPage).map((video, index) => (
             <div key={index} className="relative bg-white shadow-lg rounded-[16px] overflow-hidden w-full lg:w-1/3">
-              <img src={video.thumbnail} alt={video.title} className="w-full h-52 object-cover" />
+              <Image src={video.thumbnail} alt={video.title} className="w-full h-52 object-cover" width={500} height={300} />
               <button
                 className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-45 text-white text-3xl w-full  m-auto"
                 onClick={() => {
@@ -174,15 +174,17 @@ export const videos = [
             onClick={prevSlide}
             disabled={currentIndex === 0}
             className="text-xl p-2 bg-gray-200 rounded-full"
+            aria-label="Previous slide"
           >
-            <IoIosArrowBack />
+            <IoIosArrowBack aria-hidden="true" />
           </button>
           <button
             onClick={nextSlide}
             disabled={currentIndex + videosPerPage >= totalVideos}
             className="text-xl p-2 bg-gray-200 rounded-full"
+            aria-label="Next slide"
           >
-            <IoIosArrowForward />
+            <IoIosArrowForward aria-hidden="true" />
           </button>
         </div>
   

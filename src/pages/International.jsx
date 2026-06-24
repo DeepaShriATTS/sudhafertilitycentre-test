@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/components/button/button";
-import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import React, { useState } from "react";
 import SubBanner from "@/assets/contact-us/SubBanner.webp";
 import Tab1 from "../assets/international/Visa.webp";
@@ -32,6 +32,13 @@ import ContactForm from "@/components/contact/contactForm";
 import Link from "next/link";
 import Buttonbottm from "@/components/button";
 import { MdArrowOutward } from "react-icons/md";
+import LoadingSpinner from '@/components/ui/loadingSpinner';
+import dynamic from "next/dynamic";
+// Dynamic imports with same loading component
+const InfiniteMovingCardsDemo = dynamic(
+  () => import('@/components/review_Card/reviewCard'),
+  { loading: () => <LoadingSpinner height="400px" /> }
+);
 
 const testimonials = [
   {

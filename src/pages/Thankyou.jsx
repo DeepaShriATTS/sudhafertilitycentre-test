@@ -21,44 +21,22 @@ import { Ambattur } from "@/middleware/imagesroute";
 import { motion } from "framer-motion";
 import Script from "next/script";
 export default function Thankyou() {
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.fbq) {
-      window.fbq("track", "Lead");
-    } else {
-      console.warn("Facebook Pixel is not loaded yet.");
-    }
-  }, []);
   return (
     <div>
       <Script
-        id="facebook-pixel"
-        strategy="afterInteractive"
+        id="facebook-lead-event"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
-            !function(f,b,e,v,n,t,s) {
-              if(f.fbq) return; n=f.fbq=function() { n.callMethod ?
-              n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
-              if(!f._fbq) f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
-              n.queue=[]; t=b.createElement(e); t.async=!0;
-              t.src=v; s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)
-            }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
-
-            fbq('init', 'YOUR_PIXEL_ID');
-            fbq('track', 'PageView');
+            if (typeof window !== 'undefined') {
+              window.fbq = window.fbq || function() {
+                (window.fbq.q = window.fbq.q || []).push(arguments);
+              };
+              fbq('track', 'Lead');
+            }
           `,
         }}
       />
-      <Script id="facebook-track-lead" strategy="afterInteractive">
-        {`
-          if (typeof fbq === 'function') {
-            fbq('track', 'Lead');
-          } else {
-            console.warn("Facebook Pixel is not loaded yet.");
-          }
-        `}
-      </Script>
 
       <div className="container mx-auto md:mt-[80px] mt-[70px] ">
         <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">

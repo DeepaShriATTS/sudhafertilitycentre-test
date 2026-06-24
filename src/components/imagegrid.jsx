@@ -11,7 +11,7 @@ function ImageGrid({ images }) {
     <div className="w-full md:w-1/2">
       <Image
         src={images[0]}
-        alt="Large Image"
+        alt="Sudha Fertility Centre Gallery Highlight"
         className="rounded-lg"
         layout="responsive"
         width={700}
@@ -26,7 +26,7 @@ function ImageGrid({ images }) {
         <div className="w-1/2">
           <Image
             src={images[1]}
-            alt="Image 2"
+            alt="Gallery item 1"
             className="rounded-lg"
             layout="responsive"
             width={350}
@@ -37,7 +37,7 @@ function ImageGrid({ images }) {
         <div className="w-1/2">
           <Image
             src={images[2]}
-            alt="Image 3"
+            alt="Gallery item 2"
             className="rounded-lg"
             layout="responsive"
             width={350}
@@ -50,7 +50,7 @@ function ImageGrid({ images }) {
         <div className="w-1/2">
           <Image
             src={images[3]}
-            alt="Image 4"
+            alt="Gallery item 3"
             className="rounded-lg"
             layout="responsive"
             width={350}

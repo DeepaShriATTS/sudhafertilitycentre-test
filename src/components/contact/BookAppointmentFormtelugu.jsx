@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { MdArrowOutward } from "react-icons/md";
 import { Toaster } from "react-hot-toast";
@@ -13,10 +13,13 @@ import SuccessMessage from "../SuccessMessage";
 import { branches } from "../footer/footer";
 import { useRouter } from "next/navigation";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
+import { websiteleadCreateListEndpoint, branchtableListEndpoint } from '@/pages/api/shipapi';
+
 
 function BookAppointmentFormtelugu() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
+  const [branchList, setBranchList] = useState([]);
   const router = useRouter();
   // Using useForm for validation
   const {
@@ -47,6 +50,23 @@ function BookAppointmentFormtelugu() {
       setSubmissionError("Network error. Please check your connection.");
     }
   };
+
+    useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(branchtableListEndpoint);
+        if (res.ok) {
+          const data = await res.json();
+          setBranchList(data?.data?.list || []);
+        } else {
+          console.error("API responded with an error");
+        }
+      } catch (err) {
+        console.error("Fetch Error!", err);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -210,7 +230,7 @@ function BookAppointmentFormtelugu() {
                     render={({ field }) => (
                       <SearchableSelect
                         {...field}
-                        options={branches}
+                        options={branchList}
                         labelKey="title"
                         valueKey="title"
                         placeholder="సమీపంలోని బ్రాంచ్‌ను ఎంచుకోండి"

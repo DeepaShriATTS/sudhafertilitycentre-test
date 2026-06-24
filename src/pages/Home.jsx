@@ -1,28 +1,23 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import {
-  InfiniteMovingCardsDemo,
-
-} from "@/components/review_Card/reviewCard";
+// "use client";
+// import React, { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Script from 'next/script';
 import Image from "next/image";
 import Founder from "@/assets/Home/Founder.webp";
 import BookPic from "@/assets/Home/BookPic.webp";
-import MetricsTabs from "@/components/ui/tab";
 import Vitro from "@/assets/Home/Vitro.svg";
 import Intrauterine from "@/assets/Home/Intrauterine.svg";
 import Intracytoplasmic from "@/assets/Home/Intracytoplasmic.svg";
 import Laser_Assisted from "@/assets/Home/Laser-Assisted.svg";
 import Pregnancy from "@/assets/Home/Pregnancy.svg";
-import { motion } from "framer-motion";
+
 // import Pregnancy_Calculator from "@/assets/Home/Pregnancy-Calculator.svg";
 // import Ovulation_Calculator from "@/assets/Home/Ovulation-Calculator.svg";
 // import Period_Calculator from "@/assets/Home/Period-Calculator.svg";
 // import Pregnancy_Conception from "@/assets/Home/Pregnancy-Conception.svg";
 // import Pregnancy_DueDate from "@/assets/Home/Pregnancy-DueDate.svg";
-import FAQItem from "@/components/accordion";
-import { MarqueeComponent } from "@/components/marqueeSlider";
-import { FaYoutube } from "react-icons/fa";
+// import FAQItem from "@/components/accordion";
+
 import Tab1 from "@/assets/Home/tab1.webp";
 import Tab2 from "@/assets/Home/tab2.webp";
 import Tab3 from "@/assets/Home/tab3.webp";
@@ -33,115 +28,55 @@ import Icon2 from "@/assets/Home/tab2.svg";
 import Icon3 from "@/assets/Home/tab3.svg";
 import Icon4 from "@/assets/Home/tab4.svg";
 import Icon5 from "@/assets/Home/tab5.svg";
-import { Ambattur } from "@/middleware/imagesroute";
-import VideoCard from "@/components/videoCard/videoCard";
+
 import Pradeepa from "@/assets/Home/pradeepa.webp";
-import ContactUs from "./contactUs";
-import ContactForm from "@/components/contact/contactForm";
 import Link from "next/link";
 import BookingButton from "@/components/button/bookingButton";
-import ProfileButton from "@/components/button/profileButton";
-import Head from "next/head";
-import { MdArrowOutward } from "react-icons/md";
+const ProfileButton = dynamic(() => import("@/components/button/profileButton"));
+
 import Buttonbottm from "@/components/button";
 import Button from "@/components/button/button";
-import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
-import FloatingButton from "@/components/FloatingButton";
-import VideoSlider from "@/components/videoCard/videoSlider";
-import { Tiruvannamalai } from "@/middleware/imagesroute";
+
+const FloatingButton = dynamic(() => import("@/components/FloatingButton"));
+const VideoSlider = dynamic(() => import("@/components/videoCard/videoSlider"));
 import BannerSlider from "@/components/bannerSlider/bannerSlider";
 import { Homevideos } from "@/middleware/videosRoute";
-import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
-import JourneyCard from "@/components/JourneyCard/journeyCard";
-// import { Homevideos } from "@/components/videoCard/videoCard";
-import FertilityChatbot from "@/components/fertilityChatbot/fertilityChatbot";
+const Faq = dynamic(() => import("./Faq"), {
+  loading: () => <LoadingSpinner height="300px" />
+});
 
-const FAQ = [
-  {
-    question: "Which is the best fertility centre in South India?",
-    answer:
-      "Sudha Fertility Centre is considered the best fertility centre in South India, equipped with world-class facilities, state-of-the-art technologies, the best fertility doctors in India, experienced gynecologists, and 40+ Branches across South India and Sri Lanka with a high success rate. ",
-  },
-  {
-    question: "Which is the best fertility centre for IVF treatment?",
-    answer:
-      "With more than 4 decades of experience and expertise in fertility care, Sudha Fertility Centre has delivered more than 1 lakh+ healthy babies, recognizing us as the best IVF centre in India.",
-  },
-  {
-    question: "What is the average cost of fertility treatments?",
-    answer:
-      "The average cost of fertility treatments varies based on the type of procedure the doctor suggests. At Sudha Fertility Centre, the best fertility hospital in India, we offer affordable and personalized fertility solutions to support your journey toward parenthood with the highest level of care.",
-  },
-  {
-    question: "Which IVF Centre has the highest success rate in Tamil Nadu?",
-    answer:
-      "With more than high success rate in delivering healthy babies, Sudha Fertility Centre is known as the best IVF centre in India, equipped with the best fertility doctors in India and world-class treatments and facilities. ",
-  },
-  {
-    question: "Which hospital has the best IVF Doctors in Tamil Nadu?",
-    answer:
-      "Sudha Fertility Centre, recognised as the best IVF hospital in India is well-equipped with the best IVF doctors, experienced fertility specialists, and skillful gynecologists. ",
-  },
-  {
-    question:
-      "Which Fertility Centre provides world-class fertility treatments?",
-    answer:
-      "Sudha Fertility Centre is considered the best fertility centre in South India, providing world-class fertility treatments with state-of-the-art technologies, the best fertility doctors in India, experienced gynecologists, and high-tech technologies. ",
-  },
-  {
-    question: "Why choose Sudha Fertility Centre for IVF treatments?",
-    answer:
-      "Sudha Fertility Centre is renowned as one of the best fertility hospitals providing the best IVF treatments with state-of-the-art facilities, experienced specialists, and personalized care. We blend advanced technology with compassionate support to offer you the best chance of achieving your parenthood goals. ",
-  },
-  {
-    question:
-      "What can I expect during my first consultation with a fertility specialist?",
-    answer:
-      "During your first consultation, fertility specialists will review your medical history, discuss any fertility concerns, and recommend necessary tests. As the best fertility hospital in India, we focus on understanding your unique situation and will explain the best treatment options for you. At Sudha Fertility Centre, we are committed to providing compassionate care, expert guidance, and personalized treatment plans to help you achieve your parenthood dreams.",
-  },
-  {
-    question: "Does Sudha Fertility Centre provide free fertility camps?",
-    answer:
-      "Yes, Sudha Fertility Centre conducts free fertility camps every month all over South India, ensuring our world-class fertility treatment is accessible to everyone. You can know the updates about our free medical camps on our social media platforms.",
-  },
-  {
-    question: "How do you start fertility treatment at Sudha Fertility Centre?",
-    answer:
-      "To start fertility treatment at Sudha Fertility Centre, visit your nearest Sudha branch or book an appointment by messaging our WhatsApp or calling our helpline number 7670076006. ",
-  },
-  {
-    question: "Is there any protocol to start a fertility treatment?",
-    answer:
-      "At Sudha Fertility Centre, the process begins with a thorough assessment, including medical history, physical exams, and fertility tests for both partners. Based on the results, your fertility specialist will develop a personalized treatment plan. The protocol may involve lifestyle changes, medications, or assisted reproductive technologies like IVF,  IUI, etc. Throughout the journey, we provide expert guidance, care, and support to ensure the best possible outcome.",
-  },
-  {
-    question: "When is the right time to start fertility treatment?",
-    answer:
-      "It’s advisable to consult the best fertility hospital if you have been trying to conceive for over a year without success or if you have known reproductive health issues. Sudha Fertility Centre, recognized as one of the best fertility centres, offers comprehensive consultations to evaluate your fertility and discuss tailored treatment options. Our expert team provides personalized care to help you navigate your fertility journey and achieve your parenthood goals. ",
-  },
-];
+import LoadingSpinner from '@/components/ui/loadingSpinner';
+
+// Dynamic imports with same loading component
+const InfiniteMovingCardsDemo = dynamic(
+  () => import('@/components/review_Card/reviewCard'),
+  { loading: () => <LoadingSpinner height="400px" /> }
+);
+
+const MetricsTabs = dynamic(() => import("@/components/ui/tab"), {
+  loading: () => <LoadingSpinner height="200px" />
+});
+const VideoCard = dynamic(() => import("@/components/videoCard/videoCard"), {
+  loading: () => <LoadingSpinner height="300px" />
+});
+const ContactForm = dynamic(() => import("@/components/contact/contactForm"), {
+  loading: () => <LoadingSpinner height="400px" />
+});
+const GallerySlider = dynamic(() => import("@/components/videoCard/videoPlaylistSlider"), {
+  loading: () => <LoadingSpinner height="300px" />
+});
+const JourneyCard = dynamic(() => import("@/components/JourneyCard/journeyCard"), {
+  loading: () => <LoadingSpinner height="300px" />
+});
+
+const FertilityChatbot = dynamic(
+  () => import('@/components/fertilityChatbot/fertilityChatbot'),
+  { loading: () => <LoadingSpinner height="300px" /> }
+);
+
 
 function Home() {
-  const [visibleCount, setVisibleCount] = useState(7);
-  const [openIndex, setOpenIndex] = useState(0);
-  const [faqIndex, setFaqIndex] = useState(0);
-  const [showAll, setShowAll] = useState(false);
-  const toggleAccordion = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
-  const toggleFAQ = (index) => {
-    setFaqIndex(faqIndex === index ? null : index);
-  };
-  const toggleViewMore = () => {
-    if (showAll) {
-      setVisibleCount(5); // Reset to initial count when showing less
-      setShowAll(false); // Properly toggle state
-    } else {
-      setVisibleCount(FAQ.length); // Show all FAQs
-      setShowAll(true); // Properly toggle state
-    }
-  };
+  
 
   const testimonials = [
     {
@@ -332,15 +267,8 @@ function Home() {
     },
   ];
 
-  const [index, setIndex] = useState(0);
+ 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
-    }, 6000); // Change every 5 seconds
-
-    return () => clearInterval(interval); // Cleanup interval
-  }, []);
   return (
     <>
 
@@ -394,9 +322,9 @@ function Home() {
 
       <FloatingButton />
       {/* Banner */}
-      <div className="relative w-full top-[-150px]">
+      <div className="relative w-full -mt-[150px]">
         {/* Slider — no extra overlay, BannerSlider handles its own gradient */}
-        <div className="w-full">
+        <div className="banner-slider-wrap w-full">
           <BannerSlider />
         </div>
 
@@ -418,15 +346,14 @@ function Home() {
 
       <section className="relative">
         {/* Baby's smile in every hopeless home marks our proudest milestone.*/}
-        <div className="mt-12 sm:mt-16 lg:mt-20">
+        <div className="mt-5 sm:mt-3 lg:mt-5">
           <div className=" container mx-auto ">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="title text-center">
-                <h2 className="font-outfit font-semibold ">
+                <h1 className="font-outfit font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-3xl">
                   Baby's smile in every hopeless home marks our proudest milestone.
-
-                </h2>
-                <h2 className="font-outfit font-semibold lg:block mt-2"> Our Achievements</h2>
+                </h1>
+                <h2 className="font-outfit font-semibold lg:block mt-2 text-xl"> Our Achievements</h2>
               </div>
 
               <div>
@@ -435,9 +362,9 @@ function Home() {
                     <div className="main-tail flex items-center justify-center">
                       <div className="content">
                         <div className="title">
-                          <h4 className="text-[36px] font-semibold text-[#173366] text-center">
+                          <h3 className="text-[36px] font-semibold text-[#173366] text-center">
                             3.5L+
-                          </h4>
+                          </h3>
                         </div>
                         <div className="des">
                           <p className="text-gray-600 text-center">
@@ -453,9 +380,9 @@ function Home() {
                       <div className="icon mr-4"></div>
                       <div className="content">
                         <div className="title">
-                          <h4 className="text-[36px] font-semibold text-center text-[#173366]">
+                          <h3 className="text-[36px] font-semibold text-center text-[#173366]">
                             1L+
-                          </h4>
+                          </h3>
                         </div>
                         <div className="des">
                           <p className="text-gray-600 text-center">
@@ -470,9 +397,9 @@ function Home() {
                     <div className="main-tail flex items-center justify-center ">
                       <div className="content">
                         <div className="title">
-                          <h4 className="text-[36px] font-semibold text-center text-[#173366]">
+                          <h3 className="text-[36px] font-semibold text-center text-[#173366]">
                             35k+
-                          </h4>
+                          </h3>
                         </div>
                         <div className="des">
                           <p className="text-gray-600 text-center">
@@ -487,9 +414,9 @@ function Home() {
                     <div className="main-tail flex items-center justify-center">
                       <div className="content text-cente">
                         <div className="title">
-                          <h4 className="text-[36px] font-semibold text-center text-[#173366]">
+                          <h3 className="text-[36px] font-semibold text-center text-[#173366]">
                             60k+
-                          </h4>
+                          </h3>
                         </div>
                         <div className="des">
                           <p className="text-gray-600 text-center">
@@ -746,7 +673,7 @@ function Home() {
                   <div className="image">
                     <Image
                       src={BookPic}
-                      alt="Book Image"
+                      alt="Parenting Guide Book"
                       className="max-w-full"
                     />
                   </div>
@@ -805,6 +732,8 @@ function Home() {
 
               <div className="mt-4">
                 <VideoSlider />
+               
+               
                 {/* <div className=" grid  grid-cols-2 md:grid-cols-4 lg:grid-cols-4 md:gap-8  gap-5">
                   <div className="tiles-1 flex flex-col items-center justify-center text-center hover:bg-[#EBF2FE] rounded-2xl shadow-[0px_0px_30px_0px_rgba(0,0,0,0.06)] p-5 cursor-pointer ">
                     <div className="title mb-3">
@@ -958,45 +887,8 @@ function Home() {
         </div>
 
         {/* Faq */}
-        <div className="container mx-auto mt-[70px] lg:mt-[100px] relative h-full">
-          <div className="max-w-5xl mx-auto px-4  sm:px-6 lg:px-8 h-full">
-            <div className="content mx-auto flex-1 text-center lg:text-left">
-              <h2 className="font-outfit font-semibold flex justify-center">
-                Frequently Asked Questions
-              </h2>
-            </div>
-            <div className="mt-5">
-              {FAQ.slice(0, visibleCount).map((faq, index) => (
-                <FAQItem
-                  key={index}
-                  question={faq.question}
-                  answer={faq.answer}
-                  isOpen={faqIndex === index}
-                  toggle={() => toggleFAQ(index)}
-                />
-              ))}
-              {FAQ.length > 7 && ( // Ensure button is shown if there are more than 7 FAQs
-                <div className="text-center mt-16">
-                  <button
-                    className="button-all mx-auto"
-                    onClick={toggleViewMore} // Updated onClick handler
-                  >
-                    {showAll ? (
-                      <div className="flex gap-3 items-center">
-                        View Less <IoMdArrowBack />
-                      </div>
-                    ) : (
-                      <div className="flex gap-3 items-center">
-                        View More <IoMdArrowForward />
-                      </div>
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
+        <Faq />
+      
         <div className="mt-[70px] lg:mt-[100px]">
           <ContactForm />
         </div>
@@ -1005,8 +897,15 @@ function Home() {
       <section className="mt-[70px] lg:mt-[100px] mb-[70px] lg:mb-[100px] mx-3">
         
         <GallerySlider items={Homevideos} />
+           <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
+          <h3 className=" font-bold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
        
       </section>
+
 
       <section className="mt-[70px] lg:mt-[100px] ">
         <FertilityChatbot />

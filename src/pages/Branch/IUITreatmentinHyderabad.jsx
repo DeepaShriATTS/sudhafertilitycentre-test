@@ -18,7 +18,12 @@ import { AiTwotoneMail } from "react-icons/ai";
 import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import { MarqueeComponent } from "@/components/marqueeSlider";
-import { ICSITreatmentHyderabadfaq } from "@/middleware/imagesroute";
+import {
+  Ambattur,
+  Hyderabad,
+  IUITreatmentHyderabadfaq,
+  IVFTreatmentHyderabadfaq,
+} from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
 // import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
@@ -32,7 +37,7 @@ const InfiniteMovingCardsDemo = dynamic(
   { loading: () => <LoadingSpinner height="400px" /> }
 );
 
-function ICSITreatmentHyderabad() {
+function IUITreatmentHyderabad() {
   const [visibleCount, setVisibleCount] = useState(5);
   const [openIndex, setOpenIndex] = useState(null);
   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
@@ -46,7 +51,7 @@ function ICSITreatmentHyderabad() {
       setVisibleCount(5); // Reset to initial count when showing less
       setShowAll(false); // Properly toggle state
     } else {
-      setVisibleCount(ICSITreatmentHyderabadfaq.faqs.length); // Show all FAQs
+      setVisibleCount(IUITreatmentHyderabadfaq.faqs.length); // Show all FAQs
       setShowAll(true); // Properly toggle state
     }
   };
@@ -60,67 +65,29 @@ function ICSITreatmentHyderabad() {
 
   const tabledata = [
     {
-      Factor: "Women under 35, male factor infertility ",
-      FertilisationRate : "80–85% ",
-      ClinicalPregnancyRate : "Up to 85% per transfer ",
+      Factor: "Invasiveness",
+      IUI: "Minimally invasive",
+      IVF: "Moderately invasive",
     },
     {
-      Factor: "Women 35–37, ICSI with normal female factor ",
-      FertilisationRate : "80–85% ",
-      ClinicalPregnancyRate : "60–70% per transfer ",
+      Factor: "Cost",
+      IUI: "Lower (₹8,000–₹25,000/cycle)",
+      IVF: "Higher (₹1.5L–₹3L/cycle)",
     },
     {
-      Factor: "Women 38–40, ICSI",
-      FertilisationRate : "75–80% ",
-      ClinicalPregnancyRate : "45–55% per transfer",
+      Factor: "Success Rate",
+      IUI: "15–25% per cycle",
+      IVF: "Up to 85% per cycle",
     },
     {
-      Factor: "Azoospermia — TESE/PESA + ICSI ",
-      FertilisationRate : "70–80% of retrieved sperm ",
-      ClinicalPregnancyRate : "50–65% per transfer",
+      Factor: "Best For",
+      IUI: "Mild infertility, unexplained",
+      IVF: "Blocked tubes, severe male factor",
     },
     {
-      Factor: "Frozen donor sperm + ICSI ",
-      FertilisationRate : "75–80% ",
-      ClinicalPregnancyRate : "Comparable to fresh sperm ",
-    },
-    {
-      Factor: "ICSI after previous failed IVF ",
-      FertilisationRate : "80–85%",
-      ClinicalPregnancyRate : "Depends on reason for prior failure ",
-    },
-
-  ];
-  const tabledataivfvsicsi = [
-    {
-      Factor: "Fertilisation Method ",
-      IVF: "Sperm and egg placed together in a dish — natural fertilisation ",
-      ICSI: "Single sperm injected directly into egg by embryologist ",
-    },
-    {
-      Factor: "Best For ",
-      IVF: "Couples without significant male factor infertility",
-      ICSI: "Low sperm count, poor motility, azoospermia, failed IVF ",
-    },
-    {
-      Factor: "Fertilisation Rate ",
-      IVF: "50–60% of eggs typically fertilise ",
-      ICSI: "80–85% of eggs typically fertilise  ",
-    },
-    {
-      Factor: "Lab Complexity ",
-      IVF: "Standard embryology  ",
-      ICSI: "Requires micromanipulation equipment and specialist embryologist ",
-    },
-    {
-      Factor: "Cost ",
-      IVF: "Lower add-on cost ",
-      ICSI: "Slightly higher — recommended when male factor infertility is present  ",
-    },
-    {
-      Factor: "Embryo Quality  ",
-      IVF: "Comparable when sperm is healthy ",
-      ICSI: "Comparable — ICSI does not reduce embryo quality  ",
+      Factor: "Recovery",
+      IUI: "Same day, no downtime",
+      IVF: "Same day, mild rest advised",
     },
   ];
 
@@ -285,8 +252,8 @@ function ICSITreatmentHyderabad() {
                     transition={{ duration: 0.5 }}
                   >
                     <h1 className="font-bold mt-4">
-                      ICSI Treatment in Hyderabad — Advanced Male Factor
-                      Fertility Care at Sudha
+                      IUI Treatment in Hyderabad — Affordable Fertility
+                      Treatment at Sudha Fertility Centre
                     </h1>
 
                     <Button
@@ -337,32 +304,22 @@ function ICSITreatmentHyderabad() {
                         Introduction
                       </h2>
                       <p className="mt-3  text-gray-600">
+                        IUI — Intrauterine Insemination — is the gentlest and
+                        most affordable first-line fertility treatment for
+                        couples having difficulty conceiving naturally. At{" "}
                         <Link
-                          href="/intracytoplasmic-sperm-injection"
+                          href="/fertility-centre-in-hyderabad"
                           className="text-[#033ab1]"
                         >
-                          ICSI — Intracytoplasmic Sperm Injection
-                        </Link>{" "}
-                        — is one of the most significant advances in fertility
-                        medicine, offering hope to couples{" "}
-                        <Link
-                          href="/male-infertility"
-                          className="text-[#033ab1]"
-                        >
-                          where male factor infertility
-                        </Link>{" "}
-                        has been the primary barrier to conception. At{" "}
-                        <Link href="/fertility-centre-in-hyderabad">
                           Sudha Fertility Centre in Hyderabad
                         </Link>
-                        , our skilled embryologists perform ICSI with precision
-                        using state-of-the-art micromanipulation equipment,
-                        achieving fertilisation rates of 80–85% per cycle —
-                        among the best in Hyderabad. Whether you are dealing
-                        with low sperm count, poor motility, abnormal
-                        morphology, or azoospermia, ICSI at Sudha can give you
-                        the best possible chance of achieving a successful
-                        pregnancy.
+                        , our IUI programme has helped thousands of couples take
+                        their first successful step toward parenthood. With a
+                        track record of 35,000+ IUI babies delivered across our
+                        network and an experienced team of IUI specialists in
+                        Hyderabad, we ensure that every couple receives the
+                        right treatment at the right time — without unnecessary
+                        medical complexity or cost.
                       </p>
                     </div>
                     <div className="w-full lg:w-1/2 mt-5 sm-hidden">
@@ -379,28 +336,162 @@ function ICSITreatmentHyderabad() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
-                      What is ICSI Treatment?
+                    <h2 className="text-[#173366] mb-3  font-semibold">
+                      What is IUI Treatment?
                     </h2>
                     <p className="mt-3  text-gray-600">
-                      ICSI is an{" "}
-                      <Link href="/in-vitro-fertilization">
-                        advanced form of IVF
+                      <Link
+                        href="/intrauterine-insemination"
+                        className="text-[#033ab1]"
+                      >
+                        {" "}
+                        IUI (Intrauterine Insemination)
                       </Link>{" "}
-                      in which a single, carefully selected healthy sperm is
-                      injected directly into the centre of a mature egg using a
-                      highly specialised microinjection needle. This bypasses
-                      the natural fertilisation process entirely, making it the
-                      most effective treatment when sperm are unable to
-                      penetrate the egg on their own. The resulting embryo is
-                      then cultured in our laboratory and transferred to the
-                      uterus, exactly as in a standard IVF cycle.
+                      is a fertility procedure in which specially prepared,
+                      high-quality sperm is directly inserted into the uterus at
+                      the time of ovulation. By placing the sperm closer to the
+                      fallopian tubes where fertilisation occurs, IUI
+                      significantly increases the chance of the sperm reaching
+                      and fertilising the egg compared to natural intercourse.
+                      It is a short, simple, and virtually painless outpatient
+                      procedure that takes only a few minutes.
                     </p>
-
-                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
-                      IVF vs ICSI — Key Differences
+                    <h2 className="text-[#173366] mb-3  font-semibold">
+                      Who is a Candidate for IUI?
                     </h2>
 
+                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
+                      <li>
+                        Mild{" "}
+                        <Link
+                          href="/male-infertility"
+                          className="text-[#033ab1]"
+                        >
+                          male factor infertility
+                        </Link>{" "}
+                        — low sperm count or reduced motility
+                      </li>
+                      <li>
+                        Unexplained infertility with no identifiable cause
+                      </li>
+                      <li>
+                        <Link href="/pcos-and-pcod" className="text-[#033ab1]">
+                          Ovulation disorders
+                        </Link>{" "}
+                        (irregular or absent ovulation)
+                      </li>
+                      <li>
+                        Cervical factor infertility — where cervical mucus
+                        blocks sperm
+                      </li>
+                      <li>
+                        Mild endometriosis not requiring surgical treatment{" "}
+                      </li>
+                      <li>
+                        Single women or same-sex couples using donor sperm{" "}
+                      </li>
+                      <li>
+                        Couples who wish to try a less invasive option{" "}
+                        <Link
+                          href="/in-vitro-fertilization"
+                          className="text-[#033ab1]"
+                        >
+                          before IVF
+                        </Link>{" "}
+                      </li>
+                    </ul>
+                    <p className="mt-3 text-gray-600">
+                      IUI is generally not recommended for women with blocked
+                      fallopian tubes, severe male factor infertility, or
+                      advanced maternal age (over 40). Our Hyderabad specialists
+                      will confirm your eligibility during a thorough fertility
+                      evaluation.
+                    </p>
+
+                    <h2 className="text-[#173366] mb-3  font-semibold">
+                      IUI Treatment Process at Sudha Fertility Centre Hyderabad
+                    </h2>
+                    <p className="text-gray-600 mt-3">
+                      The IUI procedure at Sudha Fertility Centre Hyderabad is a
+                      simple, 4-step process completed over one menstrual cycle:
+                    </p>
+                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
+                      <li>
+                        Step 1 — Ovulation Monitoring Your menstrual cycle is
+                        closely tracked using regular ultrasound scans to
+                        identify the exact day your follicle is ready to release
+                        an egg. In some cases, mild oral medication (such as
+                        Letrozole or Clomiphene) is prescribed to stimulate the
+                        ovaries to produce one or two mature follicles,
+                        improving the chances of fertilisation. Monitoring scans
+                        typically happen every 2–3 days during the first half of
+                        your cycle at our Banjara Hills centre.
+                      </li>
+                      <li>
+                        Step 2 — Sperm Preparation On the morning of your IUI
+                        procedure, your partner provides a fresh semen sample at
+                        our centre. Our andrology team processes the sample in
+                        the laboratory using a technique called sperm washing —
+                        which separates the highest-quality, most motile sperm
+                        from the seminal fluid and any non-motile sperm. The
+                        result is a small, concentrated volume of the best
+                        available sperm, ready for insemination. If donor sperm
+                        is being used, it is thawed and prepared by our team on
+                        the same day.
+                      </li>
+                      <li>
+                        Step 3 — Insemination The prepared sperm sample is drawn
+                        into a fine, soft catheter which is gently passed
+                        through the cervix into the uterus. The entire
+                        insemination takes 5–10 minutes and is performed in our
+                        procedure room without anaesthesia. Most patients
+                        describe the experience as similar to a routine cervical
+                        smear — mild and brief. You rest for 15–20 minutes at
+                        the clinic before returning home.
+                      </li>
+                      <li>
+                        Step 4 — Post-IUI Support & Pregnancy Test Following the
+                        insemination, our specialists prescribe progesterone
+                        support medication (tablets or suppositories) to help
+                        prepare the uterine lining for potential embryo
+                        implantation. You continue this medication for
+                        approximately two weeks. A pregnancy blood test
+                        (beta-hCG) is performed 14 days after the IUI procedure
+                        to confirm whether conception has occurred. If the
+                        result is positive, our team will guide you through the
+                        next steps of early pregnancy care at Sudha Fertility
+                        Centre.
+                      </li>
+                      <li>
+                        What Happens If the First IUI Cycle Is Unsuccessful? A
+                        single IUI cycle does not always result in pregnancy —
+                        this is normal and expected. Success rates per cycle
+                        range from 15–25% depending on age, diagnosis, and sperm
+                        quality. Most couples undergo 3–4 IUI cycles before
+                        achieving pregnancy or being advised to progress to IVF.
+                        After each cycle, our specialists review your response
+                        and adjust the protocol if needed. You are never left
+                        without a clear plan for the next step.
+                      </li>
+                    </ul>
+
+                    <h2 className="text-[#173366] mb-3  font-semibold">
+                      IUI Success Rates in Hyderabad
+                    </h2>
+                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
+                      <p className="text-gray-600 mt-3">
+                        IUI success rates at Sudha Fertility Centre Hyderabad
+                        range from 15% to 25% per cycle depending on the woman's
+                        age, the cause of infertility, and sperm quality. Most
+                        couples undergo 3–4 IUI cycles before achieving
+                        pregnancy or being advised to proceed to IVF. Our
+                        specialists closely monitor outcomes after each cycle to
+                        adjust the approach and maximise your chances.
+                      </p>
+                    </ul>
+                    <h2 className="text-[#173366] mb-3  font-semibold">
+                      IUI vs IVF — Which Treatment is Right for You?
+                    </h2>
                     <div className="overflow-x-auto p-4">
                       <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
                         {/* Header */}
@@ -410,136 +501,10 @@ function ICSITreatmentHyderabad() {
                               Factor
                             </th>
                             <th className="text-left px-4 py-3 font-semibold">
+                              IUI
+                            </th>
+                            <th className="text-left px-4 py-3 font-semibold">
                               IVF
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              ICSI
-                            </th>
-                          </tr>
-                        </thead>
-
-                        {/* Body */}
-                        <tbody className="text-gray-700">
-                          {tabledataivfvsicsi.map((item) => (
-                            <tr className="bg-blue-100">
-                              <td className="px-4 py-3">{item.Factor}</td>
-                              <td className="px-4 py-3 font-semibold text-green-700">
-                                {item.IVF}
-                              </td>
-                              <td className="px-4 py-3">{item.ICSI}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
-                      {" "}
-                      When is ICSI Recommended?
-                    </h2>
-                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
-                      <li>
-                        Severe{" "}
-                        <Link href="/male-infertility">
-                          male factor infertility
-                        </Link>{" "}
-                        — very low sperm count (oligospermia){" "}
-                      </li>
-                      <li>
-                        Poor sperm motility — sperm that cannot swim effectively
-                        (asthenospermia){" "}
-                      </li>
-                      <li>
-                        Abnormal sperm morphology — poor sperm shape
-                        (teratospermia){" "}
-                      </li>
-                      <li>
-                        Azoospermia — no sperm in the ejaculate (requires
-                        TESE/PESA for sperm retrieval){" "}
-                      </li>
-                      <li>
-                        Previous IVF cycle with unexpectedly poor
-                        fertilisation{" "}
-                      </li>
-                      <li>
-                        Frozen sperm samples (post-vasectomy reversal or sperm
-                        banking){" "}
-                      </li>
-                      <li>
-                        Couples using surgically retrieved sperm (TESE, PESA,
-                        MESA){" "}
-                      </li>
-                      <li>
-                        High sperm DNA fragmentation affecting embryo
-                        quality{" "}
-                      </li>
-                    </ul>
-
-                    <h2 className="text-[#173366] mb-3  font-semibold">
-                      ICSI Treatment Process at Sudha Fertility Centre Hyderabad
-                    </h2>
-                    <p className="text-gray-600 mt-3">
-                      The IUI procedure at Sudha Fertility Centre Hyderabad is a
-                      simple, 4-step process completed over one menstrual cycle:
-                    </p>
-                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
-                      <li>
-                        Step 1 — Fertility Assessment & Semen Analysis: Detailed
-                        evaluation including sperm count, motility, morphology,
-                        and DNA fragmentation index to confirm ICSI is
-                        appropriate and plan the optimal stimulation
-                        protocol.{" "}
-                      </li>
-                      <li>
-                        Step 2 — Ovarian Stimulation & Egg Retrieval: Identical
-                        to IVF — the woman undergoes ovarian stimulation over
-                        8–12 days, followed by egg retrieval under light
-                        sedation at our Hyderabad centre.{" "}
-                      </li>
-                      <li>
-                        Step 3 — Sperm Selection: Our senior embryologist
-                        selects the single healthiest sperm from the prepared
-                        sample under high-powered microscopy, ensuring the best
-                        possible genetic material is used.{" "}
-                      </li>
-                      <li>
-                        Step 4 — ICSI Microinjection: Using a micromanipulator,
-                        the selected sperm is injected directly into each
-                        retrieved egg. This step requires exceptional technical
-                        skill and is performed in our controlled-environment
-                        embryology lab.{" "}
-                      </li>
-                      <li>
-                        Step 5 — Embryo Culture: Fertilised eggs are cultured
-                        for 3–5 days. Our embryologists monitor development and
-                        grade each embryo before selection, identifying the
-                        highest-quality blastocyst for transfer.{" "}
-                      </li>
-                      <li>
-                        Step 6 — Embryo Transfer & Pregnancy Confirmation: The
-                        highest-quality embryo is transferred to the uterus.
-                        Surplus embryos of good quality are vitrified (frozen)
-                        for future use at no additional culture cost.{" "}
-                      </li>
-                    </ul>
-
-                    <h2 className="text-[#173366] mb-3  font-semibold">
-                      ICSI Success Rates at Sudha Fertility Centre Hyderabad
-                    </h2>
-
-                    <div className="overflow-x-auto p-4">
-                      <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
-                        {/* Header */}
-                        <thead className="bg-blue-900 text-white">
-                          <tr>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              ICSI Patient Profile
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              Fertilisation Rate 
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              Clinical Pregnancy Rate 
                             </th>
                           </tr>
                         </thead>
@@ -550,32 +515,34 @@ function ICSITreatmentHyderabad() {
                             <tr className="bg-blue-100">
                               <td className="px-4 py-3">{item.Factor}</td>
                               <td className="px-4 py-3 font-semibold text-green-700">
-                                {item.FertilisationRate}
+                                {item.IUI}
                               </td>
-                              <td className="px-4 py-3">{item.ClinicalPregnancyRate}</td>
+                              <td className="px-4 py-3">{item.IVF}</td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
+
+
+                    <div>
+                      <h2 className="text-[#173366] mb-3  font-semibold">IUI Treatment Cost in Hyderabad</h2>
+                      <p>IUI treatment at Sudha Fertility Centre Hyderabad costs between ₹8,000 and ₹25,000 per cycle, including ovulation monitoring scans and sperm preparation. This makes IUI one of the most affordable fertility treatments available. The exact cost depends on whether ovulation induction medication is required and the number of monitoring scans needed. Final pricing is confirmed after your initial consultation — with full transparency and no hidden charges. </p>
+                    </div>
                     <h2 className="text-[#173366] mb-3  font-semibold">
-                      ICSI Combined with TESE / PESA / Micro-TESE for Azoospermia
-                    </h2>
-                    <p  className="text-gray-600 mt-3">For men diagnosed with azoospermia — the complete absence of sperm in the ejaculate — Sudha Fertility Centre Hyderabad offers surgical sperm retrieval techniques coordinated with ICSI on the same day: </p>
-                   <ul className="mt-3 text-gray-600">
-                    <li className="mt-2"><b>PESA (Percutaneous Epididymal Sperm Aspiration):</b> Sperm is aspirated from the epididymis using a fine needle under local anaesthesia. Used for obstructive azoospermia. Quick, minimally invasive, with high sperm retrieval rates in appropriate patients. </li>
-                    <li className="mt-2"><b>TESE (Testicular Sperm Extraction):</b> Small biopsies of testicular tissue are taken under local anaesthesia and examined by our embryologist to locate and extract sperm. Used for both obstructive and some cases of non-obstructive azoospermia. </li>
-                    <li className="mt-2"><b>Micro-TESE (Microsurgical Testicular Sperm Extraction):</b> The most advanced sperm retrieval technique, performed under an operating microscope to identify and extract the specific tubules most likely to contain active sperm production. Used for severe non-obstructive azoospermia. </li>
-                   </ul>
-                   
-                      <h2 className="text-[#173366] mb-3  font-semibold">
-                      Our ICSI Specialists in Hyderabad
+                      Our IVF Specialists in Hyderabad
                     </h2>
                     <p className="text-gray-600 mt-3">
-                 Dr.S.Pradeepa Sudhakar — DGO, DNB (OG), MNAMS, FICOG Vice President of Sudha Fertility Centre. Dr. Pradeepa brings international-standard expertise in advanced ART and male factor infertility management. A member of ASRM, ESHRE, ISAR, FOGSI, and Faculty of the International Federation of Fertility Societies, she provides senior clinical guidance for all complex ICSI cases at our Hyderabad centre. 
+                     Dr.S.Pradeepa Sudhakar., — DGO, DNB (OG), MNAMS, FICOG, Vice President of Sudha Fertility Centre. Dr. Pradeepa provides clinical oversight and evidence-based guidance for complex fertility cases, ensuring every IUI patient at our Hyderabad centre receives a carefully considered, personalised treatment approach. 
                     </p>
                     <p className="text-gray-600 mt-3">
-                 Dr. V. Pranitha Reshmi — MBBS, DGO, DNB, ICOG, FMAS. Dr. Pranitha is a Fertility Consultant at our Banjara Hills centre with 12 years of clinical experience in reproductive care, including IVF, ICSI, IUI, and minimally invasive procedures. She is known across Hyderabad for her empathetic, transparent approach to patient care.  
+                      Dr. V. Pranitha Reshmi MBBS, DGO, DNB, ICOG, FMAS
+                      (Fellowship in Reproductive Medicine). Dr. Pranitha is a
+                      Fertility Consultant at our Banjara Hills branch with over
+                      600 patient consultations. She is known for her
+                      personalised approach, detailed treatment explanations,
+                      and compassionate care — earning consistent praise from
+                      patients on their fertility journeys.
                     </p>
                   </motion.div>
 
@@ -590,7 +557,7 @@ function ICSITreatmentHyderabad() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <ImageGrid images={ICSITreatmentHyderabadfaq.gallery} />
+                    <ImageGrid images={IVFTreatmentHyderabadfaq.gallery} />
                   </motion.div>
 
                   <hr className="mt-4 border-gray-300" />
@@ -712,7 +679,7 @@ function ICSITreatmentHyderabad() {
             <h2 className=" font-semibold text-center mb-6">
               Frequently Asked Questions
             </h2>
-            {ICSITreatmentHyderabadfaq.faqs
+            {IUITreatmentHyderabadfaq.faqs
               .slice(0, visibleCount)
               .map((faq, index) => (
                 <FAQItem
@@ -723,7 +690,7 @@ function ICSITreatmentHyderabad() {
                   toggle={() => toggleFAQ(index)}
                 />
               ))}
-            {ICSITreatmentHyderabadfaq.faqs.length > 5 && ( // Ensure button is shown if there are more than 5 FAQs
+            {IUITreatmentHyderabadfaq.faqs.length > 5 && ( // Ensure button is shown if there are more than 5 FAQs
               <div className="text-center mt-16">
                 <button
                   className="button-all mx-auto"
@@ -743,10 +710,14 @@ function ICSITreatmentHyderabad() {
             )}
 
             <h2 className="text-[#173366] mb-3 mt-4 font-semibold">
-               Book Your FREE ICSI Consultation in Hyderabad
+              Book Your IUI Consultation in Hyderabad
             </h2>
             <p className="text-gray-600 mt-3">
-             Male factor infertility affects 1 in 3 couples seeking fertility treatment. ICSI at Sudha Fertility Centre Hyderabad has helped hundreds of men with even the most challenging sperm conditions become fathers. Call +91 76-7007-6006 or <Link href="/contact-us" className="text-[#033ab1]">book your FREE consultation</Link> online at our <Link href="/contact-us" className="text-[#033ab1]">Banjara Hills </Link>centre. 
+              If you are considering IUI treatment in Hyderabad, our fertility
+              specialists at Sudha Fertility Centre can help you understand
+              whether it is the right first step for you. Call +91 76-7007-6006
+              or book online for your FREE consultation at our Banjara Hills,
+              Hyderabad centre.
             </p>
           </section>
         </div>
@@ -756,7 +727,7 @@ function ICSITreatmentHyderabad() {
         {/* <div className="container mx-auto">
             <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
         <MarqueeComponent
-          items={ICSITreatmentHyderabadfaq.gallery}
+          items={IUITreatmentHyderabadfaq.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
@@ -771,7 +742,7 @@ function ICSITreatmentHyderabad() {
           />
         </div>
         {/* <MarqueeComponent
-          items={ICSITreatmentHyderabadfaq.gallery}
+          items={IVFTreatmentHyderabadfaq.gallery}
           direction="right"
           speed="fast"
           className="custom-class"
@@ -784,4 +755,4 @@ function ICSITreatmentHyderabad() {
   );
 }
 
-export default ICSITreatmentHyderabad;
+export default IUITreatmentHyderabad;

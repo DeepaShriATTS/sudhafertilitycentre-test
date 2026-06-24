@@ -1,0 +1,80 @@
+/* ============================================================
+   CRITICAL CSS — Inlined for above-the-fold rendering.
+   ONLY styles needed before first paint. Keep this file lean.
+   All other styles load via globals.css / Tailwind.
+   ============================================================ */
+
+/* ── Reset essentials ── */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-outfit), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #fff;
+  color: #111318;
+}
+
+/* ── Navigation (sticky header — first thing painted) ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  width: 100%;
+}
+
+/* Transparent nav on hero, white after scroll (JS adds class) */
+header.bg-transparent { background: transparent; }
+header.bg-white, header.shadow-lg { background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+/* ── Hero / Banner container ── */
+.banner-slider-wrap {
+  position: relative;
+  width: 100%;
+  height: 95vh;
+  overflow: hidden;
+  background: #141964; /* fallback colour while images decode */
+}
+
+/* Prevent layout shift: reserve banner height before image loads */
+.banner-slider-wrap img {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ── Typography (above-fold headings) ── */
+h1, h2 { margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); }
+h2 { font-size: clamp(1.4rem, 3vw, 1.875rem); }
+
+/* ── Primary CTA button ── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.4;
+  background: #173366;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: #FFC65C;
+  color: #000;
+}
+
+/* ── Container ── */
+.container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+
+/* ── Grid ── */
+.grid { display: grid; }
+
+/* ── Utility: prevent FOUC on animated elements ── */
+[data-animate] { will-change: transform, opacity; }

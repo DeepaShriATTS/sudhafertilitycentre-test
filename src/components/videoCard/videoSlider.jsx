@@ -134,12 +134,23 @@ export default function VideoSlider() {
                 onEnded={handlePause}
               />
             ) : (
-              <Image
-                src={item.thumb}
-                className="w-full h-56 object-cover"
-                alt="Thumbnail"
-                priority={idx === 0} // prioritize first image for faster load
-              />
+              // <Image
+              //   src={item.thumb}
+              //   className="w-full h-56 object-cover"
+              //   alt="Thumbnail"
+              //   priority={idx === 0} // prioritize first image for faster load
+              //   loading="eager"
+              // />
+                <Image
+                  src={item.thumb}
+                  className="w-full h-56 object-cover"
+                  alt="Thumbnail"
+                  priority={idx === 0}        // Only first image gets priority
+                  loading={idx === 0 ? "eager" : "lazy"}  // Rest are lazy-loaded
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  placeholder="blur"          // Optional: shows blur while loading
+                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+                />
             )}
           </div>
         ))}

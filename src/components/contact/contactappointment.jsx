@@ -17,6 +17,8 @@ import { branches } from "../footer/footer";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
 import { appointmentSchema } from "@/schemas/appointmentSchema";
+import { websiteleadCreateListEndpoint, branchtableListEndpoint } from '@/pages/api/shipapi';
+
 
 const enquery = [
   { id: 1, enquery: "treatment" },
@@ -36,6 +38,7 @@ const typeofenquirys = [
 function ContactAppointmentForm() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
+    const [branchList, setBranchList] = useState([]);
   const nameInputRef = useRef(null);
 
   // Initialize react-hook-form with Zod validation resolver
@@ -70,6 +73,23 @@ function ContactAppointmentForm() {
     if (nameInputRef.current) {
       nameInputRef.current.focus();
     }
+  }, []);
+
+    useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await fetch(branchtableListEndpoint);
+        if (res.ok) {
+          const data = await res.json();
+          setBranchList(data?.data?.list || []);
+        } else {
+          console.error("API responded with an error");
+        }
+      } catch (err) {
+        console.error("Fetch Error!", err);
+      }
+    }
+    fetchData();
   }, []);
 
   const handleFormSubmit = async (formData) => {
@@ -304,7 +324,7 @@ function ContactAppointmentForm() {
                         control={control}
                         render={({ field }) => (
                           <SearchableSelect
-                            options={branches}
+                            options={branchList}
                             value={field.value}
                             onChange={field.onChange}
                             labelKey="title"

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Banner from "@/assets/book-appointment.webp";
 import Button from "@/components/button/button";
 import Image from "next/image";
@@ -78,7 +78,7 @@ function Bookappointmentbangalore() {
               <h2 className="font-outfit font-semibold mt-3"> ಉಚಿತ ಫರ್ಟಿಲಿಟಿ ಸಮಾಲೋಚನಾ ಶಿಬಿರ </h2>
 
               <div className="button mt-8 flex justify-center items-center" >
-                <Button style={{ fontFamily: "'Noto Sans Kannada', sans-serif" }}
+                <Button style={{ fontFamily: "var(--font-noto-kannada), sans-serif" }}
                   title={"ಇಂದೇ ನಿಮ್ಮ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಕಾಯ್ದಿರಿಸಿ "}
                   link="#contact-now"
                 />

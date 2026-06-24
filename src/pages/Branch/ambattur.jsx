@@ -30,11 +30,17 @@ import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import Link from "next/link";
 import { ambatturVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
-
+import LoadingSpinner from '@/components/ui/loadingSpinner';
+import dynamic from "next/dynamic";
+// Dynamic imports with same loading component
+const InfiniteMovingCardsDemo = dynamic(
+  () => import('@/components/review_Card/reviewCard'),
+  { loading: () => <LoadingSpinner height="400px" /> }
+);
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },

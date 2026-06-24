@@ -25,10 +25,17 @@ import { MarqueeComponent } from "@/components/marqueeSlider";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import { Ambattur, Perambalur } from "@/middleware/imagesroute";
 import BranchForm from "@/components/branchForm";
-import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import NotFound from "@/app/not-found";
+import LoadingSpinner from '@/components/ui/loadingSpinner';
+import dynamic from "next/dynamic";
+// Dynamic imports with same loading component
+const InfiniteMovingCardsDemo = dynamic(
+  () => import('@/components/review_Card/reviewCard'),
+  { loading: () => <LoadingSpinner height="400px" /> }
+);
 
 function PerambalurPage() {
   const [visibleCount, setVisibleCount] = useState(5);

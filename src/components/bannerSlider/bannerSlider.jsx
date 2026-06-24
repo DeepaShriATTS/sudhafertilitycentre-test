@@ -119,9 +119,10 @@ const BannerSlider = () => {
                 src={slide.img}
                 alt={slide.heading}
                 fill
-                priority
+                priority={index === 0}
                 fetchPriority={index === 0 ? "high" : "auto"}
-                sizes="100vw"
+                quality={75}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
                 className="object-cover object-center"
               />
             </div>
@@ -154,9 +155,9 @@ const BannerSlider = () => {
                       as one piece instead of parts arriving separately. */}
                   <div className="flex-1 flex items-center">
                     <div className="max-w-lg xl:max-w-xl text-white w-full">
-                      <h2 className="text-[#FFC65C] font-outfit font-bold text-xl sm:text-2xl lg:text-3xl xl:text-4xl leading-snug mb-3 sm:mb-4">
+                      <h1 className="text-[#FFC65C] font-outfit font-bold text-xl sm:text-2xl lg:text-3xl xl:text-4xl leading-snug mb-3 sm:mb-4">
                         {slide.heading}
-                      </h2>
+                      </h1>
                       <p className="text-white/80 text-sm sm:text-base leading-[1.7] mb-4 sm:mb-6 max-w-md">
                         {slide.description}
                       </p>

@@ -309,10 +309,12 @@ export const Ambattur = {
 
 
 export const Aruppukottai = {
-  gallery: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
+  // gallery: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
+  gallery: [Imageone, Imagetwo, Imagethree, Imagefive],
   Facilities: { Facilitiesimg },
 
-  marquee: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
+  // marquee: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
+  marquee: [Imageone, Imagetwo, Imagethree, Imagefive],
   faqs: [
     {
       question: "What fertility treatments are available in Aruppukottai?  ",

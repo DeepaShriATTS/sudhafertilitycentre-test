@@ -190,7 +190,7 @@ const mainNavItems = [
       },
     ],
   },
-{ item: "Blog", link: "/blog/" },
+{ item: "Blog", link: "https://sudhafertilitycentre.com/blog/" },
   //Blogs
   // {
   //   title: "Resource",
@@ -560,9 +560,9 @@ function Navbar() {
                         : "bg-transparent"
                     }`}
                   >
-                    <button onClick={toggleMobileMenu}>
+                    <button onClick={toggleMobileMenu} aria-label="Toggle mobile menu">
                       {/* <Image src={Bar} alt="Bar" className="w-[30px]" /> */}
-                      <Menu size={28} />
+                      <Menu size={28} aria-hidden="true" />
                     </button>
                   </div>
                 </div>

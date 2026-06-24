@@ -1,7 +1,7 @@
 import React from "react";
 import Script from "next/script";
 import Head from "next/head";
-import IVFTreatmentHyderabad from "@/pages/Branch/IVFTreatmentinHyderabad ";
+import IVFTreatmentHyderabad from "@/pages/Branch/IVFTreatmentinHyderabad";
 
 export const metadata = {
   title:

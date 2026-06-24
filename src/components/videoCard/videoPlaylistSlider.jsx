@@ -6,6 +6,7 @@ import { Autoplay } from "swiper/modules";
 import { FaPlay, FaFilm, FaTimes, FaList, FaCheck } from "react-icons/fa";
 import Buttonbottm from "@/components/button";
 import { getYoutubeThumbnail } from "@/middleware/videosRoute"; // adjust path if your data/util file lives elsewhere
+import Image from "next/image";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -358,6 +359,30 @@ export default function GallerySlider({ items = [] }) {
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
               }}
+              breakpoints={{
+                640: {        
+                  slidesPerView: 2,
+                  spaceBetween: 40,
+                },
+                1024: {                           
+                  slidesPerView: 3,
+                  spaceBetween: 56,
+                },
+                425:{
+                  slidesPerView: 1,
+                  spaceBetween: 56,
+                },
+                320:{
+                  slidesPerView: 1,
+                  spaceBetween: 56,
+                },
+                375:{
+                  slidesPerView: 1,
+                  spaceBetween: 56,
+                },
+              
+
+              }}
               onSlideChange={handleSlideChange}
               className="gs-swiper"
             >
@@ -377,10 +402,12 @@ export default function GallerySlider({ items = [] }) {
                       <div className="gs-card">
                         <div className="gs-thumb-wrap">
                           {!failedImages[item.id] && thumbSrc ? (
-                            <img
+                            <Image
                               src={thumbSrc}
                               alt={item.title}
                               className="gs-thumb"
+                              width={400}
+                              height={250}
                               onError={() => handleImageError(item.id)}
                             />
                           ) : (
@@ -413,10 +440,10 @@ export default function GallerySlider({ items = [] }) {
             </Swiper>
           </div>
 
-          <div className="gs-cta">
+          {/* <div className="gs-cta">
             <h3>Childless Couples to Happy Parents</h3>
             <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -500,7 +527,7 @@ export default function GallerySlider({ items = [] }) {
                           onClick={() => playVideoAt(idx)}
                         >
                           <div className="gs-playlist-item-thumb-wrap">
-                            <img src={video.thumbnail} alt={video.title} loading="lazy" />
+                            <Image src={video.thumbnail} alt={video.title} width={120} height={90} className="object-cover" />
                             {isActive ? (
                               <div className="gs-playlist-item-index">
                                 <FaPlay style={{ fontSize: 10 }} />

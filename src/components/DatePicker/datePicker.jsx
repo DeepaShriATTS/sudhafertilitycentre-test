@@ -369,6 +369,7 @@ export const DatePicker = ({
         type="text"
         readOnly
         tabIndex={0}
+        aria-label="Date Picker Input"
         onFocus={() => setFocused(true)}
         onBlur={() => {
           if (!open) {

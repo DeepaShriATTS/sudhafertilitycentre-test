@@ -1,11 +1,12 @@
-// src/app/layout.js (SERVER COMPONENT ✅)
 import "./globals.css";
-import { Outfit } from "next/font/google";
+import "./critical.css";
+import { Outfit, Inter, Noto_Sans_Kannada } from "next/font/google";
 import Header from "@/components/Header/header";
 import Footer from "@/components/footer/footer";
 import ClientLayout from "@/components/Header/ClientLayout";
 import { NotFoundProvider } from "@/context/NotFoundContext";
 import Script from "next/script";
+import { DeferredFBPixel } from "@/components/DeferredFBPixel";
 import ogimg from "@/assets/og_sudha.jpeg";
 
 const outfit = Outfit({
@@ -14,9 +15,26 @@ const outfit = Outfit({
   display: "swap",
 });
 
-const ogimgURL = ogimg.src; // Use the .src if using Next.js image import
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["300", "400", "500", "600"],
+});
+
+// Reduced from 9 weights to 2 — saves ~60 KB of font payload for most visitors
+const notoSansKannada = Noto_Sans_Kannada({
+  variable: "--font-noto-kannada",
+  subsets: ["kannada"],
+  display: "swap",
+  weight: ["400", "700"],
+  preload: false, // Only load on demand — most pages don't need Kannada script
+});
+
+const ogimgURL = ogimg.src;
 
 export const metadata = {
+  metadataBase: new URL("https://sudhafertilitycentre.com"),
   title: "Best Fertility Centre in South India - Sudha Fertility Centre",
   description:
     "With over 40+ years of expertise, 40+ Branches, Sudha is identified as the best IVF centre in India with an 85% success rate. Sudha holds the pride of delivering 1 lakh+ healthy babies.",
@@ -53,89 +71,54 @@ export const metadata = {
   },
 };
 
-<Script
-  type="application/ld+json"
-  id="structured-data-organization"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Sudha Fertility Centre",
-      "url": "https://sudhafertilitycentre.com/",
-      "logo": "https://sudhafertilitycentre.com/_next/static/media/logo-dark.5cc85d6e.svg",
-      "description":
-        "Sudha Fertility Centre is one of India's leading fertility hospitals, offering advanced IVF, IUI, ICSI, egg freezing, and fertility testing services across multiple locations in India.",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+91-76 7007 6006",
-        "contactType": "Customer Service",
-        "areaServed": "IN",
-        "availableLanguage": ["English", "Tamil", "Telugu"]
-      },
-      "sameAs": [
-        "https://www.facebook.com/sudhafertilitycentre",
-        "https://www.instagram.com/sudhafertilitycentre/",
-        "https://www.youtube.com/@sudhafertilitycentre/",
-        "https://www.linkedin.com/company/sudha-fertility-centre"
-      ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "15000"
-      },
-      "founder": {
-        "@type": "Person",
-        "name": "Dr. S. Dhanabagyam"
-      },
-      "foundingDate": "1995",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "151, Perundurai Road, Edayankattuvalasu",
-        "addressLocality": "Erode",
-        "addressRegion": "Tamil Nadu",
-        "postalCode": "638001",
-        "addressCountry": "IN"
-      }
-    })
-  }}
-/>
-
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en-IN">
       <head>
+        {/* Preconnect hints for third-party performance */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://analytics.google.com" />
+
         <meta name="robots" content="index" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Sudha Fertility Centre - Advanced Fertility Treatments in India" />
-        <meta property="og:description" content="Sudha Fertility Centre offers world-class IVF, IUI, ICSI, egg and sperm freezing, and personalized fertility care in 20+ cities across India." />
-        <meta property="og:url" content="https://sudhafertilitycentre.com/" />
-        <meta property="og:image" content="https://sudhafertilitycentre.com/_next/image?url=%2Fassets%2Fog_sudha.jpeg&w=1200&q=75" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:site_name" content="Sudha Fertility Centre" />
-        <meta property="og:locale" content="en_IN" />
 
-
-        {/* ✅ Google Tag Manager - Script */}
+        {/*
+          GTM deferred to lazyOnload + requestIdleCallback.
+          This means GTM only initialises after the page is idle,
+          so it does NOT block hydration or TBT.
+          Strategy "lazyOnload" = script loads after all other resources.
+          The inner requestIdleCallback defers execution even further
+          to after the browser's first idle period (max 3 s fallback).
+        */}
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
-            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-MZ5ZGW6');`,
+            __html: `
+              (function() {
+                function initGTM() {
+                  if (window._gtmInitialised) return;
+                  window._gtmInitialised = true;
+                  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                  })(window,document,'script','dataLayer','GTM-MZ5ZGW6');
+                }
+                if ('requestIdleCallback' in window) {
+                  requestIdleCallback(initGTM, { timeout: 3000 });
+                } else {
+                  setTimeout(initGTM, 3000);
+                }
+              })();
+            `
           }}
         />
-
-
-
-
       </head>
-      <body className={` ${outfit.variable} antialiased font-outfit`}>
-        {/* ✅ Google Tag Manager - Noscript (For <body>) */}
+      <body className={` ${outfit.variable} ${inter.variable} ${notoSansKannada.variable} antialiased font-outfit`}>
+        {/* Google Tag Manager - Noscript fallback */}
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MZ5ZGW6"
@@ -144,11 +127,16 @@ export default function RootLayout({ children }) {
             style={{ display: "none", visibility: "hidden" }}
           />
         </noscript>
+
         <NotFoundProvider>
           <Header />
-          <ClientLayout>{children}</ClientLayout>
+          <main>
+            <ClientLayout>{children}</ClientLayout>
+          </main>
           <Footer />
         </NotFoundProvider>
+        <DeferredFBPixel />
+
       </body>
     </html>
   );

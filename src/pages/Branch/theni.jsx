@@ -25,12 +25,21 @@ import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Theni } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
 import { theniVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+import LoadingSpinner from '@/components/ui/loadingSpinner';
+import dynamic from "next/dynamic";
+// Dynamic imports with same loading component
+const InfiniteMovingCardsDemo = dynamic(
+  () => import('@/components/review_Card/reviewCard'),
+  { loading: () => <LoadingSpinner height="400px" /> }
+);
+
+
 
 function TheniPage() {
   const [visibleCount, setVisibleCount] = useState(5);

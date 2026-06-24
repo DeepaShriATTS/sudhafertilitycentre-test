@@ -1,11 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import Modals from "./Modal";
+import dynamic from "next/dynamic";
+const Modals = dynamic(() => import("./Modal"));
 import { FaArrowRight } from "react-icons/fa";
 
 export default function FloatingButton() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {

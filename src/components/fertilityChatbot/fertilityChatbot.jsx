@@ -7,6 +7,9 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
+import { websiteleadCreateListEndpoint } from '@/pages/api/shipapi';
+
+
 
 // Dynamic branching conversational flow configurations
 const FLOWS = {
@@ -309,8 +312,15 @@ export default function FertilityChatbotWidget() {
           options: nextQuestion.options
         });
       } else {
-        // Submit gathered info to backend
+        // Submit gathered info to backend and CRM
         try {
+          // 1. Normalize date
+          const d = updatedForm.appointmentDate ? new Date(updatedForm.appointmentDate) : null;
+          const appointmentDate = d
+            ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
+            : "";
+
+          // 2. Submit to local API for logging
           await fetch("/api/saveData", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -322,8 +332,33 @@ export default function FertilityChatbotWidget() {
               formType: "Chatbot Lead - " + currentFlowKey
             })
           });
+
+          // 3. Submit to CRM
+          const cleanMobile = updatedForm.whatsapp ? updatedForm.whatsapp.replace(/\D/g, "") : "";
+          const phoneWithoutCountryCode = cleanMobile.startsWith("91") && cleanMobile.length === 12
+            ? cleanMobile.substring(2)
+            : cleanMobile;
+
+          const selectedBranch = branchList.find(b => b.branch_name === updatedForm.branch);
+          const branchId = selectedBranch ? selectedBranch.id : updatedForm.branch;
+
+          const crmBody = {
+            name: updatedForm.name,
+            branch: branchId,
+            mobile: phoneWithoutCountryCode,
+            appointment_date: appointmentDate,
+            source_type: "21",
+            lead_type: "4",
+          };
+
+          await fetch(websiteleadCreateListEndpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(crmBody),
+          });
+
         } catch (err) {
-          console.error("Local save data error:", err);
+          console.error("Submission error:", err);
         }
 
         // Phase 3: The Peaceful Goodbye
@@ -359,6 +394,9 @@ export default function FertilityChatbotWidget() {
 
   const widgetW = isExpanded ? "w-[480px]" : "w-96";
   const widgetH = isExpanded ? "h-[700px]" : "h-[580px]";
+
+ 
+
 
   return (
     <>

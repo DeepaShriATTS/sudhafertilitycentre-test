@@ -16,7 +16,9 @@ export const InfiniteMovingReviews = ({
   const [duplicatedItems, setDuplicatedItems] = useState([]);
 
   useEffect(() => {
-    const minItems = 100;
+    // We need enough items to fill the screen twice for a smooth infinite scroll.
+    // 15 items is plenty for standard screens (334px each = ~5000px).
+    const minItems = 15; 
 
     // Ensure items exist and have length greater than 0
     if (!items || items.length === 0) {
@@ -24,7 +26,8 @@ export const InfiniteMovingReviews = ({
       return;
     }
 
-    const duplicatesNeeded = Math.ceil(minItems / items.length);
+    // Always duplicate at least once (needed for seamless scroll logic)
+    const duplicatesNeeded = Math.max(2, Math.ceil(minItems / items.length));
 
     const duplicatedArray = Array.from({ length: duplicatesNeeded }, () => [...items])
       .flat()

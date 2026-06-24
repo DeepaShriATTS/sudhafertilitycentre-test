@@ -30,9 +30,17 @@ import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Aruppukottai } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import Link from "next/link";
 import NotFound from "@/app/not-found";
+import dynamic from "next/dynamic";
+import LoadingSpinner from '@/components/ui/loadingSpinner';
+
+// Dynamic imports with same loading component
+const InfiniteMovingCardsDemo = dynamic(
+  () => import('@/components/review_Card/reviewCard'),
+  { loading: () => <LoadingSpinner height="400px" /> }
+);
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
