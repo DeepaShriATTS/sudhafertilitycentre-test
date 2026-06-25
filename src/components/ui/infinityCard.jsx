@@ -70,6 +70,7 @@ export const InfiniteMovingReviews = ({
   return (
     <div 
       ref={containerRef} 
+      style={{ minHeight: "398px" }}
       className={cn(
         "scroller relative z-10 w-full overflow-hidden group",
         "hover:[--pause-animation:paused]",
@@ -78,6 +79,7 @@ export const InfiniteMovingReviews = ({
     >
       <ul 
         ref={scrollerRef} 
+        style={{ minHeight: "398px" }}
         className={cn(
           "flex min-w-full shrink-0 gap-4 py-8 w-max flex-nowrap",
           start && "animate-scroll motion-reduce:animate-none",

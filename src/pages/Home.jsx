@@ -50,7 +50,7 @@ import LoadingSpinner from '@/components/ui/loadingSpinner';
 // Dynamic imports with same loading component
 const InfiniteMovingCardsDemo = dynamic(
   () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
+  { loading: () => <LoadingSpinner height="398px" /> }
 );
 
 const MetricsTabs = dynamic(() => import("@/components/ui/tab"), {
@@ -657,6 +657,7 @@ function Home() {
 
 
         {/* Fill your home with tiny footsteps and celebrate the quiet joy of parenthood. */}
+        <section >
         <div className="container mx-auto mt-[70px] lg:mt-[100px]">
           <div className="max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto ">
             <div className="shadow-[0px_0px_30px_0px_rgba(0,0,0,0.06)]">
@@ -692,10 +693,10 @@ function Home() {
             </div>
 
           </div>
-        </div>
+        </div> </section>
 
-
-         <div className="container mx-auto mt-[70px] lg:mt-[100px] relative h-full">
+         <section className="mt-[70px] lg:mt-[100px]">
+         <div className="container mx-auto  relative h-full">
           <div className="max-w-full mx-auto px-4  sm:px-6 lg:px-8 h-full">
             <div className="content mx-auto flex-1 text-center lg:text-left">
               <h2 className="font-outfit font-semibold flex justify-center text-[#e3a008]">
@@ -707,6 +708,8 @@ function Home() {
             </div>
           </div>
         </div>
+          
+         </section>
 
 
 
