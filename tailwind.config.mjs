@@ -1,10 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 const flowbite = require("flowbite-react/tailwind");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
 
 export default {
+  // 'class' strategy: dark: variants are only generated when .dark is on <html>
+  // This prevents Tailwind from emitting dark: variants eagerly on every class.
+  darkMode: 'class',
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -33,17 +33,20 @@ export default {
       },
     },
   },
-  plugins: [addVariablesForColors, flowbite.plugin()],
+  plugins: [addBrandVariables, flowbite.plugin()],
 };
 
-
-function addVariablesForColors({ addBase, theme }) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
- 
+/**
+ * Only expose the 3 brand CSS custom properties actually used in this project.
+ * The previous addVariablesForColors generated ~500 variables for EVERY Tailwind
+ * color, adding ~15-20 KiB of unused CSS to every page.
+ */
+function addBrandVariables({ addBase }) {
   addBase({
-    ":root": newVars,
+    ":root": {
+      "--brand-primary": "#173366",
+      "--brand-accent":  "#FFC65C",
+      "--brand-light":   "#EBF2FE",
+    },
   });
 }

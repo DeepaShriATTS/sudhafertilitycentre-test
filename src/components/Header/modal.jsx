@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useForm, Controller } from "react-hook-form";
-import { branchtableListEndpoint, websiteleadCreateListEndpoint } from "../../pages/api/shipapi";
+import { fetchBranchList } from "@/lib/api/branches";
+import { apiClient } from "@/lib/axios/instance";
 import SuccessMessage from "../SuccessMessage";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -116,82 +117,33 @@ const RequestCallModal = ({ isOpen, onClose }) => {
       },
     });
   
-    // Fetch branch options on mount
     useEffect(() => {
-      async function fetchData() {
-        try {
-          const res = await fetch(branchtableListEndpoint);
-          if (res.ok) {
-            const data = await res.json();
-            setBranchList(data?.data?.list || []);
-          } else {
-            console.error("API responded with an error");
-          }
-        } catch (err) {
-          console.error("Fetch Error!", err);
-        }
-      }
-      fetchData();
+      fetchBranchList().then(setBranchList);
     }, []);
   
-    // Form submission handler
     const handleFormSubmit = async (data) => {
       setSubmissionError("");
-  
       try {
-  
-        const saveResponse = await fetch("/api/saveData", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: data.name,
-            mobile: data.mobile,
-            branch: data.branch,
-            formType: "branch",
-          }),
-        });
-  
-        const saveResult = await saveResponse.json();
-  
-        if (!saveResponse.ok) {
-          if (saveResult.errors) {
-            Object.entries(saveResult.errors).forEach(([field, msg]) => {
-              setError(field, { type: "server", message: msg });
-            });
-          } else {
-            
-            setSubmissionError(saveResult.message || "Failed to validate form on server.");
-          }
-          return;
-        }
-  
-        // 2️⃣ Submit to CRM
-        const body = {
+        await apiClient.post("/api/saveData", {
           name: data.name,
+          mobile: data.mobile,
           branch: data.branch,
-          mobile: data.mobile, // Zod sanitized mobile
-          source_type: "21",
-          lead_type: "4",
-        };
-  
-        const crmResponse = await fetch(websiteleadCreateListEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body),
+          formType: "branch",
         });
-  
-        if (!crmResponse.ok) {
-          console.error("CRM submission failed");
-          setSubmissionError("Failed to submit to CRM. Please try again.");
-          return;
-        }
-  
-        // Show success modal and reset form values
+
         setSuccessMessage(true);
         reset({ name: "", branch: "", mobile: "", formType: "branch" });
-      } catch (error) {
-        console.error("Submission Error:", error);
-        setSubmissionError("Network error. Please try again later.");
+      } catch (err) {
+        const responseData = err.response?.data;
+        if (responseData && responseData.errors) {
+          // Map server-side validation / duplicate errors to respective fields
+          Object.entries(responseData.errors).forEach(([field, msg]) => {
+            setError(field, { type: "server", message: String(msg) });
+          });
+          setSubmissionError(responseData.message || "Please correct the highlighted fields.");
+        } else {
+          setSubmissionError(err.message || "Network error. Please try again later.");
+        }
       }
     };
 

@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useRef } from "react";
 import { X, ArrowUp, MessageCircle, Maximize2, Minimize2 } from "lucide-react";
-import { branchtableListEndpoint } from "@/pages/api/shipapi";
+import { fetchBranchList } from "@/lib/api/branches";
+import { apiClient } from "@/lib/axios/instance";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./fertilityChatbot.css";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
-import { websiteleadCreateListEndpoint } from '@/pages/api/shipapi';
 
 
 
@@ -126,7 +126,7 @@ const CITY_MAP_LINKS = {
   "Coimbatore": { map: "https://maps.app.goo.gl/FzY9JxNQMHxAPzzv9", web: "/fertility-centre-in-coimbatore" },
   "Madurai":    { map: "https://maps.app.goo.gl/2S83qpF2nRqjFg4c7", web: "/fertility-centre-in-madurai" },
   "Trichy":     { map: "https://maps.app.goo.gl/jP1sDSHqVXsXmdvK8", web: "/fertility-centre-in-trichy" },
-  "Bengaluru":  { map: "https://maps.app.goo.gl/GZSDWRzyTaZgY3Le8", web: "/fertility-centre-in-bangalore" },
+  "Bengalore":  { map: "https://maps.app.goo.gl/GZSDWRzyTaZgY3Le8", web: "/fertility-centre-in-bangalore" },
   "Hyderabad":  { map: "https://maps.app.goo.gl/1j6HjWA7kSvZW7LNA", web: "/fertility-centre-in-hyderabad" }
 };
 
@@ -148,26 +148,16 @@ export default function FertilityChatbotWidget() {
   const [formData, setFormData] = useState({});
   const [branchList, setBranchList] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
+  const [isConfirming, setIsConfirming] = useState(false);
 
   const messagesEndRef = useRef(null);
   const toggleBtnRef = useRef(null);
   const inputRef = useRef(null);
   const typingTimeoutRef = useRef(null);
 
-  // Fetch branch list on mount
+  // Fetch branch list via internal proxy — CRM URL never exposed to client
   useEffect(() => {
-    async function fetchBranches() {
-      try {
-        const res = await fetch(branchtableListEndpoint);
-        if (res.ok) {
-          const data = await res.json();
-          setBranchList(data?.data?.list || []);
-        }
-      } catch (err) {
-        console.error("Fetch branches error:", err);
-      }
-    }
-    fetchBranches();
+    fetchBranchList().then(setBranchList);
   }, []);
 
   // Initialize welcome flow when chat opens
@@ -228,6 +218,13 @@ export default function FertilityChatbotWidget() {
 
   // Resolve current active question config
   const getCurrentQuestion = () => {
+    if (isConfirming) {
+      return {
+        type: "buttons",
+        options: ["Yes, Confirm", "No, Cancel"]
+      };
+    }
+
     if (currentFlowKey === "welcome") {
       return { type: "buttons", options: FLOWS.welcome.options };
     }
@@ -257,13 +254,90 @@ export default function FertilityChatbotWidget() {
     const trimmedVal = typeof value === "string" ? value.trim() : value;
     if (trimmedVal === "" && currentQuestion?.type !== "date" && currentQuestion?.type !== "select") return;
 
+    if (isConfirming) {
+      const messagesWithUser = [...messages, { sender: "user", text: trimmedVal }];
+      if (trimmedVal === "Yes, Confirm") {
+        setIsConfirming(false);
+        setIsBotTyping(true);
+
+        try {
+          // Normalize date
+          const d = formData.appointmentDate ? new Date(formData.appointmentDate) : null;
+          const appointmentDate = d
+            ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
+            : "";
+
+          // Submit to /api/saveData — CRM is proxied server-side, not called from client
+          await apiClient.post("/api/saveData", {
+            name: formData.name,
+            mobile: formData.whatsapp,
+            branch: formData.branch,
+            appointmentDate,
+            formType: "Chatbot Lead - " + currentFlowKey,
+          });
+
+          // Phase 3: The Peaceful Goodbye
+          pushBotMessage(messagesWithUser, {
+            sender: "bot",
+            text: "Thank you. Your story is safe with us. Our coordinator will call you within 24 hours. Rest easy tonight. Your miracle is closer. 🤍"
+          });
+          setIsComplete(true);
+        } catch (err) {
+          console.error("Chatbot submission error:", err);
+          const errMsg = err.message || "Something went wrong.";
+          setIsBotTyping(false);
+          pushBotMessage(messagesWithUser, {
+            sender: "bot",
+            text: `⚠️ Submission failed: ${errMsg}\n\n Try again later`,
+            type: "buttons",
+            // options: ["No, Edit Details"]
+          });
+          setIsConfirming(true); // Keep in confirming state
+        }
+      } else {
+        // Edit Details
+        setIsConfirming(false);
+        // Reset step index to the start of COMMON_REG_QUESTIONS
+        const flow = FLOWS[currentFlowKey];
+        const initialStepsCount = flow?.steps?.length || 0;
+        setStepIndex(initialStepsCount);
+
+        // Clear previous registration details
+        setFormData(prev => {
+          const next = { ...prev };
+          delete next.name;
+          delete next.whatsapp;
+          delete next.branch;
+          delete next.appointmentDate;
+          return next;
+        });
+
+        // Push bot message asking for the first registration question again (Name)
+        const firstRegQuestion = COMMON_REG_QUESTIONS[0];
+        pushBotMessage(messagesWithUser, {
+          sender: "bot",
+          text: `Sure. ${firstRegQuestion.text}`,
+          type: firstRegQuestion.type,
+          options: firstRegQuestion.options
+        });
+      }
+      return;
+    }
+
     // Save answer data
     const questionKey = currentQuestion?.key || `step_${stepIndex}`;
     const updatedForm = { ...formData, [questionKey]: trimmedVal };
     setFormData(updatedForm);
 
     // Show the user's message immediately
-    const messagesWithUser = [...messages, { sender: "user", text: trimmedVal }];
+    let displayVal = trimmedVal;
+    if (currentQuestion?.type === "select") {
+      const selectedBranchObj = branchList.find((b) => String(b.id) === String(trimmedVal));
+      if (selectedBranchObj) {
+        displayVal = selectedBranchObj.branch_name;
+      }
+    }
+    const messagesWithUser = [...messages, { sender: "user", text: displayVal }];
     const nextIndex = stepIndex + 1;
     setStepIndex(nextIndex);
     setInputValue("");
@@ -313,61 +387,20 @@ export default function FertilityChatbotWidget() {
           options: nextQuestion.options
         });
       } else {
-        // Submit gathered info to backend and CRM
-        try {
-          // 1. Normalize date
-          const d = updatedForm.appointmentDate ? new Date(updatedForm.appointmentDate) : null;
-          const appointmentDate = d
-            ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
-            : "";
+        // Ask for confirmation before submitting
+        setIsConfirming(true);
+        const nameVal = updatedForm.name || "";
+        const mobileVal = updatedForm.whatsapp || "";
+        const selectedBranchObj = branchList.find((b) => String(b.id) === String(updatedForm.branch));
+        const branchVal = selectedBranchObj ? selectedBranchObj.branch_name : (updatedForm.branch || "");
+        const dateVal = updatedForm.appointmentDate || "";
 
-          // 2. Submit to local API for logging
-          await fetch("/api/saveData", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: updatedForm.name,
-              mobile: updatedForm.whatsapp,
-              branch: updatedForm.branch,
-              appointmentDate: updatedForm.appointmentDate,
-              formType: "Chatbot Lead - " + currentFlowKey
-            })
-          });
-
-          // 3. Submit to CRM
-          const cleanMobile = updatedForm.whatsapp ? updatedForm.whatsapp.replace(/\D/g, "") : "";
-          const phoneWithoutCountryCode = cleanMobile.startsWith("91") && cleanMobile.length === 12
-            ? cleanMobile.substring(2)
-            : cleanMobile;
-
-          const selectedBranch = branchList.find(b => b.branch_name === updatedForm.branch);
-          const branchId = selectedBranch ? selectedBranch.id : updatedForm.branch;
-
-          const crmBody = {
-            name: updatedForm.name,
-            branch: branchId,
-            mobile: phoneWithoutCountryCode,
-            appointment_date: appointmentDate,
-            source_type: "21",
-            lead_type: "4",
-          };
-
-          await fetch(websiteleadCreateListEndpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(crmBody),
-          });
-
-        } catch (err) {
-          console.error("Submission error:", err);
-        }
-
-        // Phase 3: The Peaceful Goodbye
         pushBotMessage(messagesWithUser, {
           sender: "bot",
-          text: "Thank you. Your story is safe with us. Our coordinator will call you within 24 hours. Rest easy tonight. Your miracle is closer. 🤍"
+          text: `Please confirm your appointment details:\n\n👤 Name: ${nameVal}\n📱 Phone: ${mobileVal}\n🏥 Branch: ${branchVal}\n📅 Date: ${dateVal}\n\nIs this correct?`,
+          type: "buttons",
+          options: ["Yes, Confirm", "No"]
         });
-        setIsComplete(true);
       }
     }
   };
@@ -621,7 +654,7 @@ export default function FertilityChatbotWidget() {
                       onChange={(val) => setInputValue(val)}
                       placeholder="Select Location"
                       labelKey="branch_name"
-                      valueKey="branch_name"
+                      valueKey="id"
                       theme="light"
                       align="top"
                     />

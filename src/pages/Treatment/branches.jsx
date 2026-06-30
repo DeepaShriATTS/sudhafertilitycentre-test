@@ -162,7 +162,7 @@ const tamilNaduBranches = [
   },
   {
     name: "Ramanathapuram",
-    address: "No: 6/1155-2, D'block, Madurai - Rameswaram Rd, Opp. to RTO office, Kadampa Nagar, Ramanathapuram, Tamil Nadu - 623504.",
+    address: "68, Madurai - Rameswaram Hwy, Ramanathapuram, Tamil Nadu 623502",
     branchLink: "/fertility-centre-in-ramanathapuram",
     link: "https://maps.app.goo.gl/ucTyi5L2TBeWhwPT8",
     phone: "90-8731-4545"
@@ -212,7 +212,7 @@ const tamilNaduBranches = [
 
   {
     name: "Tiruvannamalai",
-    address: "C/O, Nalam Hospital, First Floor, 5/2A/9th Street, Maanthopu, Polur Road, Opposite Hotel Vijay Park, Tiruvannamalai, Tamil Nadu - 606601.",
+    address: "Third Floor, No.2, C/O. Ponni Hospital, Main Rd, Gandhinagar, Tiruvannamalai, Tamil Nadu 606601",
     branchLink: "/fertility-centre-in-tiruvannamalai",
     link: "https://maps.app.goo.gl/LUcDVC633fxJ3Ltw7",
     phone: "90-4796-6006"

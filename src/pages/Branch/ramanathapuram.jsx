@@ -541,7 +541,7 @@ function RamanathapuramPage() {
                               Address
                             </p>
                             <p className="font-semibold">
-                              No: 6/1155-2, D'block, Madurai - Rameswaram Rd, Opp. to RTO office, Kadampa Nagar, Ramanathapuram, Tamil Nadu - 623504.
+                             68, Madurai - Rameswaram Highway, Ramanathapuram, Tamil Nadu 623502
                             </p>
                             <Link href="https://maps.app.goo.gl/ucTyi5L2TBeWhwPT8">
                               <button className="button-all mt-4  md:mx-0 md:mr-auto flex items-center gap-2">

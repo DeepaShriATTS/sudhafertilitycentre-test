@@ -85,11 +85,7 @@ const BannerSlider = () => {
       style={{ height: "95vh" }}
       onClick={handleBannerClick}
     >
-      {/* All slides are mounted simultaneously and pre-loaded.
-          Only opacity changes — nothing mounts/unmounts on transition,
-          so there is no image decode/flash race.
-          Image + gradients + text all fade together as ONE unit (no stagger) —
-          a single synchronized crossfade reads as smoother than sequenced fades. */}
+   
       {slides.map((slide, index) => {
         const isActive = index === activeIndex;
         return (
@@ -115,7 +111,7 @@ const BannerSlider = () => {
                   : "none",
               }}
             >
-              <Image
+              {/* <Image
                 src={slide.img}
                 alt={slide.heading}
                 fill
@@ -123,6 +119,20 @@ const BannerSlider = () => {
                 fetchPriority={index === 0 ? "high" : "auto"}
                 quality={75}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
+                className="object-cover object-center"
+              /> */}
+              <Image
+                src={slide.img}
+                alt={slide.heading}
+                fill
+                priority={index === 0}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                loading={index === 0 ? "eager" : "lazy"}
+                quality={index === 0 ? 80 : 70}
+                sizes="(max-width: 480px) 480px,
+                (max-width: 768px) 768px,
+                (max-width: 1280px) 1280px,
+                 1920px"
                 className="object-cover object-center"
               />
             </div>

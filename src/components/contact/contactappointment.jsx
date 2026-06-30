@@ -17,7 +17,7 @@ import { branches } from "../footer/footer";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
 import { appointmentSchema } from "@/schemas/appointmentSchema";
-import { websiteleadCreateListEndpoint, branchtableListEndpoint } from '@/pages/api/shipapi';
+import { fetchBranchList } from "@/lib/api/branches";
 
 
 const enquery = [
@@ -75,21 +75,8 @@ function ContactAppointmentForm() {
     }
   }, []);
 
-    useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch(branchtableListEndpoint);
-        if (res.ok) {
-          const data = await res.json();
-          setBranchList(data?.data?.list || []);
-        } else {
-          console.error("API responded with an error");
-        }
-      } catch (err) {
-        console.error("Fetch Error!", err);
-      }
-    }
-    fetchData();
+  useEffect(() => {
+    fetchBranchList().then(setBranchList);
   }, []);
 
   const handleFormSubmit = async (formData) => {
@@ -327,8 +314,8 @@ function ContactAppointmentForm() {
                             options={branchList}
                             value={field.value}
                             onChange={field.onChange}
-                            labelKey="title"
-                            valueKey="title"
+                            labelKey="branch_name"
+                            valueKey="id"
                             placeholder="Search & select branch location"
                             error={errors.branch?.message}
                           />

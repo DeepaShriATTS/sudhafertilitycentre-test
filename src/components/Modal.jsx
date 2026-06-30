@@ -11,11 +11,10 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import DatePicker from "./DatePicker/datePicker";
 import { SlClose } from "react-icons/sl";
-import {
-  websiteleadCreateListEndpoint,
-  branchtableListEndpoint,
-} from "@/pages/api/shipapi";
+import { fetchBranchList } from "@/lib/api/branches";
+import { apiClient } from "@/lib/axios/instance";
 import SearchableSelect from "./searchAndSelect/SearchableSelect";
+
 const Modals = ({ isOpen, onClose }) => {
   const [successMessage, setSuccessMessage] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
@@ -25,95 +24,42 @@ const Modals = ({ isOpen, onClose }) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const inputRef = useRef(null);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // const onSubmit = async (formData) => {
-  //   setSubmissionError("");
-  //   try {
-  //     const response = await fetch("/api/saveData", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     if (response.ok) {
-  //       onClose();
-  //       // setSuccessMessage(true);
-  //       reset();
-  //     } else {
-  //       setSubmissionError("Failed to submit the form. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     setSubmissionError("Network error. Please check your connection.");
-  //   }
-  // };
-
   const onSubmit = async (formData) => {
     setSubmissionError("");
     try {
-      // 1️⃣ Normalize date
       const d = formData.appointmentDate;
       const appointmentDate = d
-        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
-          2,
-          "0"
-        )}-${String(d.getDate()).padStart(2, "0")}`
+        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
         : "";
 
-      // 2️⃣ First submit to local api/saveData for server-side validation check
-      const saveResponse = await fetch("/api/saveData", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          formType: "Appointment",
-        }),
+      // CRM is proxied server-side inside saveData — not called from client
+      await apiClient.post("/api/saveData", {
+        ...formData,
+        appointmentDate,
+        formType: "Appointment",
       });
-
-      if (!saveResponse.ok) {
-        const errorData = await saveResponse.json().catch(() => ({}));
-        console.log("Server Error.",errorData);
-        setSubmissionError(errorData.error || "Failed to validate form on server.");
-        return;
-      }
-
-      // 3️⃣ Submit to CRM
-      const cleanMobile = formData.mobile ? formData.mobile.replace(/\D/g, "") : "";
-      const phoneWithoutCountryCode = cleanMobile.startsWith("91") && cleanMobile.length === 12
-        ? cleanMobile.substring(2)
-        : cleanMobile;
-
-      const body = {
-        name: formData.name,
-        branch: formData.branch,
-        mobile: phoneWithoutCountryCode,
-        appointment_date: appointmentDate,
-        source_type: "21",
-        lead_type: "4",
-      };
-
-      const response = await fetch(websiteleadCreateListEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      if (!response.ok) {
-        console.error("CRM submission failed");
-        setSubmissionError("Failed to submit to CRM. Please try again.");
-        return;
-      }
 
       setSuccessMessage(true);
       reset();
       setSelectedDate(null);
-    } catch (error) {
-      console.error("Server Error.", error);
-      setSubmissionError("Network error. Please try again later.");
+    } catch (err) {
+      const responseData = err.response?.data;
+      if (responseData && responseData.errors) {
+        // Map server-side validation / duplicate errors to respective fields
+        Object.entries(responseData.errors).forEach(([field, msg]) => {
+          setError(field, { type: "server", message: String(msg) });
+        });
+        setSubmissionError(responseData.message || "Please correct the highlighted fields.");
+      } else {
+        setSubmissionError(err.message || "Network error. Please try again later.");
+      }
     }
   };
 
@@ -124,20 +70,7 @@ const Modals = ({ isOpen, onClose }) => {
   }, []);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch(branchtableListEndpoint);
-        if (res.ok) {
-          const data = await res.json();
-          setBranchList(data?.data?.list);
-        } else {
-          console.error("API responded with an error");
-        }
-      } catch (err) {
-        console.error("Fetch Error!", err);
-      }
-    }
-    fetchData();
+    fetchBranchList().then(setBranchList);
   }, []);
 
   return (
@@ -348,13 +281,14 @@ const Modals = ({ isOpen, onClose }) => {
               {/* Submit Button */}
               <motion.button
                 type="submit"
-                className="button-all w-full flex justify-center"
+                disabled={isSubmitting}
+                className={`button-all w-full flex justify-center items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
               >
-                Take your free step toward parenthood
-                <MdArrowOutward className="rotate-45" />
+                {isSubmitting ? "Submitting..." : "Take your free step toward parenthood"}
+                {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
               </motion.button>
             </form>
             <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">

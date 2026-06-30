@@ -1,7 +1,7 @@
 import whatsapp from "@/assets/floatIcons/whatsapp.svg"
 import phone from "@/assets/floatIcons/phone.svg"
 import Image from "next/image";
-import ProfileButton from "./button/profileButton";
+// import ProfileButton from "./button/profileButton";
 
 const FloatingIcons = () => {
   return (
@@ -23,7 +23,7 @@ const FloatingIcons = () => {
       >
         <Image src={phone} alt="Phone" />
       </a>
-        <ProfileButton />
+        {/* <ProfileButton /> */}
     </div>
   );
 };

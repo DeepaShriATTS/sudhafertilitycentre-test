@@ -169,7 +169,7 @@ export default function page() {
             "medicalSpecialty": "Fertility",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "No: 6/1155-2, D'block, Madurai - Rameswaram Road, Opposite to RTO office, Kadampa Nagar",
+              "streetAddress": "68, Madurai - Rameswaram Hwy, Ramanathapuram, Tamil Nadu 623502",
               "addressLocality": "Ramanathapuram",
               "addressRegion": "Tamil Nadu",
               "postalCode": "623504",

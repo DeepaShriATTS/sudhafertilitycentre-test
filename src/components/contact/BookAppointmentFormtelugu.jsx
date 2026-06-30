@@ -13,7 +13,7 @@ import SuccessMessage from "../SuccessMessage";
 import { branches } from "../footer/footer";
 import { useRouter } from "next/navigation";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
-import { websiteleadCreateListEndpoint, branchtableListEndpoint } from '@/pages/api/shipapi';
+import { fetchBranchList } from "@/lib/api/branches";
 
 
 function BookAppointmentFormtelugu() {
@@ -26,7 +26,8 @@ function BookAppointmentFormtelugu() {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const onSubmit = async (formData) => {
@@ -35,15 +36,26 @@ function BookAppointmentFormtelugu() {
       const response = await fetch("/api/saveData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          formType: "landing page",
+        }),
       });
+
+      const errorData = await response.json().catch(() => ({}));
 
       if (response.ok) {
         router.push("/thank-you");
         setSuccessMessage(true);
       } else {
-        const errorData = await response.json().catch(() => ({}));
-        setSubmissionError(errorData.error || "Failed to submit the form. Please try again.");
+        if (errorData.errors) {
+          Object.entries(errorData.errors).forEach(([field, msg]) => {
+            setError(field, { type: "server", message: String(msg) });
+          });
+          setSubmissionError(errorData.message || "Please correct the highlighted fields.");
+        } else {
+          setSubmissionError(errorData.message || errorData.error || "Failed to submit the form. Please try again.");
+        }
       }
     } catch (error) {
       console.error("Network error:", error);
@@ -51,21 +63,8 @@ function BookAppointmentFormtelugu() {
     }
   };
 
-    useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch(branchtableListEndpoint);
-        if (res.ok) {
-          const data = await res.json();
-          setBranchList(data?.data?.list || []);
-        } else {
-          console.error("API responded with an error");
-        }
-      } catch (err) {
-        console.error("Fetch Error!", err);
-      }
-    }
-    fetchData();
+  useEffect(() => {
+    fetchBranchList().then(setBranchList);
   }, []);
 
   return (
@@ -231,8 +230,8 @@ function BookAppointmentFormtelugu() {
                       <SearchableSelect
                         {...field}
                         options={branchList}
-                        labelKey="title"
-                        valueKey="title"
+                        labelKey="branch_name"
+                        valueKey="id"
                         placeholder="సమీపంలోని బ్రాంచ్‌ను ఎంచుకోండి"
                         error={errors.branch?.message}
                       />
@@ -253,10 +252,11 @@ function BookAppointmentFormtelugu() {
                 <div className="pt-5">
                   <button
                     type="submit"
-                    className="button-all w-full justify-center mx-auto text-center"
+                    disabled={isSubmitting}
+                    className={`button-all w-full justify-center mx-auto text-center flex items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
-                    ఈరోజే మీ అపాయింట్‌మెంట్ బుక్ చేసుకోండి
-                    <MdArrowOutward className="rotate-45" />
+                    {isSubmitting ? "బుక్ చేయబడుతోంది..." : "ఈరోజే మీ అಪాయింట్‌మెంట్‌ను బుక్ చేసుకోండి"}
+                    {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
                   </button>
                 </div>
               </form>

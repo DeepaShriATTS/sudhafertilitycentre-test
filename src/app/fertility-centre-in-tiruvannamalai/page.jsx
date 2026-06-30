@@ -174,7 +174,7 @@ export default function page() {
             "medicalSpecialty": "Fertility",
             "address": {
               "@type": "PostalAddress",
-              "streetAddress": "C/O, Nalam Hospital, First Floor, 5/2A/9th Street, Maanthopu, Polur Road, Opposite Hotel Vijay Park",
+              "streetAddress": "Third Floor, No.2, C/O. Ponni Hospital, Main Rd, Gandhinagar, Tiruvannamalai, Tamil Nadu 606601",
               "addressLocality": "Tiruvannamalai",
               "addressRegion": "Tamil Nadu",
               "postalCode": "606601",

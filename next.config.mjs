@@ -22,8 +22,12 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
+    // Inline CSS into HTML → eliminates render-blocking CSS waterfall (saves ~400ms FCP)
+    // Trade-off: HTML is slightly larger; returning visitors re-download CSS with each HTML.
+    // If TTFB regression appears, remove this flag.
+    inlineCss: true,
     optimizePackageImports: [
-      "@swiper/react",
+      "swiper",
       "lucide-react",
       "flowbite-react",
       "react-icons",
@@ -82,6 +86,41 @@ const nextConfig = {
     if (dev) {
       config.cache = false;
     }
+
+    // Better vendor chunk splitting — isolates large libraries into cacheable chunks
+    if (!dev) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          ...config.optimization?.splitChunks,
+          cacheGroups: {
+            ...config.optimization?.splitChunks?.cacheGroups,
+            // Isolate swiper so it doesn't bloat the main bundle
+            swiper: {
+              test: /[\\/]node_modules[\\/]swiper[\\/]/,
+              name: 'vendor-swiper',
+              chunks: 'async',
+              priority: 20,
+            },
+            // Isolate framer-motion
+            framerMotion: {
+              test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
+              name: 'vendor-framer',
+              chunks: 'async',
+              priority: 20,
+            },
+            // Isolate flowbite
+            flowbite: {
+              test: /[\\/]node_modules[\\/]flowbite[\\/]/,
+              name: 'vendor-flowbite',
+              chunks: 'async',
+              priority: 20,
+            },
+          },
+        },
+      };
+    }
+
     return config;
   },
   turbopack: {},

@@ -8,6 +8,7 @@ import { NotFoundProvider } from "@/context/NotFoundContext";
 import Script from "next/script";
 import { DeferredFBPixel } from "@/components/DeferredFBPixel";
 import ogimg from "@/assets/og_sudha.jpeg";
+// import { GoogleTagManager } from "@next/third-parties/google";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -83,15 +84,8 @@ export default function RootLayout({ children }) {
         <link rel="dns-prefetch" href="https://analytics.google.com" />
 
         <meta name="robots" content="index" />
-
-        {/*
-          GTM deferred to lazyOnload + requestIdleCallback.
-          This means GTM only initialises after the page is idle,
-          so it does NOT block hydration or TBT.
-          Strategy "lazyOnload" = script loads after all other resources.
-          The inner requestIdleCallback defers execution even further
-          to after the browser's first idle period (max 3 s fallback).
-        */}
+           {/* <GoogleTagManager gtmId="GTM-MZ5ZGW6" />  */}
+        
         <Script
           id="gtm-script"
           strategy="lazyOnload"
