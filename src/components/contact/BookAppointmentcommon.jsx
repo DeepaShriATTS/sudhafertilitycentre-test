@@ -64,7 +64,15 @@ function BookAppointmentForm() {
   };
 
   useEffect(() => {
-    fetchBranchList().then(setBranchList);
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -75,7 +83,7 @@ function BookAppointmentForm() {
         className="py-16 bg-cover bg-center"
         style={{
           background:
-            "linear-gradient(170deg, #F0F5FF, #F0F5FF 60%, white 60%, white)",
+            "linear-gradient(170deg, #191a1bff, #F0F5FF 60%, white 60%, white)",
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">

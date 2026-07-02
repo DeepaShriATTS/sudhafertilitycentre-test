@@ -48,7 +48,7 @@ const BannerSlider = dynamic(
 
 const VideoSlider = dynamic(() => import("@/components/videoCard/videoSlider"));
 import { Homevideos } from "@/middleware/videosRoute";
-const Faq = dynamic(() => import("../Faq"), {
+const Faq = dynamic(() => import("../../components/Faq"), {
   loading: () => <LoadingSpinner height="300px" />
 });
 

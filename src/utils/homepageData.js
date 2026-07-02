@@ -12,6 +12,13 @@ import Icon2 from "@/assets/Home/tab2.svg";
 import Icon3 from "@/assets/Home/tab3.svg";
 import Icon4 from "@/assets/Home/tab4.svg";
 import Icon5 from "@/assets/Home/tab5.svg";
+import {
+  TbCalendarHeart,
+  TbCurrencyRupee,
+  TbUsers,
+  TbChartArrowsVertical,
+  TbStethoscope,
+} from "react-icons/tb";
 
 export const testimonials = [
   {
@@ -30,57 +37,62 @@ export const tabs = [
   {
     title: "40+ Years Of Excellence",
     label: "40+ Years Of Excellence",
+    icon: TbCalendarHeart,
     content: {
       heading: "40+ Years Of Excellence",
       description:
         "Sudha Fertility Centre is known as an icon in fertility care with more than 4 decades of excellence in making lakhs of parents' dreams into reality. With experienced Fertility specialists, we offer you the best treatments personalized according to your needs and medical history. With 40+ Branches across Tamil Nadu, we ensure that expert fertility care is accessible to all, giving you the support and guidance you need on your parenthood journey",
       image: Tab1,
     },
-    icon: Icon4,
+    // icon: Icon4,
   },
   {
     title: "Affordable Treatment Cost",
     label: "Affordable Treatment Cost",
+    icon: TbCurrencyRupee, 
     content: {
       heading: "Affordable Treatment Cost",
       description:
         "At Sudha Fertility Centre, we believe that fertility care should be both affordable and of the highest quality. We conduct free medical camps every month to make sure quality treatment reaches everyone. Free consultation and tests are provided at every camp. With affordable treatment costs, we make sure that your dream of parenthood is within reach. Every camp has helped countless people achieve their dreams easily with trusted experts. We cherish and support every parenthood journey. ",
       image: Tab2,
     },
-    icon: Icon2,
+    // icon: Icon2,
   },
   {
     title: "Trusted by 1Lakh + Families",
     label: "Trusted by 1Lakh + Families",
+    icon: TbUsers,
     content: {
       heading: "Trusted by 1Lakh + Families",
       description:
         "Sudha Fertility Centre has earned the trust of lakhs of families as South India's best fertility centre. We are happy and blessed to witness the parenthood stories of lakhs of parents. Each review and video we receive always remember our motto of helping couples in their parenthood journey. We are driven by the mission to help couples experience the happiness of parenthood, and dedicated to making it happen. We ensure every couple who visits us receives the best care and starts their journey of parenthood.",
       image: Tab3,
     },
-    icon: Icon3,
+    // icon: Icon3,
   },
   {
     title: "High Success Rate",
     label: "High Success Rate ",
+    icon: TbChartArrowsVertical,
     content: {
       heading: "High Success Rate",
       description:
         "As the leading fertility hospital in South India, Sudha Fertility Centre serves as a beacon of hope and brings happiness. With the best fertility doctors and world-class fertility treatments, Sudha Fertility Centre has a record of high success rate in helping parents achieve the dream of parenthood. With delivering lakhs of healthy babies, we are identified as a renowned IVF hospital in South India offering personalized solutions and treatments for couples trying for pregnancy. From young couples to older couples, we stand with them in every step of their parenthood journey.",
       image: Tab4,
     },
-    icon: Icon1,
+    // icon: Icon1,
   },
   {
     title: "150+ Fertility Specialists",
     label: "150+ Fertility Specialists",
+    icon: TbStethoscope,
     content: {
       heading: "150+ Fertility Specialists",
       description:
         "With a team of hundreds of experienced fertility experts, Sudha Fertility Centre offers comprehensive and specialized treatments tailored to your needs. Under the guidance of the fertility experts, Dr. S. Dhanabagyam and Dr. S. Pradeepa, our skilled IVF specialists and IUI doctors are dedicated to helping you through every step of your parenthood journey. Supported by the expertise and care of our fertility specialists, lakhs of happy parents have successfully welcomed healthy, beautiful babies into their families. ",
       image: Tab5,
     },
-    icon: Icon5,
+    // icon: Icon5,
   },
 ];
 

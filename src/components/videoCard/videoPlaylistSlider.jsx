@@ -355,7 +355,7 @@ export default function GallerySlider({ items = [] }) {
               spaceBetween={56}
               slidesPerView={3}
               autoplay={{
-                delay: 3000,
+                delay: 2000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
               }}

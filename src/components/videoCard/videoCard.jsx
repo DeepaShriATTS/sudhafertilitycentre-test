@@ -25,13 +25,13 @@ export const videos = [
       title: "Video 1",
       description: "This is the first video description."
     },
-    {
-      id: 2,
-      thumbnail: getYoutubeThumbnail("https://www.youtube.com/embed/oMipXnLGmj4?si=Fwrp8kK31DmJ3ytB"),
-      videoUrl: "https://www.youtube.com/embed/oMipXnLGmj4?si=Fwrp8kK31DmJ3ytB",
-      title: "Video 2",
-      description: "This is the second video description."
-    },
+    // {
+    //   id: 2,
+    //   thumbnail: getYoutubeThumbnail("https://www.youtube.com/embed/oMipXnLGmj4?si=Fwrp8kK31DmJ3ytB"),
+    //   videoUrl: "https://www.youtube.com/embed/oMipXnLGmj4?si=Fwrp8kK31DmJ3ytB",
+    //   title: "Video 2",
+    //   description: "This is the second video description."
+    // },
     {
       id: 3,
       thumbnail: getYoutubeThumbnail("https://www.youtube.com/embed/h71m87dx-3E?si=0hChZTJ2zEZ6KK31"),
@@ -145,6 +145,7 @@ export const videos = [
         <div className="flex gap-4 overflow-hidden">
           {videos.slice(currentIndex, currentIndex + videosPerPage).map((video, index) => (
             <div key={index} className="relative bg-white shadow-lg rounded-[16px] overflow-hidden w-full lg:w-1/3">
+              {console.log(video.thumbnail)}
               <Image src={video.thumbnail} alt={video.title} className="w-full h-52 object-cover" width={500} height={300} />
               <button
                 className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-45 text-white text-3xl w-full  m-auto"

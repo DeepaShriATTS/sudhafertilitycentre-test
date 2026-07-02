@@ -6,7 +6,7 @@ import { FaArrowRight } from "react-icons/fa";
 
 export default function FloatingButton() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {

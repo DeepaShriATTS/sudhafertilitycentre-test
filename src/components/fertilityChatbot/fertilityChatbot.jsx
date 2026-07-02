@@ -157,7 +157,15 @@ export default function FertilityChatbotWidget() {
 
   // Fetch branch list via internal proxy — CRM URL never exposed to client
   useEffect(() => {
-    fetchBranchList().then(setBranchList);
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Initialize welcome flow when chat opens

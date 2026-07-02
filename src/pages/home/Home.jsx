@@ -42,7 +42,7 @@ const BannerSlider = dynamic(
 );
 
 const VideoSlider = dynamic(() => import("@/components/videoCard/videoSlider"));
-const Faq = dynamic(() => import("../Faq"), {
+const Faq = dynamic(() => import("../../components/Faq"), {
   loading: () => <LoadingSpinner height="300px" />
 });
 
@@ -71,10 +71,10 @@ const JourneyCard = dynamic(() => import("@/components/JourneyCard/journeyCard")
   loading: () => <LoadingSpinner height="300px" />
 });
 
-const FertilityChatbot = dynamic(
-  () => import('@/components/fertilityChatbot/fertilityChatbot'),
-  { ssr: false, loading: () => null }
-);
+// const FertilityChatbot = dynamic(
+//   () => import('@/components/fertilityChatbot/fertilityChatbot'),
+//   { ssr: false, loading: () => null }
+// );
 
 // ── LazySection: viewport-triggered lazy loading ──
 function LazySection({ children, height = "300px", className = "" }) {
@@ -107,7 +107,7 @@ function LazySection({ children, height = "300px", className = "" }) {
 }
 
 // ── Achievement Metrics Tile ──
-function AchievementTile({number, label}) {
+function AchievementTile({ number, label }) {
   return (
     <div className="border border-[#E7E7E7] pt-6 pb-6 pl-4 pr-4 rounded-lg font-outfit">
       <div className="flex items-center justify-center">
@@ -433,13 +433,13 @@ export default function Home() {
 
       {/* ── Floating Elements ── */}
       {showFloat && <FloatingButton />}
-      
+
       {/* ── Fixed Floating Chatbot ── */}
-      {chatReady && (
+      {/* {chatReady && (
         <div className="fixed bottom-6 right-6 z-50">
           <FertilityChatbot />
         </div>
-      )}
+      )} */}
     </>
   );
 }

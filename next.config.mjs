@@ -4,10 +4,7 @@ const nextConfig = {
   poweredByHeader: false,
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
+     
       {
         protocol: "https",
         hostname: "flowbite.s3.amazonaws.com",
@@ -126,8 +123,10 @@ const nextConfig = {
   turbopack: {},
 };
 
-import withBundleAnalyzer from '@next/bundle-analyzer';
-const bundleAnalyzer = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
-export default bundleAnalyzer(nextConfig);
+export default nextConfig;
+
+// import withBundleAnalyzer from '@next/bundle-analyzer';
+// const bundleAnalyzer = withBundleAnalyzer({
+//   enabled: process.env.ANALYZE === 'true',
+// });
+// export default bundleAnalyzer(nextConfig);

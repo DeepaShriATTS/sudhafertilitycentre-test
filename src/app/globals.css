@@ -173,6 +173,40 @@ h6{
     width: 100%;
 }
 
+/* ==========================================================================
+   Branch Pages Layout Fix (Review Cards & Form Overlap)
+   ========================================================================== */
+
+/* 1. Add bottom padding to the branch hero container on mobile to prevent reviews from covering the form bottom */
+div.relative.w-full:has(.branch-form-container) {
+  padding-bottom: 120px !important;
+}
+
+/* 2. Position the reviews container absolutely relative to the hero section */
+div.relative.w-full:has(.branch-form-container) > div.absolute:has(.branch-reviews-wrapper) {
+  bottom: -320px !important;
+}
+
+/* 3. Shift the content section below the hero down to clear the absolute reviews container */
+div.relative.w-full:has(.branch-form-container) + div.container {
+  margin-top: 352px !important; /* 320px reviews hang + 32px breathing room */
+}
+
+/* Desktop layout overrides */
+@media (min-width: 1024px) {
+  div.relative.w-full:has(.branch-form-container) {
+    padding-bottom: 160px !important;
+  }
+  
+  div.relative.w-full:has(.branch-form-container) > div.absolute:has(.branch-reviews-wrapper) {
+    bottom: -256px !important; /* -bottom-64 */
+  }
+  
+  div.relative.w-full:has(.branch-form-container) + div.container {
+    margin-top: 288px !important; /* 256px reviews hang + 32px breathing room */
+  }
+}
+
 
 
   

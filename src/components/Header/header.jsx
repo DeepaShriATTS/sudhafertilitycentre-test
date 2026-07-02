@@ -657,10 +657,12 @@ function Navbar() {
                             </span>
                           </li>
                         </ul>
-                        <RequestCallModal
-                          isOpen={isModalOpen}
-                          onClose={() => setIsModalOpen(false)}
-                        />
+                        {isModalOpen && (
+                          <RequestCallModal
+                            isOpen={isModalOpen}
+                            onClose={() => setIsModalOpen(false)}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>

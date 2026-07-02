@@ -385,6 +385,7 @@ export const DatePicker = ({
         required={required}
         value={value}
         placeholder={placeholder}
+        minDate={new Date()}
         isOpen={open}
         hasError={showError || !!error}
         onClick={handleOpen}
@@ -406,6 +407,7 @@ export const DatePicker = ({
               onPrev={prevMonth}
               onNext={nextMonth}
               selectedDate={value}
+               minDate={today}
               onMonthClick={() => setPanel("month")}
               onYearClick={() => setPanel("year")}
               onSelect={(date) => {

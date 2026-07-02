@@ -76,7 +76,15 @@ function ContactAppointmentForm() {
   }, []);
 
   useEffect(() => {
-    fetchBranchList().then(setBranchList);
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const handleFormSubmit = async (formData) => {

@@ -75,7 +75,15 @@ function ContactForm() {
 
   // Fetch branches via internal proxy — CRM base URL never exposed to client
   useEffect(() => {
-    fetchBranchList().then(setBranchList);
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // ✅ Auto-focus first input

@@ -70,7 +70,15 @@ const Modals = ({ isOpen, onClose }) => {
   }, []);
 
   useEffect(() => {
-    fetchBranchList().then(setBranchList);
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

@@ -12,6 +12,7 @@ import Insta from "@/assets/footer/insta.svg";
 import yt from "@/assets/footer/yt.svg";
 import { MdEmail } from "react-icons/md";
 import Button from "../button/button";
+import BranchesDirectory from "./knowyourBranch";
 
 export const branches = [
   { title: "Ambattur", link: "fertility-centre-in-ambattur" },
@@ -69,7 +70,7 @@ export default function Footer() {
             Our Branches
           </h3>
           <div>
-            <ul className="flex flex-wrap gap-4 mt-5 text-sm md:text-base text-[#000] font-medium ">
+            {/* <ul className="flex flex-wrap gap-4 mt-5 text-sm md:text-base text-[#000] font-medium ">
               {branches.map((item, index) => (
                 <li
                   className="hover:text-[#FFC65C] transition-colors duration-300 cursor-pointer"
@@ -80,7 +81,8 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-            </ul>
+            </ul> */}
+            <BranchesDirectory />
           </div>
         </div>
 

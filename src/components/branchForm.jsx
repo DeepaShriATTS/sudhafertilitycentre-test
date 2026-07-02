@@ -20,7 +20,7 @@ import AppointmentFormCore from "@/components/forms/AppointmentFormCore";
 
 function BranchForm() {
   return (
-    <div>
+    <div className="branch-form-container">
       <motion.div
         className="w-full lg:w-[450px] bg-white/10 backdrop-blur-xl rounded-lg p-6 mt-8 lg:mt-0"
         initial={{ opacity: 0, y: 50 }}

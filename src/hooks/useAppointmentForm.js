@@ -58,12 +58,20 @@ export function useAppointmentForm({ formType = "Branch Appointment", onSuccess 
   // Fetch branches on mount
   // ---------------------------------------------------------------------------
   useEffect(() => {
+    let isMounted = true;
     fetchBranchList()
       .then((list) => {
-        setBranchList(list);
-        if (list.length === 0) setBranchLoadError(true);
+        if (isMounted) {
+          setBranchList(list);
+          if (list.length === 0) setBranchLoadError(true);
+        }
       })
-      .catch(() => setBranchLoadError(true));
+      .catch(() => {
+        if (isMounted) setBranchLoadError(true);
+      });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // ---------------------------------------------------------------------------
