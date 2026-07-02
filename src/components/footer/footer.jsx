@@ -15,61 +15,61 @@ import Button from "../button/button";
 import BranchesDirectory from "./knowyourBranch";
 
 export const branches = [
-  { title: "Ambattur", link: "fertility-centre-in-ambattur" },
-  { title: "Attapur", link: "fertility-centre-in-attapur" },
-  // { title: "Aruppukottai", link: "fertility-centre-in-aruppukottai", },
-  // { title: "Bodinayakanur", link: "fertility-centre-in-bodinayakanur", },
-  { title: "Bangalore", link: "fertility-centre-in-bangalore" },
-  { title: "Chennai", link: "fertility-centre-in-chennai" },
-  { title: "Chilakaluripet", link: "fertility-centre-in-chilakaluripet" },
-  { title: "Coimbatore", link: "fertility-centre-in-coimbatore" },
-  { title: "Erode", link: "fertility-centre-in-erode" },
-  { title: "Dindigul", link: "fertility-centre-in-dindigul" },
-  // { title: "Hosur", link: "fertility-centre-in-hosur" },
-  { title: "Hyderabad", link: "fertility-centre-in-hyderabad" },
-  { title: "Hanamkonda", link: "fertility-centre-in-hanamkonda" },
-  // { title: "Karur", link: "fertility-centre-in-karur" },
-  // { title: "Karaikudi", link: "fertility-centre-in-karaikudi" },
-  // { title: "Kallakurichi", link: "fertility-centre-in-kallakurichi" },
-  { title: "Krishnagiri", link: "fertility-centre-in-krishnagiri" },
-  { title: "Madurai", link: "fertility-centre-in-madurai" },
-  { title: "Manapparai", link: "fertility-centre-in-manapparai" },
-  { title: "Nagercoil", link: "fertility-centre-in-nagercoil" },
-  { title: "Ongole", link: "fertility-centre-in-ongole" },
-  // { title: "Perambalur", link: "fertility-centre-in-perambalur" },
-  { title: "Pondicherry", link: "fertility-centre-in-pondicherry" },
-  { title: "Ramanathapuram", link: "fertility-centre-in-ramanathapuram" },
-  { title: "Salem", link: "fertility-centre-in-salem" },
-  // { title: "Sivangangai", link: "fertility-centre-in-sivagangai" },
-  // { title: "Tenali", link: "fertility-centre-in-tenali" },
-  { title: "Tiruvannamalai", link: "fertility-centre-in-tiruvannamalai" },
-  { title: "Trichy", link: "fertility-centre-in-trichy" },
-  { title: "Thanjavur", link: "fertility-centre-in-thanjavur" },
-  { title: "Thoothukudi", link: "fertility-centre-in-thoothukudi" },
-  { title: "Tiruppur", link: "fertility-centre-in-tiruppur" },
-  { title: "Theni", link: "fertility-centre-in-theni" },
-  { title: "Tirunelveli", link: "fertility-centre-in-tirunelveli" },
-  { title: "Vellore", link: "fertility-centre-in-vellore" },
-  // { title: "Vaniyambadi", link: "fertility-centre-in-vaniyambadi" },
-  { title: "Vijayawada", link: "fertility-centre-in-vijayawada" },
-  { title: "Paramakudi", link: "fertility-centre-in-paramakudi" },
-  { title: "Viluppuram", link: "fertility-centre-in-viluppuram" },
-  { title: "Nellore", link: "fertility-centre-in-nellore" },
-  { title: "Tindivanam", link: "fertility-centre-in-tindivanam" },
-  { title: "Tirupathur", link: "fertility-centre-in-tirupathur" },
-
+  { title: "Ambattur", link: "fertility-centre-in-ambattur", mapsLink: "https://maps.app.goo.gl/KkML4gvpF71Vvwuy7" },
+  { title: "Attapur", link: "fertility-centre-in-attapur", mapsLink: "https://maps.app.goo.gl/wXdY12ENv8XuQNsKA" },
+  // { title: "Aruppukottai", link: "fertility-centre-in-aruppukottai", mapsLink: "" },
+  // { title: "Bodinayakanur", link: "fertility-centre-in-bodinayakanur", mapsLink: "" },
+  { title: "Bangalore", link: "fertility-centre-in-bangalore", mapsLink: "https://maps.app.goo.gl/GZSDWRzyTaZgY3Le8" },
+  { title: "Chennai", link: "fertility-centre-in-chennai", mapsLink: "https://maps.app.goo.gl/ooLkknzC2oPQDU7L9" },
+  { title: "Chilakaluripet", link: "fertility-centre-in-chilakaluripet", mapsLink: "https://maps.app.goo.gl/8zeUm6TGz7egrCJ96" },
+  { title: "Coimbatore", link: "fertility-centre-in-coimbatore", mapsLink: "https://maps.app.goo.gl/FzY9JxNQMHxAPzzv9" },
+  { title: "Erode", link: "fertility-centre-in-erode", mapsLink: "https://maps.app.goo.gl/qzbWafBboySy57k29" },
+  { title: "Dindigul", link: "fertility-centre-in-dindigul", mapsLink: "https://maps.app.goo.gl/mF1fcEMt4XcDpc9F9" },
+  // { title: "Hosur", link: "fertility-centre-in-hosur", mapsLink: "https://maps.app.goo.gl/KXiPBYQ1t5Eqa5447" },
+  { title: "Hyderabad", link: "fertility-centre-in-hyderabad", mapsLink: "https://maps.app.goo.gl/1j6HjWA7kSvZW7LNA" },
+  { title: "Hanamkonda", link: "fertility-centre-in-hanamkonda", mapsLink: "https://maps.app.goo.gl/xDisk6tufXdoqzxL7" },
+  // { title: "Karur", link: "fertility-centre-in-karur", mapsLink: "https://maps.app.goo.gl/MEfR1w4Xf7M5XmNL6" },
+  // { title: "Karaikudi", link: "fertility-centre-in-karaikudi", mapsLink: "https://maps.app.goo.gl/DKpmahvw2cm3cEAc7" },
+  // { title: "Kallakurichi", link: "fertility-centre-in-kallakurichi", mapsLink: "" },
+  { title: "Krishnagiri", link: "fertility-centre-in-krishnagiri", mapsLink: "https://maps.app.goo.gl/cevJko2UJAEA7iZY6" },
+  { title: "Madurai", link: "fertility-centre-in-madurai", mapsLink: "https://maps.app.goo.gl/2S83qpF2nRqjFg4c7" },
+  { title: "Manapparai", link: "fertility-centre-in-manapparai", mapsLink: "https://maps.app.goo.gl/2S83qpF2nRqjFg4c7" },
+  { title: "Nagercoil", link: "fertility-centre-in-nagercoil", mapsLink: "https://maps.app.goo.gl/2ipMnKQrxtc8Hvca8" },
+  { title: "Ongole", link: "fertility-centre-in-ongole", mapsLink: "https://maps.app.goo.gl/GZzvWM3RoAN9tBZA8" },
+  // { title: "Perambalur", link: "fertility-centre-in-perambalur", mapsLink: "" },
+  { title: "Pondicherry", link: "fertility-centre-in-pondicherry", mapsLink: "https://maps.app.goo.gl/63ez9CyRiUTc7PDx7" },
+  { title: "Ramanathapuram", link: "fertility-centre-in-ramanathapuram", mapsLink: "https://maps.app.goo.gl/ucTyi5L2TBeWhwPT8" },
+  { title: "Salem", link: "fertility-centre-in-salem", mapsLink: "https://maps.app.goo.gl/we4guYa55j7MYKYw6" },
+  // { title: "Sivangangai", link: "fertility-centre-in-sivagangai", mapsLink: "" },
+  // { title: "Tenali", link: "fertility-centre-in-tenali", mapsLink: "https://maps.app.goo.gl/w27JKa7Vzywvx5cy9" },
+  { title: "Tiruvannamalai", link: "fertility-centre-in-tiruvannamalai", mapsLink: "https://maps.app.goo.gl/LUcDVC633fxJ3Ltw7" },
+  { title: "Trichy", link: "fertility-centre-in-trichy", mapsLink: "https://maps.app.goo.gl/jP1sDSHqVXsXmdvK8" },
+  { title: "Thanjavur", link: "fertility-centre-in-thanjavur", mapsLink: "https://maps.app.goo.gl/bfKRAGHEHEjd17wy9" },
+  { title: "Thoothukudi", link: "fertility-centre-in-thoothukudi", mapsLink: "https://maps.app.goo.gl/EbrGpjnQPknvDP6TA" },
+  { title: "Tiruppur", link: "fertility-centre-in-tiruppur", mapsLink: "https://maps.app.goo.gl/PNEyJ7JycaDXbXMQ8" },
+  { title: "Theni", link: "fertility-centre-in-theni", mapsLink: "https://maps.app.goo.gl/wknsdGskXUsFi6dZ9" },
+  { title: "Tirunelveli", link: "fertility-centre-in-tirunelveli", mapsLink: "https://maps.app.goo.gl/XVWJPyGSvN4NWmYAA" },
+  { title: "Vellore", link: "fertility-centre-in-vellore", mapsLink: "https://maps.app.goo.gl/4LUQPQSooBNAsaaD6" },
+  // { title: "Vaniyambadi", link: "fertility-centre-in-vaniyambadi", mapsLink: "" },
+  { title: "Vijayawada", link: "fertility-centre-in-vijayawada", mapsLink: "https://maps.app.goo.gl/eLWPXMvBPa4PvYgz9" },
+  { title: "Paramakudi", link: "fertility-centre-in-paramakudi", mapsLink: "https://maps.app.goo.gl/gVtpKeuCQyh1pqDe6" },
+  { title: "Viluppuram", link: "fertility-centre-in-viluppuram", mapsLink: "https://maps.app.goo.gl/i6YW48u2Axcqo4Zp6" },
+  { title: "Nellore", link: "fertility-centre-in-nellore", mapsLink: "https://maps.app.goo.gl/LLuYkzSkAr2v7M7g6" },
+  { title: "Tindivanam", link: "fertility-centre-in-tindivanam", mapsLink: "https://maps.app.goo.gl/TWSo5z64sFzQAeCG7" },
+  { title: "Tirupathur", link: "fertility-centre-in-tirupathur", mapsLink: "https://maps.app.goo.gl/EvUNvwnFbhmKbe9WA" },
 ];
+
 
 export default function Footer() {
   return (
     <footer className="container mx-auto relative h-full py-7" id="footer">
-      <div className="max-w-7xl mx-auto px-6   sm:px-8 lg:px-10 h-full">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 h-full">
         {/* Branches Section */}
         <div>
           <h3 className="font-semibold text-blue-900 text-lg md:text-xl">
             Our Branches
           </h3>
-          <div>
+       
             {/* <ul className="flex flex-wrap gap-4 mt-5 text-sm md:text-base text-[#000] font-medium ">
               {branches.map((item, index) => (
                 <li
@@ -83,7 +83,7 @@ export default function Footer() {
               ))}
             </ul> */}
             <BranchesDirectory />
-          </div>
+        
         </div>
 
         <div className="border-b border-gray-300 my-6"></div>
