@@ -59,7 +59,7 @@ export default function page() {
                 name: "What fertility treatments are available in Kallakurichi?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "There are many fertility treatments available. Sudha Fertility Centre in Kallakurichi provides personalised treatments suitable for your needs, including IVF, ICSI, IUI, and fertility preservation options.",
+                  text: "Numerous fertility treatments are available in Kallakurichi. However, Sudha Fertility Centre is the only fertility hospital offering all types of fertility counselling and treatments under one roof. We provide various treatments, including IVF, IUI, ICSI, fertility preservation options, and other modern treatments in Kallakurichi.  "
                 },
               },
               {
@@ -67,7 +67,7 @@ export default function page() {
                 name: "What is the cost of IVF in Kallakurichi?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "The cost of IVF treatment in Kallakurichi depends on factors like your medical history, number of cycles, and hormonal conditions. The average cost varies for each individual.",
+                  text: "The cost of IVF in Kallakurichi may vary for each individual, considering their body health, medical history, hormone levels, and more. At Sudha Fertility Centre, the fertility experts take a complete report of your body condition and provide IVF at the best cost. "
                 },
               },
               {
@@ -75,7 +75,7 @@ export default function page() {
                 name: "What is the cost of fertility treatments in Kallakurichi?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Each fertility treatment has different costs depending on processes involved and factors like medical history and hormonal health.",
+                  text: "There are plenty of varieties in fertility treatments, as each treatment has different procedures, and each patient requires a different treatment. Thus, the cost of fertility treatments depends on the specific treatment, medicine, and number of cycles required. However, Sudha Fertility Centre in Kallakurichi offers the best fertility treatments at an affordable cost with utmost care."
                 },
               },
               {
@@ -83,7 +83,7 @@ export default function page() {
                 name: "How can I choose the best fertility hospital in Kallakurichi?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Consider the hospital's location, treatments offered, facilities, success rates, and doctor expertise when choosing a fertility hospital.",
+                  text: "Choosing the best fertility hospital is vital to availing quality treatment. When looking for the best fertility hospital, check for the treatments they offer, facilities, success rates, expertise of the doctors, and location. Nevertheless, Sudha Fertility meets all these criteria by providing world-class treatment facilities and the best fertility experts.  "
                 },
               },
               {
@@ -91,65 +91,10 @@ export default function page() {
                 name: "Which is the best fertility hospital in Kallakurichi?",
                 acceptedAnswer: {
                   "@type": "Answer",
-                  text: "Sudha Fertility Centre offers advanced fertility treatments in Kallakurichi with experienced doctors and modern facilities.",
+                  text: "Without a doubt, Sudha Fertility Centre is the best fertility hospital in Kallakurichi, as they offer numerous fertility treatments, straightforward counselling, and guide you throughout the fertility journey.  "
                 },
               },
-              {
-                "@type": "Question",
-                name: "Which hospital has the best fertility doctors in Kallakurichi?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Sudha Fertility Centre in Kallakurichi has skilled fertility specialists, including Dr. S. Pradeepa, who has helped thousands of couples conceive.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Which hospital is best for PCOD/PMOS (PCOS) treatment in Kallakurichi?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Sudha Fertility Centre in Kallakurichi provides diagnosis and treatment for PCOD and PMOS (PCOS) with experienced gynecologists and fertility doctors.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Can I do household work during IVF treatment?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Light household work is generally fine during IVF treatment, but avoid heavy lifting or prolonged activity. Consult your doctor if you experience discomfort.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "Which is the No. 1 fertility hospital in South India?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Sudha Fertility Centre is known for its high success rates, expert doctors, and advanced facilities in South India.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "What reduces male fertility?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Male fertility can be reduced by lifestyle choices, toxins, medications, genetics, surgeries, and tight clothing.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "When is the right time to start IVF treatment?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "Couples under 35 may consider IVF after one year of trying naturally; those over 35 may consider it after six months. Timing also depends on health and fertility history.",
-                },
-              },
-              {
-                "@type": "Question",
-                name: "What is the cost of IUI treatment in Kallakurichi?",
-                acceptedAnswer: {
-                  "@type": "Answer",
-                  text: "The cost of IUI treatment in Kallakurichi varies based on medical history, medications, and hormonal conditions.",
-                },
-              },
+             
             ],
           }),
         }}

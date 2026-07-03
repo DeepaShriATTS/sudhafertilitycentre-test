@@ -106,7 +106,7 @@ const mainNavItems = [
           // { item: "Hosur", link: "/fertility-centre-in-hosur" },
           // { item: "Karur", link: "/fertility-centre-in-karur" },
           // { item: "Karaikudi", link: "/fertility-centre-in-karaikudi" },
-          // { item: "Kallakurichi", link: "/fertility-centre-in-kallakurichi" },
+          { item: "Kallakurichi", link: "/fertility-centre-in-kallakurichi" },
 
           { item: "Krishnagiri", link: "/fertility-centre-in-krishnagiri" },
           { item: "Madurai", link: "/fertility-centre-in-madurai" },
@@ -120,7 +120,7 @@ const mainNavItems = [
             link: "/fertility-centre-in-ramanathapuram",
           },
           { item: "Salem", link: "/fertility-centre-in-salem" },
-          // { item: "Sivangangai", link: "/fertility-centre-in-sivagangai" },
+          { item: "Sivangangai", link: "/fertility-centre-in-sivagangai" },
 
           { item: "Thanjavur", link: "/fertility-centre-in-thanjavur" },
           { item: "Thoothukudi", link: "/fertility-centre-in-thoothukudi" },
