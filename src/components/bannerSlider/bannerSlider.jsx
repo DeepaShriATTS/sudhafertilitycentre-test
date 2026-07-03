@@ -3,6 +3,7 @@ import React, { useRef, useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import BookingButton from "@/components/button/bookingButton";
 import freecamp from "@/assets/Home/freecamp.webp";
+import freecampmobile from "@/assets/Home/freecampmobile.webp";
 import newbanner from "@/assets/Home/newbanner.webp";
 import successstories from "@/assets/Home/successstories.webp";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
@@ -14,6 +15,7 @@ const slides = [
     description:
       "Our experts are here to take away your years of waiting and help you start your family. Because your home deserves the beautiful chaos of tiny baby footsteps and endless joy",
     img: newbanner,
+    mobileImg: newbanner,
   },
   {
     heading: "For everyone who is tired of looking at an empty cradle",
@@ -21,6 +23,7 @@ const slides = [
     description:
       "We have spent forty years changing quiet, lonely houses into happy homes filled with laughter. Our forty-year legacy is written in the smiles of over one lakh IVF babies born here",
     img: freecamp,
+    mobileImg: freecampmobile,
   },
   {
     heading: "You do not have to travel far or face this alone",
@@ -28,6 +31,7 @@ const slides = [
     description:
       "We have opened 40+ Centres across South India so you can get expert medical help close to home. Come sit down for a private, completely free chat with our doctors at our next neighborhood camp",
     img: successstories,
+    mobileImg: successstories,
   },
 ];
 
@@ -111,17 +115,8 @@ const BannerSlider = () => {
                   : "none",
               }}
             >
+             
               {/* <Image
-                src={slide.img}
-                alt={slide.heading}
-                fill
-                priority={index === 0}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                quality={75}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 100vw"
-                className="object-cover object-center"
-              /> */}
-              <Image
                 src={slide.img}
                 alt={slide.heading}
                 fill
@@ -134,7 +129,36 @@ const BannerSlider = () => {
                 (max-width: 1280px) 1280px,
                  1920px"
                 className="object-cover object-center"
+              /> */}
+
+              {/* Mobile image (< md) */}
+              <Image
+                src={slide.mobileImg || slide.img}
+                alt={slide.heading}
+                fill
+                priority={index === 0}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                loading={index === 0 ? "eager" : "lazy"}
+                quality={index === 0 ? 80 : 70}
+                sizes="100vw"
+                className="block md:hidden object-cover object-center"
               />
+
+              {/* Desktop/tablet image (>= md) */}
+              <Image
+                src={slide.img}
+                alt={slide.heading}
+                fill
+                priority={index === 0}
+                fetchPriority={index === 0 ? "high" : "auto"}
+                loading={index === 0 ? "eager" : "lazy"}
+                quality={index === 0 ? 80 : 70}
+                sizes="(max-width: 768px) 768px,
+                 (max-width: 1280px) 1280px,
+                  1920px"
+                className="hidden md:block object-cover object-center"
+              />
+
             </div>
 
             {/* Main gradient — covers left ~60% on desktop, full width on mobile */}

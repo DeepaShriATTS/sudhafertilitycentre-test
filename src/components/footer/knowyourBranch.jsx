@@ -6,20 +6,18 @@ import { Search, MapPin, Navigation, Loader2, MapPinned } from 'lucide-react';
 import { branches } from './footer';
 
 // Leaflet touches `window` at import time, so it must never run during SSR.
-// const LocationPickerMap = dynamic(() => import('./LocationPicker'), {
-//   ssr: false,
-//   loading: () => (
-//     <div className="flex h-[320px] w-full items-center justify-center rounded-lg bg-neutral-100 text-sm text-neutral-400">
-//       Loading map…
-//     </div>
-//   ),
-// });
+const LocationPickerMap = dynamic(() => import('./LocationPicker'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-[320px] w-full items-center justify-center rounded-lg bg-neutral-100 text-sm text-neutral-400">
+      Loading map…
+    </div>
+  ),
+});
 
 // Default map center when we don't yet know the user's location (India).
 const DEFAULT_MAP_CENTER = [22.9734, 78.6569];
 
-const WHATSAPP_NUMBER = '911234567890';
-const CALL_NUMBER = '+911234567890';
 const CITY_PREVIEW_COUNT = 10;
 
 const BRAND_NAVY = 'text-[#1e2a45]';
@@ -77,6 +75,7 @@ export default function BranchesDirectory() {
     setLocationError(null);
   };
 
+  // Attach distance (km) to every branch that has lat/lng, once we know userCoords.
   const branchesWithDistance = useMemo(() => {
     return branches.map((b) => {
       const hasCoords = userCoords && typeof b.lat === 'number' && typeof b.lng === 'number';
@@ -94,6 +93,7 @@ export default function BranchesDirectory() {
     return withDistance.reduce((closest, b) => (b.distance < closest.distance ? b : closest));
   }, [branchesWithDistance, userCoords]);
 
+  // Sort ascending (nearest → farthest). Branches without coords fall to the end.
   const filteredCities = useMemo(() => {
     const q = query.trim().toLowerCase();
     const list = q
@@ -102,6 +102,7 @@ export default function BranchesDirectory() {
 
     if (userCoords) {
       return [...list].sort((a, b) => {
+        if (a.distance === null && b.distance === null) return 0;
         if (a.distance === null) return 1;
         if (b.distance === null) return -1;
         return a.distance - b.distance;
@@ -121,7 +122,7 @@ export default function BranchesDirectory() {
         Find your nearest branch
       </h1>
 
-      {/* <div className="mb-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+      <div className="mb-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
         {!userCoords && !pinMode && (
           <div className="flex flex-wrap gap-2.5">
             <button
@@ -212,7 +213,7 @@ export default function BranchesDirectory() {
             We got your location, but branch coordinates aren't available yet to calculate distances.
           </p>
         )}
-      </div> */}
+      </div>
 
       <div className="w-full">
         <div className="sticky top-0 z-10 -mx-4 bg-white px-4 pb-3 pt-1 lg:static lg:mx-0 lg:px-0 lg:pb-6">
