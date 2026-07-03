@@ -32,6 +32,7 @@ import { sivangangaiVideos } from "@/middleware/videosRoute";
 import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 import LoadingSpinner from '@/components/ui/loadingSpinner';
 import dynamic from "next/dynamic";
+import { SalemReview,sections } from "./salem";
 // Dynamic imports with same loading component
 const InfiniteMovingCardsDemo = dynamic(
   () => import('@/components/review_Card/reviewCard'),

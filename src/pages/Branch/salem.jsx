@@ -37,35 +37,7 @@ const InfiniteMovingCardsDemo = dynamic(
   { loading: () => <LoadingSpinner height="400px" /> }
 );
 
-function SalemPage() {
-  const [visibleCount, setVisibleCount] = useState(5);
-  const [openIndex, setOpenIndex] = useState(null);
-  const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
-
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
-  const toggleViewMore = () => {
-    if (showAll) {
-      setVisibleCount(5); // Reset to initial count when showing less
-      setShowAll(false); // Properly toggle state
-    } else {
-      setVisibleCount(Salem.faqs.length); // Show all FAQs
-      setShowAll(true); // Properly toggle state
-    }
-  };
-  const sections = [
-    { id: "about", label: "About" },
-    { id: "facilities", label: "Facilities" },
-    { id: "specialists", label: "Fertility Specialists" },
-    { id: "gallery", label: "Gallery" },
-    { id: "location", label: "Location" },
-  ];
-
-
-
-  const SalemReview = [
+ export const SalemReview = [
     {
       quote:
         "Am interested to share review about sudha Salem branch.... Staffs with good approach with us doctors and staffs approach were satisfied for us",
@@ -188,6 +160,38 @@ function SalemPage() {
       title: "Patient",
     },
   ];
+
+  export const sections = [
+    { id: "about", label: "About" },
+    { id: "facilities", label: "Facilities" },
+    { id: "specialists", label: "Fertility Specialists" },
+    { id: "gallery", label: "Gallery" },
+    { id: "location", label: "Location" },
+  ];
+
+function SalemPage() {
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
+
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const toggleViewMore = () => {
+    if (showAll) {
+      setVisibleCount(5); // Reset to initial count when showing less
+      setShowAll(false); // Properly toggle state
+    } else {
+      setVisibleCount(Salem.faqs.length); // Show all FAQs
+      setShowAll(true); // Properly toggle state
+    }
+  };
+
+
+
+
+
 
 
 
