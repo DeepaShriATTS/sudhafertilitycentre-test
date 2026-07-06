@@ -256,8 +256,11 @@ export default async function handler(req, res) {
     };
 
     try {
-      await serverApiClient.post(endpoints.create, crmPayload);
+     let res = await serverApiClient.post(endpoints.create, crmPayload);
+      console.log(res)
+      return res
     } catch (crmErr) {
+      console.log(crmErr)
       if (process.env.NODE_ENV !== "production") {
         console.warn("[saveData] CRM submission failed:", crmErr.message);
       }
