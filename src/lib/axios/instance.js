@@ -70,6 +70,7 @@ apiClient.interceptors.response.use(
 // server-only imports or by only using it inside API route handlers.
 // ---------------------------------------------------------------------------
 export const serverApiClient = axios.create({
+   baseURL: process.env.CRM_BASE_URL || "",
   timeout: DEFAULT_TIMEOUT,
   headers: {
     "Content-Type": "application/json",
