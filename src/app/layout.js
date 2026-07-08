@@ -91,36 +91,43 @@ export default function RootLayout({ children }) {
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
-              (function() {
-                function initGTM() {
-                  if (window._gtmInitialised) return;
-                  window._gtmInitialised = true;
-                  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-                  })(window,document,'script','dataLayer','GTM-MZ5ZGW6');
-                }
-                if ('requestIdleCallback' in window) {
-                  requestIdleCallback(initGTM, { timeout: 3000 });
-                } else {
-                  setTimeout(initGTM, 3000);
-                }
-              })();
-            `
+      (function() {
+        function initGTM() {
+          if (window._gtmInitialised) return;
+          window._gtmInitialised = true;
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-MZ5ZGW6');
+        }
+
+        var events = ['scroll', 'mousemove', 'keydown', 'touchstart', 'click'];
+        function trigger() {
+          initGTM();
+          events.forEach(function(e) { window.removeEventListener(e, trigger); });
+        }
+        events.forEach(function(e) {
+          window.addEventListener(e, trigger, { passive: true, once: true });
+        });
+
+        // Fallback: load anyway after 8s even with zero interaction
+         setTimeout(initGTM, 8000);
+         })();
+          `
           }}
         />
       </head>
       <body className={` ${outfit.variable} ${inter.variable} ${notoSansKannada.variable} antialiased font-outfit`}>
         {/* Google Tag Manager - Noscript fallback */}
-        <noscript>
+        {/* <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-MZ5ZGW6"
             height="0"
             width="0"
             style={{ display: "none", visibility: "hidden" }}
           />
-        </noscript>
+        </noscript> */}
 
         <NotFoundProvider>
           <Header />

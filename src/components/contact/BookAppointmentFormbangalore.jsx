@@ -14,6 +14,8 @@ import { branches } from "../footer/footer";
 import { useRouter } from "next/navigation";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
 import { fetchBranchList } from "@/lib/api/branches";
+import { apiClient } from "@/lib/axios/instance";
+import { cleanPhone } from "@/lib/utility";
 
 
 function BookAppointmentFormbangalore() {
@@ -33,33 +35,29 @@ function BookAppointmentFormbangalore() {
   const onSubmit = async (formData) => {
     setSubmissionError("");
     try {
-      const response = await fetch("/api/saveData", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          formType: "landing page",
-        }),
-      });
+      const crmPayload = {
+        name: formData.name,
+        branch: formData.branch,
+        mobile: formData.mobile,
+        source_type: "21",
+        lead_type: "4",
+      };
 
-      const errorData = await response.json().catch(() => ({}));
+      await apiClient.post("/lead/websitelead/", crmPayload);
 
-      if (response.ok) {
-        router.push("/thank-you");
-        setSuccessMessage(true);
+      router.push("/thank-you");
+      setSuccessMessage(true);
+    } catch (err) {
+      const responseData = err.response?.data;
+      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
+      if (responseData && responseData.errors) {
+        Object.entries(responseData.errors).forEach(([field, msg]) => {
+          setError(field, { type: "server", message: String(msg) });
+        });
+        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
       } else {
-        if (errorData.errors) {
-          Object.entries(errorData.errors).forEach(([field, msg]) => {
-            setError(field, { type: "server", message: String(msg) });
-          });
-          setSubmissionError(errorData.message || "Please correct the highlighted fields.");
-        } else {
-          setSubmissionError(errorData.message || errorData.error || "Failed to submit the form. Please try again.");
-        }
+        setSubmissionError(errorMessage);
       }
-    } catch (error) {
-      console.error("Network error:", error);
-      setSubmissionError("Network error. Please check your connection.");
     }
   };
 

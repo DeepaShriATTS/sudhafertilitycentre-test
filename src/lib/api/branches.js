@@ -1,10 +1,10 @@
 
 
-import { apiClient } from "@/lib/axios/instance";
+import { serverApiClient } from "@/lib/axios/instance";
 
 export async function fetchBranchList() {
   try {
-    const { data } = await apiClient.get("/api/branches");
+    const { data } = await serverApiClient.get("/api/branches");
     const list = data?.data?.list || data?.list || [];
 
     // Validate shape — accept only objects with an id and branch_name

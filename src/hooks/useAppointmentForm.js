@@ -23,6 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { appointmentSchema } from "@/schemas/appointmentSchema";
 import { apiClient } from "@/lib/axios/instance";
 import { fetchBranchList } from "@/lib/api/branches";
+import { cleanPhone } from "@/lib/utility";
 
 /**
  * @param {Object}  options
@@ -87,11 +88,12 @@ export function useAppointmentForm({ formType = "Branch Appointment", onSuccess 
     }
 
     try {
-      await apiClient.post("/api/saveData", {
+      await apiClient.post("/lead/websitelead/", {
         name: data.name,
-        mobile: data.mobile,
         branch: data.branch,
-        formType,
+        mobile: cleanPhone(data.mobile),
+        source_type: "21",
+        lead_type: "4",
       });
 
       // Success
@@ -101,16 +103,15 @@ export function useAppointmentForm({ formType = "Branch Appointment", onSuccess 
       if (onSuccess) onSuccess();
     } catch (err) {
       const responseData = err.response?.data;
+      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
       if (responseData && responseData.errors) {
         // Map server-side field errors back to the form
         Object.entries(responseData.errors).forEach(([field, msg]) => {
           setError(field, { type: "server", message: String(msg) });
         });
-        setSubmissionError(responseData.message || "Please correct the highlighted fields.");
+        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
       } else {
-        setSubmissionError(
-          err.message || "Network error. Please check your connection and try again."
-        );
+        setSubmissionError(errorMessage);
       }
     }
   };

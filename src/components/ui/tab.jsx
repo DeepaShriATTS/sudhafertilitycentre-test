@@ -117,7 +117,7 @@ const MetricsTabs = ({ tabs }) => {
     >
       <div className="lg:sticky lg:top-0 min-h-screen flex items-center">
         <div className="relative w-full lg:bg-[#EBF2FE] rounded-2xl">
-          <div className="max-w-7xl mx-auto p-2 lg:p-6 font-outfit">
+          <div className="max-w-7xl mx-auto p-2 font-outfit">
             <div className="flex flex-col items-start">
               <motion.div
                 className="hidden lg:flex flex-row overflow-x-auto no-scrollbar p-2 pt-3 pb-3 mb-8 flex-wrap justify-between bg-white rounded-full w-full flex-shrink-0 gap-0"

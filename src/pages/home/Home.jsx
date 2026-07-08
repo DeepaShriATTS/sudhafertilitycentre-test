@@ -36,7 +36,7 @@ const FloatingButton = dynamic(
 const BannerSlider = dynamic(
   () => import("@/components/bannerSlider/bannerSlider"),
   {
-    ssr: false,
+   
     loading: () => <div className="banner-slider-wrap w-full" aria-hidden="true" />,
   }
 );
@@ -75,6 +75,10 @@ const JourneyCard = dynamic(() => import("@/components/JourneyCard/journeyCard")
 //   () => import('@/components/fertilityChatbot/fertilityChatbot'),
 //   { ssr: false, loading: () => null }
 // );
+
+// const HeroBannerSlider = dynamic(() => import("@/components/heroBanner/HeroBannerSlider"), {
+//   loading: () => <LoadingSpinner height="300px" />
+// });
 
 // ── LazySection: viewport-triggered lazy loading ──
 function LazySection({ children, height = "300px", className = "" }) {
@@ -218,7 +222,8 @@ export default function Home() {
 
       {/* ── Banner Section ── */}
       <div className="relative w-full -mt-[150px]">
-        <div className="banner-slider-wrap w-full">
+        <div className="mt-8 sm:mt-12">
+          {/* <HeroBannerSlider /> */}
           <BannerSlider />
         </div>
 
@@ -311,7 +316,10 @@ export default function Home() {
                 </h2>
               </div>
               <div className="tab mt-12">
-                <MetricsTabs tabs={tabs} />
+                <LazySection height="200px">
+                  <MetricsTabs tabs={tabs} />
+                </LazySection>
+              
               </div>
             </div>
           </div>

@@ -17,6 +17,7 @@ import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
 import { fetchBranchList } from "@/lib/api/branches";
 import { apiClient } from "@/lib/axios/instance";
+import { cleanPhone } from "@/lib/utility";
 
 function ContactForm() {
   const [successMessage, setSuccessMessage] = useState(false);
@@ -47,28 +48,30 @@ function ContactForm() {
         ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
         : "";
 
-      // Submit to /api/saveData — CRM is proxied server-side, no client exposure
-      await apiClient.post("/api/saveData", {
-        ...formData,
-        appointmentDate,
-        formType: "Contact Appointment",
-      });
+      const crmPayload = {
+        name: formData.name,
+        branch: formData.branch,
+        mobile: cleanPhone(formData.mobile),
+        source_type: "21",
+        lead_type: "4",
+      };
+
+      // Direct POST to CRM endpoint using global base URL configuration
+      await apiClient.post("/lead/websitelead/", crmPayload);
 
       setSuccessMessage(true);
       reset();
       setSelectedDate(null);
     } catch (err) {
       const responseData = err.response?.data;
+      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
       if (responseData && responseData.errors) {
-        // Map server-side validation / duplicate errors to respective fields
         Object.entries(responseData.errors).forEach(([field, msg]) => {
           setError(field, { type: "server", message: String(msg) });
         });
-        setSubmissionError(responseData.message || "Please correct the highlighted fields.");
+        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
       } else {
-        setSubmissionError(
-          err.message || "Network error. Please check your connection and try again."
-        );
+        setSubmissionError(errorMessage);
       }
     }
   };

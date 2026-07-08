@@ -275,14 +275,16 @@ export default function FertilityChatbotWidget() {
             ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
             : "";
 
-          // Submit to /api/saveData — CRM is proxied server-side, not called from client
-          await apiClient.post("/api/saveData", {
+          const crmPayload = {
             name: formData.name,
-            mobile: formData.whatsapp,
             branch: formData.branch,
-            appointmentDate,
-            formType: "Chatbot Lead - " + currentFlowKey,
-          });
+            mobile: formData.whatsapp,
+            source_type: "21",
+            lead_type: "4",
+          };
+
+          // Direct POST to CRM endpoint using global base URL configuration
+          await apiClient.post("/lead/websitelead/", crmPayload);
 
           // Phase 3: The Peaceful Goodbye
           pushBotMessage(messagesWithUser, {
@@ -292,7 +294,8 @@ export default function FertilityChatbotWidget() {
           setIsComplete(true);
         } catch (err) {
           console.error("Chatbot submission error:", err);
-          const errMsg = err.message || "Something went wrong.";
+          const responseData = err.response?.data;
+          const errMsg = responseData?.message || responseData?.error || err.message || "Something went wrong.";
           setIsBotTyping(false);
           pushBotMessage(messagesWithUser, {
             sender: "bot",

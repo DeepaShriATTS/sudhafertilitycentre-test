@@ -33,7 +33,7 @@ const SHEET_SCRIPT_URL_2 = process.env.SHEET_SCRIPT_URL_2;
 // LOCAL_API_BASE is used in development when the external CRM is unavailable.
 // Set it to http://localhost:3000 in .env.local to route CRM calls through
 // the local mock endpoints (/api/lead/websitelead, /api/lead/lead-duplicate-check).
-const LOCAL_API_BASE = (process.env.LOCAL_API_BASE || "").trim();
+const LOCAL_API_BASE = "";
 
 if (!CRM_ENDPOINT) {
   throw new Error(
@@ -43,17 +43,17 @@ if (!CRM_ENDPOINT) {
 }
 
 const getCrmEndpoints = () => {
-  // If LOCAL_API_BASE is set, override CRM calls to route through local mock
-  if (LOCAL_API_BASE) {
-    const localBase = LOCAL_API_BASE.endsWith("/") ? LOCAL_API_BASE.slice(0, -1) : LOCAL_API_BASE;
-    if (process.env.NODE_ENV !== "production") {
-      console.log("[saveData] Using local CRM mock at:", localBase);
-    }
-    return {
-      create: `${localBase}/api/lead/websitelead`,
-      duplicateCheck: `${localBase}/api/lead/lead-duplicate-check`,
-    };
-  }
+  // // If LOCAL_API_BASE is set, override CRM calls to route through local mock
+  // if (CRM_ENDPOINT) {
+  //   const localBase = CRM_ENDPOINT.endsWith("/") ? CRM_ENDPOINT.slice(0, -1) : CRM_ENDPOINT;
+  //   if (process.env.NODE_ENV !== "production") {
+  //     console.log("[saveData] Using local CRM mock at:", localBase);
+  //   }
+  //   return {
+  //     create: `${localBase}/api/lead/websitelead`,
+  //     duplicateCheck: `${localBase}/api/lead/lead-duplicate-check`,
+  //   };
+  // }
 
   const endpoint = CRM_ENDPOINT;
   let base = "";
@@ -70,7 +70,9 @@ const getCrmEndpoints = () => {
 
   return {
     create: `${base}/lead/websitelead/`,
+    // create: `https://tggd805k-8884.inc1.devtunnels.ms/lead/websitelead/`,
     duplicateCheck: `${base}/lead/lead-duplicate-check/`,
+    // duplicateCheck: `https://tggd805k-8884.inc1.devtunnels.ms/lead/lead-duplicate-check/`,
   };
 };
 
@@ -221,9 +223,53 @@ export default async function handler(req, res) {
     };
 
     // ----------------------------------------------------------------
-    // 9. Forward to Google Sheets (parallel, with timeout)
-    // Both Sheets fire in parallel; we don't fail the request if they
-    // error — logging data should never block a user form submission.
+    // 9. CRM submission — proxied here so CRM_ENDPOINT stays server-only
+    // ----------------------------------------------------------------
+    const crmPayload = {
+      name: sanitisedName,
+      branch: sanitisedBranch,
+      mobile: sanitisedPhone,
+      source_type: "21",
+      lead_type: "4",
+    };
+
+    try {
+      if (process.env.NODE_ENV !== "production") {
+        console.log("[saveData] Submitting to CRM endpoint:", endpoints.create);
+      }
+     const res = await serverApiClient.post("https://tggd805k-8884.inc1.devtunnels.ms/lead/websitelead/", crmPayload);
+     console.log("crm result", res);
+     if(res.data.status !== 200){
+     return res.status(400).json({
+        success: false,
+        message: res.data.message,
+        code: "CRM_SUBMISSION_FAILED",
+      });
+     }
+
+      return res.status(200).json({
+        success: true,
+        message: res.data.message,
+        code: "CRM_SUBMISSION_SUCCESS",
+      });
+
+
+    } catch (crmErr) {
+      const errorDetail = crmErr.response?.data?.message || crmErr.response?.data?.error || crmErr.message;
+      if (process.env.NODE_ENV !== "production") {
+        console.warn("[saveData] CRM submission failed:", errorDetail);
+      }
+      return res.status(500).json({
+        success: false,
+        message: `Failed to submit lead to CRM: ${errorDetail}`,
+        code: "CRM_SUBMISSION_FAILED",
+      });
+    }
+
+    // ----------------------------------------------------------------
+    // 10. Forward to Google Sheets (parallel, with timeout)
+    // Only happens if CRM submission succeeds to prevent duplicate Excel records on user retry.
+    // Both Sheets fire in parallel; we don't fail the request if they error.
     // ----------------------------------------------------------------
     const controller = new AbortController();
     const sheetsTimeout = setTimeout(() => controller.abort(), 10_000);
@@ -243,33 +289,6 @@ export default async function handler(req, res) {
         })
       )
     ).finally(() => clearTimeout(sheetsTimeout));
-
-    // ----------------------------------------------------------------
-    // 10. CRM submission — proxied here so CRM_ENDPOINT stays server-only
-    // ----------------------------------------------------------------
-    const crmPayload = {
-      name: sanitisedName,
-      branch: sanitisedBranch,
-      mobile: sanitisedPhone,
-      source_type: "21",
-      lead_type: "4",
-    };
-
-    try {
-     let res = await serverApiClient.post(endpoints.create, crmPayload);
-      console.log(res)
-      return res
-    } catch (crmErr) {
-      console.log(crmErr)
-      if (process.env.NODE_ENV !== "production") {
-        console.warn("[saveData] CRM submission failed:", crmErr.message);
-      }
-      return res.status(500).json({
-        success: false,
-        message: `Failed to submit lead to CRM. Please try again later.${crmErr}`,
-        code: "CRM_SUBMISSION_FAILED",
-      });
-    }
 
     // ----------------------------------------------------------------
     // 11. Success response

@@ -69,8 +69,9 @@ apiClient.interceptors.response.use(
 // components — this file path should be excluded from the client bundle via
 // server-only imports or by only using it inside API route handlers.
 // ---------------------------------------------------------------------------
+
 export const serverApiClient = axios.create({
-   baseURL:"https://tggd805k-8884.inc1.devtunnels.ms/" || "",
+  baseURL: process.env.CRM_BASE_URL,
   timeout: DEFAULT_TIMEOUT,
   headers: {
     "Content-Type": "application/json",

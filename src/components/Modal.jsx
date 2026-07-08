@@ -13,6 +13,8 @@ import DatePicker from "./DatePicker/datePicker";
 import { SlClose } from "react-icons/sl";
 import { fetchBranchList } from "@/lib/api/branches";
 import { apiClient } from "@/lib/axios/instance";
+import { cleanPhone } from "@/lib/utility";
+import axios from "axios";
 import SearchableSelect from "./searchAndSelect/SearchableSelect";
 
 const Modals = ({ isOpen, onClose }) => {
@@ -39,26 +41,30 @@ const Modals = ({ isOpen, onClose }) => {
         ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
         : "";
 
-      // CRM is proxied server-side inside saveData — not called from client
-      await apiClient.post("/api/saveData", {
-        ...formData,
-        appointmentDate,
-        formType: "Appointment",
-      });
+      const crmPayload = {
+        name: formData.name,
+        branch: formData.branch,
+        mobile: cleanPhone(formData.mobile),
+        source_type: "21",
+        lead_type: "4",
+      };
+
+      // Direct POST to CRM endpoint using global base URL configuration
+      await apiClient.post("/lead/websitelead/", crmPayload);
 
       setSuccessMessage(true);
       reset();
       setSelectedDate(null);
     } catch (err) {
       const responseData = err.response?.data;
+      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
       if (responseData && responseData.errors) {
-        // Map server-side validation / duplicate errors to respective fields
         Object.entries(responseData.errors).forEach(([field, msg]) => {
           setError(field, { type: "server", message: String(msg) });
         });
-        setSubmissionError(responseData.message || "Please correct the highlighted fields.");
+        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
       } else {
-        setSubmissionError(err.message || "Network error. Please try again later.");
+        setSubmissionError(errorMessage);
       }
     }
   };

@@ -115,50 +115,47 @@ const BannerSlider = () => {
                   : "none",
               }}
             >
+              {/* Mobile + Desktop combined via <picture> — browser fetches only ONE image */}
+              {index === 0 ? (
+                <picture>
+                  <source
+                    media="(max-width: 767px)"
+                    srcSet={(slide.mobileImg || slide.img).src}
+                  />
+                  <img
+                    src={slide.img.src}
+                    alt={slide.heading}
+                    fetchPriority="high"
+                    loading="eager"
+                    decoding="async"
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                  />
+                </picture>
+              ) : (
+                <>
+                  {/* Keep next/image for non-first slides — they're lazy-loaded anyway, no conflict */}
+                  <Image
+                    src={slide.mobileImg || slide.img}
+                    alt={slide.heading}
+                    fill
+                    loading="lazy"
+                    quality={70}
+                    sizes="100vw"
+                    className="block md:hidden object-cover object-center"
+                  />
+                  <Image
+                    src={slide.img}
+                    alt={slide.heading}
+                    fill
+                    loading="lazy"
+                    quality={70}
+                    sizes="(max-width: 768px) 768px, (max-width: 1280px) 1280px, 1920px"
+                    className="hidden md:block object-cover object-center"
+                  />
+                </>
+              )}
+
              
-              {/* <Image
-                src={slide.img}
-                alt={slide.heading}
-                fill
-                priority={index === 0}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                loading={index === 0 ? "eager" : "lazy"}
-                quality={index === 0 ? 80 : 70}
-                sizes="(max-width: 480px) 480px,
-                (max-width: 768px) 768px,
-                (max-width: 1280px) 1280px,
-                 1920px"
-                className="object-cover object-center"
-              /> */}
-
-              {/* Mobile image (< md) */}
-              <Image
-                src={slide.mobileImg || slide.img}
-                alt={slide.heading}
-                fill
-                priority={index === 0}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                loading={index === 0 ? "eager" : "lazy"}
-                quality={index === 0 ? 80 : 70}
-                sizes="100vw"
-                className="block md:hidden object-cover object-center"
-              />
-
-              {/* Desktop/tablet image (>= md) */}
-              <Image
-                src={slide.img}
-                alt={slide.heading}
-                fill
-                priority={index === 0}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                loading={index === 0 ? "eager" : "lazy"}
-                quality={index === 0 ? 80 : 70}
-                sizes="(max-width: 768px) 768px,
-                 (max-width: 1280px) 1280px,
-                  1920px"
-                className="hidden md:block object-cover object-center"
-              />
-
             </div>
 
             {/* Main gradient — covers left ~60% on desktop, full width on mobile */}
