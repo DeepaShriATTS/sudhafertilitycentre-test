@@ -1,249 +1,249 @@
 "use client";
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import { cn } from "@/lib/utility";
+
+import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import {
-  motion,
-  useScroll,
-  useMotionValueEvent,
-  AnimatePresence,
-} from "framer-motion";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import BookingButton from "../button/bookingButton";
+import { tabs } from "../../utils/homepageData"; // <-- your tabs array (40+ Years, Affordable, Trusted, Success Rate, Specialists)
 
-const MetricsTabs = ({ tabs }) => {
-  const [selectedTab, setSelectedTab] = useState(0);
-  const containerRef = useRef(null);
+const AUTOPLAY_MS = 5000;
+const DRAG_THRESHOLD = 80;
 
-  const isButtonScrollRef = useRef(false);
-  const scrollEndTimeout = useRef(null);
+const slideVariants = {
+  enter: (direction) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction) => ({
+    x: direction > 0 ? "-100%" : "100%",
+    opacity: 0,
+  }),
+};
 
-  // Only auto-advance tabs via scroll position on large screens. On mobile/
-  // tablet, content (esp. images) can be taller than one viewport slice, so
-  // scroll-driven advancing would yank the user to the next tab mid-read.
-  // There, navigation is button-only and scroll just... scrolls.
-  const isLargeScreenRef = useRef(false);
+const textVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
-  useEffect(() => {
-    const mql = window.matchMedia("(min-width: 1024px)"); // Tailwind's `lg`
-    const update = () => {
-      isLargeScreenRef.current = mql.matches;
-    };
-    update();
-    mql.addEventListener("change", update);
-    return () => mql.removeEventListener("change", update);
-  }, []);
+export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
+  // initialIndex defaults to 2 ("Trusted by 1Lakh + Families") to match the reference mock
+  const [index, setIndex] = useState(initialIndex);
+  const [direction, setDirection] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
+  const isAnimatingRef = useRef(false);
+  const timerRef = useRef(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  const total = tabs.length;
+  const activeTab = tabs[index];
+  const ActiveIcon = activeTab.icon;
 
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    if (!isLargeScreenRef.current) return; // mobile: scroll never auto-advances
-    if (isButtonScrollRef.current) return;
-
-    const index = Math.min(
-      tabs.length - 1,
-      Math.max(0, Math.floor(latest * tabs.length))
-    );
-    setSelectedTab(index);
-  });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!isButtonScrollRef.current) return;
-      if (scrollEndTimeout.current) clearTimeout(scrollEndTimeout.current);
-      scrollEndTimeout.current = setTimeout(() => {
-        isButtonScrollRef.current = false;
-      }, 150);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollEndTimeout.current) clearTimeout(scrollEndTimeout.current);
-    };
-  }, []);
-
-  const scrollToTab = useCallback(
-    (index) => {
-      const container = containerRef.current;
-      if (!container) return;
-
-      // On mobile, tabs aren't scroll-linked at all — just snap the sticky
-      // panel into view and let the button-driven state change handle the
-      // rest, so no smooth-scroll math against variable content height.
-      if (!isLargeScreenRef.current) {
-        container.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
-      }
-
-      isButtonScrollRef.current = true;
-      if (scrollEndTimeout.current) clearTimeout(scrollEndTimeout.current);
-      scrollEndTimeout.current = setTimeout(() => {
-        isButtonScrollRef.current = false;
-      }, 800);
-
-      const rect = container.getBoundingClientRect();
-      const containerTop = rect.top + window.scrollY;
-      const sliceHeight = container.offsetHeight / tabs.length;
-      const target = containerTop + sliceHeight * index + sliceHeight / 2;
-      window.scrollTo({ top: target, behavior: "smooth" });
+  const goTo = useCallback(
+    (newIndex, dir) => {
+      if (isAnimatingRef.current) return; // guard against rapid clicks
+      isAnimatingRef.current = true;
+      setDirection(dir);
+      setIndex(((newIndex % total) + total) % total);
+      window.setTimeout(() => {
+        isAnimatingRef.current = false;
+      }, 550); // matches transition duration
     },
-    [tabs.length]
+    [total]
   );
 
-  const goToTab = useCallback(
-    (index) => {
-      const clamped = Math.min(tabs.length - 1, Math.max(0, index));
-      setSelectedTab(clamped);
-      scrollToTab(clamped);
-    },
-    [tabs.length, scrollToTab]
-  );
+  const handleNext = useCallback(() => goTo(index + 1, 1), [goTo, index]);
+  const handlePrev = useCallback(() => goTo(index - 1, -1), [goTo, index]);
 
-  const handlePrev = () => goToTab(selectedTab - 1);
-  const handleNext = () => goToTab(selectedTab + 1);
+  // Autoplay
+  useEffect(() => {
+    if (!isPlaying || isHovering) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+    timerRef.current = setInterval(() => {
+      goTo(index + 1, 1);
+    }, AUTOPLAY_MS);
+    return () => clearInterval(timerRef.current);
+  }, [isPlaying, isHovering, index, goTo]);
+
+  const handleDragEnd = (event, info) => {
+    if (info.offset.x < -DRAG_THRESHOLD) {
+      handleNext();
+    } else if (info.offset.x > DRAG_THRESHOLD) {
+      handlePrev();
+    }
+  };
 
   return (
-    <div
-      ref={containerRef}
-      // On mobile the track no longer needs to be tabs.length * 100vh tall,
-      // since scroll doesn't drive tab switching there — just let it size
-      // to content so there's no dead scroll space to click through.
-      className="relative lg:[height:var(--track-h)]"
-      style={{ "--track-h": `${tabs.length * 100}vh` }}
-    >
-      <div className="lg:sticky lg:top-0 min-h-screen flex items-center">
-        <div className="relative w-full lg:bg-[#EBF2FE] rounded-2xl">
-          <div className="max-w-7xl mx-auto p-2 font-outfit">
-            <div className="flex flex-col items-start">
+    <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#eef1fb] to-[#f7f8fd] px-6 py-16 md:px-16">
+      {/* decorative dot grid */}
+      <div className="absolute left-10 top-10 grid grid-cols-3 gap-2 opacity-40">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <span key={i} className="h-1 w-1 rounded-full bg-slate-400" />
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+        {/* LEFT: text content */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={`text-${index}`}
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={textVariants}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <span className="mb-4 block h-1 w-10 rounded-full bg-amber-400" />
+            {ActiveIcon ? (
+              <ActiveIcon size={28} className="mb-3 text-amber-500" />
+            ) : null}
+            <h3 className="mb-4 text-3xl font-bold text-[#0f1f4d] md:text-4xl">
+              {activeTab.content.heading}
+            </h3>
+            <p className="mb-8 whitespace-pre-line text-slate-600">
+              {activeTab.content.description}
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-2 rounded-full bg-[#0f1f4d] px-6 py-3 font-semibold text-white shadow-lg transition-shadow hover:shadow-xl"
+            >
+              Get a Free Consultation
+              <ArrowRight size={18} />
+            </motion.button>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* RIGHT: image slider */}
+        <div
+          className="relative mx-auto h-[420px] w-full max-w-[420px] cursor-grab select-none active:cursor-grabbing"
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
+        >
+          {/* rear stacked cards */}
+          <motion.div
+            className="absolute inset-0 rounded-3xl bg-slate-300 shadow-xl"
+            animate={{
+              x: 14,
+              y: 14,
+              rotate: 4,
+              opacity: 0.5,
+            }}
+            transition={{ duration: 0.55, ease: "easeInOut" }}
+          />
+          <motion.div
+            className="absolute inset-0 rounded-3xl bg-slate-400 shadow-xl"
+            animate={{
+              x: 7,
+              y: 7,
+              rotate: 2,
+              opacity: 0.7,
+            }}
+            transition={{ duration: 0.55, ease: "easeInOut" }}
+          />
+
+          {/* front card */}
+          <div className="absolute inset-0 overflow-hidden rounded-3xl shadow-2xl">
+            <AnimatePresence custom={direction} mode="wait">
               <motion.div
-                className="hidden lg:flex flex-row overflow-x-auto no-scrollbar p-2 pt-3 pb-3 mb-8 flex-wrap justify-between bg-white rounded-full w-full flex-shrink-0 gap-0"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                style={{
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                }}
+                key={index}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.55, ease: "easeInOut" }}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={handleDragEnd}
+                className="absolute inset-0"
               >
-                {tabs.map((tab, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => goToTab(index)}
-                    title={tab.label}
-                    className={cn(
-                      "rounded-full font-medium transition-all flex items-center justify-center gap-1 group whitespace-nowrap",
-                      "px-6 py-3",
-                      index === selectedTab
-                        ? "bg-[#173366] text-white"
-                        : "text-[#000] hover:bg-[#173366] hover:text-white"
-                    )}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <span>{tab.label}</span>
-                  </motion.button>
-                ))}
+                <Image
+                  src={activeTab.content.image}
+                  alt={activeTab.content.heading}
+                  fill
+                  sizes="(max-width: 768px) 90vw, 420px"
+                  className="object-cover"
+                  priority={index === initialIndex}
+                  draggable={false}
+                />
               </motion.div>
+            </AnimatePresence>
+          </div>
 
-              <div className="flex-1 min-w-0 w-full">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={selectedTab}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="bg-[#EBF2FE] lg:bg-transparent rounded-3xl p-4 lg:p-8"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 md:flex-col-reverse gap-8">
-                      <motion.div
-                        className="space-y-4 flex items-center"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 }}
-                      >
-                        <div>
-                          <h2 className="text-2xl font-bold">
-                            {tabs[selectedTab].content.heading}
-                          </h2>
-                          <p className="text-gray-600 leading-relaxed mt-3">
-                            {tabs[selectedTab].content.description}
-                          </p>
-                          <div className="mt-5">
-                            <BookingButton title={"Get a Free Consultation"} />
-                          </div>
-                        </div>
-                      </motion.div>
+          {/* navigation controller */}
+          <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-white/95 px-3 py-2 shadow-lg backdrop-blur">
+            <motion.button
+              type="button"
+              aria-label="Previous slide"
+              onClick={handlePrev}
+              whileHover={{ scale: 1.08, boxShadow: "0 4px 14px rgba(15,31,77,0.25)" }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f1f4d] shadow"
+            >
+              <ChevronLeft size={18} />
+            </motion.button>
 
-                      <motion.div
-                        className="relative w-full "
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.1 }}
-                      >
-                        <div className="rounded-3xl overflow-hidden h-full mb-4">
-                          <Image
-                            src={tabs[selectedTab].content.image}
-                            alt={tabs[selectedTab].content.heading}
-                            className="rounded-2xl"
-                          />
-                        </div>
-                      </motion.div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Prev / next controls, mobile & tablet only */}
-              <div className="flex lg:hidden items-center justify-between w-full mt-4 px-1">
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  disabled={selectedTab === 0}
-                  aria-label="Previous"
-                  className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center transition-all shrink-0",
-                    selectedTab === 0
-                      ? "bg-white/60 text-gray-300 cursor-not-allowed"
-                      : "bg-white text-[#173366] hover:bg-[#173366] hover:text-white active:scale-95"
-                  )}
+            <motion.button
+              type="button"
+              aria-label={isPlaying ? "Pause autoplay" : "Play autoplay"}
+              onClick={() => setIsPlaying((p) => !p)}
+              whileHover={{ scale: 1.08, boxShadow: "0 4px 14px rgba(15,31,77,0.25)" }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f1f4d] shadow"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={isPlaying ? "pause" : "play"}
+                  initial={{ opacity: 0, scale: 0.6 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.6 }}
+                  transition={{ duration: 0.2 }}
+                  className="flex items-center justify-center"
                 >
-                  <ChevronLeft size={18} />
-                </button>
+                  {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+                </motion.span>
+              </AnimatePresence>
+            </motion.button>
 
-                <span className="text-sm font-medium text-[#173366]">
-                  {tabs[selectedTab].label}
-                  <span className="text-gray-400 font-normal">
-                    {" "}
-                    · {selectedTab + 1}/{tabs.length}
-                  </span>
-                </span>
+            <motion.button
+              type="button"
+              aria-label="Next slide"
+              onClick={handleNext}
+              whileHover={{ scale: 1.08, boxShadow: "0 4px 14px rgba(15,31,77,0.25)" }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[#0f1f4d] shadow"
+            >
+              <ChevronRight size={18} />
+            </motion.button>
 
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  disabled={selectedTab === tabs.length - 1}
-                  aria-label="Next"
-                  className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center transition-all shrink-0",
-                    selectedTab === tabs.length - 1
-                      ? "bg-white/60 text-gray-300 cursor-not-allowed"
-                      : "bg-white text-[#173366] hover:bg-[#173366] hover:text-white active:scale-95"
-                  )}
+            <span className="mx-1 h-5 w-px bg-slate-200" />
+
+            <div className="relative flex w-14 items-center justify-center overflow-hidden text-sm font-semibold text-[#0f1f4d]">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={index}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
                 >
-                  <ChevronRight size={18} />
-                </button>
-              </div>
+                  {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                </motion.span>
+              </AnimatePresence>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
-};
-
-export default MetricsTabs;
+}

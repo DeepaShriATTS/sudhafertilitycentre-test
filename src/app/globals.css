@@ -4,7 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
+/* ── Prevent horizontal scrollbar globally ── */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+  margin-inline: auto;
+}
 
 
 .no-visible-scrollbar {
@@ -37,6 +43,12 @@ p {
 h1 {
     font-size: 40px ;
     line-height: 1.4 ;
+}
+
+/* Allow hero banner heading to use its own clamp() — don't override */
+h1.hero-heading {
+    font-size: clamp(1.5rem, 1.0rem + 2.8vw, 3.2rem);
+    line-height: 1.18;
 }
 
 h2 {
@@ -79,6 +91,7 @@ h6{
 .button-all:hover {
   background: #FFC65C;
   color: #000;
+  transform: translateY(-2px);
 }
 
 
@@ -137,6 +150,7 @@ h6{
 /* Small Screens (Mobile) */
 @media screen and (max-width: 768px) {
     h1 { font-size: 32px; line-height: 1.2; }
+    h1.hero-heading { font-size: clamp(1.5rem, 1.0rem + 2.8vw, 3.2rem); line-height: 1.18; }
     h2 { font-size: 24px; line-height: 1.2; }
     h3 { font-size: 20px; line-height: 1.2; }
     h4 { font-size: 18px; line-height: 1.2; }
@@ -148,6 +162,7 @@ h6{
 /* Extra Small Screens (Mobile < 480px) */
 @media screen and (max-width: 480px) {
     h1 { font-size: 32px; line-height: 1.2; }
+    h1.hero-heading { font-size: clamp(1.5rem, 1.0rem + 2.8vw, 3.2rem); line-height: 1.18; }
     h2 { font-size: 26px; line-height: 1.4; }
     h3 { font-size: 24px; line-height: 1.4; }
     h4 { font-size: 20px; line-height: 1.2; }

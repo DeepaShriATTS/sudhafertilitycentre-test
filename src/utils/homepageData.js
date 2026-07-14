@@ -83,11 +83,11 @@ export const tabs = [
     // icon: Icon1,
   },
   {
-    title: "150+ Fertility Specialists",
-    label: "150+ Fertility Specialists",
+    title: "100+ Fertility Specialists",
+    label: "100+ Fertility Specialists",
     icon: TbStethoscope,
     content: {
-      heading: "150+ Fertility Specialists",
+      heading: "100+ Fertility Specialists",
       description:
         "With a team of hundreds of experienced fertility experts, Sudha Fertility Centre offers comprehensive and specialized treatments tailored to your needs. Under the guidance of the fertility experts, Dr. S. Dhanabagyam and Dr. S. Pradeepa, our skilled IVF specialists and IUI doctors are dedicated to helping you through every step of your parenthood journey. Supported by the expertise and care of our fertility specialists, lakhs of happy parents have successfully welcomed healthy, beautiful babies into their families. ",
       image: Tab5,

@@ -471,215 +471,166 @@ function Navbar() {
   const { isNotFound } = useNotFound();
 
   return (
+    <>
+   
     <header
-      className={`w-full  text-white font-outfit z-30 sticky top-0 ${
-        navbarColor ? "bg-[#fff] shadow-lg" : "bg-transparent"
+      className={`w-full lg:py-2 font-outfit z-30 sticky top-0 transition-all duration-300 ${
+        navbarColor
+          ? "bg-white/95 backdrop-blur-md shadow-[0_2px_20px_rgba(23,51,102,0.10)] border-b border-gray-100/80"
+          : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto" id="header">
-        <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-          {/* Top Navigation Bar */}
-          <div className=" ">
+      <div className="w-full" id="header">
+        <div className="w-full px-4 sm:px-6 lg:px-8 h-full">
+          {/* Navigation Area */}
+          <div>
             <div className="mx-auto">
-              <div className="flex items-center justify-between w-full">
-                {/* <div className="flex items-center justify-between w-full lg:w-screen"> */}
+              <div className="flex items-center justify-between w-full h-16 lg:h-20">
                 {/* Logo */}
-                <div className="w-32 lg:w-44 md:pr-4 lg:pr-4">
-                  <Link href={"/"}>
+                <div className="w-28 sm:w-32 lg:w-44 flex items-center">
+                  <Link href={"/"} className="flex items-center">
                     <Image
                       src={
                         isNotFound
-                          ? Logodark // If on the 404 page, show Logodark
-                          : pathname === "/thank-you"
-                          ? Logodark // If on Thank You page, show Logodark
-                          : navbarColor
                           ? Logodark
-                          : Logo // Otherwise, follow navbarColor logic
+                          : pathname === "/thank-you"
+                            ? Logodark
+                            : navbarColor
+                              ? Logodark
+                              : Logo
                       }
                       alt="Sudha-Logo"
-                      className="w-full p-4 md:p-0 lg:p-0 h-auto top-2"
+                      className="w-full h-auto"
                     />
                   </Link>
                 </div>
 
-                <div className="flex gap-3">
-                  {/* Mobile Find Us */}
-                  <div className="block lg:hidden">
-                    {isBranchPage == true ? (
+                <div className="flex items-center gap-3 lg:hidden">
+                  {/* Mobile Find Us / Call */}
+                  <div className="flex items-center">
+                    {isBranchPage ? (
                       <div
-                        className="flex items-center group cursor-pointer p-2 sm:p-3 md:p-4 lg:p-5"
+                        className="flex items-center group cursor-pointer"
                         onClick={handleFindUs}
                       >
                         <IoLocationSharp
-                          size={20} /* Smaller size for mobile */
-                          className={` group-hover:text-[#FFC65C] sm:size-25 ${
-                            isNotFound
-                              ? "text-[#173366]" // If on the 404 page, show Logodark
+                          size={20}
+                          className={`group-hover:text-[#FFC65C] ${isNotFound
+                              ? "text-[#173366]"
                               : pathname === "/thank-you"
-                              ? "text-[#173366]"
-                              : navbarColor
-                              ? "text-[#173366]"
-                              : "text-[#ffff]"
-                          }`}
+                                ? "text-[#173366]"
+                                : navbarColor
+                                  ? "text-[#173366]"
+                                  : "text-white"
+                            }`}
                         />
                         <span
-                          className={`ml-1 text-md ${
-                            isNotFound
-                              ? "text-[#173366]" // If on the 404 page, show Logodark
+                          className={`ml-1 text-sm font-medium group-hover:text-[#FFC65C] ${isNotFound
+                              ? "text-[#173366]"
                               : pathname === "/thank-you"
-                              ? "text-[#173366]"
-                              : navbarColor
-                              ? "text-[#173366]"
-                              : "text-[#ffff]"
-                          } sm:text-md font-medium group-hover:text-[#FFC65C]`}
+                                ? "text-[#173366]"
+                                : navbarColor
+                                  ? "text-[#173366]"
+                                  : "text-white"
+                            }`}
                         >
                           Find us
                         </span>
                       </div>
                     ) : (
-                      <>
-                        <a href="tel:7670076006">
-                          <div className="pl-3 pt-1 pr-3 pb-1 flex items-center justify-center gap-2 rounded-full bg-[#FFC65C] text-[#000]">
-                            <IoCall />
-                            <p>Request a call</p>
-                          </div>
-                        </a>
-                      </>
+                      <a href="tel:7670076006" className="flex items-center">
+                        <div className="px-3 py-1.5 flex items-center justify-center gap-2 rounded-full bg-[#FFC65C] text-[#000]">
+                          <IoCall />
+                          <p className="md:block hidden">Request a call</p>
+                        </div>
+                      </a>
                     )}
                   </div>
 
                   {/* Mobile Hamburger */}
-                  <div
-                    className={`lg:hidden  ${
-                      isNotFound
-                        ? "text-[#173366]" // If on the 404 page, show Logodark
+                  <button
+                    onClick={toggleMobileMenu}
+                    aria-label="Toggle mobile menu"
+                    className={`flex items-center justify-center p-2 hover:text-[#FFC65C] transition-colors duration-200 ${isNotFound
+                        ? "text-[#173366]"
                         : pathname === "/thank-you"
-                        ? "text-[#173366]"
-                        : navbarColor
-                        ? "text-[#173366]"
-                        : "bg-transparent"
-                    }`}
+                          ? "text-[#173366]"
+                          : navbarColor
+                            ? "text-[#173366]"
+                            : "text-white"
+                      }`}
                   >
-                    <button onClick={toggleMobileMenu} aria-label="Toggle mobile menu">
-                      {/* <Image src={Bar} alt="Bar" className="w-[30px]" /> */}
-                      <Menu size={28} aria-hidden="true" />
-                    </button>
-                  </div>
+                    <Menu size={28} aria-hidden="true" />
+                  </button>
                 </div>
                 {/* </div> */}
 
-                <div className="w-full hidden lg:block">
-                  {/* Top Nav Container */}
-                  <div className="py-5 flex items-center border-[#999999] border-b-2">
-                    <div className="xl:ml-5 ">
-                      {isBranchPage && (
-                        <div
-                          className="flex items-center group cursor-pointer"
-                          onClick={handleFindUs}
-                        >
-                          <IoLocationSharp
-                            size={25}
-                            className={`group-hover:text-[#FFC65C] ${
-                              isNotFound
-                          ? "text-[#173366]" // If on the 404 page, show Logodark
-                          :pathname === "/thank-you"
-                                ? "text-[#173366]"
-                                : navbarColor
-                                ? "text-[#173366]"
-                                : "text-[#ffff]"
-                            }`}
-                          />
-                          <span
-                            className={`ml-1 text-md ${
-                              isNotFound
-                          ? "text-[#173366]" // If on the 404 page, show Logodark
-                          :pathname === "/thank-you"
-                                ? "text-[#173366]"
-                                : navbarColor
-                                ? "text-[#173366]"
-                                : "text-[#ffff]"
-                            } sm:text-md font-medium group-hover:text-[#FFC65C]`}
-                          >
-                            Find us
-                          </span>
-                        </div>
-                      )}
-                    </div>
+                <div className="w-full hidden lg:flex items-center">
+                  {/* ── Desktop: top-bar utilities + main nav in a single row ── */}
+                  <div className="flex-1 flex flex-col my-10">
 
-                    <div className="flex-1 flex justify-end items-center hidden lg:flex ">
-                      {/* Right Navigation Items */}
-                      <div className="flex items-center">
-                        <ul
-                          className={`flex gap-9 font-medium ${
-                            isNotFound
-                          ? "text-[#173366]" // If on the 404 page, show Logodark
-                          :pathname === "/thank-you"
-                              ? "text-[#173366]"
-                              : navbarColor
-                              ? "text-[#173366]"
-                              : "text-[#fff]"
+                    {/* Top utility bar */}
+                    <div className={`flex items-center justify-end gap-4 py-2.5 border-b ${
+                      navbarColor ? "border-gray-100" : "border-white/15"
+                    }`}>
+                      {isBranchPage && (
+                        <button
+                          onClick={handleFindUs}
+                          className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 ${
+                            navbarColor || isNotFound || pathname === "/thank-you"
+                              ? "text-[#173366] hover:text-[#FFC65C]"
+                              : "text-white/90 hover:text-[#FFC65C]"
                           }`}
                         >
-                          <li>
-                            Helpline No :
-                            <Link
-                              href="tel:7670076006"
-                              className="hover:text-[#FFC65C] transition-colors duration-300 text-md cursor-pointer"
-                            >
-                              &nbsp;&nbsp;  +91 76-7007-6006
-                            </Link>
-                          </li>
-                          {topNavItems.map((item, index) => (
-                            <li
-                              key={index}
-                              className="hover:text-[#FFC65C] transition-colors duration-300 text-md cursor-pointer"
-                            >
-                              {item === "Book Appointment" && (
-                                <Link
-                                  href={"/#contact-now"}
-                                  // onClick={(e) => handleClick(e, "contact-now")}
-                                >
-                                  {item}
-                                </Link>
-                              )}
-                            </li>
-                          ))}
-                          <li
-                            className="flex items-center gap-2 group cursor-pointer"
-                            onClick={() => setIsModalOpen(true)}
-                          >
-                            <BsFillTelephoneInboundFill
-                              size={18}
-                              className="group-hover:text-[#FFC65C]"
-                            />
-                            <span className="group-hover:text-[#FFC65C] font-medium transition-colors duration-300 text-md">
-                              Request A Call
-                            </span>
-                          </li>
-                        </ul>
-                        {isModalOpen && (
-                          <RequestCallModal
-                            isOpen={isModalOpen}
-                            onClose={() => setIsModalOpen(false)}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                          <IoLocationSharp size={15} />
+                          Find us
+                        </button>
+                      )}
 
-                  {/* Main Navigation Bar for Larger Screens */}
-                  <div className="container mx-auto ">
-                    <div className="pb-4 pt-4 hidden lg:block">
-                      <div className="">
+                      <Link
+                        href="tel:7670076006"
+                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
+                          navbarColor || isNotFound || pathname === "/thank-you"
+                            ? "text-[#173366] hover:text-[#FFC65C]"
+                            : "text-white/90 hover:text-[#FFC65C]"
+                        }`}
+                      >
+                        <BsFillTelephoneInboundFill size={13} />
+                        +91 76-7007-6006
+                      </Link>
+
+                      <Link
+                        href="/#contact-now"
+                        className={`text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-200 ${
+                          navbarColor || isNotFound || pathname === "/thank-you"
+                            ? "bg-[#173366]/8 text-[#173366] hover:bg-[#173366]/14"
+                            : "bg-white/15 text-white hover:bg-white/25"
+                        }`}
+                      >
+                        Book Appointment
+                      </Link>
+
+                      <button
+                        onClick={() => setIsModalOpen(true)}
+                        className="text-sm font-semibold px-4 py-1.5 rounded-full bg-[#FFC65C] text-[#0f2347] hover:bg-[#f0b84a] transition-all duration-200 shadow-sm
+                        md:hidden block"
+                      >
+                        <div className="flex items-center gap-2">
+                          <IoCall />
+                        <div className="md:block hidden"> Request A Call </div> 
+                        </div>
+                      </button>
+                    </div>
+
+                  {/* Main Navigation */}
+                  <div>
+                    <div className="py-3">
+                      <div>
                         <ul
-                          className={`container flex gap-8 2xl:gap-12 font-medium justify-end ${
-                            isNotFound
-                          ? "text-[#173366]" // If on the 404 page, show Logodark
-                          :pathname === "/thank-you"
+                          className={`flex gap-6 2xl:gap-9 font-medium justify-end text-sm ${
+                            isNotFound || pathname === "/thank-you" || navbarColor
                               ? "text-[#173366]"
-                              : navbarColor
-                              ? "text-[#173366]"
-                              : "text-[#fff]"
+                              : "text-white"
                           }`}
                         >
                           {mainNavItems.map((item, index) => (
@@ -690,8 +641,11 @@ function Navbar() {
                               onMouseLeave={handleMouseLeave}
                             >
                               <div
-                                className={`hover:text-[#FFC65C] xl:ps-8 transition-colors duration-300 cursor-pointer text-md flex items-center gap-1
-    ${activeDropdown === index ? "text-[#FFC65C]" : ""}`}
+                                className={`flex items-center gap-1 cursor-pointer transition-colors duration-200 py-1 ${
+                                  activeDropdown === index
+                                    ? "text-[#FFC65C]"
+                                    : "hover:text-[#FFC65C]"
+                                }`}
                               >
                                 {typeof item.item === "string" ? (
                                   <Link href={item.link}>{item.item}</Link>
@@ -883,14 +837,21 @@ function Navbar() {
                       </div>
                     </div>
                   </div>
+
+                  </div>{/* end flex-1 */}
+                  {isModalOpen && (
+                    <RequestCallModal
+                      isOpen={isModalOpen}
+                      onClose={() => setIsModalOpen(false)}
+                    />
+                  )}
                 </div>
               </div>
-
-              {/* <hr className="h-px mt-2 mx-6 text-white bg-gray-200 border-0 dark:bg-gray-700"/> */}
             </div>
-          </div>
+            </div>
         </div>
       </div>
+         </header>
 
       {/* Mobile Menu */}
       <div className="relative">
@@ -1089,15 +1050,21 @@ function Navbar() {
 
                 {/* Mobile Action Buttons */}
                 <div className="relative">
-                  <div className="mt-8 gap-2 w-full fixed bottom-0 left-0 flex bg-[#173366]">
-                    <button className="w-full py-3 border-r text-white font-medium">
+                  <div className="mt-8 gap-0 w-full fixed bottom-0 left-0 flex shadow-[0_-4px_20px_rgba(23,51,102,0.12)]">
+                    <Link
+                      href="/#contact-now"
+                      onClick={toggleMobileMenu}
+                      className="w-full py-4 text-center bg-[#173366] text-white font-semibold text-sm border-r border-white/20 hover:bg-[#1e4080] transition-colors"
+                    >
                       Book Appointment
-                    </button>
+                    </Link>
                     <button
-                      className="w-full py-3 font-medium"
+                      className="w-full py-4 font-semibold text-sm bg-[#FFC65C] text-[#0f2347] hover:bg-[#f0b84a] transition-colors"
                       onClick={() => setIsModalOpen(true)}
                     >
-                      Request A Call
+                      <div className="md:block hidden">
+                        Request A Call
+                      </div>
                     </button>
                   </div>
                 </div>
@@ -1110,6 +1077,7 @@ function Navbar() {
           )}
         </AnimatePresence>
       </div>
+     
 
       {!isMobileMenuOpen && (
         <>
@@ -1137,7 +1105,8 @@ function Navbar() {
           </ul>
         </>
       )}
-    </header>
+       </>
+  
   );
 }
 

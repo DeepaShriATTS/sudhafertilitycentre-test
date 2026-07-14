@@ -2,14 +2,14 @@
 
 import { useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { Search, MapPin, Navigation, Loader2, MapPinned } from 'lucide-react';
+import { Search, MapPin, Navigation, Loader2, MapPinned, Navigation2 } from 'lucide-react';
 import { branches } from './footer';
 
 // Leaflet touches `window` at import time, so it must never run during SSR.
 const LocationPickerMap = dynamic(() => import('./LocationPicker'), {
   ssr: false,
   loading: () => (
-    <div className="flex h-[320px] w-full items-center justify-center rounded-lg bg-neutral-100 text-sm text-neutral-400">
+    <div className="flex h-[320px] w-full items-center justify-center rounded-xl bg-neutral-100 text-sm text-neutral-400">
       Loading map…
     </div>
   ),
@@ -21,6 +21,7 @@ const DEFAULT_MAP_CENTER = [22.9734, 78.6569];
 const CITY_PREVIEW_COUNT = 10;
 
 const BRAND_NAVY = 'text-[#1e2a45]';
+const BRAND_GOLD = '#FFC65C';
 
 function distanceKm(lat1, lng1, lat2, lng2) {
   const R = 6371;
@@ -115,21 +116,30 @@ export default function BranchesDirectory() {
   const visibleCities = filteredCities.slice(0, previewCount);
   const remaining = filteredCities.length - visibleCities.length;
 
+  const nearestHasCoords =
+    nearestBranch && typeof nearestBranch.lat === 'number' && typeof nearestBranch.lng === 'number';
+
   return (
     <div className="mx-auto w-full max-w-6xl py-6 md:py-12">
-      <p className="mb-1 text-sm text-neutral-500">{branches.length} branches</p>
-      <h1 className={`mb-5 text-xl font-semibold md:text-3xl ${BRAND_NAVY} md:mb-8`}>
-        Find your nearest branch
+      {/* Eyebrow badge */}
+      <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#E8EDF5] bg-[#F5F8FC] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#1e2a45]">
+        <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: BRAND_GOLD }} />
+        {branches.length} branches
+      </div>
+
+      <h1 className={`mb-5 text-3xl font-bold leading-tight tracking-tight md:mb-8 md:text-5xl ${BRAND_NAVY}`}>
+        Find your nearest{' '}
+        <span style={{ color: BRAND_GOLD }}>branch</span>
       </h1>
 
-      <div className="mb-6 rounded-lg border border-neutral-200 bg-neutral-50 p-4">
+      <div className="mb-6 rounded-2xl border border-[#E8EDF5] bg-[#F8FAFC] p-5 shadow-sm">
         {!userCoords && !pinMode && (
           <div className="flex flex-wrap gap-2.5">
             <button
               type="button"
               onClick={handleFindNearestClick}
               disabled={locating}
-              className="flex h-11 items-center gap-2 rounded-lg bg-[#1e2a45] px-4 text-sm font-medium text-white transition-transform active:scale-[0.98] disabled:opacity-60"
+              className="flex h-11 items-center gap-2 rounded-xl bg-[#1e2a45] px-4 text-sm font-medium text-white shadow-sm transition-transform active:scale-[0.98] disabled:opacity-60"
             >
               {locating ? (
                 <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -141,7 +151,7 @@ export default function BranchesDirectory() {
             <button
               type="button"
               onClick={() => setPinMode(true)}
-              className={`flex h-11 items-center gap-2 rounded-lg border-2 border-[#1e2a45] bg-transparent px-4 text-sm font-medium ${BRAND_NAVY} transition-transform active:scale-[0.98] hover:bg-[#1e2a45] hover:text-white`}
+              className={`flex h-11 items-center gap-2 rounded-xl border-2 border-[#1e2a45] bg-white px-4 text-sm font-medium ${BRAND_NAVY} transition-transform active:scale-[0.98] hover:bg-[#1e2a45] hover:text-white`}
             >
               <MapPinned className="h-4 w-4" aria-hidden="true" />
               Pin on map instead
@@ -175,32 +185,43 @@ export default function BranchesDirectory() {
         )}
 
         {userCoords && nearestBranch && (
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#E8EDF5] bg-white p-4 shadow-sm">
             <div>
-              <p className="text-xs uppercase tracking-wide text-neutral-500">Nearest branch</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">Nearest branch</p>
               <a
                 href={`/${nearestBranch.link}`}
-                className={`flex items-center gap-1.5 text-base font-semibold ${BRAND_NAVY} hover:text-[#FFC65C]`}
+                className={`mt-0.5 flex items-center gap-1.5 text-base font-semibold ${BRAND_NAVY} hover:text-[#FFC65C]`}
               >
                 <MapPin className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
                 {nearestBranch.title}
-                <span className="ml-2 text-sm font-normal text-neutral-500">
+                <span className="ml-1 text-sm font-normal text-neutral-500">
                   {nearestBranch.distance.toFixed(1)} km away
                 </span>
               </a>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              {nearestHasCoords && (
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${nearestBranch.lat},${nearestBranch.lng}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-9 items-center gap-1.5 rounded-lg border border-[#1e2a45] px-3 text-xs font-medium text-[#1e2a45] transition-colors hover:bg-[#1e2a45] hover:text-white"
+                >
+                  <Navigation2 className="h-3.5 w-3.5" aria-hidden="true" />
+                  Get directions
+                </a>
+              )}
               <button
                 type="button"
                 onClick={handleFindNearestClick}
-                className="text-sm font-medium text-neutral-500 hover:text-[#1e2a45]"
+                className="text-xs font-medium text-neutral-500 hover:text-[#1e2a45]"
               >
-                Refresh location
+                Refresh
               </button>
               <button
                 type="button"
                 onClick={() => setPinMode(true)}
-                className="text-sm font-medium text-neutral-500 hover:text-[#1e2a45]"
+                className="text-xs font-medium text-neutral-500 hover:text-[#1e2a45]"
               >
                 Adjust pin
               </button>
@@ -228,7 +249,7 @@ export default function BranchesDirectory() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search by city"
               aria-label="Search by city"
-              className="h-11 w-full rounded-lg border border-neutral-200 bg-neutral-50 pl-10 pr-3 text-base text-neutral-900 outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-100 md:h-12 md:max-w-sm"
+              className="h-11 w-full rounded-xl border border-[#E8EDF5] bg-[#F8FAFC] pl-10 pr-3 text-base text-neutral-900 shadow-sm outline-none transition-colors focus:border-[#1e2a45] focus:ring-2 focus:ring-[#1e2a45]/10 md:h-12 md:max-w-sm"
             />
           </div>
         </div>
@@ -237,21 +258,18 @@ export default function BranchesDirectory() {
           <p className="py-6 text-center text-sm text-neutral-400">No branches match your search.</p>
         )}
 
-        <div
-          role="list"
-          className="divide-y divide-neutral-200 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:divide-y-0 lg:grid-cols-3 xl:grid-cols-4"
-        >
+        <div role="list" className="flex flex-wrap gap-2.5">
           {visibleCities.map((branch) => (
             <a
               key={branch.link}
               href={`/${branch.link}`}
               role="listitem"
-              className={`group flex min-h-[44px] items-center gap-2.5 py-2 text-base font-medium ${BRAND_NAVY} transition-colors hover:text-[#FFC65C] md:min-h-0 md:py-1.5`}
+              className={`group flex min-h-[44px] items-center gap-1.5 rounded-full border border-[#E8EDF5] bg-white px-3.5 py-2 text-sm font-medium ${BRAND_NAVY} shadow-sm transition-colors hover:border-[#1e2a45] hover:bg-[#1e2a45] hover:text-white`}
             >
-              <MapPin className={`h-4 w-4 flex-shrink-0 ${BRAND_NAVY} transition-colors group-hover:text-[#FFC65C]`} aria-hidden="true" />
+              <MapPin className="h-3.5 w-3.5 flex-shrink-0 text-[#1e2a45] transition-colors group-hover:text-white" aria-hidden="true" />
               {branch.title}
               {branch.distance !== null && (
-                <span className="ml-auto text-xs font-normal text-neutral-400">
+                <span className="text-xs font-normal text-neutral-400 transition-colors group-hover:text-white/70">
                   {branch.distance.toFixed(1)} km
                 </span>
               )}
@@ -263,7 +281,7 @@ export default function BranchesDirectory() {
           <button
             type="button"
             onClick={() => setShowAll(true)}
-            className={`flex min-h-[40px] items-center gap-1 py-2 text-sm font-medium ${BRAND_NAVY} transition-colors hover:text-[#FFC65C]`}
+            className={`mt-4 flex min-h-[40px] items-center gap-1 rounded-full border border-[#E8EDF5] bg-white px-4 py-2 text-sm font-medium ${BRAND_NAVY} shadow-sm transition-colors hover:border-[#1e2a45]`}
           >
             Show {remaining} more
           </button>
@@ -272,7 +290,7 @@ export default function BranchesDirectory() {
           <button
             type="button"
             onClick={() => setShowAll(false)}
-            className="flex min-h-[40px] items-center gap-1 py-2 text-sm font-medium text-neutral-500"
+            className="mt-4 flex min-h-[40px] items-center gap-1 rounded-full border border-[#E8EDF5] bg-white px-4 py-2 text-sm font-medium text-neutral-500 shadow-sm"
           >
             Show less
           </button>

@@ -1,53 +1,59 @@
 "use client";
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, useId } from "react";
 import Image from "next/image";
 import BookingButton from "@/components/button/bookingButton";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
-import { HiPhone } from "react-icons/hi";
+import { HiPhone, HiHeart, HiStar } from "react-icons/hi";
 import "./hero-banner-slider.css";
 
 import newbanner from "@/assets/Home/newbanner.webp";
-import freecamp from "@/assets/Home/freecamp.webp";
 import freecampmobile from "@/assets/Home/freecampmobile.webp";
 import successstories from "@/assets/Home/successstories.webp";
+import homebannerbg from "@/assets/Home/homebannerbg.webp";
+
 
 const slides = [
   {
-    heading: "Putting your health first with empathy and skill",
+    heading: "Welcome the Sweet Sound of Laughter",
+    btnText: "Schedule your free consultation",
     description:
-      "We are a leading fertility facility across South India, dedicated to providing exceptional care and world-class treatments for all patients on their parenthood journey.",
-    btnText: "Get Started",
+      "Our experts are here to take away your years of waiting and help you start your family. Because your home deserves the beautiful chaos of tiny baby footsteps and endless joy",
     img: newbanner,
     mobileImg: newbanner,
   },
   {
-    heading: "Welcome the sweet sound of laughter into your home",
+    heading: "For everyone who is tired of looking at an empty cradle",
+    btnText: "Begin your free parenthood Journey",
     description:
-      "Our experts are here to take away your years of waiting and help you start your family. Because your home deserves the beautiful chaos of tiny baby footsteps and endless joy.",
-    btnText: "Begin your journey",
-    img: freecamp,
+      "We have spent forty years changing quiet, lonely houses into happy homes filled with laughter. Our forty-year legacy is written in the smiles of over one lakh IVF babies born here",
+    img: freecampmobile,
     mobileImg: freecampmobile,
   },
   {
     heading: "You do not have to travel far or face this alone",
+    btnText: "Register for your free Consultation today",
     description:
-      "We have opened 40+ Centres across South India so you can get expert medical help close to home. Come sit down for a free chat with our doctors.",
-    btnText: "Register for free consultation",
+      "We have opened 40+ Centres across South India so you can get expert medical help close to home. Come sit down for a private, completely free chat with our doctors at our next neighborhood camp",
     img: successstories,
     mobileImg: successstories,
   },
 ];
 
+
+
 const SLIDE_INTERVAL = 5000;
+const PHONE_DISPLAY = "+91 76 7007 6006";
+const PHONE_HREF = "tel:+917670076006";
 
 const HeroBannerSlider = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDesktop, setIsDesktop] = useState(false);
   const timerRef = useRef(null);
-  const isPausedRef = useRef(false);
+  // const headingId = useId();
 
   useEffect(() => {
-    const mql = window.matchMedia("(min-width: 1024px)");
+    // Use 1280px so phone link only shows when there's room alongside CTA button
+    const mql = window.matchMedia("(min-width: 1280px)");
     const update = () => setIsDesktop(mql.matches);
     update();
     mql.addEventListener("change", update);
@@ -61,178 +67,120 @@ const HeroBannerSlider = () => {
     });
   }, []);
 
-  const goPrev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo]);
-  const goNext = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo]);
+  const goPrev = () => goTo(activeIndex - 1);
+  const goNext = () => goTo(activeIndex + 1);
 
   useEffect(() => {
-    if (isPausedRef.current) return;
     timerRef.current = setTimeout(() => goTo(activeIndex + 1), SLIDE_INTERVAL);
     return () => clearTimeout(timerRef.current);
   }, [activeIndex, goTo]);
 
-  const togglePause = useCallback(() => {
-    isPausedRef.current = !isPausedRef.current;
-    if (isPausedRef.current) {
-      clearTimeout(timerRef.current);
-    } else {
-      timerRef.current = setTimeout(() => goTo(activeIndex + 1), SLIDE_INTERVAL);
-    }
-  }, [activeIndex, goTo]);
-
-  const handleBannerClick = useCallback(
-    (e) => {
-      if (e.target.closest("button") || e.target.closest("a")) return;
-      togglePause();
-    },
-    [togglePause]
-  );
-
   const activeSlide = slides[activeIndex];
 
   return (
-    <div className="hero-banner-slider" onClick={handleBannerClick}>
-      <div className="hero-decorative-wrap">
-        <div className="hero-circle-outline-lg" />
-        <div className="hero-circle-gold" />
-        <div className="hero-circle-outline-xl" />
+    <div className={`hero-banner-slider`}>
+
+      {/* ── Background image, one per slide ── */}
+      <div className="hero-decorative-canvas" aria-hidden="true">
+        <div key={activeIndex} className="hero-bg-slide">
+          <Image
+            src={homebannerbg}
+            alt=""
+            fill
+            sizes="100vw"
+            quality={80}
+            priority={activeIndex === 0}
+            className="object-cover"
+          />
+        </div>
+        <div className="watercolor-leak" />
       </div>
 
-      <div className="hero-section-wrap container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="hero-section-wrap">
         <div className="hero-card">
           <div className="hero-grid">
-            {/* Text column — always renders first in DOM, sits left at desktop */}
-            <div className="hero-text-col flex flex-col justify-center px-5 sm:px-8 lg:px-14 py-6 sm:py-8 lg:py-12">
-              {isDesktop
-                ? slides.map((slide, index) => (
-                    <div
-                      key={index}
-                      className={`hero-slide-panel flex flex-col justify-center px-5 sm:px-8 lg:px-14 py-6 sm:py-8 lg:py-12 ${
-                        index === activeIndex ? "is-active" : "is-inactive"
-                      }`}
-                    >
-                      <h1 className="hero-heading font-outfit font-bold leading-tight mb-3 sm:mb-4">
-                        {slide.heading}
-                      </h1>
-                      <p className="hero-description text-gray-500 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
-                        {slide.description}
-                      </p>
-                      <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                        <BookingButton
-                          title={slide.btnText}
-                          className="hero-cta-btn rounded-full text-sm sm:text-base font-medium px-5 sm:px-6 py-2.5 sm:py-3"
-                        />
-                        <a
-                          href="tel:+917670076006"
-                          className="hero-phone-link flex items-center gap-2 text-sm sm:text-base font-medium transition-colors"
-                        >
-                          <span className="hero-phone-icon-wrap w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center">
-                            <HiPhone size={16} color="#173366" />
-                          </span>
-                          Call us now!
-                        </a>
-                      </div>
-                    </div>
-                  ))
-                : (
-                    <div className="hero-slide-panel flex flex-col justify-center is-active">
-                      <h1 className="hero-heading font-outfit font-bold leading-tight mb-3 sm:mb-4">
-                        {activeSlide.heading}
-                      </h1>
-                      <p className="hero-description text-gray-500 text-sm sm:text-base leading-relaxed mb-6 sm:mb-8">
-                        {activeSlide.description}
-                      </p>
-                      <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                        <BookingButton
-                          title={activeSlide.btnText}
-                          className="hero-cta-btn rounded-full text-sm sm:text-base font-medium px-5 sm:px-6 py-2.5 sm:py-3"
-                        />
-                        <a href="tel:+917670076006"
-                          className="hero-phone-link flex items-center gap-2 text-sm sm:text-base font-medium transition-colors"
-                        >
-                          <span className="hero-phone-icon-wrap w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center">
-                            <HiPhone size={16} color="#173366" />
-                          </span>
-                          Call us now!
-                        </a>
-                      </div>
-                    </div>
+
+            {/* Left Column Content Block */}
+            <div className="hero-text-col ">
+              <div className="hero-slide-panel">
+                <h1 className="hero-heading">{activeSlide.heading}</h1>
+                <p className="hero-description">{activeSlide.description}</p>
+
+                <div className="hero-cta-row">
+                  <BookingButton variant="primary" title={activeSlide.btnText} />
+                  {isDesktop && (
+                    <a href={PHONE_HREF} className="hero-phone-link">
+                      <span className="hero-phone-icon-wrap">
+                        <HiPhone size={18} />
+                      </span>
+                      {PHONE_DISPLAY}
+                    </a>
                   )}
+                </div>
+              </div>
+
+              {/* Slider Dots */}
+              <div className="hero-pagination-inline">
+                <button onClick={goPrev} className="hero-pg-arrow" aria-label="Previous slide">
+                  <MdChevronLeft size={18} />
+                </button>
+                <div className="hero-pg-dots">
+                  {slides.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => goTo(i)}
+                      className={`hero-pg-dot ${i === activeIndex ? "is-active" : ""}`}
+                      aria-label={`Go to slide ${i + 1}`}
+                    />
+                  ))}
+                </div>
+                <button onClick={goNext} className="hero-pg-arrow" aria-label="Next slide">
+                  <MdChevronRight size={18} />
+                </button>
+              </div>
             </div>
 
-            {/* Image column — order:1 at desktop pushes it right */}
-            <div className="hero-image-panel">
-              <div className="hero-image-base" />
-
-              {isDesktop
-                ? slides.map((slide, index) => (
+            {/* Right Column Frame Block */}
+            <div className="hero-image-col">
+              <div className="hero-image-blob-wrap">
+                <div className="hero-image-blob">
+                  {slides.map((slide, index) => (
                     <div
                       key={index}
-                      className={`hero-image-slide ${
-                        index === activeIndex ? "is-active" : "is-inactive"
-                      }`}
+                      className={`hero-image-slide ${index === activeIndex ? "is-active" : ""}`}
                     >
                       <Image
                         src={slide.img}
                         alt={slide.heading}
                         fill
-                        sizes="50vw"
-                        quality={80}
-                        loading={index === 0 ? "eager" : "lazy"}
-                        className="object-cover object-center"
+                        sizes="(min-width: 1024px) 42vw, 100vw"
+                        quality={85}
+                        priority={index === 0}
+                        className="object-cover"
+                        style={{ objectPosition: slide.imgPosition }}
                       />
                     </div>
-                  ))
-                : (
-                    <Image
-                      src={activeSlide.mobileImg}
-                      alt={activeSlide.heading}
-                      fill
-                      sizes="100vw"
-                      quality={80}
-                      loading="eager"
-                      className="object-cover object-center"
-                    />
-                  )}
-
-              <div className="hero-diagonal-accent" />
-              <div className="hero-image-accent-bar" />
-
-              <div className="hero-nav-wrap">
-                <div className="hero-dots-track">
-                  {slides.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        goTo(i);
-                      }}
-                      aria-label={`Go to slide ${i + 1}`}
-                      className={`hero-dot ${i === activeIndex ? "is-active" : ""}`}
-                    />
                   ))}
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goPrev();
-                  }}
-                  aria-label="Previous slide"
-                  className="hero-arrow-btn"
-                >
-                  <MdChevronLeft size={16} />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goNext();
-                  }}
-                  aria-label="Next slide"
-                  className="hero-arrow-btn"
-                >
-                  <MdChevronRight size={16} />
-                </button>
+
+                <div className="hero-glass-badge hero-glass-badge--top-left">
+                  <span><HiStar size={18} /></span>
+                  <div>
+                    <strong>98% Success Rate</strong>
+                    <span style={{ fontSize: "0.68rem", display: "block" }}>IVF live birth success</span>
+                  </div>
+                </div>
+
+                <div className="hero-glass-badge hero-glass-badge--bottom-right">
+                  <span><HiHeart size={18} /></span>
+                  <div>
+                    <strong>Every heartbeat matters</strong>
+                    <span style={{ fontSize: "0.68rem", display: "block" }}>Real-time care monitoring</span>
+                  </div>
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>
