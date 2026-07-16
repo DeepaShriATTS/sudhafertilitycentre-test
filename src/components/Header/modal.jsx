@@ -238,6 +238,10 @@ const Modals = ({ isOpen, onClose }) => {
                             ? "0 0 0 1px #1C315E"
                             : "none",
                       }}
+                      dropdownStyle={{
+                        width: "260px",
+                        maxWidth: "85vw",
+                      }}
                     />
                   )}
                 />

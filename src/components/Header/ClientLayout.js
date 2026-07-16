@@ -1,6 +1,12 @@
 // src/components/ClientLayout.js (CLIENT COMPONENT ✅)
 "use client";
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
+
+const VerticalSidebar = dynamic(
+  () => import("@/components/VerticalSidebar/VerticalSidebar"),
+  { ssr: false }
+);
 
 export default function ClientLayout({ children }) {
 //   useEffect(() => {
@@ -24,5 +30,10 @@ export default function ClientLayout({ children }) {
 //     };
 //   }, []);
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <VerticalSidebar />
+    </>
+  );
 }

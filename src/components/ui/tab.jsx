@@ -37,6 +37,16 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
   const [isHovering, setIsHovering] = useState(false);
   const isAnimatingRef = useRef(false);
   const timerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const total = tabs.length;
   const activeTab = tabs[index];
@@ -121,7 +131,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
 
         {/* RIGHT: image slider */}
         <div
-          className="relative mx-auto h-[420px] w-full max-w-[420px] cursor-grab select-none active:cursor-grabbing"
+          className="relative mx-auto h-[260px] xs:h-[320px] sm:h-[380px] md:h-[420px] w-full max-w-[420px] cursor-grab select-none active:cursor-grabbing"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
@@ -158,7 +168,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.55, ease: "easeInOut" }}
-                drag="x"
+                drag={isMobile ? false : "x"}
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.2}
                 onDragEnd={handleDragEnd}

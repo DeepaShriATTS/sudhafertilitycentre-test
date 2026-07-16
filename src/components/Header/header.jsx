@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoCall, IoClose, IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneInboundFill } from "react-icons/bs";
+import { FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import Logo from "@/assets/logo.svg";
 import Logodark from "@/assets/logo-dark.svg";
@@ -11,8 +12,6 @@ import DarkLogo from "@/assets/logo-dark.svg";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
 import RequestCallModal from "./modal";
-import whatsapp from "@/assets/floatIcons/whatsapp.svg";
-import call from "@/assets/floatIcons/Call.svg";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useNotFound } from "@/context/NotFoundContext";
@@ -477,7 +476,7 @@ function Navbar() {
       className={`w-full lg:py-2 font-outfit z-30 sticky top-0 transition-all duration-300 ${
         navbarColor
           ? "bg-white/95 backdrop-blur-md shadow-[0_2px_20px_rgba(23,51,102,0.10)] border-b border-gray-100/80"
-          : "bg-transparent"
+          : "bg-[#061229]"
       }`}
     >
       <div className="w-full" id="header">
@@ -540,7 +539,7 @@ function Navbar() {
                     ) : (
                       <a href="tel:7670076006" className="flex items-center">
                         <div className="px-3 py-1.5 flex items-center justify-center gap-2 rounded-full bg-[#FFC65C] text-[#000]">
-                          <IoCall />
+                         <span className="ring-pulse"> <IoCall /> </span> 
                           <p className="md:block hidden">Request a call</p>
                         </div>
                       </a>
@@ -567,7 +566,7 @@ function Navbar() {
 
                 <div className="w-full hidden lg:flex items-center">
                   {/* ── Desktop: top-bar utilities + main nav in a single row ── */}
-                  <div className="flex-1 flex flex-col my-10">
+                  <div className="flex-1 flex flex-col my-2">
 
                     {/* Top utility bar */}
                     <div className={`flex items-center justify-end gap-4 py-2.5 border-b ${
@@ -587,17 +586,18 @@ function Navbar() {
                         </button>
                       )}
 
-                      <Link
-                        href="tel:7670076006"
-                        className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${
-                          navbarColor || isNotFound || pathname === "/thank-you"
-                            ? "text-[#173366] hover:text-[#FFC65C]"
-                            : "text-white/90 hover:text-[#FFC65C]"
-                        }`}
-                      >
-                        <BsFillTelephoneInboundFill size={13} />
-                        +91 76-7007-6006
-                      </Link>
+                        <Link
+                          href="tel:7670076006"
+                          className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${navbarColor || isNotFound || pathname === "/thank-you"
+                              ? "text-[#173366] hover:text-[#FFC65C]"
+                              : "text-white/90 hover:text-[#FFC65C]"
+                            }`}
+                        >
+                          <span className="ring-pulse">
+                            <BsFillTelephoneInboundFill size={13} />
+                          </span>
+                          +91 76-7007-6006
+                        </Link>
 
                       <Link
                         href="/#contact-now"
@@ -783,7 +783,6 @@ function Navbar() {
                                           handleStateHover(null)
                                         }
                                       >
-                                        {console.log("resource",state)}
                                         {state.name === "Blog" ? (
                                           <div className="px-4 py-2  hover:text-[#FFC65C] cursor-pointer flex justify-between items-center">
                                             <Link
@@ -1062,9 +1061,7 @@ function Navbar() {
                       className="w-full py-4 font-semibold text-sm bg-[#FFC65C] text-[#0f2347] hover:bg-[#f0b84a] transition-colors"
                       onClick={() => setIsModalOpen(true)}
                     >
-                      <div className="md:block hidden">
-                        Request A Call
-                      </div>
+                      Request A Call
                     </button>
                   </div>
                 </div>
@@ -1080,30 +1077,29 @@ function Navbar() {
      
 
       {!isMobileMenuOpen && (
-        <>
-          <ul className="fixed md:top-60 top-80 -right-7 flex flex-col space-y-5 z-40 ">
-            <li>
-              <a
-                href="https://wa.me/7670076006"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center w-28 h-14   rounded-full  hover:scale-105 transition-transform"
-              >
-                <Image src={whatsapp} alt="whatsapp" width={80} height={80} />
-              </a>
-            </li>
+        <div
+          className="contact-sidebar md:hidden"
+          role="complementary"
+          aria-label="Quick contact options"
+        >
+          <a
+            href="https://wa.me/7670076006"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat with us on WhatsApp"
+            className="contact-btn whatsapp-btn"
+          >
+            <FaWhatsapp aria-hidden="true" className="contact-icon whatsapp-icon" />
+          </a>
 
-            {/* Phone Call Button */}
-            <li>
-              <a
-                href="tel:7670076006"
-                className="flex items-center justify-center w-28 h-14   rounded-full  hover:scale-105 transition-transform"
-              >
-                <Image src={call} alt="Phone" width={80} height={80} />
-              </a>
-            </li>
-          </ul>
-        </>
+          <a
+            href="tel:7670076006"
+            aria-label="Call us now"
+            className="contact-btn phone-btn"
+          >
+            <IoCall aria-hidden="true" className="contact-icon phone-icon" />
+          </a>
+        </div>
       )}
        </>
   

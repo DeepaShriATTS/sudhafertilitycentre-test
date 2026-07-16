@@ -24,9 +24,8 @@ function BookingButton({ title, link = "",icon, className  }) {
     <button className={`${className}  button-all`} onClick={(e) => handleClick(e, "contact-now")} >
         {title}
         <span className={`ml-2 transform transition-all duration-500 ${icon ? '' : 'rotate-45'}`}>
-  {icon || <MdArrowOutward />}
-</span>
-
+         {icon || <MdArrowOutward />}
+        </span>
     </button>
  
   );

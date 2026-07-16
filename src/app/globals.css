@@ -1,5 +1,3 @@
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,7 +9,6 @@ body {
   max-width: 100%;
   margin-inline: auto;
 }
-
 
 .no-visible-scrollbar {
     scrollbar-width: none;
@@ -222,8 +219,506 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   }
 }
 
+/* ─────────────────────────────────────────────────────────────────────────
+   Floating Contact Sidebar (WhatsApp + Call)
+   Only `transform` and `opacity` are animated (GPU-friendly, no layout
+   shift, no animated box-shadow). Motion is disabled under
+   prefers-reduced-motion.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.contact-sidebar {
+  position: fixed;
+  top: 50%;
+  right: 24px; /* desktop */
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 1024px) {
+  .contact-sidebar {
+    right: 12px; /* tablet */
+    gap: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-sidebar {
+    right: 8px; /* mobile */
+    gap: 10px;
+  }
+}
+
+.contact-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background: #ffffff;
+  text-decoration: none;
+  box-shadow:
+    0 4px 14px rgba(16, 40, 78, 0.18),
+    0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.25s ease;
+  will-change: transform;
+}
+
+@media (max-width: 640px) {
+  .contact-btn {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+.contact-btn:hover,
+.contact-btn:focus-visible {
+  transform: translateY(-3px) scale(1.08);
+  box-shadow:
+    0 10px 24px rgba(16, 40, 78, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.contact-btn:focus-visible {
+  outline: 3px solid #ffc65c;
+  outline-offset: 3px;
+}
+
+.contact-icon {
+  position: relative;
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .contact-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.whatsapp-icon { color: #25d366; }
+.phone-icon    { color: #10284e; }
+
+/* WhatsApp — gentle float + subtle scale */
+.whatsapp-btn {
+  animation: waFloat 1.5s ease-in-out infinite;
+}
+
+@keyframes waFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%      { transform: translateY(-4px) scale(1.06); }
+}
+
+/* Soft pulsing glow — animates OPACITY of a radial layer, never box-shadow */
+.whatsapp-btn::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  z-index: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(37, 211, 102, 0.35) 0%, rgba(37, 211, 102, 0) 70%);
+  animation: waGlow 2s ease-in-out infinite;
+  will-change: opacity;
+  pointer-events: none;
+}
+
+@keyframes waGlow {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.85; }
+}
+
+/* Phone — ringing icon rotation, burst then hold for the rest of the 3s cycle */
+.phone-icon {
+  animation: phoneRing 1.8s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+@keyframes phoneRing {
+  0%, 100% { transform: rotate(0deg); }
+  4%       { transform: rotate(-15deg); }
+  9%       { transform: rotate(15deg); }
+  14%      { transform: rotate(-15deg); }
+  19%      { transform: rotate(15deg); }
+  23%      { transform: rotate(0deg); }
+}
+
+/* Phone — two staggered expanding ripples */
+.phone-btn::before,
+.phone-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: 9999px;
+  border: 2px solid rgba(16, 40, 78, 0.35);
+  animation: ripple 1.5s ease-out infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.phone-btn::after {
+  animation-delay: 0.4s;
+}
+
+@keyframes ripple {
+  0%   { transform: scale(1);   opacity: 0.35; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .whatsapp-btn,
+  .whatsapp-btn::before,
+  .phone-icon,
+  .phone-btn::before,
+  .phone-btn::after {
+    animation: none !important;
+  }
+
+  .contact-btn {
+    transition: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Shared "ringing" keyframes — still used by the navbar's inline phone
+   icons (the <span className="ring-pulse"> wrappers around IoCall /
+   BsFillTelephoneInboundFill further up in this file).
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes fabPulseRing {
+  0%   { opacity: 0.55; transform: scale(1);    }
+  100% { opacity: 0;    transform: scale(1.3); }
+}
+
+@keyframes fabIconRing {
+  0%,  100% { transform: rotate(0deg);   }
+  5%         { transform: rotate(-14deg); }
+  10%        { transform: rotate(14deg);  }
+  15%        { transform: rotate(-11deg); }
+  20%        { transform: rotate(11deg);  }
+  25%        { transform: rotate(-7deg);  }
+  30%        { transform: rotate(7deg);   }
+  35%        { transform: rotate(0deg);   }
+}
+
+/* ── Reusable ring-pulse for navbar call icon ── */
+.ring-pulse {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: fabIconRing 2s ease-in-out infinite;
+}
+
+.ring-pulse::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 198, 92, 0.55);
+  animation: fabPulseRing 1.5s infinite;
+  pointer-events: none;
+}
+
+.ring-pulse.whatsapp-ring::before {
+  border-color: rgba(37, 211, 102, 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ring-pulse,
+  .ring-pulse::before {
+    animation: none !important;
+  }
+}
+
+/* ensure sticky header never gets clipped by an overflow-hidden ancestor */
+#header {
+  position: relative;
+  z-index: 30;
+}
+
+/* ==========================================================================
+   Full-Viewport-Height Vertical Sidebar (LCP Optimized)
+   ========================================================================== */
+
+.vertical-sidebar-container {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .vertical-sidebar-container {
+    position: fixed;
+    right: 0;
+    top: 96px;
+    bottom: 0;
+    width: 60px;
+    height: calc(100dvh - 96px);
+    z-index: 45;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 0;
+    contain: layout style;
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  .vertical-sidebar-container * {
+    pointer-events: auto;
+  
+  }
+
+}
+
+@media (max-width: 767px) {
+  main {
+    padding-right: 0;
+  }
+
+  .container,
+  .hero-text-col,
+  .hero-grid {
+    padding-right: 52px !important;
+  }
+}
 
 
-  
-  
- 
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+}
+
+.sidebar-item-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-action-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              background-color 0.25s ease, 
+              color 0.25s ease, 
+              border-color 0.25s ease;
+  position: relative;
+  z-index: 2;
+  will-change: transform;
+}
+
+/* WhatsApp Style */
+.sidebar-action-btn.whatsapp {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: #25d366;
+  animation: whatsappFloat 1.5s ease-in-out infinite;
+  box-shadow:
+    0 4px 14px rgba(16, 40, 78, 0.18),
+    0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-action-btn.whatsapp:hover {
+  background: #ffffff;
+  color: #25d366;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow:
+    0 10px 24px rgba(37, 211, 102, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Phone Style */
+.sidebar-action-btn.phone {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  color: #10284e;
+  box-shadow:
+    0 4px 14px rgba(16, 40, 78, 0.18),
+    0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-action-btn.phone:hover {
+  background: #ffffff;
+  color: #10284e;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow:
+    0 10px 24px rgba(16, 40, 78, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* Appointment Style */
+.sidebar-action-btn.appointment {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.sidebar-action-btn.appointment:hover {
+  background: transparent;
+  color: #061229;
+  border-color: #ffffff;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.25);
+}
+
+/* Location Style */
+.sidebar-action-btn.location {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #a0aec0;
+}
+
+.sidebar-action-btn.location:hover,
+.sidebar-action-btn.location.active-location {
+  background: #173366;
+  color: #ffffff;
+  border-color: #173366;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 4px 14px rgba(23, 51, 102, 0.4);
+}
+
+.sidebar-icon {
+  font-size: 16px;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .sidebar-icon {
+    font-size: 24px;
+    
+  }
+}
+
+/* Ring animations adjusted to be performance-safe */
+.phone-icon-anim {
+  animation: phoneRing 1.8s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.sidebar-pulse-ring {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  z-index: 0;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(37, 211, 102, 0.25) 0%, rgba(37, 211, 102, 0) 70%);
+  animation: waGlow 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.sidebar-pulse-ring.phone-pulse {
+  background: radial-gradient(circle, rgba(255, 198, 92, 0.25) 0%, rgba(255, 198, 92, 0) 70%);
+}
+
+/* Tooltip */
+.sidebar-tooltip {
+  position: absolute;
+  right: 70px;
+  background: #061229;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateX(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.sidebar-item-group:hover .sidebar-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Sidebar Footer & Scroll Top */
+.sidebar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+}
+
+.scroll-top-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.scroll-top-btn:hover {
+  background: #ffffff;
+  color: #061229;
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone-icon-anim,
+  .sidebar-pulse-ring {
+    animation: none !important;
+  }
+}
+.scroll-top-floating {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+  background: #173366;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 60;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  transition: transform .2s ease;
+}
+
+.scroll-top-floating:hover {
+  transform: translateY(-2px);
+}
+
+@keyframes whatsappFloat {
+  0%,100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-4px) scale(1.08);
+  }
+}

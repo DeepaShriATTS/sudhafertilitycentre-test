@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 // ── Assets
-import Founder from "@/assets/Home/Founder.webp";
 import BookPic from "@/assets/Home/BookPic.webp";
 import Vitro from "@/assets/Home/Vitro.svg";
 import Intrauterine from "@/assets/Home/Intrauterine.svg";
@@ -15,17 +14,21 @@ import Intracytoplasmic from "@/assets/Home/Intracytoplasmic.svg";
 import Laser_Assisted from "@/assets/Home/Laser-Assisted.svg";
 import Pregnancy from "@/assets/Home/Pregnancy.svg";
 
-// ── Components
+// ── Components (static — always bundled into the main chunk)
 import BookingButton from "@/components/button/bookingButton";
 import Buttonbottm from "@/components/button";
 import Button from "@/components/button/button";
 import LoadingSpinner from '@/components/ui/loadingSpinner';
+// Hero Banner — static import (NOT dynamic).
+// The hero is always the LCP element: code-splitting it adds an extra
+// network round-trip before first paint. SSR renders it inline instead.
+import HeroBannerSlider from "@/components/heroBanner/HeroBannerSlider";
 
 // ── Data
-import { testimonials, tabs, reviews } from "../../utils/homepageData";
+import { tabs, reviews } from "../../utils/homepageData";
 import { Homevideos } from "@/middleware/videosRoute";
 
-// ── Dynamic imports (performance optimized)
+// ── Dynamic imports — below-fold components only, loaded on scroll ──
 const FloatingButton = dynamic(
   () => import("@/components/FloatingButton"),
   { ssr: false, loading: () => null }
@@ -58,10 +61,6 @@ const GallerySlider = dynamic(() => import("@/components/videoCard/videoPlaylist
 });
 
 const JourneyCard = dynamic(() => import("@/components/JourneyCard/journeyCard"), {
-  loading: () => <LoadingSpinner height="300px" />
-});
-
-const HeroBannerSlider = dynamic(() => import("@/components/heroBanner/HeroBannerSlider"), {
   loading: () => <LoadingSpinner height="300px" />
 });
 
@@ -101,11 +100,11 @@ function LazySection({ children, height = "300px", className = "" }) {
 // ── Achievement Metrics Tile ──
 function AchievementTile({ number, label }) {
   return (
-    <div className="border border-[#E7E7E7] pt-6 pb-6 pl-4 pr-4 rounded-lg font-outfit">
+    <div className="border border-[#E7E7E7] pt-5 pb-5 pl-2 pr-2 sm:pl-4 sm:pr-4 rounded-lg font-outfit">
       <div className="flex items-center justify-center">
         <div className="content">
-          <h3 className="text-[36px] font-semibold text-[#173366] text-center">{number}</h3>
-          <p className="text-gray-600 text-center mt-2">{label}</p>
+          <h3 className="text-[26px] sm:text-[32px] md:text-[36px] font-semibold text-[#173366] text-center leading-tight">{number}</h3>
+          <p className="text-xs sm:text-sm md:text-base text-gray-600 text-center mt-1.5 leading-snug">{label}</p>
         </div>
       </div>
     </div>
@@ -210,13 +209,13 @@ export default function Home() {
       />
 
       {/* ── Banner Section ── */}
-      <div className="relative w-full -mt-[150px]">
-        <div className="mt-8 sm:mt-12">
+      <div className="relative w-full md:-mt-[150px]">
+        <div>
           <HeroBannerSlider />
         </div>
 
         {/* Review cards overlap */}
-        <div className="relative z-10 -mt-15 sm:-mt-20 lg:-mt-16">
+        <div className="relative z-10 -mt-12 sm:-mt-20 lg:-mt-16">
           <LazySection height="398px">
             <InfiniteMovingCardsDemo reviews={reviews} />
           </LazySection>
@@ -270,7 +269,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6 mt-9 items-stretch">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-9 items-stretch">
                   <TreatmentCard icon={Vitro} title="In Vitro Fertilization" subtitle="(IVF)" href="/in-vitro-fertilization" />
                   <TreatmentCard icon={Intrauterine} title="Intrauterine Insemination" subtitle="(IUI)" href="/intrauterine-insemination" />
                   <TreatmentCard icon={Intracytoplasmic} title="Intracytoplasmic Sperm Injection" subtitle="(ICSI)" href="/intracytoplasmic-sperm-injection" />
@@ -278,7 +277,7 @@ export default function Home() {
                   <TreatmentCard icon={Pregnancy} title="Pregnancy and Antenatal Care" href="/pregnancy-and-antenatal-care" />
                 </div>
 
-                <div className="button hidden lg:flex justify-center mt-8">
+                <div className="button flex justify-center mt-8">
                   <Button title={"View All Treatments"} link="/fertility-treatments" />
                 </div>
               </div>
@@ -316,20 +315,23 @@ export default function Home() {
                     </h2>
                   </div>
 
-                  <div className="flex flex-col items-center space-y-2 lg:space-y-0 lg:items-start order-3 lg:order-2">
+                  <div className="flex flex-col items-center space-y-2 lg:space-y-0 lg:items-start order-2 lg:order-2">
                     <Image
                       src={BookPic}
                       alt="Parenting Guide Book"
-                      className="max-w-full"
+                      width={BookPic.width}
+                      height={BookPic.height}
+                      className="max-w-full h-auto"
+                      loading="lazy"
                     />
                   </div>
 
-                  <div className="button px-4 sm:px-4 lg:px-8 order-2 lg:order-3">
+                  <div className="button px-4 sm:px-4 lg:px-8 order-3 lg:order-3 pb-8 lg:pb-0">
                     <BookingButton title={"Don't worry, our expert takes it from here "} />
                   </div>
                 </div>
 
-                <div className="relative w-full">
+                <div className="relative w-full h-2">
                   <div className="absolute bottom-0 left-0 w-full h-2 bg-yellow-400" />
                   <div className="absolute bottom-0 right-0 w-1/3 h-2 bg-[#173366]" />
                 </div>
@@ -376,7 +378,7 @@ export default function Home() {
         {/* ── Video Testimonials ── */}
         <div className={`bg-[#EBF2FE] ${SECTION_GAP}`}>
           <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 py-8 sm:py-12 md:py-16 sm:px-6 lg:px-8">
               <div className="title text-center max-w-4xl mx-auto">
                 <h2 className="font-outfit font-semibold">
                   True inspiring stories hear us out completely
@@ -385,7 +387,7 @@ export default function Home() {
                   Behind every testimonial is a journey filled with hope, trust, and perseverance. Hearing this happiness is what drives us. All the wait, tears, and prayers have been answered. Listen to the happy stories of the couples welcoming their love of life.
                 </p>
               </div>
-              <div className="tab mt-12">
+              <div className="tab mt-6 sm:mt-8 md:mt-12">
                 <LazySection height="300px">
                   <VideoCard tabs={tabs} />
                 </LazySection>
@@ -406,7 +408,7 @@ export default function Home() {
       </section>
 
       {/* ── Gallery/Videos Marquee ── */}
-      <section className={`${SECTION_GAP} mb-14 lg:mb-20 mx-3`}>
+      <section className={`${SECTION_GAP} mb-14 lg:mb-20 mx-4 sm:mx-6 md:mx-8`}>
         <LazySection height="300px">
           <GallerySlider items={Homevideos} />
           <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">

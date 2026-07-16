@@ -56,6 +56,37 @@
   to   { opacity: 1; }
 }
 
+
+.hero-content-gradient {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 14, 33, 0.78) 0%,
+    rgba(6, 14, 33, 0.55) 45%,
+    rgba(6, 14, 33, 0.15) 75%,
+    transparent 100%
+  );
+}
+
+
+/* Desktop: text col is on the left, image col on the right —
+   switch to a horizontal gradient so we darken behind the text
+   without muddying the portrait image on the right */
+@media (min-width: 1024px) {
+  .hero-content-gradient {
+    background: linear-gradient(
+      100deg,
+      rgba(6, 14, 33, 0.85) 0%,
+      rgba(6, 14, 33, 0.6) 30%,
+      rgba(6, 14, 33, 0.15) 60%,
+      transparent 78%
+    );
+  }
+}
+
 /* ─────────────────────────────────────────
    WATERCOLOR BLOBS
    ───────────────────────────────────────── */
@@ -120,7 +151,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 0;
+
 }
 
 /* 1024px: switch to 2-column grid.
@@ -171,8 +202,7 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  margin: 100px 0px;
-  padding-top: max(72px, clamp(72px, 18vw, 110px));
+  padding-top: max(72px, clamp(72px, 18vw, 110px)); /* Restored: clears sticky header on mobile */
   padding-right: 20px;
   padding-bottom: 24px;
   padding-left: 20px;
@@ -216,6 +246,7 @@
 */
 @media (min-width: 1024px) {
   .hero-text-col {
+    margin: 0; /* Override margin on desktop */
     padding-top: 0;
     padding-bottom: 0;
     padding-left: clamp(40px, 5.5vw, 80px);
@@ -331,11 +362,17 @@
    desktop so phone link stays inline or gracefully wraps only
    when truly necessary.
    ══════════════════════════════════════════════════ */
+.hero-cta-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .hero-cta-row {
   display: flex;
-  align-items: flex-start;
-  flex-direction: column;   /* stack vertically on mobile */
-  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
 @media (min-width: 480px) {
@@ -348,10 +385,8 @@
 }
 
 @media (min-width: 1024px) {
-  .hero-cta-row {
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: nowrap;      /* keep on one line at desktop */
+   .hero-cta-row {
+    flex-wrap: nowrap;
     gap: 20px;
   }
 }
@@ -576,6 +611,13 @@
   z-index: 3;
 }
 
+/* Fix #2: single-image render — fade in on React key-remount.
+   The key={activeIndex} on the wrapper causes React to unmount/remount
+   the element on every slide change, re-triggering this animation. */
+.hero-blob-slide {
+  animation: bgFadeIn 0.6s ease-in-out;
+}
+
 /* ══════════════════════════════════════════════════
    GLASS BADGES
    ══════════════════════════════════════════════════ */
@@ -615,12 +657,12 @@
 
 .hero-glass-badge--top-left {
   top: 4%;
-  left: -4%;
+  left: 0%;
 }
 
 .hero-glass-badge--bottom-right {
   bottom: 5%;
-  right: -4%;
+  right: 0%;
 }
 
 .hero-glass-badge svg{

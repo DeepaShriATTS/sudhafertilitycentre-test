@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useCallback, useRef, useId } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import BookingButton from "@/components/button/bookingButton";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
@@ -80,23 +80,27 @@ const HeroBannerSlider = () => {
   return (
     <div className={`hero-banner-slider`}>
 
-      {/* ── Background image, one per slide ── */}
+      {/* ── Background image — single image, no key remount needed.
+           homebannerbg is identical across all slides; re-keying it on
+           every slide change caused React to unmount/remount the <Image>
+           element every 5 s for zero visual gain. ── */}
       <div className="hero-decorative-canvas" aria-hidden="true">
-        <div key={activeIndex} className="hero-bg-slide">
+        <div className="hero-bg-slide">
           <Image
             src={homebannerbg}
             alt=""
             fill
             sizes="100vw"
-            quality={80}
-            priority={activeIndex === 0}
+            quality={75}
+            priority
             className="object-cover"
           />
         </div>
         <div className="watercolor-leak" />
       </div>
-
-      <div className="hero-section-wrap">
+    
+      <div className="hero-content-gradient" aria-hidden="true" />
+      <div className="hero-section-wrap lg:pt-20">
         <div className="hero-card">
           <div className="hero-grid">
 
@@ -106,16 +110,22 @@ const HeroBannerSlider = () => {
                 <h1 className="hero-heading">{activeSlide.heading}</h1>
                 <p className="hero-description">{activeSlide.description}</p>
 
-                <div className="hero-cta-row">
-                  <BookingButton variant="primary" title={activeSlide.btnText} />
-                  {isDesktop && (
-                    <a href={PHONE_HREF} className="hero-phone-link">
-                      <span className="hero-phone-icon-wrap">
-                        <HiPhone size={18} />
-                      </span>
-                      {PHONE_DISPLAY}
-                    </a>
-                  )}
+                <div className="hero-cta-stack">
+                  <div className="hero-cta-row">
+                    <BookingButton variant="primary" title={activeSlide.btnText} />
+                    {isDesktop && (
+                      <a href={PHONE_HREF} className="hero-phone-link">
+                        <span className="hero-phone-icon-wrap">
+                          <HiPhone size={18} />
+                        </span>
+                        {PHONE_DISPLAY}
+                      </a>
+                    )}
+                  </div>
+
+                  <p className="text-[13px] font-bold text-[#ffc65c]/80 px-1">
+                    We will reach you within 45 minutes *
+                  </p>
                 </div>
               </div>
 
@@ -144,23 +154,25 @@ const HeroBannerSlider = () => {
             <div className="hero-image-col">
               <div className="hero-image-blob-wrap">
                 <div className="hero-image-blob">
-                  {slides.map((slide, index) => (
-                    <div
-                      key={index}
-                      className={`hero-image-slide ${index === activeIndex ? "is-active" : ""}`}
-                    >
-                      <Image
-                        src={slide.img}
-                        alt={slide.heading}
-                        fill
-                        sizes="(min-width: 1024px) 42vw, 100vw"
-                        quality={85}
-                        priority={index === 0}
-                        className="object-cover"
-                        style={{ objectPosition: slide.imgPosition }}
-                      />
-                    </div>
-                  ))}
+                  {/* Performance fix: render only the active slide image.
+                      key={activeIndex} causes React to remount the Image
+                      element on every slide change, which re-triggers the
+                      CSS fadeIn animation defined in hero-banner-slider.css.
+                      Previously all 3 images were in the DOM simultaneously
+                      (opacity:0), causing the browser to download ~120 KB
+                      of off-screen images on first load. */}
+                  <div key={activeIndex} className="hero-image-slide is-active hero-blob-slide">
+                    <Image
+                      src={activeSlide.img}
+                      alt={activeSlide.heading}
+                      fill
+                      sizes="(min-width: 1024px) 42vw, 100vw"
+                      quality={85}
+                      priority={activeIndex === 0}
+                      loading={activeIndex === 0 ? "eager" : undefined}
+                      className="object-cover"
+                    />
+                  </div>
                 </div>
 
                 <div className="hero-glass-badge hero-glass-badge--top-left">

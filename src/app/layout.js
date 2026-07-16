@@ -7,7 +7,7 @@ import ClientLayout from "@/components/Header/ClientLayout";
 import { NotFoundProvider } from "@/context/NotFoundContext";
 import Script from "next/script";
 import { DeferredFBPixel } from "@/components/DeferredFBPixel";
-import ogimg from "@/assets/og_sudha.jpeg";
+import ogimg from "@/assets/og_sudha.jpeg"
 // import { GoogleTagManager } from "@next/third-parties/google";
 
 const outfit = Outfit({
@@ -46,9 +46,6 @@ export const metadata = {
     "Best IVF Centre in India",
     "Best Fertility Treatments in Tamil Nadu",
   ],
-  icons: {
-    icon: "/favicon.png",
-  },
   openGraph: {
     title: "Sudha Fertility Centre | Best Fertility Hospital",
     description: "Sudha Fertility Centre offers advanced infertility treatments with high success rates. Book your consultation today!",
@@ -70,6 +67,18 @@ export const metadata = {
     description: "Sudha Fertility Centre offers advanced infertility treatments with high success rates. Book your consultation today!",
     images: [ogimgURL],
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.png" },
+    ],
+
+    apple: [{ url: "/favicon.ico" }],
+
+    shortcut: [{ url: "/favicon.ico" }]
+
+  },
+
 };
 
 export default function RootLayout({ children }) {
@@ -82,10 +91,16 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://analytics.google.com" />
+        {/* Specialties section MP4 videos — early DNS so TCP handshake
+            begins before the user scrolls to the section */}
+        <link rel="dns-prefetch" href="https://ship-crm-img.s3.eu-north-1.amazonaws.com" />
+        {/* Video Testimonials section — YouTube embed iframes */}
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+        <link rel="dns-prefetch" href="https://img.youtube.com" />
 
         <meta name="robots" content="index" />
-           {/* <GoogleTagManager gtmId="GTM-MZ5ZGW6" />  */}
-        
+        {/* <GoogleTagManager gtmId="GTM-MZ5ZGW6" />  */}
+
         <Script
           id="gtm-script"
           strategy="lazyOnload"

@@ -144,8 +144,7 @@ export const videos = [
       <div className="relative w-full max-w-7xl mx-auto p-4">
         <div className="flex gap-4 overflow-hidden">
           {videos.slice(currentIndex, currentIndex + videosPerPage).map((video, index) => (
-            <div key={index} className="relative bg-white shadow-lg rounded-[16px] overflow-hidden w-full lg:w-1/3">
-              {console.log(video.thumbnail)}
+          <div key={index} className="relative bg-white shadow-lg rounded-[16px] overflow-hidden w-full lg:w-1/3">
               <Image src={video.thumbnail} alt={video.title} className="w-full h-52 object-cover" width={500} height={300} />
               <button
                 className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-45 text-white text-3xl w-full  m-auto"
@@ -165,7 +164,7 @@ export const videos = [
           <p className="text-center text-gray-600 mt-2">
             {Math.min(currentIndex + videosPerPage, totalVideos)}/{totalVideos}
           </p>
-          <div className="w-[200px] mx-4 h-1 bg-gray-300 rounded-full relative">
+          <div className="w-24 sm:w-[150px] md:w-[200px] mx-2 sm:mx-4 h-1 bg-gray-300 rounded-full relative">
             <div
               className="absolute top-0 left-0 h-1 bg-[#173366] rounded-full"
               style={{ width: `${((currentIndex + videosPerPage) / totalVideos) * 100}%` }}

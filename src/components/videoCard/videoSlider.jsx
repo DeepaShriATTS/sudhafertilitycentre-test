@@ -91,24 +91,11 @@ export default function VideoSlider() {
   };
 
   return (
-    <>
-    
-       <style jsx global>{`
-       
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-       
-        .no-scrollbar {
-          -ms-overflow-style: none; /* IE and Edge */
-          scrollbar-width: none; /* Firefox */
-        }
-      `}</style>
     <div className="w-full overflow-hidden py-6">
       <div
         ref={sliderRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory touch-pan-x overscroll-x-none"
-        style={{ WebkitOverflowScrolling: "touch" }} // for smooth iOS scroll
+        className="flex gap-4 overflow-x-auto scroll-smooth no-visible-scrollbar snap-x snap-mandatory touch-pan-x overscroll-x-none"
+        style={{ WebkitOverflowScrolling: "touch" }}
       >
         {videos.map((item, idx) => (
           <div
@@ -134,28 +121,20 @@ export default function VideoSlider() {
                 onEnded={handlePause}
               />
             ) : (
-              // <Image
-              //   src={item.thumb}
-              //   className="w-full h-56 object-cover"
-              //   alt="Thumbnail"
-              //   priority={idx === 0} // prioritize first image for faster load
-              //   loading="eager"
-              // />
-                <Image
-                  src={item.thumb}
-                  className="w-full h-56 object-cover"
-                  alt="Thumbnail"
-                  priority={idx === 0}        // Only first image gets priority
-                  loading={idx === 0 ? "eager" : "lazy"}  // Rest are lazy-loaded
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  placeholder="blur"          // Optional: shows blur while loading
-                  blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
-                />
+              <Image
+                src={item.thumb}
+                className="w-full h-56 object-cover"
+                alt="Speciality video thumbnail"
+                priority={idx === 0}
+                loading={idx === 0 ? "eager" : "lazy"}
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                placeholder="blur"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg=="
+              />
             )}
           </div>
         ))}
       </div>
     </div>
-    </>
   );
 }

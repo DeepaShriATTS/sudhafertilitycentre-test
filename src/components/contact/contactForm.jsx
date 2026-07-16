@@ -113,11 +113,11 @@ function ContactForm() {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             {/* Left Column */}
             <div>
               <h2 className="font-semibold mb-5">Book your Free Appointment</h2>
-              <p className="text-[18px] mb-16">
+              <p className="text-[18px] mb-6 lg:mb-16">
                 Take the first step towards your parenthood journey.
               </p>
 
@@ -245,6 +245,10 @@ function ContactForm() {
                           backgroundColor: errors.mobile ? "#FFF9F9" : "#ffffff",
                           fontSize: "14px",
                           color: "#262626",
+                        }}
+                        dropdownStyle={{
+                          width: "260px",
+                          maxWidth: "85vw",
                         }}
                       />
                     )}

@@ -53,7 +53,7 @@ export default function IVFProcessTimeline() {
       <div className="max-w-7xl mx-auto">
 
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-16">
           <p className="text-[#173366] text-xs font-semibold tracking-[0.2em] uppercase mb-3">
             Step by step
           </p>
@@ -87,7 +87,7 @@ export default function IVFProcessTimeline() {
               return (
                 <div
                   key={step.id}
-                  className="flex flex-col items-center text-center flex-1 relative px-3   "
+                  className="flex flex-col items-center text-center flex-1 relative px-3"
                 >
                   {/* Circle icon */}
                   <div
@@ -102,7 +102,7 @@ export default function IVFProcessTimeline() {
 
                   {/* Step label */}
                   <p
-                    className="text-xs font-bold tracking-widest uppercase mb-1  px-2 py-1 rounded-md"
+                    className="text-xs font-bold tracking-widest uppercase mb-1 px-2 py-1 rounded-md"
                     style={{ backgroundColor: "#ffc65c", color: "#053081ff" }}
                   >
                     Step {step.id}
@@ -119,16 +119,21 @@ export default function IVFProcessTimeline() {
                   </p>
 
                   {/* Description */}
-                  <p className="text-xs text-gray-500 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed">
                     {step.description}
                   </p>
+
+                  {/* Vertical connector line on mobile (renders after the description for all steps except the last one) */}
+                  {step.id !== 5 && (
+                    <div className="w-[2px] h-8 bg-gray-200 mt-6 block md:hidden" />
+                  )}
                 </div>
               );
             })}
           </div>
         </div>
 
-        <div className="button hidden lg:flex justify-center mt-8">
+        <div className="button flex justify-center mt-8">
           <BookingButton
             title="Register for your free Consultation today"
             className="bg-white/20 text-white border-2 border-white/40 rounded-full hover:bg-[#FFC65C] hover:text-blue-900 hover:border-[#FFC65C] transition-all duration-300 w-fit text-sm sm:text-base"

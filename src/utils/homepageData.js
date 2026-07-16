@@ -1,17 +1,10 @@
 // ── Static data for Home page ──
 
-import Founder from "@/assets/Home/Founder.webp";
-import Pradeepa from "@/assets/Home/pradeepa.webp";
 import Tab1 from "@/assets/Home/tab1.webp";
 import Tab2 from "@/assets/Home/tab2.webp";
 import Tab3 from "@/assets/Home/tab3.webp";
 import Tab4 from "@/assets/Home/tab4.webp";
 import Tab5 from "@/assets/Home/tab5.webp";
-import Icon1 from "@/assets/Home/tab1.svg";
-import Icon2 from "@/assets/Home/tab2.svg";
-import Icon3 from "@/assets/Home/tab3.svg";
-import Icon4 from "@/assets/Home/tab4.svg";
-import Icon5 from "@/assets/Home/tab5.svg";
 import {
   TbCalendarHeart,
   TbCurrencyRupee,
@@ -19,6 +12,11 @@ import {
   TbChartArrowsVertical,
   TbStethoscope,
 } from "react-icons/tb";
+
+// ── Testimonials — image imports kept inline so tree-shaking can drop
+//    them when this export is not consumed by the importing module.
+import Founder from "@/assets/Home/Founder.webp";
+import Pradeepa from "@/assets/Home/pradeepa.webp";
 
 export const testimonials = [
   {
