@@ -124,7 +124,7 @@ export default function AppointmentFormCore({
   formType = "Branch Appointment",
   theme = "light",
   heading,
-  buttonText = " Schedule My Free Fertility Check
+  buttonText = "Schedule My Free Fertility Check",
   className = "",
   onSuccess,
   showNote = true,
