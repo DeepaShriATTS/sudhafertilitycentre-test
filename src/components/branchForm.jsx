@@ -38,7 +38,7 @@ function BranchForm() {
         <AppointmentFormCore
           formType="branch"
           theme="dark"
-          buttonText=" Schedule My Free Fertility Check
+          buttonText="Schedule My Free Fertility Check"
           showNote={false}
         />
 
