@@ -176,8 +176,8 @@ const Modals = ({ isOpen, onClose }) => {
                       value?.trim().replace(/\s+/g, " "),
                   })}
                   className={`w-full px-3 h-10 rounded-lg border text-sm transition-all focus:outline-none ${errors.name
-                      ? "border-[#EB3C3C] bg-[#FFF9F9] focus:border-[#EB3C3C]"
-                      : "border-[#B1B2B3] hover:border-neutral-400 focus:border-[#1C315E] focus:ring-1 focus:ring-[#1C315E] bg-white text-neutral-800"
+                    ? "border-[#EB3C3C] bg-[#FFF9F9] focus:border-[#EB3C3C]"
+                    : "border-[#B1B2B3] hover:border-neutral-400 focus:border-[#1C315E] focus:ring-1 focus:ring-[#1C315E] bg-white text-neutral-800"
                     }`}
                 />
                 {errors.name && (
@@ -301,13 +301,13 @@ const Modals = ({ isOpen, onClose }) => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
               >
-                {isSubmitting ? "Submitting..." : "Take your free step toward parenthood"}
+                {isSubmitting ? "Submitting..." : " Schedule My Free Fertility Check"}
                 {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
               </motion.button>
             </form>
             <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
-                    We will reach you within 45 minutes <span className="text-red-500">*</span>
-                </p>
+              We will reach you within 45 minutes <span className="text-red-500">*</span>
+            </p>
 
             {/* Success Message */}
             <SuccessMessage

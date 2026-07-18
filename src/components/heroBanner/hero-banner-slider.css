@@ -1,9 +1,16 @@
 /* ══════════════════════════════════════════════════
-   HERO BANNER SLIDER — Fully Responsive (mobile-first)
-   Header is TWO-ROW on desktop (≈ 96-110px total height)
-   Header is SINGLE-ROW on mobile/tablet (≈ 60-72px)
-   Breakpoints: 480 | 640 | 768 | 1024 | 1280 | 1536
+   HERO BANNER — Light "Turning Hope Into Happiness" theme
+   Mobile-first. Breakpoints: 375 | 480 | 640 | 768 | 1024 | 1280 | 1536
    ══════════════════════════════════════════════════ */
+
+:root {
+  --hero-navy: #173366;
+  --hero-navy-soft: #4a5a7a;
+  --hero-gold: #f5a623;
+  --hero-bg-from: #ffffff;
+  --hero-bg-mid: #f7faff;
+  --hero-bg-to: #fdf6ea;
+}
 
 /* ─────────────────────────────────────────
    WRAPPER
@@ -12,13 +19,19 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  background-color: #173366;
-  padding: 0;
-  transition: background-color 0.6s ease;
+  /* three-stop diagonal wash: white → cool blue-white → the faintest
+     gold warmth in the bottom corner, echoing the gold accent used
+     throughout the slide content */
+  background: linear-gradient(
+    150deg,
+    var(--hero-bg-from) 0%,
+    var(--hero-bg-mid) 55%,
+    var(--hero-bg-to) 100%
+  );
 }
 
 /* ─────────────────────────────────────────
-   DECORATIVE CANVAS
+   DECORATIVE BACKGROUND (pure CSS, no image)
    ───────────────────────────────────────── */
 .hero-decorative-canvas {
   position: absolute;
@@ -28,227 +41,177 @@
   overflow: hidden;
 }
 
-.hero-decorative-canvas::after {
-  content: '';
+.hero-blob {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    rgba(3, 6, 13, 0.45) 0%,
-    rgba(10, 31, 67, 0.28) 45%,
-    rgba(97, 47, 47, 0.1) 100%
-  );
-  z-index: 2;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.18;
 }
 
-.hero-bg-slide {
-  position: absolute;
-  inset: 0;
-  animation: bgFadeIn 700ms ease-in-out;
+.hero-blob--teal {
+  width: 220px;
+  height: 220px;
+  top: -8%;
+  right: 4%;
+  background: radial-gradient(circle, #1a8a8a 0%, transparent 70%);
 }
 
-.hero-bg-slide :global(img) {
-  object-fit: cover;
+.hero-blob--gold {
+  width: 200px;
+  height: 200px;
+  bottom: -10%;
+  left: -8%;
+  background: radial-gradient(circle, var(--hero-gold) 0%, transparent 70%);
+  opacity: 0.14;
 }
 
-@keyframes bgFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+@media (min-width: 480px) {
+  .hero-blob--teal { width: 300px; height: 300px; }
+  .hero-blob--gold { width: 260px; height: 260px; }
 }
 
-
-.hero-content-gradient {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    rgba(6, 14, 33, 0.78) 0%,
-    rgba(6, 14, 33, 0.55) 45%,
-    rgba(6, 14, 33, 0.15) 75%,
-    transparent 100%
-  );
+@media (min-width: 768px) {
+  .hero-blob--teal { width: 380px; height: 380px; top: -8%; right: 8%; }
+  .hero-blob--gold { width: 320px; height: 320px; bottom: -12%; left: -6%; }
 }
 
-
-/* Desktop: text col is on the left, image col on the right —
-   switch to a horizontal gradient so we darken behind the text
-   without muddying the portrait image on the right */
 @media (min-width: 1024px) {
-  .hero-content-gradient {
-    background: linear-gradient(
-      100deg,
-      rgba(6, 14, 33, 0.85) 0%,
-      rgba(6, 14, 33, 0.6) 30%,
-      rgba(6, 14, 33, 0.15) 60%,
-      transparent 78%
-    );
+  .hero-blob--gold {
+    width: 450px;
+    height: 450px;
+    bottom: auto;
+    top: 15%;
+    left: 45%;
+    right: auto;
+    opacity: 0.25;
+    filter: blur(90px);
+    background: radial-gradient(circle, var(--hero-gold) 0%, transparent 70%);
+  }
+}
+
+.hero-dot-grid {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  left: 2%;
+  bottom: 6%;
+  background-image: radial-gradient(rgba(23, 51, 102, 0.08) 1.5px, transparent 1.5px);
+  background-size: 14px 14px;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hero-dot-grid {
+    display: block;
   }
 }
 
 /* ─────────────────────────────────────────
-   WATERCOLOR BLOBS
+   SECTION WRAP / GRID
    ───────────────────────────────────────── */
-.watercolor-leak {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.15;
-  transition: all 1s ease-in-out;
-  inset: 0;
-  z-index: 1;
-}
 
-.bg-variant--slide-1 .watercolor-leak {
-  width: 600px;
-  height: 600px;
-  top: -10%;
-  right: -5%;
-  background: radial-gradient(circle, #1a8a8a 0%, transparent 70%);
-}
 
-.bg-variant--slide-2 .watercolor-leak {
-  width: 550px;
-  height: 550px;
-  bottom: -10%;
-  left: -5%;
-  background: radial-gradient(circle, #ffc65c 0%, transparent 70%);
-  opacity: 0.12;
-}
 
-.bg-variant--slide-3 .watercolor-leak {
-  width: 700px;
-  height: 500px;
-  top: 15%;
-  right: 15%;
-  background: radial-gradient(circle, #1a8a8a 0%, transparent 60%);
-  opacity: 0.14;
-}
-
-/* ─────────────────────────────────────────
-   CARD SHELL
-   ───────────────────────────────────────── */
-.hero-card {
-  background: transparent;
-  border: none;
-  width: 100%;
-}
-
-/* ─────────────────────────────────────────
-   SECTION WRAP
-   ───────────────────────────────────────── */
 .hero-section-wrap {
   position: relative;
   z-index: 5;
   width: 100%;
+  max-width: 1740px;
+  /* margin: 50px auto; */
 }
 
-/* ══════════════════════════════════════════════════
-   GRID — mobile-first column → desktop 2-col
-   ══════════════════════════════════════════════════ */
 .hero-grid {
   display: flex;
   flex-direction: column;
   width: 100%;
-
 }
 
-/* 1024px: switch to 2-column grid.
-   min-height keeps banner tall enough to breathe on laptops.
-   padding-top pushes content DOWN from the top edge of the
-   banner — the two-row desktop header is ~100px, so we need
-   at least 40-60px inside the banner before content starts.  */
 @media (min-width: 1024px) {
   .hero-grid {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    min-height: 600px;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    padding-top: 48px;   /* ← KEY FIX: clears visual gap after 2-row header */
-    padding-bottom: 48px;
-  }
-}
-
-@media (min-width: 1280px) {
-  .hero-grid {
-    grid-template-columns: 1.15fr 0.85fr;
-    min-height: 680px;
+    min-height: 740px;
     padding-top: 56px;
     padding-bottom: 56px;
   }
 }
 
+@media (min-width: 1280px) {
+  .hero-grid {
+    grid-template-columns: 0.95fr 1.05fr;
+    min-height: 750px;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+}
+
 @media (min-width: 1536px) {
   .hero-grid {
-    min-height: 720px;
+    grid-template-columns: 0.92fr 1.08fr;
+    min-height: 760px;
     padding-top: 64px;
     padding-bottom: 64px;
   }
 }
 
+@media (min-width: 640px) and (max-height: 560px) and  (max-width:320px) {
+       .hero-grid {
+         display: grid;
+         grid-template-columns: 1fr 1fr;
+         align-items: center;
+         min-height: 0;
+         /* don't force a tall min-height on a short viewport */
+         padding-top: 24px;
+         padding-bottom: 24px;
+       }
+  
+       .hero-image-bleed {
+         width: clamp(160px, 28vh, 280px);
+         /* size off viewport height, not width */
+       }
+     }
+
 /* ══════════════════════════════════════════════════
    TEXT COLUMN
    ══════════════════════════════════════════════════ */
-
-/*
-  MOBILE DEFAULT (< 480px):
-  The header is sticky single-row ≈ 60-70px.
-  We use max() to guarantee a hard floor so the heading never
-  hides behind the navbar. 15vw at 320px = 48px — too small,
-  so max() clamps it to 72px minimum.
-*/
 .hero-text-col {
   position: relative;
   z-index: 10;
   width: 100%;
-  padding-top: max(72px, clamp(72px, 18vw, 110px)); /* Restored: clears sticky header on mobile */
-  padding-right: 20px;
-  padding-bottom: 24px;
-  padding-left: 20px;
+  /* order matters on mobile: image first feels better once no scroll
+     indicator eats space below it — kept text-first per original markup,
+     just tightened the paddings so nothing feels like dead space */
+  padding: 24px 18px 24px;
 }
 
-/* 480px — wider gutters */
+@media (max-width: 375px) {
+  .hero-text-col {
+    padding: 28px 20px 28px;
+  }
+}
+
 @media (min-width: 480px) {
   .hero-text-col {
-    padding-top: max(76px, clamp(76px, 17vw, 112px));
-    padding-left: 28px;
-    padding-right: 28px;
-    padding-bottom: 28px;
+    padding: 32px 28px 32px;
   }
 }
 
-/* 640px — small tablet */
 @media (min-width: 640px) {
   .hero-text-col {
-    padding-top: max(80px, clamp(80px, 14vw, 116px));
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 32px;
+    padding: 40px 40px 40px;
   }
 }
 
-/* 768px — iPad portrait */
 @media (min-width: 768px) {
   .hero-text-col {
-    padding-top: max(88px, clamp(88px, 13vw, 120px));
-    padding-left: 48px;
-    padding-right: 48px;
-    padding-bottom: 36px;
+    padding: 44px 48px 44px;
   }
 }
 
-/*
-  1024px+ DESKTOP:
-  Reset top/bottom padding to 0 — the grid's padding-top/bottom
-  handles the breathing room. The grid uses align-items: center,
-  so the text column is vertically centered within the grid rows.
-*/
 @media (min-width: 1024px) {
   .hero-text-col {
-    margin: 0; /* Override margin on desktop */
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: 0;
     padding-left: clamp(40px, 5.5vw, 80px);
     padding-right: 20px;
   }
@@ -267,53 +230,75 @@
   }
 }
 
-/* ─── Slide panel inner wrapper ─── */
 .hero-slide-panel {
   position: relative;
   width: 100%;
   max-width: 100%;
 }
 
-/* ══════════════════════════════════════════════════
-   TYPOGRAPHY
-   ══════════════════════════════════════════════════ */
+/* ── Eyebrow ── */
 .hero-eyebrow {
   display: inline-flex;
   align-items: center;
-  font-size: 0.72rem;
+  gap: 8px;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #ffc65c;
-  background: rgba(255, 198, 92, 0.1);
-  border-radius: 999px;
-  padding: 5px 14px;
-  margin-bottom: 14px;
+  color: var(--hero-navy-soft);
+  margin-bottom: 10px;
+}
+
+.hero-eyebrow-dash {
+  display: inline-block;
+  width: 18px;
+  height: 2px;
+  background: var(--hero-gold);
+  flex-shrink: 0;
+}
+
+@media (min-width: 480px) {
+  .hero-eyebrow {
+    gap: 10px;
+    font-size: 0.7rem;
+    margin-bottom: 14px;
+  }
+  .hero-eyebrow-dash {
+    width: 22px;
+  }
 }
 
 @media (min-width: 640px) {
   .hero-eyebrow {
-    padding: 6px 16px;
+    font-size: 0.75rem;
     margin-bottom: 18px;
   }
 }
 
-/*
-  Heading: clamp scales from ~24px on tiny phones
-  up to ~3.2rem (51px) on large desktops.
-  word-break prevents overflow on narrow columns.
-*/
+/* ── Heading ── */
 .hero-heading {
-  font-size: clamp(1.5rem, 1.0rem + 2.8vw, 3.2rem);
-  color: #ffffff;
+  font-family: ui-serif, Georgia, "Times New Roman", serif;
+  /* lower floor so it doesn't feel oversized on 320-360px phones */
+  font-size: clamp(1.6rem, 1.25rem + 3.2vw, 3.6rem);
+  color: var(--hero-navy);
   line-height: 1.18;
-  margin-bottom: 14px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
   overflow-wrap: break-word;
   word-break: break-word;
 }
 
+.hero-heading-accent {
+  color: var(--hero-gold);
+}
+
+@media (min-width: 480px) {
+  .hero-heading {
+    margin-bottom: 16px;
+  }
+}
+
 @media (min-width: 640px) {
   .hero-heading {
     margin-bottom: 18px;
@@ -322,97 +307,204 @@
 
 @media (min-width: 1024px) {
   .hero-heading {
-    margin-bottom: 20px;
-    /* at 1024px, clamp(1.5rem, …, 3.2rem) ≈ 2.4rem — good */
+    font-size: clamp(3.375rem, 5vw, 4.5rem);
+    line-height: 1.04;
+    max-width: 15ch;
+    margin-bottom: 28px;
   }
 }
 
-/* Description */
+/* ── Description ── */
 .hero-description {
-  font-size: clamp(0.875rem, 0.83rem + 0.24vw, 1.05rem);
-  color: #cbd5e1;
-  line-height: 1.7;
-  margin-bottom: 24px;
-  max-width: 100%; /* mobile: full column width */
+  font-size: clamp(0.85rem, 0.8rem + 0.3vw, 1.05rem);
+  color: var(--hero-navy-soft);
+  line-height: 1.6;
+  margin-bottom: 22px;
+  max-width: 100%;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 480px) {
   .hero-description {
-    max-width: 54ch;
-    margin-bottom: 28px;
+    max-width: 46ch;
+    margin-bottom: 26px;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-description {
-    max-width: 46ch;
-    margin-bottom: 32px;
+    max-width: 42ch;
+    margin-bottom: 40px;
   }
 }
 
 /* ══════════════════════════════════════════════════
    CTA ROW
-   ══════════════════════════════════════════════════
-
-   PROBLEM (screenshots 3-5): at 1024-1180px the booking button
-   (~200px wide) + phone link together overflow the column width,
-   causing the phone link to wrap to a second line.
-
-   FIX: column-wrap on mobile; row with explicit flex-wrap on
-   desktop so phone link stays inline or gracefully wraps only
-   when truly necessary.
    ══════════════════════════════════════════════════ */
-.hero-cta-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
 .hero-cta-row {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   flex-wrap: wrap;
-  gap: 16px;
+  align-items: center;
+  gap: 12px 16px;
+  margin-bottom: 22px;
 }
 
-@media (min-width: 480px) {
-  .hero-cta-row {
-    flex-direction: row;    /* side by side when there's space */
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-  }
+/* Small + compact on phones — was full-width/56px tall, way too heavy
+   next to the phone link. Grows a little from 480px up. */
+.hero-book-btn-wrap {
+  width: auto;
 }
 
-@media (min-width: 1024px) {
-   .hero-cta-row {
-    flex-wrap: nowrap;
-    gap: 20px;
-  }
+.hero-book-btn-wrap :where(a, button) {
+  width: auto;
+  min-height: 38px;
+  font-size: 0.8rem;
+  padding-left: 16px;
+  padding-right: 16px;
+  box-shadow: 0 8px 18px rgba(23, 51, 102, 0.16);
 }
 
-/* Phone link (desktop-only — rendered conditionally in JSX) */
 .hero-phone-link {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #ffffff;
+  color: var(--hero-navy);
   text-decoration: none;
-  font-weight: 600;
-  font-size: clamp(0.85rem, 0.8rem + 0.3vw, 1rem);
-  white-space: nowrap;   /* never let phone number itself wrap */
+  min-height: 44px;
 }
 
 .hero-phone-icon-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: #ffffff;
-  color: #173366;
+  background: #eef3ff;
+  color: var(--hero-navy);
   flex-shrink: 0;
+}
+
+.hero-phone-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.3;
+  min-width: 0;
+}
+
+.hero-phone-label {
+  font-size: 0.7rem;
+  color: var(--hero-navy-soft);
+}
+
+.hero-phone-number {
+  font-size: clamp(0.82rem, 0.78rem + 0.2vw, 0.95rem);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* From 480px there's enough room for button + phone side by side */
+@media (min-width: 480px) {
+  .hero-cta-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+  }
+  .hero-book-btn-wrap {
+    width: auto;
+  }
+  .hero-book-btn-wrap :where(a, button) {
+    width: auto;
+    min-height: 56px;
+    font-size: 1rem;
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .hero-phone-link {
+    min-height: 56px;
+  }
+  .hero-phone-icon-wrap {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-cta-row {
+    flex-wrap: nowrap;
+    margin-bottom: 40px;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   STATS ROW
+   ══════════════════════════════════════════════════ */
+.hero-stats-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  max-width: 100%;
+}
+
+@media (min-width: 375px) {
+  .hero-stats-row {
+    gap: 12px;
+  }
+}
+
+@media (min-width: 480px) {
+  .hero-stats-row {
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-stats-row {
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.hero-stat strong {
+  font-size: clamp(0.85rem, 0.55rem + 1.6vw, 1.6rem);
+  color: var(--hero-navy);
+  font-weight: 800;
+  line-height: 1.1;
+  white-space: nowrap;
+  /* tabular-nums keeps digit width fixed so the count-up doesn't jitter
+     the label layout as the numbers change */
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-stat span {
+  font-size: clamp(0.55rem, 0.45rem + 0.4vw, 0.78rem);
+  color: var(--hero-navy-soft);
+  white-space: nowrap;
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(23, 51, 102, 0.15);
+  flex-shrink: 0;
+}
+
+@media (min-width: 480px) {
+  .hero-stat-divider {
+    height: 30px;
+  }
 }
 
 /* ══════════════════════════════════════════════════
@@ -422,20 +514,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 24px;
-}
-
-@media (min-width: 640px) {
-  .hero-pagination-inline {
-    margin-top: 32px;
-    gap: 12px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-pagination-inline {
-    margin-top: 36px;
-  }
+  margin-top: 0;
 }
 
 .hero-pg-dots {
@@ -448,25 +527,25 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(23, 51, 102, 0.2);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .hero-pg-dot.is-active {
-  background: #ffc65c;
+  background: var(--hero-gold);
   width: 24px;
   border-radius: 4px;
 }
 
 .hero-pg-arrow {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  border: 1.5px solid rgba(23, 51, 102, 0.15);
+  background: #ffffff;
+  color: var(--hero-navy);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -475,12 +554,20 @@
   transition: background 0.3s ease;
 }
 
+@media (min-width: 480px) {
+  .hero-pg-arrow {
+    width: 32px;
+    height: 32px;
+  }
+}
+
 .hero-pg-arrow:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: #eef3ff;
 }
 
 /* ══════════════════════════════════════════════════
-   IMAGE COLUMN
+   IMAGE COLUMN — bleeds to the section edge, no card
+   shadow, large circular frame with a thin halo ring.
    ══════════════════════════════════════════════════ */
 .hero-image-col {
   position: relative;
@@ -488,258 +575,130 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  overflow: visible; /* so badges can peek outside blob */
-  padding: 8px 0 52px;
+  /* the old 76-88px bottom pad was leftover space for a scroll indicator
+     that no longer exists — dropped down to a normal section gap */
+  padding: 8px 0 28px;
 }
 
 @media (min-width: 480px) {
   .hero-image-col {
-    padding: 12px 0 56px;
-  }
-}
-
-@media (min-width: 640px) {
-  .hero-image-col {
-    padding: 16px 0 60px;
+    padding: 12px 0 32px;
   }
 }
 
 @media (min-width: 768px) {
   .hero-image-col {
-    padding: 20px 0 64px;
+    padding: 16px 0 40px;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-image-col {
+    position: relative;
     width: auto;
-    padding: 0 40px 0 0;
+    min-width: 0;
+    justify-content: flex-end;
+    align-self: stretch;
+    padding: 0;
   }
 }
 
-/* ─────────────────────────────────────────
-   BLOB WRAPPER
-   ───────────────────────────────────────── */
-
-/*
-  We cap blob size carefully per breakpoint so it
-  doesn't overpower the text column in stacked layout.
-*/
-.hero-image-blob-wrap {
+.hero-image-bleed {
   position: relative;
-  width: clamp(210px, 60vw, 340px);
-  height: clamp(210px, 60vw, 340px);
-  z-index: 5;
-  margin: 0 auto;
+  width: clamp(190px, 62vw, 300px);
+  aspect-ratio: 1 / 1;
+}
+
+@media (min-width: 375px) {
+  .hero-image-bleed {
+    width: clamp(210px, 60vw, 320px);
+  }
 }
 
 @media (min-width: 480px) {
-  .hero-image-blob-wrap {
-    width: clamp(240px, 55vw, 360px);
-    height: clamp(240px, 55vw, 360px);
+  .hero-image-bleed {
+    width: clamp(240px, 56vw, 360px);
   }
 }
 
 @media (min-width: 640px) {
-  .hero-image-blob-wrap {
-    width: clamp(270px, 48vw, 400px);
-    height: clamp(270px, 48vw, 400px);
+  .hero-image-bleed {
+    width: clamp(300px, 46vw, 400px);
   }
 }
 
 @media (min-width: 768px) {
-  .hero-image-blob-wrap {
-    width: clamp(290px, 42vw, 400px);
-    height: clamp(290px, 42vw, 400px);
+  .hero-image-bleed {
+    width: clamp(320px, 40vw, 420px);
   }
 }
 
-/* Desktop: 0.9fr column at 1024px ≈ 400-460px available */
 @media (min-width: 1024px) {
-  .hero-image-blob-wrap {
-    width: clamp(320px, 31vw, 460px);
-    height: clamp(320px, 31vw, 460px);
-    margin: 0;
+  .hero-image-bleed {
+    position: absolute;
+    top: 50%;
+    right: -2%;
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+    width: clamp(420px, 34vw, 620px);
+    aspect-ratio: 1 / 1;
   }
 }
 
 @media (min-width: 1280px) {
-  .hero-image-blob-wrap {
-    width: clamp(360px, 30vw, 490px);
-    height: clamp(360px, 30vw, 490px);
+  .hero-image-bleed {
+    width: clamp(460px, 32vw, 660px);
   }
 }
 
 @media (min-width: 1536px) {
-  .hero-image-blob-wrap {
-    width: clamp(400px, 28vw, 520px);
-    height: clamp(400px, 28vw, 520px);
+  .hero-image-bleed {
+    width: clamp(500px, 30vw, 700px);
   }
 }
 
-/* ─────────────────────────────────────────
-   BLOB SHAPE
-   ───────────────────────────────────────── */
-.hero-image-blob {
+.hero-image-ring {
+  display: none;
+}
+
+.hero-image-frame {
   position: relative;
+  z-index: 2;
   width: 100%;
   height: 100%;
-  border-radius: 48% 52% 42% 58% / 50% 46% 54% 50%;
+  border-radius: 50%;
   overflow: hidden;
-  border: 5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
 }
 
 @media (min-width: 1024px) {
-  .hero-image-blob {
-    border-width: 6px;
+  .hero-image-frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
   }
 }
 
-/* ─────────────────────────────────────────
-   IMAGE SLIDES (inside blob)
-   ───────────────────────────────────────── */
 .hero-image-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  animation: heroFadeIn 0.6s ease-in-out forwards;
 }
 
 .hero-image-slide.is-active {
   opacity: 1;
-  z-index: 3;
 }
 
-/* Fix #2: single-image render — fade in on React key-remount.
-   The key={activeIndex} on the wrapper causes React to unmount/remount
-   the element on every slide change, re-triggering this animation. */
-.hero-blob-slide {
-  animation: bgFadeIn 0.6s ease-in-out;
+@keyframes heroFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/* ══════════════════════════════════════════════════
-   GLASS BADGES
-   ══════════════════════════════════════════════════ */
-.hero-glass-badge {
-  position: absolute;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1.5px solid #ffffff;
-  box-shadow: 0 8px 24px rgba(7, 23, 53, 0.18);
-  color: #071735;
-  max-width: 70%;
-  font-size: 0.68rem;
-  white-space: normal; 
-  line-height: 1.25;
-
-}
-
-.hero-glass-badge div{
-  min-width:0;
-}
-
-.hero-glass-badge span{
-    font-size:clamp(.55rem,.45rem + .3vw,.72rem)!important;
-}
-
-.hero-glass-badge strong {
-  font-size: 0.73rem;
-  display: block;
-  line-height: 1.2;
-   font-size:clamp(.65rem,.5rem + .4vw,.85rem);
-}
-
-.hero-glass-badge--top-left {
-  top: 4%;
-  left: 0%;
-}
-
-.hero-glass-badge--bottom-right {
-  bottom: 5%;
-  right: 0%;
-}
-
-.hero-glass-badge svg{
-    width:14px;
-    height:14px;
-    flex-shrink:0;
-}
-
-@media(min-width:768px){
-    .hero-glass-badge svg{
-        width:18px;
-        height:18px;
-    }
-}
-
-/* 480px */
-@media (min-width: 480px) {
-  .hero-glass-badge {
-    padding: 7px 11px;
-    font-size: 0.7rem;
-    max-width: 58%;
-  }
-  .hero-glass-badge strong {
-    font-size: 0.76rem;
-  }
-}
-
-/* 640px — allow text to wrap, more room available */
-@media (min-width: 640px) {
-  .hero-glass-badge {
-    padding: 9px 13px;
-    gap: 9px;
-    font-size: 0.73rem;
-    white-space: normal;
-    max-width: 60%;
-  }
-  .hero-glass-badge strong {
-    font-size: 0.82rem;
-  }
-  .hero-glass-badge--top-left {
-    top: 5%;
-    left: 4%;
-  }
-  .hero-glass-badge--bottom-right {
-    bottom: 5%;
-    right: 4%;
-  }
-}
-
-/* 1024px — desktop */
-@media (min-width: 1024px) {
-  .hero-glass-badge {
-    padding: 10px 15px;
-    gap: 10px;
-    font-size: 0.75rem;
-    max-width: 62%;
-  }
-  .hero-glass-badge strong {
-    font-size: 0.85rem;
-  }
-  .hero-glass-badge--top-left {
-    top: 6%;
-    left: 0%;
-  }
-  .hero-glass-badge--bottom-right {
-    bottom: 7%;
-    right: 0%;
-  }
-}
-
-@media (min-width: 1280px) {
-  .hero-glass-badge--top-left {
-    top: 6%;
-    left: 2%;
-  }
-  .hero-glass-badge--bottom-right {
-    bottom: 8%;
-    right: 2%;
+@media (prefers-reduced-motion: reduce) {
+  .hero-image-slide {
+    animation: none;
+    opacity: 1;
   }
 }

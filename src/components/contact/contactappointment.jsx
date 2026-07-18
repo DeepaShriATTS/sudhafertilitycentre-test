@@ -40,7 +40,7 @@ const typeofenquirys = [
 function ContactAppointmentForm() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
-    const [branchList, setBranchList] = useState([]);
+  const [branchList, setBranchList] = useState([]);
   const nameInputRef = useRef(null);
 
   // Initialize react-hook-form with Zod validation resolver
@@ -446,7 +446,7 @@ function ContactAppointmentForm() {
                   className={`button-all w-full flex justify-center items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                 >
-                  {isSubmitting ? "Submitting..." : "Take your free step toward parenthood"}
+                  {isSubmitting ? "Submitting..." : " Schedule My Free Fertility Check"}
                   <MdArrowOutward className="rotate-45 ml-2" />
                 </button>
 

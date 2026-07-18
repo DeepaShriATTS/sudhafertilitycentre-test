@@ -38,16 +38,16 @@ function BranchForm() {
         <AppointmentFormCore
           formType="branch"
           theme="dark"
-          buttonText="Take your free step toward parenthood"
+          buttonText=" Schedule My Free Fertility Check
           showNote={false}
         />
 
         <p className="text-[10px] sm:text-[11px] text-white/70 text-end mt-2">
-          We will reach you within 45 minutes{" "}
-          <span className="text-red-500" aria-hidden="true">*</span>
-        </p>
-      </motion.div>
-    </div>
+        We will reach you within 45 minutes{" "}
+        <span className="text-red-500" aria-hidden="true">*</span>
+      </p>
+    </motion.div>
+    </div >
   );
 }
 

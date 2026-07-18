@@ -68,6 +68,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
   const handleNext = useCallback(() => goTo(index + 1, 1), [goTo, index]);
   const handlePrev = useCallback(() => goTo(index - 1, -1), [goTo, index]);
 
+
   // Autoplay
   useEffect(() => {
     if (!isPlaying || isHovering) {
@@ -99,41 +100,57 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
 
       <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
         {/* LEFT: text content */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={`text-${index}`}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            variants={textVariants}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-          >
-            <span className="mb-4 block h-1 w-10 rounded-full bg-amber-400" />
-            {ActiveIcon ? (
-              <ActiveIcon size={28} className="mb-3 text-amber-500" />
-            ) : null}
-            <h3 className="mb-4 text-3xl font-bold text-[#0f1f4d] md:text-4xl">
-              {activeTab.content.heading}
-            </h3>
-            <p className="mb-8 whitespace-pre-line text-slate-600">
-              {activeTab.content.description}
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-              className="flex items-center gap-2 rounded-full bg-[#0f1f4d] px-6 py-3 font-semibold text-white shadow-lg transition-shadow hover:shadow-xl"
+        <div>
+         
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`text-${index}`}
+              initial="hidden"
+              animate="visible"
+              exit="hidden"
+              variants={textVariants}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+
+              className="cursor-grab select-none active:cursor-grabbing"
+              onMouseEnter={() => setIsHovering(true)}
+              onMouseLeave={() => setIsHovering(false)}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={handleDragEnd}
             >
-              Get a Free Consultation
-              <ArrowRight size={18} />
-            </motion.button>
-          </motion.div>
-        </AnimatePresence>
+              <span className="mb-4 block h-1 w-10 rounded-full bg-amber-400" />
+              {ActiveIcon ? (
+                <ActiveIcon size={28} className="mb-3 text-amber-500" />
+              ) : null}
+              <h3 className="mb-4 text-3xl font-bold text-[#0f1f4d] md:text-4xl">
+                {activeTab.content.heading}
+              </h3>
+              <p className="mb-8 whitespace-pre-line text-slate-600">
+                {activeTab.content.description}
+              </p>
+              <motion.button
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 rounded-full bg-[#0f1f4d] px-6 py-3 font-semibold text-white shadow-lg transition-shadow hover:shadow-xl"
+              >
+                Get a Free Consultation
+                <ArrowRight size={18} />
+              </motion.button>
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {/* RIGHT: image slider */}
-        <div
+        <motion.div
           className="relative mx-auto h-[260px] xs:h-[320px] sm:h-[380px] md:h-[420px] w-full max-w-[420px] cursor-grab select-none active:cursor-grabbing"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={handleDragEnd}
         >
           {/* rear stacked cards */}
           <motion.div
@@ -168,10 +185,6 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
                 animate="center"
                 exit="exit"
                 transition={{ duration: 0.55, ease: "easeInOut" }}
-                drag={isMobile ? false : "x"}
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.2}
-                onDragEnd={handleDragEnd}
                 className="absolute inset-0"
               >
                 <Image
@@ -252,7 +265,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
               </AnimatePresence>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

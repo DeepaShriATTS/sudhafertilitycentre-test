@@ -19,7 +19,7 @@ const slides = [
   },
   {
     heading: "For everyone who is tired of looking at an empty cradle",
-    btnText: "Begin your free parenthood Journey",
+    btnText: " Book a Free expert fertility check",
     description:
       "We have spent forty years changing quiet, lonely houses into happy homes filled with laughter. Our forty-year legacy is written in the smiles of over one lakh IVF babies born here",
     img: freecamp,
@@ -89,7 +89,7 @@ const BannerSlider = () => {
       style={{ height: "95vh" }}
       onClick={handleBannerClick}
     >
-   
+
       {slides.map((slide, index) => {
         const isActive = index === activeIndex;
         return (
@@ -155,7 +155,7 @@ const BannerSlider = () => {
                 </>
               )}
 
-             
+
             </div>
 
             {/* Main gradient — covers left ~60% on desktop, full width on mobile */}

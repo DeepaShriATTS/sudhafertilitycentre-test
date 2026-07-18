@@ -13,7 +13,7 @@
  *                                Default: "light"
  * @prop {string}   [heading]     Optional heading shown above the form
  * @prop {string}   [buttonText]  Submit button label
- *                                Default: "Take your free step toward parenthood"
+ *                                Default: " Schedule My Free Fertility Check"
  * @prop {string}   [className]   Extra class string on the root <div>
  * @prop {Function} [onSuccess]   Callback invoked after a successful submission
  * @prop {boolean}  [showNote]    Show the "We will reach you within 45 minutes" note
@@ -124,7 +124,7 @@ export default function AppointmentFormCore({
   formType = "Branch Appointment",
   theme = "light",
   heading,
-  buttonText = "Take your free step toward parenthood",
+  buttonText = " Schedule My Free Fertility Check
   className = "",
   onSuccess,
   showNote = true,
@@ -289,11 +289,10 @@ export default function AppointmentFormCore({
           type="submit"
           disabled={isSubmitting}
           aria-busy={isSubmitting}
-          className={`w-full text-white h-10 rounded-lg transition-all flex justify-center items-center font-medium ${
-            isSubmitting
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#173366] hover:bg-[#1f4285]"
-          }`}
+          className={`w-full text-white h-10 rounded-lg transition-all flex justify-center items-center font-medium ${isSubmitting
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-[#173366] hover:bg-[#1f4285]"
+            }`}
         >
           {isSubmitting ? (
             "Submitting..."

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { MdArrowOutward } from "react-icons/md";
 import { Toaster } from "react-hot-toast";
@@ -264,14 +264,14 @@ function BookAppointmentForm() {
                     disabled={isSubmitting}
                     className={`button-all w-full justify-center mx-auto text-center flex items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
-                    {isSubmitting ? "Submitting..." : "Take your free step toward parenthood"}
+                    {isSubmitting ? "Submitting..." : " Schedule My Free Fertility Check"}
                     {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
                   </button>
                 </div>
               </form>
-               <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
-                    We will reach you within 45 minutes <span className="text-red-500">*</span>
-                </p>
+              <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
+                We will reach you within 45 minutes <span className="text-red-500">*</span>
+              </p>
 
               <SuccessMessage
                 show={successMessage}

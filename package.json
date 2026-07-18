@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@floating-ui/react": "^0.27.20",
     "@headlessui/react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@next/third-parties": "^16.2.9",

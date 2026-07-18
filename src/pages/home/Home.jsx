@@ -120,7 +120,7 @@ function TreatmentCard({ icon: Icon, title, subtitle, href }) {
             <Image src={Icon} alt={title} width={48} height={48} />
           </div>
           <div className="flex flex-col items-center w-full">
-            <p className="text-[#000] font-semibold text-center leading-snug">{title}</p>
+            <p className="text-[#000] font-semibold text-center leading-snug md:block hidden">{title}</p>
             {subtitle && (
               <p className="text-[#000] text-center mt-2 font-semibold">{subtitle}</p>
             )}
@@ -209,7 +209,7 @@ export default function Home() {
       />
 
       {/* ── Banner Section ── */}
-      <div className="relative w-full md:-mt-[150px]">
+      <div className="relative w-full mt-[-72px]">
         <div>
           <HeroBannerSlider />
         </div>
@@ -232,12 +232,12 @@ export default function Home() {
 
       <section className="relative">
         {/* ── Achievement Metrics ── */}
-        <div className={SECTION_GAP}>
+        <div className="lg:mt-20">
           <div className="container mx-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="title text-center">
                 <h2 className="font-outfit font-semibold text-2xl sm:text-3xl md:text-4xl lg:text-3xl">
-                  Two lakh parenthood achievements proven through care.
+                  Two lakh parenthood achievements proven through care
                 </h2>
                 <p className="font-outfit font-semibold lg:block mt-2 text-xl">Our Achievements</p>
               </div>
@@ -269,12 +269,12 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-9 items-stretch">
+                <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-9 items-stretch">
                   <TreatmentCard icon={Vitro} title="In Vitro Fertilization" subtitle="(IVF)" href="/in-vitro-fertilization" />
                   <TreatmentCard icon={Intrauterine} title="Intrauterine Insemination" subtitle="(IUI)" href="/intrauterine-insemination" />
                   <TreatmentCard icon={Intracytoplasmic} title="Intracytoplasmic Sperm Injection" subtitle="(ICSI)" href="/intracytoplasmic-sperm-injection" />
                   <TreatmentCard icon={Laser_Assisted} title="PCOS (PCOS)/PCOD" href="/pcos-and-pdoc" />
-                  <TreatmentCard icon={Pregnancy} title="Pregnancy and Antenatal Care" href="/pregnancy-and-antenatal-care" />
+                  <TreatmentCard icon={Pregnancy} title="Pregnancy and Antenatal Care"  href="/pregnancy-and-antenatal-care" />
                 </div>
 
                 <div className="button flex justify-center mt-8">
@@ -311,7 +311,7 @@ export default function Home() {
                 <div className="flex flex-col lg:flex-row items-center justify-center space-y-0 lg:space-x-8">
                   <div className="content flex-1 text-center px-4 py-11 lg:py-0 sm:px-6 lg:px-8 lg:text-left order-1 lg:order-1">
                     <h2 className="font-outfit font-semibold">
-                      Ready to take first step towards parenthood.
+                      Ready to take first step towards parenthood
                     </h2>
                   </div>
 

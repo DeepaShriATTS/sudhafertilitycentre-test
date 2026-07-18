@@ -38,7 +38,7 @@ export default function FloatingButton() {
           onClick={() => setIsOpen(true)}
           className="button-all mx-auto"
         >
-          Take your free step toward parenthood<FaArrowRight />
+          Schedule My Free Fertility Check<FaArrowRight />
         </button>
       </div>
 

@@ -15,6 +15,19 @@ import RequestCallModal from "./modal";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useNotFound } from "@/context/NotFoundContext";
+import {
+  useFloating,
+  flip,
+  shift,
+  offset,
+  autoUpdate,
+  size as floatingSize,
+  useHover,
+  useFocus,
+  useDismiss,
+  useInteractions,
+  safePolygon,
+} from "@floating-ui/react";
 
 const topNavItems = ["Helpline No: +91 76-7007-6006", "Book Appointment"];
 
@@ -85,72 +98,37 @@ const mainNavItems = [
       { item: "Male-Infertility", link: "/male-infertility" },
     ],
   },
-  // "Blogs",
   {
     title: "Branches",
     states: [
       {
         name: "Tamil Nadu",
         branches: [
-          { item: "Ambattur", link: "/fertility-centre-in-ambattur", hreflang:"en-in" },
-          // { item: "Aruppukottai", link: "/fertility-centre-in-aruppukottai", hreflang:"en-in" },
-
-          
-          // { item: "Bodinayakanur", link: "fertility-centre-in-bodinayakanur", hreflang:"en-in" },
+          { item: "Ambattur", link: "/fertility-centre-in-ambattur", hreflang: "en-in" },
           { item: "Chennai", link: "/fertility-centre-in-chennai" },
-          
           { item: "Coimbatore", link: "/fertility-centre-in-coimbatore" },
           { item: "Dindigul", link: "/fertility-centre-in-dindigul" },
           { item: "Erode", link: "/fertility-centre-in-erode" },
-          // { item: "Hosur", link: "/fertility-centre-in-hosur" },
-          // { item: "Karur", link: "/fertility-centre-in-karur" },
-          // { item: "Karaikudi", link: "/fertility-centre-in-karaikudi" },
           { item: "Kallakurichi", link: "/fertility-centre-in-kallakurichi" },
-
           { item: "Krishnagiri", link: "/fertility-centre-in-krishnagiri" },
           { item: "Madurai", link: "/fertility-centre-in-madurai" },
           { item: "Manapparai", link: "/fertility-centre-in-manapparai" },
-
           { item: "Nagercoil", link: "/fertility-centre-in-nagercoil" },
-          // { item: "Perambalur", link: "/fertility-centre-in-perambalur" },
-
-          {
-            item: "Ramanathapuram",
-            link: "/fertility-centre-in-ramanathapuram",
-          },
+          { item: "Ramanathapuram", link: "/fertility-centre-in-ramanathapuram" },
           { item: "Salem", link: "/fertility-centre-in-salem" },
           { item: "Sivangangai", link: "/fertility-centre-in-sivagangai" },
-
           { item: "Thanjavur", link: "/fertility-centre-in-thanjavur" },
           { item: "Thoothukudi", link: "/fertility-centre-in-thoothukudi" },
           { item: "Theni", link: "/fertility-centre-in-theni" },
           { item: "Tirunelveli", link: "/fertility-centre-in-tirunelveli" },
           { item: "Tiruppur", link: "/fertility-centre-in-tiruppur" },
           { item: "Trichy ", link: "/fertility-centre-in-trichy " },
-          {
-            item: "Tiruvannamalai",
-            link: "/fertility-centre-in-tiruvannamalai",
-          },
+          { item: "Tiruvannamalai", link: "/fertility-centre-in-tiruvannamalai" },
           { item: "Vellore", link: "/fertility-centre-in-vellore" },
-          // { item: "Vaniyambadi", link: "/fertility-centre-in-vaniyambadi" },
-          {
-            item:"Paramakudi",
-            link:"/fertility-centre-in-paramakudi",
-          },
-          {
-            item:"Viluppuram",
-            link:"/fertility-centre-in-viluppuram",
-          },
-          {
-            item:"Tindivanam",
-            link:"/fertility-centre-in-tindivanam",
-          },
-          {
-            item:"Tirupathur",
-            link:"/fertility-centre-in-tirupathur",
-          }
-         
-
+          { item: "Paramakudi", link: "/fertility-centre-in-paramakudi" },
+          { item: "Viluppuram", link: "/fertility-centre-in-viluppuram" },
+          { item: "Tindivanam", link: "/fertility-centre-in-tindivanam" },
+          { item: "Tirupathur", link: "/fertility-centre-in-tirupathur" },
         ],
       },
       {
@@ -159,19 +137,12 @@ const mainNavItems = [
           { item: "Chilakaluripet", link: "/fertility-centre-in-chilakaluripet" },
           { item: "Ongole ", link: "/fertility-centre-in-ongole" },
           { item: "Vijayawada ", link: "/fertility-centre-in-vijayawada" },
-          {
-            item:"Nellore",
-            link:"/fertility-centre-in-nellore",
-          },
-          // { item: "Tenali ", link: "/fertility-centre-in-tenali" },
-          
+          { item: "Nellore", link: "/fertility-centre-in-nellore" },
         ],
       },
       {
         name: "Karnataka",
-        branches: [
-          { item: "Bangalore ", link: "/fertility-centre-in-bangalore" },
-        ],
+        branches: [{ item: "Bangalore ", link: "/fertility-centre-in-bangalore" }],
       },
       {
         name: "Pondicherry",
@@ -184,280 +155,272 @@ const mainNavItems = [
           { item: "Attapur", link: "/fertility-centre-in-attapur" },
           { item: "Hanamkonda", link: "/fertility-centre-in-hanamkonda" },
           { item: "Hyderabad ", link: "/fertility-centre-in-hyderabad" },
-          
         ],
       },
     ],
   },
-{ item: "Blog", link: "https://sudhafertilitycentre.com/blog/" },
-  //Blogs
-  // {
-  //   title: "Resource",
-  //   resource: [
-  //     {
-  //       name: "Blog",
-  //       link: "/",
-  //       branches: [],
-  //     },
-  //     {
-  //       name: "Calculator",
-  //       branches: [
-  //         {
-  //           item: "Pregnancy Calculator ",
-  //           link: "/free-online-pregnancy-calculator",
-  //         },
-  //         { item: "Ovulation Calculator", link: "/free-ovulation-calculator" },
-  //         {
-  //           item: "Period Calculator",
-  //           link: "/free-menstrual-cycle-calculator",
-  //         },
-  //         {
-  //           item: "Pregnancy Conception Calculator",
-  //           link: "/free-conception-calculator",
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
-
+  { item: "Blog", link: "https://sudhafertilitycentre.com/blog/" },
   { item: "Contact Us", link: "/contact-us" },
 ];
 
 export const branches = [
-  {
-    title: "Ambattur",
-    link: "fertility-centre-in-ambattur",
-    mapsLink: "https://maps.app.goo.gl/uM1mFNbeJvbYeLXY7",
-  },
-  {
-    title: "Attapur",
-    link: "fertility-centre-in-attapur",
-    mapsLink: "https://maps.app.goo.gl/kCN9frsx9Ma8d6A89",
-  },
-  {
-    title: "Bangalore",
-    link: "fertility-centre-in-bangalore",
-    mapsLink: "https://maps.app.goo.gl/1Ncdrbka7Ua9Ax8T9",
-  },
-  {
-    title: "Chennai",
-    link: "fertility-centre-in-chennai",
-    mapsLink: "https://maps.app.goo.gl/UpkkHrKcbUe1B5Ez9",
-  },
-    {
-    title: "Chilakaluripet",
-    link: "fertility-centre-in-chilakaluripet",
-    mapsLink: "https://maps.app.goo.gl/8zeUm6TGz7egrCJ96",
-  },
-  {
-    title: "Coimbatore",
-    link: "fertility-centre-in-coimbatore",
-    mapsLink: "https://maps.app.goo.gl/tk26i3ZCqKy5tvgZ8",
-  },
- 
-  {
-    title: "Erode",
-    link: "fertility-centre-in-erode",
-    mapsLink: "https://maps.app.goo.gl/25HVE7mZdQ5U1Z6F6",
-  },
-  {
-    title: "Dindigul",
-    link: "fertility-centre-in-dindigul",
-    mapsLink: "https://maps.app.goo.gl/fZ8shcWhwnXGZDeJ6",
-  },
-  {
-    title: "Hanamkonda",
-    link: "fertility-centre-in-hanamkonda",
-    mapsLink: "https://maps.app.goo.gl/xDisk6tufXdoqzxL7",
-  },
-  // {
-  //   title: "Hosur",
-  //   link: "fertility-centre-in-hosur",
-  //   mapsLink: "https://maps.app.goo.gl/KXiPBYQ1t5Eqa5447",
-  // },
-  {
-    title: "Hyderabad",
-    link: "fertility-centre-in-hyderabad",
-    mapsLink: "https://maps.app.goo.gl/HkU6U4pm4V9Ry8gX6",
-  },
-  // {
-  //   title: "Karur",
-  //   link: "fertility-centre-in-karur",
-  //   mapsLink: "https://maps.app.goo.gl/PgRAgh1S9pxPyFQd6",
-  // },
-  // {
-  //   title: "Karaikudi",
-  //   link: "fertility-centre-in-karaikudi",
-  //   mapsLink: "https://maps.app.goo.gl/DKpmahvw2cm3cEAc7",
-  // },
-  {
-    title: "Krishnagiri",
-    link: "fertility-centre-in-krishnagiri",
-    mapsLink: "https://maps.app.goo.gl/AFhZgdDtcZKJVvcT8",
-  },
-  {
-    title: "Madurai",
-    link: "fertility-centre-in-madurai",
-    mapsLink: "https://maps.app.goo.gl/2KNqTNT3D7vSdsrAA",
-  },
-  {
-    title: "Nagercoil",
-    link: "fertility-centre-in-nagercoil",
-    mapsLink: "https://maps.app.goo.gl/q1uZKWHDhL4QsEYs6",
-  },
-  {
-    title: "Ongole",
-    link: "fertility-centre-in-ongole",
-    mapsLink: "https://maps.app.goo.gl/GZzvWM3RoAN9tBZA8",
-  },
-
-  {
-    title: "Pondicherry",
-    link: "fertility-centre-in-pondicherry",
-    mapsLink: "https://maps.app.goo.gl/jb5DRZmTN5j35YUAA",
-  },
-  {
-    title: "Ramanathapuram",
-    link: "fertility-centre-in-ramanathapuram",
-    mapsLink: "https://maps.app.goo.gl/B4i7qWWrpRDwLT9e8",
-  },
-  {
-    title: "Salem",
-    link: "fertility-centre-in-salem",
-    mapsLink: "https://maps.app.goo.gl/DhH1ssMcYmhfrLfA7",
-  },
-  // {
-  //   title: "Tenali",
-  //   link: "fertility-centre-in-tenali",
-  //   mapsLink: "https://maps.app.goo.gl/w27JKa7Vzywvx5cy9",
-  // },
-  {
-    title: "Tiruvannamalai",
-    link: "fertility-centre-in-tiruvannamalai",
-    mapsLink: "https://maps.app.goo.gl/sSRbqRwYA9eoocoC6",
-  },
-  {
-    title: "Trichy",
-    link: "fertility-centre-in-trichy",
-    mapsLink: "https://maps.app.goo.gl/LtKvMB5paEZekmxPA",
-  },
-  {
-    title: "Thanjavur",
-    link: "fertility-centre-in-thanjavur",
-    mapsLink: "https://maps.app.goo.gl/nY94QAuTsCJq8qaD6",
-  },
-  {
-    title: "Tiruppur",
-    link: "fertility-centre-in-tiruppur",
-    mapsLink: "https://maps.app.goo.gl/871MuLRMYPysaYbj6",
-  },
-  {
-    title: "Theni",
-    link: "fertility-centre-in-theni",
-    mapsLink: "https://maps.app.goo.gl/wQfuXdXibDm3NEQP7",
-  },
-  {
-    title: "Tirunelveli",
-    link: "fertility-centre-in-tirunelveli",
-    mapsLink: "https://maps.app.goo.gl/HUYbXbThSM4urLWSA",
-  },
-  {
-    title: "Vellore",
-    link: "fertility-centre-in-vellore",
-    mapsLink: "https://maps.app.goo.gl/x3auhVG89QFREzXT8",
-  },
-  {
-    title: "Vijayawada",
-    link: "fertility-centre-in-vijayawada",
-    mapsLink: "https://maps.app.goo.gl/Kar7sb7ZvQkQEwYr5",
-  },
-  {
-    title: "Paramakudi",
-    link: "fertility-centre-in-paramakudi",
-    mapsLink: "https://share.google/tC4DtJRrUXxwoxcLs",
-  },
-  {
-    title: "Tirupathur",
-    link: "fertility-centre-in-tirupathur",
-    mapsLink: "https://share.google/O7iKqwZMUZByQm9qG",
-  },
-  {
-    title: "Tindivanam",
-    link: "fertility-centre-in-tindivanam",
-    mapsLink: "https://share.google/w8fxjpydGnMH3r4qZ",
-  },
-  {
-    title: "Nellore",
-    link: "fertility-centre-in-nellore",
-    mapsLink: "https://share.google/g01PmAeLKM2Q5sJpW",
-  },
-  {
-    title: "Viluppuram",
-    link: "fertility-centre-in-viluppuram",
-    mapsLink: "https://share.google/RtBPwq6Srm0vycAhE",
-  },
+  { title: "Ambattur", link: "fertility-centre-in-ambattur", mapsLink: "https://maps.app.goo.gl/uM1mFNbeJvbYeLXY7" },
+  { title: "Attapur", link: "fertility-centre-in-attapur", mapsLink: "https://maps.app.goo.gl/kCN9frsx9Ma8d6A89" },
+  { title: "Bangalore", link: "fertility-centre-in-bangalore", mapsLink: "https://maps.app.goo.gl/1Ncdrbka7Ua9Ax8T9" },
+  { title: "Chennai", link: "fertility-centre-in-chennai", mapsLink: "https://maps.app.goo.gl/UpkkHrKcbUe1B5Ez9" },
+  { title: "Chilakaluripet", link: "fertility-centre-in-chilakaluripet", mapsLink: "https://maps.app.goo.gl/8zeUm6TGz7egrCJ96" },
+  { title: "Coimbatore", link: "fertility-centre-in-coimbatore", mapsLink: "https://maps.app.goo.gl/tk26i3ZCqKy5tvgZ8" },
+  { title: "Erode", link: "fertility-centre-in-erode", mapsLink: "https://maps.app.goo.gl/25HVE7mZdQ5U1Z6F6" },
+  { title: "Dindigul", link: "fertility-centre-in-dindigul", mapsLink: "https://maps.app.goo.gl/fZ8shcWhwnXGZDeJ6" },
+  { title: "Hanamkonda", link: "fertility-centre-in-hanamkonda", mapsLink: "https://maps.app.goo.gl/xDisk6tufXdoqzxL7" },
+  { title: "Hyderabad", link: "fertility-centre-in-hyderabad", mapsLink: "https://maps.app.goo.gl/HkU6U4pm4V9Ry8gX6" },
+  { title: "Krishnagiri", link: "fertility-centre-in-krishnagiri", mapsLink: "https://maps.app.goo.gl/AFhZgdDtcZKJVvcT8" },
+  { title: "Madurai", link: "fertility-centre-in-madurai", mapsLink: "https://maps.app.goo.gl/2KNqTNT3D7vSdsrAA" },
+  { title: "Nagercoil", link: "fertility-centre-in-nagercoil", mapsLink: "https://maps.app.goo.gl/q1uZKWHDhL4QsEYs6" },
+  { title: "Ongole", link: "fertility-centre-in-ongole", mapsLink: "https://maps.app.goo.gl/GZzvWM3RoAN9tBZA8" },
+  { title: "Pondicherry", link: "fertility-centre-in-pondicherry", mapsLink: "https://maps.app.goo.gl/jb5DRZmTN5j35YUAA" },
+  { title: "Ramanathapuram", link: "fertility-centre-in-ramanathapuram", mapsLink: "https://maps.app.goo.gl/B4i7qWWrpRDwLT9e8" },
+  { title: "Salem", link: "fertility-centre-in-salem", mapsLink: "https://maps.app.goo.gl/DhH1ssMcYmhfrLfA7" },
+  { title: "Tiruvannamalai", link: "fertility-centre-in-tiruvannamalai", mapsLink: "https://maps.app.goo.gl/sSRbqRwYA9eoocoC6" },
+  { title: "Trichy", link: "fertility-centre-in-trichy", mapsLink: "https://maps.app.goo.gl/LtKvMB5paEZekmxPA" },
+  { title: "Thanjavur", link: "fertility-centre-in-thanjavur", mapsLink: "https://maps.app.goo.gl/nY94QAuTsCJq8qaD6" },
+  { title: "Tiruppur", link: "fertility-centre-in-tiruppur", mapsLink: "https://maps.app.goo.gl/871MuLRMYPysaYbj6" },
+  { title: "Theni", link: "fertility-centre-in-theni", mapsLink: "https://maps.app.goo.gl/wQfuXdXibDm3NEQP7" },
+  { title: "Tirunelveli", link: "fertility-centre-in-tirunelveli", mapsLink: "https://maps.app.goo.gl/HUYbXbThSM4urLWSA" },
+  { title: "Vellore", link: "fertility-centre-in-vellore", mapsLink: "https://maps.app.goo.gl/x3auhVG89QFREzXT8" },
+  { title: "Vijayawada", link: "fertility-centre-in-vijayawada", mapsLink: "https://maps.app.goo.gl/Kar7sb7ZvQkQEwYr5" },
+  { title: "Paramakudi", link: "fertility-centre-in-paramakudi", mapsLink: "https://share.google/tC4DtJRrUXxwoxcLs" },
+  { title: "Tirupathur", link: "fertility-centre-in-tirupathur", mapsLink: "https://share.google/O7iKqwZMUZByQm9qG" },
+  { title: "Tindivanam", link: "fertility-centre-in-tindivanam", mapsLink: "https://share.google/w8fxjpydGnMH3r4qZ" },
+  { title: "Nellore", link: "fertility-centre-in-nellore", mapsLink: "https://share.google/g01PmAeLKM2Q5sJpW" },
+  { title: "Viluppuram", link: "fertility-centre-in-viluppuram", mapsLink: "https://share.google/RtBPwq6Srm0vycAhE" },
 ];
+
+/* ─────────────────────────────────────────────────────────────────────────
+   StateRow
+   One row inside the "Branches" panel (e.g. "Tamil Nadu"). Owns its own
+   Floating UI instance for the secondary city flyout, so each row flips
+   independently based on how much room is actually left of/right of it —
+   no hard-coded left-full / right-full needed anywhere.
+   ───────────────────────────────────────────────────────────────────────── */
+function StateRow({ state }) {
+  const [open, setOpen] = useState(false);
+
+  const { refs, floatingStyles, context } = useFloating({
+    placement: "right-start",
+    open,
+    onOpenChange: setOpen,
+    middleware: [
+      offset(4),
+      flip({ fallbackPlacements: ["left-start"] }),
+      shift({ padding: 8 }),
+      floatingSize({
+        apply({ availableHeight, elements }) {
+          Object.assign(elements.floating.style, {
+            maxHeight: `${Math.max(160, Math.min(384, availableHeight - 8))}px`,
+          });
+        },
+        padding: 8,
+      }),
+    ],
+    whileElementsMounted: autoUpdate,
+  });
+
+  // safePolygon keeps the menu open while the cursor travels diagonally
+  // through the gap between the trigger and the flyout — a plain
+  // onMouseEnter/onMouseLeave pair closes the menu the instant the pointer
+  // crosses that gap, which is what was causing the premature close.
+  const hover = useHover(context, {
+    handleClose: safePolygon({ buffer: 6 }),
+    delay: { open: 0, close: 120 },
+  });
+  const focus = useFocus(context);
+  const dismiss = useDismiss(context);
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    hover,
+    focus,
+    dismiss,
+  ]);
+
+  if (state.name === "Pondicherry") {
+    return (
+      <div className="px-4 py-2 text-[15px] hover:text-[#FFC65C] cursor-pointer flex justify-between items-center">
+        <Link
+          href={"/fertility-centre-in-pondicherry"}
+          className="px-4 py-2 hover:text-[#FFC65C] cursor-pointer"
+        >
+          {state.name}
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div
+      ref={refs.setReference}
+      className="relative"
+      {...getReferenceProps()}
+    >
+      <div
+        tabIndex={0}
+        className="px-4 py-2 hover:text-[#FFC65C] cursor-pointer flex justify-between items-center rounded-md outline-none"
+      >
+        <p className="px-4 py-2 hover:text-[#FFC65C] cursor-pointer">{state.name}</p>
+        {state.branches.length > 0 && <IoIosArrowDown className="text-gray-500" />}
+      </div>
+
+      {open && state.branches.length > 0 && (
+        <div
+          ref={refs.setFloating}
+          style={floatingStyles}
+          {...getFloatingProps()}
+          className="bg-white text-gray-800 py-2 min-w-[200px] shadow-lg rounded-[14px] overflow-y-auto overflow-x-hidden z-10"
+        >
+          {state.branches.map((branch, branchIndex) => (
+            <Link href={branch.link} key={branchIndex}>
+              <div className="px-4 py-2 text-[15px] hover:text-[#FFC65C] cursor-pointer">
+                {branch.item}
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   NavDropdown
+   Wraps a single top-level nav item (Treatments / Branches) and owns the
+   Floating UI instance for its own panel. Falls back below-left instead of
+   below-right if the panel would otherwise overflow the viewport.
+   ───────────────────────────────────────────────────────────────────────── */
+function NavDropdown({ item }) {
+  const [open, setOpen] = useState(false);
+
+  const { refs, floatingStyles, context } = useFloating({
+    placement: "bottom-start",
+    open,
+    onOpenChange: setOpen,
+    middleware: [offset(8), flip(), shift({ padding: 16 })],
+    whileElementsMounted: autoUpdate,
+  });
+
+  const hover = useHover(context, {
+    handleClose: safePolygon({ buffer: 6 }),
+    delay: { open: 0, close: 120 },
+  });
+  const focus = useFocus(context);
+  const dismiss = useDismiss(context);
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    hover,
+    focus,
+    dismiss,
+  ]);
+
+  const hasPanel =
+    (item.dropdownItems && item.dropdownItems.length > 0) ||
+    (item.states && item.states.length > 0);
+
+  return (
+    <li className="relative">
+      <div
+        ref={refs.setReference}
+        {...getReferenceProps()}
+        tabIndex={0}
+        className={`flex items-center gap-1 cursor-pointer transition-colors duration-200 py-1 outline-none ${
+          open ? "text-[#FFC65C]" : "hover:text-[#FFC65C]"
+        }`}
+      >
+        {typeof item.item === "string" ? (
+          <Link href={item.link}>{item.item}</Link>
+        ) : (
+          item.title
+        )}
+        {hasPanel && (
+          <IoIosArrowDown
+            className={`transition-transform duration-300 ${
+              open ? "rotate-180 text-[#FFC65C]" : ""
+            }`}
+          />
+        )}
+      </div>
+
+      {/* Treatments panel */}
+      {item.title === "Treatments" && open && (
+        <motion.div
+          ref={refs.setFloating}
+          style={floatingStyles}
+          {...getFloatingProps()}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2, ease: "easeInOut" }}
+          className="font-medium bg-white text-gray-800 py-4 px-6 min-w-[720px] shadow-lg rounded-[14px] z-10"
+        >
+          <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+            {item.dropdownItems.map((dropdownItem, dropIndex) => (
+              <Link href={dropdownItem.link} key={dropIndex}>
+                <div className="px-2 py-1 text-[15px] hover:text-[#FFC65C] cursor-pointer">
+                  {dropdownItem.item ? dropdownItem.item : "Unknown Item"}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Branches panel (states -> cities cascade) */}
+      {item.title === "Branches" && item.states && open && (
+        <div
+          ref={refs.setFloating}
+          style={floatingStyles}
+          {...getFloatingProps()}
+          className="font-medium bg-white text-gray-800 py-2 min-w-[200px] shadow-lg rounded-[14px] z-10"
+        >
+          {item.states.map((state) => (
+            <StateRow key={state.name} state={state} />
+          ))}
+        </div>
+      )}
+    </li>
+  );
+}
 
 function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
-  const [activeState, setActiveState] = useState(null);
+  const [activeState, setActiveState] = useState(null); // mobile only now
   const [scrollPosition, setScrollPosition] = useState(0);
   const [navbarColor, setNavbarColor] = useState(false);
-  // State for mobile menu
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const pathname = usePathname(); // Get the current page path
+  const pathname = usePathname();
 
-  // Function to handle the "Find Us" button click and open the Google Maps link
   const handleFindUs = () => {
-    const currentBranch = branches.find((branch) =>
-      pathname.includes(branch.link)
-    ); // Find the branch from the URL
+    const currentBranch = branches.find((branch) => pathname.includes(branch.link));
     if (currentBranch) {
-      window.open(currentBranch.mapsLink, "_blank"); // Open the corresponding Google Maps link in a new tab
+      window.open(currentBranch.mapsLink, "_blank");
     } else {
       alert("Branch location not found!");
     }
   };
 
-  // Check if the current page is a branch page (based on the branch link)
-  const isBranchPage = branches.some((branch) =>
-    pathname.includes(branch.link)
-  );
+  const isBranchPage = branches.some((branch) => pathname.includes(branch.link));
 
   const handleStateClick = (index) => {
-    setActiveState(activeState === index ? null : index); // Toggle state visibility
+    setActiveState(activeState === index ? null : index);
   };
 
-  // Handle scroll event to update the navbar color
   useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.scrollY);
-      if (window.scrollY > 80) {
-        setNavbarColor(true);
-      } else {
-        setNavbarColor(false);
-      }
+      setNavbarColor(window.scrollY > 80);
     };
-
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const handleMouseEnter = (index) => {
-    setActiveDropdown(index);
-  };
-
-  const handleMouseLeave = () => {
-    setActiveDropdown(null);
-    setActiveState(null);
-  };
-
-  const handleStateHover = (stateName) => {
-    setActiveState(stateName);
-  };
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
@@ -467,430 +430,165 @@ function Navbar() {
   const handleDropdownClick = (index) => {
     setActiveDropdown(activeDropdown === index ? null : index);
   };
+
   const { isNotFound } = useNotFound();
 
   return (
     <>
-   
-    <header
-      className={`w-full lg:py-2 font-outfit z-30 sticky top-0 transition-all duration-300 ${
-        navbarColor
-          ? "bg-white/95 backdrop-blur-md shadow-[0_2px_20px_rgba(23,51,102,0.10)] border-b border-gray-100/80"
-          : "bg-[#061229]"
-      }`}
-    >
-      <div className="w-full" id="header">
-        <div className="w-full px-4 sm:px-6 lg:px-8 h-full">
-          {/* Navigation Area */}
-          <div>
-            <div className="mx-auto">
-              <div className="flex items-center justify-between w-full h-16 lg:h-20">
-                {/* Logo */}
-                <div className="w-28 sm:w-32 lg:w-44 flex items-center">
-                  <Link href={"/"} className="flex items-center">
-                    <Image
-                      src={
-                        isNotFound
-                          ? Logodark
-                          : pathname === "/thank-you"
-                            ? Logodark
-                            : navbarColor
-                              ? Logodark
-                              : Logo
-                      }
-                      alt="Sudha-Logo"
-                      className="w-full h-auto"
-                    />
-                  </Link>
-                </div>
-
-                <div className="flex items-center gap-3 lg:hidden">
-                  {/* Mobile Find Us / Call */}
-                  <div className="flex items-center">
-                    {isBranchPage ? (
-                      <div
-                        className="flex items-center group cursor-pointer"
-                        onClick={handleFindUs}
-                      >
-                        <IoLocationSharp
-                          size={20}
-                          className={`group-hover:text-[#FFC65C] ${isNotFound
-                              ? "text-[#173366]"
-                              : pathname === "/thank-you"
-                                ? "text-[#173366]"
-                                : navbarColor
-                                  ? "text-[#173366]"
-                                  : "text-white"
-                            }`}
-                        />
-                        <span
-                          className={`ml-1 text-sm font-medium group-hover:text-[#FFC65C] ${isNotFound
-                              ? "text-[#173366]"
-                              : pathname === "/thank-you"
-                                ? "text-[#173366]"
-                                : navbarColor
-                                  ? "text-[#173366]"
-                                  : "text-white"
-                            }`}
-                        >
-                          Find us
-                        </span>
-                      </div>
-                    ) : (
-                      <a href="tel:7670076006" className="flex items-center">
-                        <div className="px-3 py-1.5 flex items-center justify-center gap-2 rounded-full bg-[#FFC65C] text-[#000]">
-                         <span className="ring-pulse"> <IoCall /> </span> 
-                          <p className="md:block hidden">Request a call</p>
-                        </div>
-                      </a>
-                    )}
+      <header
+        className={`w-full lg:py-2 font-outfit z-30 fixed top-0 left-0 transition-all duration-300 backdrop-blur-md ${
+          pathname === "/" ? "site-header-gradient" : "bg-white/70"
+        }`}
+      >
+        <div className="w-full" id="header">
+          <div className="w-full px-4 sm:px-6 lg:px-8 h-full">
+            <div>
+              <div className="mx-auto">
+                <div className="flex items-center justify-between w-full h-16 lg:h-20">
+                  {/* Logo */}
+                  <div className="w-28 sm:w-32 lg:w-44 flex items-center">
+                    <Link href={"/"} className="flex items-center">
+                      <Image src={Logodark} alt="Sudha-Logo" className="w-full h-auto" />
+                    </Link>
                   </div>
 
-                  {/* Mobile Hamburger */}
-                  <button
-                    onClick={toggleMobileMenu}
-                    aria-label="Toggle mobile menu"
-                    className={`flex items-center justify-center p-2 hover:text-[#FFC65C] transition-colors duration-200 ${isNotFound
-                        ? "text-[#173366]"
-                        : pathname === "/thank-you"
-                          ? "text-[#173366]"
-                          : navbarColor
-                            ? "text-[#173366]"
-                            : "text-white"
-                      }`}
-                  >
-                    <Menu size={28} aria-hidden="true" />
-                  </button>
-                </div>
-                {/* </div> */}
-
-                <div className="w-full hidden lg:flex items-center">
-                  {/* ── Desktop: top-bar utilities + main nav in a single row ── */}
-                  <div className="flex-1 flex flex-col my-2">
-
-                    {/* Top utility bar */}
-                    <div className={`flex items-center justify-end gap-4 py-2.5 border-b ${
-                      navbarColor ? "border-gray-100" : "border-white/15"
-                    }`}>
-                      {isBranchPage && (
-                        <button
+                  <div className="flex items-center gap-3 lg:hidden">
+                    <div className="flex items-center">
+                      {isBranchPage ? (
+                        <div
+                          className="flex items-center group cursor-pointer"
                           onClick={handleFindUs}
-                          className={`flex items-center gap-1.5 text-sm font-medium transition-colors duration-200 ${
-                            navbarColor || isNotFound || pathname === "/thank-you"
-                              ? "text-[#173366] hover:text-[#FFC65C]"
-                              : "text-white/90 hover:text-[#FFC65C]"
-                          }`}
                         >
-                          <IoLocationSharp size={15} />
-                          Find us
-                        </button>
+                          <IoLocationSharp
+                            size={20}
+                            className={`group-hover:text-[#FFC65C] "text-[#173366]"`}
+                          />
+                          <span
+                            className={`ml-1 text-sm font-medium group-hover:text-[#FFC65C] ${
+                              isNotFound
+                                ? "text-[#173366]"
+                                : pathname === "/thank-you"
+                                ? "text-[#173366]"
+                                : navbarColor
+                                ? "text-[#173366]"
+                                : "text-white"
+                            }`}
+                          >
+                            Find us
+                          </span>
+                        </div>
+                      ) : (
+                        <a href="tel:7670076006" className="flex items-center">
+                          <div className="px-3 py-1.5 flex items-center justify-center gap-2 rounded-full bg-[#FFC65C] text-[#000]">
+                            <span className="ring-pulse">
+                              <IoCall />
+                            </span>
+                            <p className="md:block hidden">Request a call</p>
+                          </div>
+                        </a>
                       )}
+                    </div>
+
+                    <button
+                      onClick={toggleMobileMenu}
+                      aria-label="Toggle mobile menu"
+                      className={`flex items-center justify-center p-2 hover:text-[#FFC65C] transition-colors duration-200 text-[#173366]`}
+                    >
+                      <Menu size={28} aria-hidden="true" />
+                    </button>
+                  </div>
+
+                  <div className="w-full hidden lg:flex items-center">
+                    <div className="flex-1 flex flex-col my-2">
+                      <div className="flex items-center justify-end gap-4 py-2.5">
+                        {isBranchPage && (
+                          <button
+                            onClick={handleFindUs}
+                            className="flex items-center gap-1.5 text-sm font-medium text-[#173366] hover:text-[#FFC65C] transition-colors duration-200"
+                          >
+                            <IoLocationSharp size={15} />
+                            Find us
+                          </button>
+                        )}
 
                         <Link
                           href="tel:7670076006"
-                          className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${navbarColor || isNotFound || pathname === "/thank-you"
-                              ? "text-[#173366] hover:text-[#FFC65C]"
-                              : "text-white/90 hover:text-[#FFC65C]"
-                            }`}
+                          className="flex items-center gap-2 text-sm font-medium text-[#173366] hover:text-[#FFC65C] transition-colors duration-200"
                         >
                           <span className="ring-pulse">
                             <BsFillTelephoneInboundFill size={13} />
                           </span>
                           +91 76-7007-6006
                         </Link>
-
-                      <Link
-                        href="/#contact-now"
-                        className={`text-sm font-medium px-4 py-1.5 rounded-full transition-all duration-200 ${
-                          navbarColor || isNotFound || pathname === "/thank-you"
-                            ? "bg-[#173366]/8 text-[#173366] hover:bg-[#173366]/14"
-                            : "bg-white/15 text-white hover:bg-white/25"
-                        }`}
-                      >
-                        Book Appointment
-                      </Link>
-
-                      <button
-                        onClick={() => setIsModalOpen(true)}
-                        className="text-sm font-semibold px-4 py-1.5 rounded-full bg-[#FFC65C] text-[#0f2347] hover:bg-[#f0b84a] transition-all duration-200 shadow-sm
-                        md:hidden block"
-                      >
-                        <div className="flex items-center gap-2">
-                          <IoCall />
-                        <div className="md:block hidden"> Request A Call </div> 
-                        </div>
-                      </button>
-                    </div>
-
-                  {/* Main Navigation */}
-                  <div>
-                    <div className="py-3">
-                      <div>
-                        <ul
-                          className={`flex gap-6 2xl:gap-9 font-medium justify-end text-sm ${
-                            isNotFound || pathname === "/thank-you" || navbarColor
-                              ? "text-[#173366]"
-                              : "text-white"
-                          }`}
+                        <Link
+                          href="/#contact-now"
+                          className="text-sm font-medium text-[#173366] hover:text-[#FFC65C] transition-colors duration-200"
                         >
-                          {mainNavItems.map((item, index) => (
-                            <li
-                              key={index}
-                              className="relative"
-                              onMouseEnter={() => handleMouseEnter(index)}
-                              onMouseLeave={handleMouseLeave}
-                            >
-                              <div
-                                className={`flex items-center gap-1 cursor-pointer transition-colors duration-200 py-1 ${
-                                  activeDropdown === index
-                                    ? "text-[#FFC65C]"
-                                    : "hover:text-[#FFC65C]"
-                                }`}
-                              >
-                                {typeof item.item === "string" ? (
-                                  <Link href={item.link}>{item.item}</Link>
-                                ) : (
-                                  item.title
-                                )}
+                          Book Appointment
+                        </Link>
 
-                                {/* Check for dropdownItems and states being present and correct */}
-                                {(typeof item.dropdownItems === "object" &&
-                                  item.dropdownItems !== null) ||
-                                (typeof item.states === "object" &&
-                                  item.states !== null) ||
-                                (typeof item.resource === "object" &&
-                                  item.states !== null) ? (
-                                  <IoIosArrowDown
-                                    className={`transition-transform duration-300 ${
-                                      activeDropdown === index
-                                        ? "rotate-180 text-[#FFC65C]"
-                                        : ""
-                                    }`}
-                                  />
-                                ) : null}
-                              </div>
+                        <button
+                          onClick={() => setIsModalOpen(true)}
+                          className="text-sm font-semibold px-4 py-1.5 rounded-full bg-[#FFC65C] text-[#0f2347] hover:bg-[#f0b84a] transition-all duration-200 shadow-sm md:hidden block"
+                        >
+                          <div className="flex items-center gap-2">
+                            <IoCall />
+                            <div className="md:block hidden"> Request A Call </div>
+                          </div>
+                        </button>
+                      </div>
 
-                              {/* Dropdown for Treatments */}
-                              {item.title === "Treatments" &&
-                                activeDropdown === index && (
-                                  <motion.div
-                                    initial={{ opacity: 0, y: -10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    transition={{
-                                      duration: 0.2,
-                                      ease: "easeInOut",
-                                    }}
-                                    className="absolute top-full font-medium left-[-208px] bg-white text-gray-800 py-4 px-6 min-w-[720px] shadow-lg rounded-[14px]"
-                                  >
-                                    <div className="grid grid-cols-2 gap-x-8 gap-y-2">
-                                      {item.dropdownItems.map(
-                                        (dropdownItem, dropIndex) => (
-                                          <Link
-                                            href={dropdownItem.link}
-                                            key={dropIndex}
-                                          >
-                                            <div className="px-2 py-1 text-[15px] hover:text-[#FFC65C] cursor-pointer">
-                                              {dropdownItem.item
-                                                ? dropdownItem.item
-                                                : "Unknown Item"}
-                                            </div>
-                                          </Link>
-                                        )
-                                      )}
-                                    </div>
-                                  </motion.div>
-                                )}
-
-                              {/* Dropdown for States and Branches */}
-
-                              {item.title === "Branches" &&
-                                item.states &&
-                                activeDropdown === index && (
-                                  <div className="absolute top-full font-medium left-0 bg-white text-gray-800 py-2 min-w-[200px] shadow-lg rounded-[14px]">
-                                    {item.states.map((state) => (
-                                      <div
-                                        key={state.name}
-                                        className="relative group"
-                                        onMouseEnter={() =>
-                                          handleStateHover(state.name)
-                                        }
-                                        onMouseLeave={() =>
-                                          handleStateHover(null)
-                                        }
-                                      >
-                                        {state.name === "Pondicherry" ? (
-                                          <div className="px-4 py-2 text-[15px]  hover:text-[#FFC65C] cursor-pointer flex justify-between items-center">
-                                            <Link
-                                              href={
-                                                "/fertility-centre-in-pondicherry"
-                                              }
-                                              className="px-4 py-2  hover:text-[#FFC65C] cursor-pointer"
-                                            >
-                                              {state.name}
-                                            </Link>
-                                          </div>
-                                        ) : (
-                                          <div className="px-4 py-2  hover:text-[#FFC65C] cursor-pointer flex justify-between items-center rounded-md">
-                                            <p className="px-4 py-2  hover:text-[#FFC65C] cursor-pointer">
-                                              {state.name}
-                                            </p>
-                                            {state.branches.length > 0 && (
-                                              <IoIosArrowDown className="text-gray-500" />
-                                            )}
-                                          </div>
-                                        )}
-
-                                        {/* Secondary dropdown for branches */}
-                                        {activeState === state.name &&
-                                          state.branches.length > 0 && (
-                                            <div className="absolute left-full top-0 bg-white text-gray-800 py-2 min-w-[200px] shadow-lg rounded-[14px] -ml-1 max-h-96 overflow-x-hidden ">
-                                              {state.branches.map(
-                                                (branch, branchIndex) => (
-                                                  <Link
-                                                    href={branch.link}
-                                                    key={branchIndex}
-                                                  >
-                                                    <div
-                                                      key={branchIndex}
-                                                      className="px-4 py-2 text-[15px]  hover:text-[#FFC65C] cursor-pointer"
-                                                    >
-                                                      {branch.item}
-                                                    </div>
-                                                  </Link>
-                                                )
-                                              )}
-                                            </div>
-                                          )}
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-
-                              {/* //Resource */}
-                              {item.title === "Resource" &&
-                                item.resource &&
-                                activeDropdown === index && (
-                                  <div className="absolute top-full left-0 font-medium bg-white text-gray-800 py-2 min-w-[200px] shadow-lg rounded-[14px]">
-                                    {item.resource.map((state) => (
-                                      <div
-                                        key={state.name}
-                                        className="relative group"
-                                        onMouseEnter={() =>
-                                          handleStateHover(state.name)
-                                        }
-                                        onMouseLeave={() =>
-                                          handleStateHover(null)
-                                        }
-                                      >
-                                        {state.name === "Blog" ? (
-                                          <div className="px-4 py-2  hover:text-[#FFC65C] cursor-pointer flex justify-between items-center">
-                                            <Link
-                                              href={
-                                                "https://sudhafertilitycentre.com/blog/"
-                                              }
-                                              className="px-4 py-2  hover:text-[#FFC65C] cursor-pointer"
-                                            >
-                                              {state.name}
-                                            </Link>
-                                          </div>
-                                        ) : (
-                                          <div className="px-4 py-2 hover:text-[#FFC65C] cursor-pointer flex justify-between items-center rounded-md">
-                                            <p className="px-4 py-2 hover:text-[#FFC65C] cursor-pointer">
-                                              {state.name}
-                                            </p>
-                                            {state.branches.length > 0 && (
-                                              <IoIosArrowDown className="text-gray-500" />
-                                            )}
-                                          </div>
-                                        )}
-
-                                        {/* Secondary dropdown for branches */}
-                                        {activeState === state.name &&
-                                          state.branches.length > 0 && (
-                                            <div className="absolute left-full top-0 bg-white text-gray-800 py-2 min-w-[200px] shadow-lg rounded-[14px] -ml-1 max-h-96 overflow-x-hidden ">
-                                              {state.branches.map(
-                                                (branch, branchIndex) => (
-                                                  <Link
-                                                    href={branch.link}
-                                                    key={branchIndex}
-                                                  >
-                                                    <div
-                                                      key={branchIndex}
-                                                      className="px-4 py-2  hover:text-[#FFC65C] cursor-pointer"
-                                                    >
-                                                      {branch.item}
-                                                    </div>
-                                                  </Link>
-                                                )
-                                              )}
-                                            </div>
-                                          )}
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                            </li>
-                          ))}
-                        </ul>
+                      <div>
+                        <div className="py-3">
+                          <div>
+                            <ul className="flex gap-6 2xl:gap-9 font-medium justify-end text-sm text-[#173366]">
+                              {mainNavItems.map((item, index) => (
+                                <NavDropdown key={index} item={item} />
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
                       </div>
                     </div>
+                    {isModalOpen && (
+                      <RequestCallModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                    )}
                   </div>
-
-                  </div>{/* end flex-1 */}
-                  {isModalOpen && (
-                    <RequestCallModal
-                      isOpen={isModalOpen}
-                      onClose={() => setIsModalOpen(false)}
-                    />
-                  )}
                 </div>
               </div>
             </div>
-            </div>
+          </div>
         </div>
-      </div>
-         </header>
+      </header>
 
       {/* Mobile Menu */}
       <div className="relative">
-        {/* Mobile Menu */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
               className="fixed inset-0 bg-white z-50 lg:hidden overflow-y-auto pb-9"
-              initial={{ opacity: 0, x: 20 }} // Start with opacity 0 and translateX
-              animate={{ opacity: 1, x: 0 }} // Fade in and move to normal position
-              exit={{ opacity: 0, x: -20 }} // Fade out and move to the left
-              transition={{ duration: 0.4 }} // Duration for the animation
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.4 }}
             >
               <div className="container mx-auto py-6">
                 <div className="flex justify-between px-4">
                   <div className="w-40">
                     <Link href={"/"}>
-                      <Image
-                        src={DarkLogo}
-                        alt="Sudha-Logo"
-                        className="w-full h-auto top-2"
-                      />
+                      <Image src={DarkLogo} alt="Sudha-Logo" className="w-full h-auto top-2" />
                     </Link>
                   </div>
-                  {/* Close Button */}
                   <div className="flex">
-                    <button
-                      onClick={toggleMobileMenu}
-                      className="text-gray-600 p-2"
-                    >
+                    <button onClick={toggleMobileMenu} className="text-gray-600 p-2">
                       <IoClose size={24} />
                     </button>
                   </div>
                 </div>
 
-                {/* Mobile Navigation Items */}
                 <nav className="mt-3 px-4">
                   {mainNavItems.map((item, index) => (
                     <div key={index} className="border-b border-gray-200">
-                      {/* Render simple string items (e.g., "Home", "About Us", "Blogs", etc.) */}
                       {typeof item.item === "string" ? (
                         <Link
                           href={item.link}
@@ -900,7 +598,6 @@ function Navbar() {
                           {item.item}
                         </Link>
                       ) : (
-                        // Render items with a title and dropdown (Treatments and Branches)
                         <div>
                           <button
                             className="w-full py-4 flex justify-between items-center text-gray-800"
@@ -914,7 +611,6 @@ function Navbar() {
                             />
                           </button>
 
-                          {/* Render Treatments dropdown */}
                           {item.dropdownItems && activeDropdown === index && (
                             <div className="bg-gray-50 px-4 py-2">
                               {item.dropdownItems.map((subItem, subIndex) => (
@@ -930,7 +626,6 @@ function Navbar() {
                             </div>
                           )}
 
-                          {/* Render Branches dropdown */}
                           {item.states && activeDropdown === index && (
                             <div className="bg-gray-50 px-4 py-2">
                               {item.states.map((state, stateIndex) => (
@@ -948,93 +643,26 @@ function Navbar() {
                                         {state.name}
                                       </Link>
                                     ) : (
-                                      <span className="font-semibold text-gray-800">
-                                        {state.name}
-                                      </span>
+                                      <span className="font-semibold text-gray-800">{state.name}</span>
                                     )}
                                     {state.branches.length > 0 && (
                                       <IoIosArrowDown
                                         className={`transition-transform duration-200 ${
-                                          activeState === stateIndex
-                                            ? "rotate-180"
-                                            : ""
+                                          activeState === stateIndex ? "rotate-180" : ""
                                         }`}
                                       />
                                     )}
                                   </button>
 
-                                  {/* Render branches of the selected state */}
                                   {activeState === stateIndex && (
                                     <ul className="list-disc ml-4">
-                                      {state.branches.map(
-                                        (branch, branchIndex) => (
-                                          <Link
-                                            href={branch.link}
-                                            key={branchIndex}
-                                            onClick={toggleMobileMenu}
-                                          >
-                                            <li className="py-1 text-gray-600 hover:text-[#FFC65C]">
-                                              {branch.item}
-                                            </li>
-                                          </Link>
-                                        )
-                                      )}
-                                    </ul>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-
-                          {/* Render resource dropdown */}
-                          {item.resource && activeDropdown === index && (
-                            <div className="bg-gray-50 px-4 py-2">
-                              {item.resource.map((state, stateIndex) => (
-                                <div key={stateIndex}>
-                                  <button
-                                    className="w-full py-4 font-medium flex justify-between items-center text-gray-800"
-                                    onClick={() => handleStateClick(stateIndex)}
-                                  >
-                                    {state.name == "Blog" ? (
-                                      <Link
-                                        className="font-semibold text-gray-800"
-                                        href={"https://sudhafertilitycentre.com/blog/"}
-                                        onClick={toggleMobileMenu}
-                                      >
-                                        {state.name}
-                                      </Link>
-                                    ) : (
-                                      <span className="font-semibold text-gray-800">
-                                        {state.name}
-                                      </span>
-                                    )}
-                                    {state.branches.length > 0 && (
-                                      <IoIosArrowDown
-                                        className={`transition-transform duration-200 ${
-                                          activeState === stateIndex
-                                            ? "rotate-180"
-                                            : ""
-                                        }`}
-                                      />
-                                    )}
-                                  </button>
-
-                                  {/* Render branches of the selected state */}
-                                  {activeState === stateIndex && (
-                                    <ul className="list-disc ml-4">
-                                      {state.branches.map(
-                                        (branch, branchIndex) => (
-                                          <Link
-                                            href={branch.link}
-                                            key={branchIndex}
-                                            onClick={toggleMobileMenu}
-                                          >
-                                            <li className="py-1 text-gray-600 hover:text-[#FFC65C]">
-                                              {branch.item}
-                                            </li>
-                                          </Link>
-                                        )
-                                      )}
+                                      {state.branches.map((branch, branchIndex) => (
+                                        <Link href={branch.link} key={branchIndex} onClick={toggleMobileMenu}>
+                                          <li className="py-1 text-gray-600 hover:text-[#FFC65C]">
+                                            {branch.item}
+                                          </li>
+                                        </Link>
+                                      ))}
                                     </ul>
                                   )}
                                 </div>
@@ -1047,7 +675,6 @@ function Navbar() {
                   ))}
                 </nav>
 
-                {/* Mobile Action Buttons */}
                 <div className="relative">
                   <div className="mt-8 gap-0 w-full fixed bottom-0 left-0 flex shadow-[0_-4px_20px_rgba(23,51,102,0.12)]">
                     <Link
@@ -1065,23 +692,15 @@ function Navbar() {
                     </button>
                   </div>
                 </div>
-                <RequestCallModal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-                />
+                <RequestCallModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-     
 
       {!isMobileMenuOpen && (
-        <div
-          className="contact-sidebar md:hidden"
-          role="complementary"
-          aria-label="Quick contact options"
-        >
+        <div className="contact-sidebar md:hidden" role="complementary" aria-label="Quick contact options">
           <a
             href="https://wa.me/7670076006"
             target="_blank"
@@ -1092,20 +711,13 @@ function Navbar() {
             <FaWhatsapp aria-hidden="true" className="contact-icon whatsapp-icon" />
           </a>
 
-          <a
-            href="tel:7670076006"
-            aria-label="Call us now"
-            className="contact-btn phone-btn"
-          >
+          <a href="tel:7670076006" aria-label="Call us now" className="contact-btn phone-btn">
             <IoCall aria-hidden="true" className="contact-icon phone-icon" />
           </a>
         </div>
       )}
-       </>
-  
+    </>
   );
 }
-
-// lestn
 
 export default Navbar;

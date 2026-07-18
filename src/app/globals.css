@@ -8,6 +8,23 @@ body {
   overflow-x: hidden;
   max-width: 100%;
   margin-inline: auto;
+  padding-top: 4rem;
+}
+
+
+@media (min-width: 1024px) {
+  body {
+    padding-top: 5.5rem; /* h-20 + lg:py-2 */
+  }
+}
+
+.site-header-gradient {
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(247, 250, 255, 0.8) 55%,
+    rgba(238, 243, 255, 0.8) 100%
+  );
 }
 
 .no-visible-scrollbar {
@@ -481,18 +498,6 @@ div.relative.w-full:has(.branch-form-container) + div.container {
 
 }
 
-@media (max-width: 767px) {
-  main {
-    padding-right: 0;
-  }
-
-  .container,
-  .hero-text-col,
-  .hero-grid {
-    padding-right: 52px !important;
-  }
-}
-
 
 .sidebar-actions {
   display: flex;
@@ -721,4 +726,14 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   50% {
     transform: translateY(-4px) scale(1.08);
   }
+}
+
+
+.site-header-gradient {
+  background: linear-gradient(
+    150deg,
+     #ffffff 0%,
+    #f7faff 55%,
+    #fdf6ea 100%
+  );
 }

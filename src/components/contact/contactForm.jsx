@@ -322,7 +322,7 @@ function ContactForm() {
                   disabled={isSubmitting}
                   className={`button-all w-full flex justify-center items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                 >
-                  {isSubmitting ? "Submitting..." : "Take your free step toward parenthood"}
+                  {isSubmitting ? "Submitting..." : " Schedule My Free Fertility Check"}
                   {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
                 </button>
 
