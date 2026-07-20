@@ -62,6 +62,7 @@ export default function IVFProcessTimeline() {
     steps.forEach((step) => {
       const el = descRefs.current[step.id];
       if (el) {
+        // measure against a temporary clamp state by checking scrollHeight vs a 4-line cap
         next[step.id] = el.scrollHeight > el.clientHeight + 1;
       }
     });
@@ -76,8 +77,8 @@ export default function IVFProcessTimeline() {
 
   return (
     <div className="max-w-7xl mx-auto">
-      {/* Header — tighter bottom margin on mobile */}
-      <div className="text-center mb-5 md:mb-16">
+      {/* Header */}
+      <div className="text-center mb-5">
         <p className="text-[#173366] text-xs font-semibold tracking-[0.2em] uppercase mb-2 md:mb-3">
           Step by step
         </p>
@@ -86,11 +87,77 @@ export default function IVFProcessTimeline() {
         </p>
       </div>
 
-      {/* Stepper */}
-      <div className="relative">
-        {/* Horizontal connector line — desktop only anyway */}
+      {/* ---------- MOBILE LAYOUT (horizontal timeline list) ---------- */}
+      <div className="flex flex-col md:hidden">
+        {steps.map((step, idx) => {
+          const Icon = step.icon;
+          const isOpen = !!expanded[step.id];
+          const doesOverflow = !!overflowing[step.id];
+          const isLast = idx === steps.length - 1;
+
+          return (
+            <div key={step.id} className="flex gap-3">
+              {/* Left column: icon + duration + connector */}
+              <div className="flex flex-col items-center shrink-0 w-14">
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
+                  style={{ backgroundColor: "#EEF4FB", border: "1.5px solid #C9D9EE" }}
+                >
+                  <Icon size={22} color="#173366" />
+                </div>
+                {!isLast && <div className="w-[2px] flex-1 min-h-[24px] bg-gray-200 my-2" />}
+              </div>
+
+              {/* Right column: badges, title, description */}
+              <div className={`flex-1 min-w-0 ${isLast ? "pb-1" : "pb-5"}`}>
+                <div className="flex items-center flex-wrap gap-2 mb-1.5 pt-1">
+                  <span
+                    className="text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-md"
+                    style={{ backgroundColor: "#ffc65c", color: "#053081ff" }}
+                  >
+                    Step {step.id}
+                  </span>
+                  <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#EEF4FB] text-[#173366]">
+                    {step.duration}
+                  </span>
+                </div>
+
+                <p className="text-sm font-semibold text-[#173366] leading-snug mb-1">
+                  {step.title}
+                </p>
+
+                <p
+                  ref={(el) => (descRefs.current[`m-${step.id}`] = el)}
+                  className={`text-sm text-gray-600 leading-relaxed ${isOpen ? "" : "line-clamp-3"}`}
+                >
+                  {step.description}
+                </p>
+
+                {doesOverflow && (
+                  <button
+                    type="button"
+                    onClick={() => toggle(step.id)}
+                    aria-expanded={isOpen}
+                    className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-[#173366]"
+                  >
+                    {isOpen ? "Show less" : "Read more"}
+                    <LuChevronDown
+                      size={14}
+                      className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+                    />
+                  </button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ---------- DESKTOP LAYOUT (card grid) ---------- */}
+      <div className="relative hidden md:block">
+        {/* Horizontal connector line */}
         <div
-          className="absolute hidden md:block"
+          className="absolute"
           style={{
             top: 40,
             left: "calc(10% + 40px)",
@@ -100,69 +167,53 @@ export default function IVFProcessTimeline() {
           }}
         />
 
-        {/* Steps grid — smaller gap on mobile, larger from md up */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 items-stretch">
+        <div className="grid grid-cols-5 gap-6 items-start">
           {steps.map((step) => {
             const Icon = step.icon;
             const isOpen = !!expanded[step.id];
             const doesOverflow = !!overflowing[step.id];
             return (
               <div key={step.id} className="flex flex-col items-center text-center relative">
-                {/* Circle icon — smaller on mobile */}
                 <div
-                  className="relative z-10 w-14 h-14 md:w-20 md:h-20 rounded-full flex items-center justify-center mb-3 md:mb-5 shrink-0"
-                  style={{
-                    backgroundColor: "#EEF4FB",
-                    border: "1.5px solid #C9D9EE",
-                  }}
+                  className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center mb-5 shrink-0"
+                  style={{ backgroundColor: "#EEF4FB", border: "1.5px solid #C9D9EE" }}
                 >
-                  <Icon size={22} className="md:hidden" color="#173366" />
-                  <Icon size={28} className="hidden md:block" color="#173366" />
+                  <Icon size={28} color="#173366" />
                 </div>
 
-                {/* Step label */}
                 <p
-                  className="text-[10px] md:text-xs font-bold tracking-widest uppercase px-2 py-0.5 md:py-1 rounded-md mb-2 md:mb-3"
+                  className="text-xs font-bold tracking-widest uppercase px-2 py-1 rounded-md mb-3"
                   style={{ backgroundColor: "#ffc65c", color: "#053081ff" }}
                 >
                   Step {step.id}
                 </p>
 
-                {/* Duration badge */}
-                <span className="inline-block px-2.5 md:px-3 py-0.5 rounded-full text-xs md:text-md font-medium mb-2 md:mb-3 bg-[#EEF4FB] text-[#173366]">
+                <span className="inline-block px-3 py-0.5 rounded-full text-md font-medium mb-3 bg-[#EEF4FB] text-[#173366]">
                   {step.duration}
                 </span>
 
-                {/* Card — reduced padding on mobile */}
+                {/* Card — min-h instead of fixed h, so it grows with expanded content */}
                 <div
-                  className="flex flex-col items-center w-full h-full box-border rounded-2xl px-3 py-3 md:px-5 md:py-6"
-                  style={{
-                    border: "1px solid #EEF2F8",
-                    backgroundColor: "#FAFBFE",
-                  }}
+                  className="flex flex-col items-center w-[200px] min-h-[200px] box-border rounded-2xl px-2 py-4"
+                  style={{ border: "1px solid #EEF2F8", backgroundColor: "#FAFBFE" }}
                 >
-                  {/* Title — shorter reserved height on mobile */}
-                  <p className="text-sm font-semibold text-[#173366] leading-snug mb-2 md:mb-3 min-h-[1.75rem] md:min-h-[2.5rem] flex items-center">
+                  <p className="text-sm font-semibold text-[#173366] leading-snug mb-3 min-h-[1.5rem] flex items-center">
                     {step.title}
                   </p>
 
-                  {/* Description */}
                   <p
                     ref={(el) => (descRefs.current[step.id] = el)}
-                    className={`text-sm text-gray-600 leading-relaxed ${
-                      isOpen ? "" : "line-clamp-4"
-                    }`}
+                    className={`text-sm text-gray-600 leading-relaxed ${isOpen ? "" : "line-clamp-4"}`}
                   >
                     {step.description}
                   </p>
 
-                  {/* Read more / less — only when this card's text overflows */}
                   {doesOverflow && (
                     <button
                       type="button"
                       onClick={() => toggle(step.id)}
                       aria-expanded={isOpen}
-                      className="mt-1.5 md:mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#173366] hover:text-[#FFC65C] transition-colors"
+                      className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#173366] hover:text-[#FFC65C] transition-colors"
                     >
                       {isOpen ? "Show less" : "Read more"}
                       <LuChevronDown
@@ -172,11 +223,6 @@ export default function IVFProcessTimeline() {
                     </button>
                   )}
                 </div>
-
-                {/* Vertical connector line on mobile — shorter */}
-                {step.id !== 5 && (
-                  <div className="w-[2px] h-4 md:h-8 bg-gray-200 mt-3 md:mt-6 block md:hidden" />
-                )}
               </div>
             );
           })}

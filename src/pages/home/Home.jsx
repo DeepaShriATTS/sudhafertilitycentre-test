@@ -111,18 +111,22 @@ function AchievementTile({ number, label }) {
   );
 }
 
-function TreatmentCard({ icon: Icon, title, subtitle, href }) {
+function TreatmentCard({ icon: Icon, title, subtitle, href, wide = false }) {
   return (
-    <Link href={href} className="h-full">
+    <Link href={href} className={`h-full ${wide ? "md:col-span-2 lg:col-span-1" : ""}`}>
       <div className="h-full border border-[#E7E7E7] p-4 rounded-2xl font-outfit hover:bg-[#EBF2FE] cursor-pointer transition-colors">
-        <div className="flex flex-col items-center h-full ">
-          <div className="w-12 h-12 flex items-center justify-center mb-4 shrink-0">
+        <div className="flex flex-row sm:flex-col items-center h-full gap-4 sm:gap-0">
+          <div className="w-12 h-12 flex items-center justify-center mb-0 sm:mb-4 shrink-0">
             <Image src={Icon} alt={title} width={48} height={48} />
           </div>
-          <div className="flex flex-col items-center w-full  sm:p-5">
-            <p className="text-[#000] font-semibold text-center leading ">{title}</p>
+          <div className="flex flex-col items-start sm:items-center w-full sm:p-5">
+            <p className="text-[#000] font-semibold text-left sm:text-center leading">
+              {title}
+            </p>
             {subtitle && (
-              <p className="text-[#000] text-center mt-2 font-semibold ">{subtitle}</p>
+              <p className="text-[#000] text-left sm:text-center mt-1 sm:mt-2 font-semibold">
+                {subtitle}
+              </p>
             )}
           </div>
         </div>
@@ -269,12 +273,12 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-9 items-stretch">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-9 items-stretch">
                   <TreatmentCard icon={Vitro} title="In Vitro Fertilization" subtitle="(IVF)" href="/in-vitro-fertilization" />
                   <TreatmentCard icon={Intrauterine} title="Intrauterine Insemination" subtitle="(IUI)" href="/intrauterine-insemination" />
                   <TreatmentCard icon={Intracytoplasmic} title="Intracytoplasmic Sperm Injection" subtitle="(ICSI)" href="/intracytoplasmic-sperm-injection" />
-                  <TreatmentCard icon={Laser_Assisted} title="PCOS (PCOS)/PCOD" href="/pcos-and-pdoc" />
-                  <TreatmentCard icon={Pregnancy} title="Pregnancy and Antenatal Care"  href="/pregnancy-and-antenatal-care" />
+                  <TreatmentCard icon={Laser_Assisted} title="PCOS (PCOS)/PCOD" href="/pcos-and-pdoc" wide />
+                  <TreatmentCard icon={Pregnancy} title="Pregnancy and Antenatal Care" href="/pregnancy-and-antenatal-care" />
                 </div>
 
                 <div className="button flex justify-center mt-8">
@@ -349,7 +353,7 @@ export default function Home() {
                   Journey of IVF Process
                 </h2>
               </div>
-              <div className="mt-2">
+              <div>
                 <LazySection height="300px">
                   <JourneyCard />
                 </LazySection>

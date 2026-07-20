@@ -317,6 +317,8 @@ div.relative.w-full:has(.branch-form-container) + div.container {
 
 /* ==========================================================================
    Full-Viewport-Height Vertical Sidebar (LCP Optimized)
+   Sidebar blends with section backgrounds — appears as a seamless right
+   edge of the page, not a separate floating component.
    ========================================================================== */
 
 .vertical-sidebar-container {
@@ -335,6 +337,12 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   contain: layout style;
   will-change: transform;
   pointer-events: none;
+  /* Match surrounding section bg — makes this invisible as a separate component */
+  background-color: #ffffff;
+  /* Hairline separator — subtle enough to read as a page edge, not a panel border */
+  border-left: 1px solid rgba(23, 51, 102, 0.06);
+  /* No box-shadow — avoids the "floating card" look */
+  box-shadow: none;
 }
 
 .vertical-sidebar-container * {
@@ -355,18 +363,38 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   }
 }
 
-/* Gutter on the right to prevent overlapping with the fixed vertical sidebar */
-main > section,
-main > div:not(.vertical-sidebar-container),
-footer {
-  padding-right: 50px !important;
+/* ==========================================================================
+   Right Gutter — reserves space so page content never slides under the sidebar.
+   Applied on body so full-bleed colored sections (testimonials blue,
+   contact gradient, etc.) still stretch edge-to-edge — the sidebar sits
+   on top of the correct section background color at every scroll position.
+   ========================================================================== */
+body {
+  padding-right: 50px;
 }
 
 @media (min-width: 768px) {
-  main > section,
-  main > div:not(.vertical-sidebar-container),
-  footer {
-    padding-right: 60px !important;
+  body {
+    padding-right: 60px;
+  }
+}
+
+/* Cancel any legacy per-section padding-right rules */
+main > section,
+main > div,
+footer {
+  padding-right: 0 !important;
+}
+
+/* Remove the body gutter on very small screens so narrow viewports aren't crushed;
+   the sidebar falls back to fully transparent floating mode there */
+@media (max-width: 374px) {
+  body {
+    padding-right: 0;
+  }
+  .vertical-sidebar-container {
+    background-color: transparent;
+    border-left: none;
   }
 }
 
