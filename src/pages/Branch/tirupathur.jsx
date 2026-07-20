@@ -583,7 +583,8 @@ function TirupathurPage() {
                               Address
                             </p>
                             <p className="font-semibold">
-                              VKS Towers, Krishnagiri Road, near Hotel Hills, Tirupathur, Tamil Nadu 635601                            </p>
+                              VKS Towers, Krishnagiri Road, near Hotel Hills, Tirupathur, Tamil Nadu 635601 
+                               </p>
                             <Link href="https://maps.app.goo.gl/EvUNvwnFbhmKbe9WA">
                               <button className="button-all mt-4  md:mx-0 md:mr-auto flex items-center gap-2">
                                 <p>Get Directions</p>
@@ -713,12 +714,12 @@ function TirupathurPage() {
 
            <GallerySlider items={tirupathurVideos} />
 
-        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+        {/* <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents
           </h3>
           <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
+        </div> */}
 
         {/* <MarqueeComponent
           items={ Tirupathur.gallery}

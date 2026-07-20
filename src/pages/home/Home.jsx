@@ -115,14 +115,14 @@ function TreatmentCard({ icon: Icon, title, subtitle, href }) {
   return (
     <Link href={href} className="h-full">
       <div className="h-full border border-[#E7E7E7] p-4 rounded-2xl font-outfit hover:bg-[#EBF2FE] cursor-pointer transition-colors">
-        <div className="flex flex-col items-center h-full">
+        <div className="flex flex-col items-center h-full ">
           <div className="w-12 h-12 flex items-center justify-center mb-4 shrink-0">
             <Image src={Icon} alt={title} width={48} height={48} />
           </div>
-          <div className="flex flex-col items-center w-full">
-            <p className="text-[#000] font-semibold text-center leading-snug md:block hidden">{title}</p>
+          <div className="flex flex-col items-center w-full  sm:p-5">
+            <p className="text-[#000] font-semibold text-center leading ">{title}</p>
             {subtitle && (
-              <p className="text-[#000] text-center mt-2 font-semibold">{subtitle}</p>
+              <p className="text-[#000] text-center mt-2 font-semibold ">{subtitle}</p>
             )}
           </div>
         </div>
@@ -269,7 +269,7 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-9 items-stretch">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mt-9 items-stretch">
                   <TreatmentCard icon={Vitro} title="In Vitro Fertilization" subtitle="(IVF)" href="/in-vitro-fertilization" />
                   <TreatmentCard icon={Intrauterine} title="Intrauterine Insemination" subtitle="(IUI)" href="/intrauterine-insemination" />
                   <TreatmentCard icon={Intracytoplasmic} title="Intracytoplasmic Sperm Injection" subtitle="(ICSI)" href="/intracytoplasmic-sperm-injection" />
@@ -315,7 +315,7 @@ export default function Home() {
                     </h2>
                   </div>
 
-                  <div className="flex flex-col items-center space-y-2 lg:space-y-0 lg:items-start order-2 lg:order-2">
+                  <div className="flex flex-col items-center space-y-2 sm:mb-3 lg:space-y-0 lg:items-start order-2 lg:order-2">
                     <Image
                       src={BookPic}
                       alt="Parenting Guide Book"
@@ -326,7 +326,7 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="button px-4 sm:px-4 lg:px-8 order-3 lg:order-3 pb-8 lg:pb-0">
+                  <div className=" px-4 sm:px-4 lg:px-8 md:px-3 order-3 lg:order-3 pb-8 lg:pb-0">
                     <BookingButton title={"Don't worry, our expert takes it from here "} />
                   </div>
                 </div>
@@ -411,10 +411,10 @@ export default function Home() {
       <section className={`${SECTION_GAP} mb-14 lg:mb-20 mx-4 sm:mx-6 md:mx-8`}>
         <LazySection height="300px">
           <GallerySlider items={Homevideos} />
-          <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
+          {/* <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
             <h3 className="font-bold text-center">Childless Couples to Happy Parents</h3>
             <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-          </div>
+          </div> */}
         </LazySection>
       </section>
 

@@ -3,18 +3,22 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { FaPlay, FaFilm, FaTimes, FaList, FaCheck } from "react-icons/fa";
+import { FaPlay, FaFilm, FaTimes, FaList, FaCheck, FaVolumeMute, FaMapMarkerAlt } from "react-icons/fa";
 import Buttonbottm from "@/components/button";
 import { getYoutubeThumbnail } from "@/middleware/videosRoute"; // adjust path if your data/util file lives elsewhere
 import Image from "next/image";
 
 import "swiper/css";
 import "swiper/css/navigation";
-import {videoSliderCss} from "../../app/cssStyling/videoSlider.css";
+import "../../app/cssStyling/videoSlider.css";
 
 // Max number of playlist videos that will play automatically, back to back,
 // before the player stops and waits for a manual click.
 const MAX_AUTO_PLAY_COUNT = 2;
+
+// How long the cursor must sit on a card before the hover-preview loads.
+// Short enough to feel instant, long enough to ignore accidental pass-throughs.
+const HOVER_PREVIEW_DELAY = 80;
 
 // Loaded once and reused — avoids re-injecting the YouTube IFrame API script
 // every time the modal opens.
@@ -47,17 +51,14 @@ function getVideoIdFromUrl(value) {
   try {
     const parsedUrl = new URL(value);
 
-    // youtu.be/<id>
     if (parsedUrl.hostname.includes("youtu.be")) {
       const id = parsedUrl.pathname.replace("/", "").split("/")[0];
       return id || null;
     }
 
-    // youtube.com/watch?v=<id>
     const vParam = parsedUrl.searchParams.get("v");
     if (vParam) return vParam;
 
-    // youtube.com/embed/<id> or /shorts/<id>
     const pathMatch = parsedUrl.pathname.match(/\/(embed|shorts)\/([^/?]+)/);
     if (pathMatch) return pathMatch[2];
 
@@ -65,6 +66,57 @@ function getVideoIdFromUrl(value) {
   } catch {
     return null;
   }
+}
+
+// Normalizes a possibly-missing/protocol-relative thumbnail URL and builds a
+// fallback chain of YouTube CDN sizes to try if the given one 404s.
+function buildThumbCandidates(video) {
+  const candidates = [];
+  const raw = video?.thumbnail;
+
+  if (raw) {
+    candidates.push(raw.startsWith("//") ? `https:${raw}` : raw);
+  }
+  if (video?.id) {
+    candidates.push(`https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`);
+    candidates.push(`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`);
+    candidates.push(`https://i.ytimg.com/vi/${video.id}/default.jpg`);
+  }
+  return candidates;
+}
+
+// Plain <img> (not next/image) on purpose — external YouTube thumbnail hosts
+// would otherwise need to be allow-listed in next.config.js images.remotePatterns,
+// and a missing/protocol-relative video.thumbnail previously broke next/image
+// outright. This cascades through fallback sizes and finally an icon.
+function PlaylistThumb({ video }) {
+  const candidates = buildThumbCandidates(video);
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const src = candidates[candidateIndex];
+
+  if (!src) {
+    return (
+      <div className="gs-playlist-thumb-fallback">
+        <FaFilm />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={video.title || "Video thumbnail"}
+      width={120}
+      height={90}
+      className="object-cover"
+      loading="lazy"
+      onError={() => {
+        setCandidateIndex((prev) =>
+          prev + 1 < candidates.length ? prev + 1 : prev
+        );
+      }}
+    />
+  );
 }
 
 export default function GallerySlider({ items = [] }) {
@@ -78,22 +130,34 @@ export default function GallerySlider({ items = [] }) {
   const [autoPlayCount, setAutoPlayCount] = useState(0);
   const [autoAdvanceStopped, setAutoAdvanceStopped] = useState(false);
 
+  // Hover-preview state: only one card previews at a time. previewId is the
+  // item id whose muted embed is mounted; previewVisible drives the fade-in
+  // so the iframe doesn't just pop in, and also drives the play-button fade-out.
+  const [previewId, setPreviewId] = useState(null);
+  const [previewVisible, setPreviewVisible] = useState(false);
+  const hoverTimerRef = useRef(null);
+  const canHoverRef = useRef(false);
+
   const swiperInstanceRef = useRef(null);
   const playerRef = useRef(null); // YT.Player instance
   const playerContainerRef = useRef(null); // div the player mounts into
   const stateRef = useRef({ currentVideoIndex: 0, autoPlayCount: 0 }); // avoids stale closures inside YT event callbacks
 
-  // Keep a ref mirror of state so the YouTube player's onStateChange callback
-  // (registered once per player instance) always reads fresh values.
   useEffect(() => {
     stateRef.current.currentVideoIndex = currentVideoIndex;
     stateRef.current.autoPlayCount = autoPlayCount;
   }, [currentVideoIndex, autoPlayCount]);
 
-  // Extract a YouTube playlist ID from a playlist URL (?list=...)
+  // Only enable hover-preview on devices that actually have a hover pointer
+  // (skips phones/tablets, where mouseenter can otherwise ghost-fire on tap).
+  useEffect(() => {
+    canHoverRef.current =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(hover: hover) and (pointer: fine)").matches;
+  }, []);
+
   const getPlaylistId = (value) => {
     if (!value) return null;
-
     try {
       const parsedUrl = new URL(value);
       const listParam = parsedUrl.searchParams.get("list");
@@ -104,30 +168,10 @@ export default function GallerySlider({ items = [] }) {
     }
   };
 
-  // Resolve a thumbnail for the card. Prefer item.firstVideoUrl (a single-video
-  // URL) since getYoutubeThumbnail needs a video ID, not a playlist ID — a
-  // thumbnail built from item.thumbnail/item.videoUrl (a playlist URL) will be broken.
-  // Falls back to item.thumbnail only if no firstVideoUrl is supplied.
   const resolveThumbnail = (item) => {
     if (item.firstVideoUrl) return getYoutubeThumbnail(item.firstVideoUrl);
     if (item.thumbnail) return item.thumbnail;
     return null;
-  };
-
-  // Reorder a fetched playlist so the video matching item.firstVideoUrl plays
-  // first, instead of whatever the scraper happened to return at index 0.
-  // The rest of the playlist order is preserved for "up next".
-  const orderPlaylistWithFirstVideoFirst = (videos, item) => {
-    const preferredId = getVideoIdFromUrl(item?.firstVideoUrl);
-    if (!preferredId) return videos;
-
-    const preferredIndex = videos.findIndex((video) => video.id === preferredId);
-    if (preferredIndex <= 0) return videos; // already first, or not found in this batch
-
-    const reordered = [...videos];
-    const [preferredVideo] = reordered.splice(preferredIndex, 1);
-    reordered.unshift(preferredVideo);
-    return reordered;
   };
 
   const handleImageError = (id) => {
@@ -137,17 +181,45 @@ export default function GallerySlider({ items = [] }) {
   const handleCardClick = (item, index) => {
     // Only the active (centered) card is interactive — open its playlist in the modal
     if (index !== activeIndex) return;
+    clearHoverPreview();
     swiperInstanceRef.current?.autoplay?.stop();
     setModalItem(item);
   };
+
+  // ── Hover preview (card-level, muted single-video loop) ──
+  const clearHoverPreview = useCallback(() => {
+    clearTimeout(hoverTimerRef.current);
+    setPreviewVisible(false);
+    setPreviewId(null);
+  }, []);
+
+  const handleCardMouseEnter = useCallback((item) => {
+    if (!canHoverRef.current) return;
+    const videoId = getVideoIdFromUrl(item.firstVideoUrl);
+    if (!videoId) return;
+
+    clearTimeout(hoverTimerRef.current);
+    hoverTimerRef.current = setTimeout(() => {
+      setPreviewId(item.id);
+      requestAnimationFrame(() => setPreviewVisible(true));
+    }, HOVER_PREVIEW_DELAY);
+  }, []);
+
+  const handleCardMouseLeave = useCallback((item) => {
+    clearTimeout(hoverTimerRef.current);
+    if (previewId === item.id || !previewId) {
+      setPreviewVisible(false);
+      setTimeout(() => setPreviewId((current) => (current === item.id ? null : current)), 150);
+    }
+  }, [previewId]);
+
+  useEffect(() => () => clearTimeout(hoverTimerRef.current), []);
 
   const destroyPlayer = useCallback(() => {
     if (playerRef.current) {
       try {
         playerRef.current.destroy();
-      } catch {
-        // player may already be in a torn-down state — safe to ignore
-      }
+      } catch {}
       playerRef.current = null;
     }
   }, []);
@@ -171,9 +243,19 @@ export default function GallerySlider({ items = [] }) {
     swiperInstanceRef.current = swiper;
   };
 
-  // Play a specific video by its position in the playlistVideos list.
-  // `isAutoAdvance` distinguishes a user click (resets the auto-play budget)
-  // from the automatic "next video" transition (consumes the budget).
+  const orderPlaylistWithFirstVideoFirst = (videos, item) => {
+    const preferredId = getVideoIdFromUrl(item?.firstVideoUrl);
+    if (!preferredId) return videos;
+
+    const preferredIndex = videos.findIndex((video) => video.id === preferredId);
+    if (preferredIndex <= 0) return videos;
+
+    const reordered = [...videos];
+    const [preferredVideo] = reordered.splice(preferredIndex, 1);
+    reordered.unshift(preferredVideo);
+    return reordered;
+  };
+
   const playVideoAt = useCallback(
     (index, { isAutoAdvance = false } = {}) => {
       const video = playlistVideos[index];
@@ -184,23 +266,17 @@ export default function GallerySlider({ items = [] }) {
       if (isAutoAdvance) {
         setAutoPlayCount((prev) => prev + 1);
       } else {
-        // Manual selection always re-arms the auto-advance budget so the
-        // viewer gets up to MAX_AUTO_PLAY_COUNT fresh auto-plays from here.
         setAutoPlayCount(1);
         setAutoAdvanceStopped(false);
       }
 
       try {
         playerRef.current.loadVideoById(video.id);
-      } catch {
-        // ignore — player may not be ready yet
-      }
+      } catch {}
     },
     [playlistVideos]
   );
 
-  // Fetch playlist video list from our server-side scraper API whenever a
-  // new modalItem is opened.
   useEffect(() => {
     if (!modalItem) return;
 
@@ -223,8 +299,6 @@ export default function GallerySlider({ items = [] }) {
           setPlaylistVideos([]);
           return;
         }
-        // Always surface item.firstVideoUrl as the first video to play,
-        // regardless of the order the scraper returned the playlist in.
         setPlaylistVideos(orderPlaylistWithFirstVideoFirst(data.videos, modalItem));
       })
       .catch(() => {
@@ -241,8 +315,6 @@ export default function GallerySlider({ items = [] }) {
     };
   }, [modalItem]);
 
-  // Once we have the video list, load the IFrame API and mount a real
-  // YT.Player so we can listen for ENDED and control auto-advance.
   useEffect(() => {
     if (!modalItem || playlistVideos.length === 0) return;
     if (!playerContainerRef.current) return;
@@ -254,9 +326,6 @@ export default function GallerySlider({ items = [] }) {
 
       destroyPlayer();
 
-      // Prefer the explicit firstVideoUrl id if we have one — falls back to
-      // playlistVideos[0].id (which orderPlaylistWithFirstVideoFirst has
-      // already moved to the front when a match was found).
       const preferredId =
         getVideoIdFromUrl(modalItem.firstVideoUrl) || playlistVideos[0].id;
 
@@ -266,6 +335,7 @@ export default function GallerySlider({ items = [] }) {
           autoplay: 1,
           rel: 0,
           modestbranding: 1,
+          playsinline: 1,
         },
         events: {
           onStateChange: (event) => {
@@ -290,23 +360,18 @@ export default function GallerySlider({ items = [] }) {
         },
       });
 
-      // Keep the "now playing" sidebar/index in sync with whichever video we
-      // actually told the player to load.
       const startIndex = playlistVideos.findIndex((v) => v.id === preferredId);
       setCurrentVideoIndex(startIndex >= 0 ? startIndex : 0);
-      setAutoPlayCount(1); // the first video counts toward the auto-play budget
+      setAutoPlayCount(1);
       setAutoAdvanceStopped(false);
     });
 
     return () => {
       cancelled = true;
     };
-    // playVideoAt intentionally omitted — it's recreated when playlistVideos
-    // changes, which is already a dependency here.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modalItem, playlistVideos, destroyPlayer]);
 
-  // Close on Escape key
   useEffect(() => {
     if (!modalItem) return;
 
@@ -318,7 +383,6 @@ export default function GallerySlider({ items = [] }) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [modalItem, closeModal]);
 
-  // Lock body scroll while modal is open
   useEffect(() => {
     if (modalItem) {
       const previousOverflow = document.body.style.overflow;
@@ -329,7 +393,6 @@ export default function GallerySlider({ items = [] }) {
     }
   }, [modalItem]);
 
-  // Clean up the player if the component unmounts while modal is open
   useEffect(() => {
     return () => destroyPlayer();
   }, [destroyPlayer]);
@@ -339,113 +402,144 @@ export default function GallerySlider({ items = [] }) {
   }
 
   return (
-    <>
-      <style jsx>{`
-       videoSliderCss
-      `}</style>
-      <section className="gs-section">
-        <div className="gs-container">
-          <div className="gs-swiper-outer">
-            <Swiper
-              onSwiper={handleSwiper}
-              modules={[Autoplay]}
-              loop={true}
-              centeredSlides={true}
-              speed={700}
-              spaceBetween={56}
-              slidesPerView={3}
-              autoplay={{
-                delay: 2000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              breakpoints={{
-                640: {        
-                  slidesPerView: 2,
-                  spaceBetween: 40,
-                },
-                1024: {                           
-                  slidesPerView: 3,
-                  spaceBetween: 56,
-                },
-                425:{
-                  slidesPerView: 1,
-                  spaceBetween: 56,
-                },
-                320:{
-                  slidesPerView: 1,
-                  spaceBetween: 56,
-                },
-                375:{
-                  slidesPerView: 1,
-                  spaceBetween: 56,
-                },
-              
+    <section className="gs-section">
+      <div className="gs-container">
+       
+        <h2 className=" font-semibold text-center">
+         Childless couples to happy parents
+        </h2>
+        <p className="text-gray-600 mt-2 text-center">
+         True stories from our happy parents
+        </p>
 
-              }}
-              onSlideChange={handleSlideChange}
-              className="gs-swiper"
-            >
-              {items.map((item, index) => {
-                const thumbSrc = resolveThumbnail(item);
-                const videoCount = item.videoCount || item.itemCount;
+        <div className="gs-swiper-outer">
+          <Swiper
+            onSwiper={handleSwiper}
+            modules={[Autoplay]}
+            loop={true}
+            centeredSlides={true}
+            speed={700}
+            spaceBetween={24}
+            slidesPerView={3}
+            autoplay={{
+              delay: 3200,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            breakpoints={{
+              320: { slidesPerView: 1.15, spaceBetween: 16 },
+              375: { slidesPerView: 1.15, spaceBetween: 16 },
+              425: { slidesPerView: 1.3, spaceBetween: 16 },
+              640: { slidesPerView: 2, spaceBetween: 20 },
+              1024: { slidesPerView: 3, spaceBetween: 24 },
+            }}
+            onSlideChange={handleSlideChange}
+            className="gs-swiper"
+          >
+            {items.map((item, index) => {
+              const thumbSrc = resolveThumbnail(item);
+              const videoCount = item.videoCount || item.itemCount;
+              const previewVideoId = getVideoIdFromUrl(item.firstVideoUrl);
+              const isPreviewing = previewId === item.id && previewVideoId;
+              const isActive = index === activeIndex;
 
-                return (
-                  <SwiperSlide key={item.id}>
-                    <div
-                      className="gs-card-outer"
-                      onClick={() => handleCardClick(item, index)}
-                    >
-                      <div className="gs-stack-layer gs-stack-layer-2" />
-                      <div className="gs-stack-layer gs-stack-layer-1" />
-
-                      <div className="gs-card">
-                        <div className="gs-thumb-wrap">
-                          {!failedImages[item.id] && thumbSrc ? (
-                            <Image
-                              src={thumbSrc}
-                              alt={item.title}
-                              className="gs-thumb"
-                              width={400}
-                              height={250}
-                              onError={() => handleImageError(item.id)}
-                            />
-                          ) : (
-                            <div className="gs-thumb-fallback">
-                              <div className="gs-thumb-fallback-icon">
-                                <FaFilm />
-                              </div>
-                              <span className="gs-thumb-fallback-text">
-                                {item.title || "No preview available"}
-                              </span>
+              return (
+                <SwiperSlide key={item.id}>
+                  <div
+                    className={`gs-card-outer${isActive ? " is-active" : ""}`}
+                    onClick={() => handleCardClick(item, index)}
+                    onMouseEnter={() => handleCardMouseEnter(item)}
+                    onMouseLeave={() => handleCardMouseLeave(item)}
+                    role={isActive ? "button" : undefined}
+                    tabIndex={isActive ? 0 : -1}
+                    onKeyDown={(e) => {
+                      if (isActive && (e.key === "Enter" || e.key === " ")) {
+                        e.preventDefault();
+                        handleCardClick(item, index);
+                      }
+                    }}
+                    aria-label={isActive ? `Play ${item.title || "video"}` : undefined}
+                  >
+                    <div className="gs-card">
+                      <div className="gs-thumb-wrap">
+                        {!failedImages[item.id] && thumbSrc ? (
+                          <Image
+                            src={thumbSrc}
+                            alt={item.title}
+                            className="gs-thumb"
+                            width={480}
+                            height={300}
+                            onError={() => handleImageError(item.id)}
+                          />
+                        ) : (
+                          <div className="gs-thumb-fallback">
+                            <div className="gs-thumb-fallback-icon">
+                              <FaFilm />
                             </div>
+                            <span className="gs-thumb-fallback-text">
+                              {item.title || "No preview available"}
+                            </span>
+                          </div>
+                        )}
+
+                        {isPreviewing && (
+                          <iframe
+                            key={item.id}
+                            className="gs-hover-preview"
+                            style={{ opacity: previewVisible ? 1 : 0 }}
+                            src={`https://www.youtube-nocookie.com/embed/${previewVideoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&playsinline=1&loop=1&playlist=${previewVideoId}&iv_load_policy=3`}
+                            title={`${item.title || "Video"} preview`}
+                            allow="autoplay; encrypted-media"
+                            tabIndex={-1}
+                            aria-hidden="true"
+                          />
+                        )}
+
+                        <div className="gs-scrim" aria-hidden="true" />
+
+                        <div className="gs-playlist-badge">
+                          <FaList />
+                          <span>{videoCount ? `${videoCount} videos` : "Playlist"}</span>
+                        </div>
+
+                        {previewVisible && isPreviewing && (
+                          <div className="gs-muted-tag">
+                            <FaVolumeMute /> Preview
+                          </div>
+                        )}
+
+                        <button
+                          type="button"
+                          className={`gs-play-overlay${previewVisible && isPreviewing ? " is-hidden" : ""}`}
+                          tabIndex={-1}
+                          aria-hidden="true"
+                        >
+                          <span className="gs-play-circle">
+                            <FaPlay />
+                          </span>
+                        </button>
+
+                        <div className="gs-card-caption">
+                          {item.location && (
+                            <p className="gs-card-location">
+                              <FaMapMarkerAlt /> {item.location}
+                            </p>
                           )}
-
-                          <div className="gs-playlist-badge">
-                            <FaList />
-                            <span>{videoCount ? `${videoCount} videos` : "Playlist"}</span>
-                          </div>
-
-                          <div className="gs-play-overlay">
-                            <div className="gs-play-circle">
-                              <FaPlay />
-                            </div>
-                          </div>
+                          {item.title && <p className="gs-card-title">{item.title}</p>}
                         </div>
                       </div>
                     </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-          </div>
-
-          {/* <div className="gs-cta">
-            <h3>Childless Couples to Happy Parents</h3>
-            <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-          </div> */}
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
         </div>
-      </section>
+
+        <div className="gs-cta">
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+      </div>
 
       {/* ── Playlist Modal: fixed player + scrollable playlist sidebar ── */}
       {modalItem && (
@@ -464,7 +558,6 @@ export default function GallerySlider({ items = [] }) {
             </div>
 
             <div className="gs-modal-body">
-              {/* Main player column — video stays fixed here while the list scrolls */}
               <div className="gs-modal-player-col">
                 <div className="gs-modal-player-wrap">
                   {playlistLoading && (
@@ -473,7 +566,6 @@ export default function GallerySlider({ items = [] }) {
                   {!playlistLoading && playlistError && (
                     <div className="gs-modal-fallback">{playlistError}</div>
                   )}
-                  {/* The YT.Player API mounts the iframe into this div itself */}
                   {!playlistLoading && !playlistError && (
                     <div
                       ref={playerContainerRef}
@@ -496,7 +588,6 @@ export default function GallerySlider({ items = [] }) {
                 )}
               </div>
 
-              {/* Playlist sidebar — scrollable list of videos, tucked in the corner */}
               <div className="gs-modal-playlist-col">
                 <div className="gs-playlist-col-header">
                   <p className="gs-playlist-col-title">
@@ -527,7 +618,7 @@ export default function GallerySlider({ items = [] }) {
                           onClick={() => playVideoAt(idx)}
                         >
                           <div className="gs-playlist-item-thumb-wrap">
-                            <Image src={video.thumbnail} alt={video.title} width={120} height={90} className="object-cover" />
+                            <PlaylistThumb video={video} />
                             {isActive ? (
                               <div className="gs-playlist-item-index">
                                 <FaPlay style={{ fontSize: 10 }} />
@@ -558,6 +649,6 @@ export default function GallerySlider({ items = [] }) {
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 }

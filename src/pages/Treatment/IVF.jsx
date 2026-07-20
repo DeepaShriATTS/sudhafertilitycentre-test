@@ -708,12 +708,14 @@ function IVF() {
           speed="fast"
           className="custom-class"
         />
-        <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
+
+        {/* <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
         <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents
           </h3>
           <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
+        </div> */}
+
         {/* <MarqueeComponent
           items={Ambattur.gallery}
           direction="right"

@@ -133,7 +133,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-2 rounded-full bg-[#0f1f4d] px-6 py-3 font-semibold text-white shadow-lg transition-shadow hover:shadow-xl"
+                className="flex items-center gap-2 rounded-full bg-[#0f1f4d] p-1.5 md:px-6 md:py-3 font-semibold text-white shadow-lg transition-shadow hover:shadow-xl"
               >
                 Get a Free Consultation
                 <ArrowRight size={18} />

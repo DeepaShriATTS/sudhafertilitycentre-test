@@ -800,12 +800,12 @@ function NellorePage() {
 
         <GallerySlider items={nelloreVideos} />
 
-        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+        {/* <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents
           </h3>
           <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
+        </div> */}
 
         {/* <MarqueeComponent
           items={ Nellore.gallery}

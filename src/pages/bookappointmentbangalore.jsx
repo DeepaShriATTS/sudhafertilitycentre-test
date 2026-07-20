@@ -387,12 +387,12 @@ function Bookappointmentbangalore() {
           speed="fast"
           className="custom-class"
         />
-        <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
+        {/* <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
           <h2 className="text-2xl font-bold text-center ">
             Childless Couples to Happy Parents
           </h2>
           <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
+        </div> */}
         {/* <MarqueeComponent
           items={Ambattur.gallery}
           direction="right"

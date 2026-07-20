@@ -217,18 +217,22 @@ function PregancyConception() {
       <section className="mt-[70] md:mt-[100px] mb-[70px] md:mb-[100px]">
             {/* <div className="container mx-auto">
               <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-                <MarqueeComponent
+
+           {/* <MarqueeComponent
                   items={Ambattur.gallery}
                   direction="left"
                   speed="fast"
                   className="custom-class"
                 />
+
                 <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
                 <h3 className=" font-semibold text-center ">
                   Childless Couples to Happy Parents
                 </h3>
                 <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-                </div>
+                </div> */}
+
+
                 {/* <MarqueeComponent
                   items={Ambattur.gallery}
                   direction="right"

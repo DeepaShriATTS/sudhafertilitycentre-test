@@ -1,576 +1,570 @@
+/* ── Design tokens ── */
 
-/* ── Section wrapper ── */
 .gs-section {
-    padding: 40px 0 56px;
-    font-family: var(--font-inter), sans-serif;
-    width: 100%;
-    background: linear-gradient(135deg, #ebf2fe 0%, #e1f0ff 100%);
-    border-radius: 20px;
+  --gs-navy: #173366;
+  --gs-navy-dark: color-mix(in srgb, #173366 80%, black 20%);
+  --gs-navy-tint: color-mix(in srgb, #173366 12%, #f0f5ff 88%);
+  --gs-gold: #f59f0baa;
+  --gs-ink: #000000;
+  --gs-muted: color-mix(in srgb, black 55%, white 45%);
+  --gs-radius: 20px;
+  --gs-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+/* ── Section shell ── */
+.gs-section {
+  background: #f0f5ff;
+  padding: 56px 20px 64px;
+  overflow-x: clip;
 }
 
 .gs-container {
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0 16px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-/* ── Swiper outer clip wrapper ── */
+.gs-eyebrow {
+  /* margin: 0 0 6px; */
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: capitalize;
+  color: #ffc65c;
+  text-align: center;
+}
+
+.gs-heading {
+  /* margin: 0 0 36px; */
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 700;
+  color: var(--gs-ink);
+  text-align: center;
+}
+
+/* ── Swiper / card shell ── */
 .gs-swiper-outer {
-    overflow: hidden;
-    padding: 24px 0;
-    margin: 0 -16px;
+  padding: 8px 0 12px;
 }
 
-/* ── Swiper ── */
 .gs-swiper {
-    width: 100%;
-    padding: 4px 16px 36px !important;
-    overflow: visible;
+  padding: 20px 4px 8px !important;
 }
 
-.gs-swiper .swiper-slide {
-    height: auto;
-}
-
-/* ── Card outer wrapper ── */
 .gs-card-outer {
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
-    opacity: 0.35;
-    transform: scale(0.82) translateZ(0);
-    pointer-events: none;
-    will-change: transform, opacity;
-    backface-visibility: hidden;
+  position: relative;
+  border-radius: var(--gs-radius);
+  transform: scale(0.88);
+  opacity: 0.7;
+  filter: saturate(0.85);
+  transition: transform 0.35s ease, opacity 0.35s ease, filter 0.35s ease, box-shadow 0.25s ease;
+  cursor: default;
 }
 
-.swiper-slide-active .gs-card-outer {
-    opacity: 1;
-    transform: scale(1.15) translateZ(0);
-    pointer-events: auto;
-    position: relative;
-    z-index: 5;
+.gs-card-outer.is-active {
+  transform: scale(1);
+  opacity: 1;
+  filter: none;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px var(--gs-teal), var(--gs-shadow);
+  border-radius: var(--gs-radius);
 }
 
-.gs-stack-layer {
-    position: absolute;
-    left: 6%;
-    right: 6%;
-    border-radius: 16px;
-    background: #fff;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-}
-
-.gs-stack-layer-1 {
-    top: 10px;
-    bottom: -10px;
-    transform: scale(0.97);
-    z-index: 0;
-    background: #f1f4fa;
-}
-
-.gs-stack-layer-2 {
-    top: 20px;
-    bottom: -20px;
-    transform: scale(0.93);
-    z-index: -1;
-    background: #e4e9f3;
+.gs-card-outer.is-active:focus-visible {
+  outline: 3px solid var(--gs-teal-dark);
+  outline-offset: 3px;
 }
 
 .gs-card {
-    position: relative;
-    z-index: 1;
-    border-radius: 20px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 12px 40px rgba(23, 51, 102, 0.12);
+  border-radius: var(--gs-radius);
+  overflow: hidden;
+  background: #0c1a17;
 }
 
-
 .gs-thumb-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: linear-gradient(135deg, #1a1d24 0%, #0f1117 100%);
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
 }
 
 .gs-thumb {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-    display: block;
-}
-
-.gs-card-outer:hover .gs-thumb {
-    transform: scale(1.08);
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  display: block;
 }
 
 .gs-thumb-fallback {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: linear-gradient(135deg, #1a1d24 0%, #0f1117 100%);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #123a30;
+  color: #cfe9df;
+  padding: 16px;
+  text-align: center;
 }
 
 .gs-thumb-fallback-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.35);
-    font-size: 20px;
-    backdrop-filter: blur(8px);
+  font-size: 26px;
+  opacity: 0.7;
 }
 
 .gs-thumb-fallback-text {
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.3);
-    text-align: center;
-    padding: 0 12px;
-    font-weight: 500;
+  font-size: 13px;
 }
 
+/* Bottom gradient scrim so title/location text stays legible over any photo */
+.gs-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(4, 20, 16, 0.78) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Hover preview iframe ── */
+.gs-hover-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+  z-index: 2;
+}
+
+.gs-muted-tag {
+  position: absolute;
+  left: 14px;
+  bottom: 52px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(4, 20, 16, 0.6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 999px;
+  z-index: 3;
+}
+
+/* ── Playlist badge ── */
+.gs-playlist-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(4, 20, 16, 0.55);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 999px;
+  z-index: 3;
+  backdrop-filter: blur(2px);
+}
+
+/* ── Play button: fades out the instant a hover preview is live ── */
 .gs-play-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.2);
-    opacity: 0;
-    transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    backdrop-filter: blur(2px);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.2s ease;
 }
 
-.swiper-slide-active .gs-card-outer:hover .gs-play-overlay {
-    opacity: 1;
+.gs-play-overlay.is-hidden {
+  opacity: 0;
 }
 
 .gs-play-circle {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
-    box-shadow: 0 12px 32px rgba(23, 51, 102, 0.35);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--gs-teal-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-.swiper-slide-active .gs-card-outer:hover .gs-play-circle {
-    transform: scale(1.15);
+/* ── Caption block (title + location) ── */
+.gs-card-caption {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 14px;
+  z-index: 3;
+  color: #fff;
 }
 
-.gs-play-circle svg {
-    color: #173366;
-    font-size: 20px;
-    margin-left: 3px;
+.gs-card-location {
+  margin: 0 0 2px;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #cfe9df;
 }
 
-.gs-playlist-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 10px;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.72);
-    backdrop-filter: blur(4px);
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.2px;
+.gs-card-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.gs-playlist-badge svg {
-    font-size: 11px;
-    color: #fff;
-}
-
+/* ── CTA ── */
 .gs-cta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    margin-top: 40px;
-}
-
-.gs-cta h3 {
-    font-weight: 700;
-    text-align: center;
-    margin: 0;
-    font-size: 1.1rem;
-    color: #173366;
-    letter-spacing: -0.3px;
-}
-
-.swiper-wrapper {
-    transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
 }
 
 /* ── Modal ── */
 .gs-modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 12, 20, 0.78);
-    backdrop-filter: blur(6px);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    animation: gs-fade-in 0.25s ease-out;
-}
-
-@keyframes gs-fade-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 12, 10, 0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 1000;
 }
 
 .gs-modal-content {
-    position: relative;
-    width: 100%;
-    max-width: 1180px;
-    background: #0f1117;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-    animation: gs-pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    display: flex;
-    flex-direction: column;
-    max-height: 88vh;
-}
-
-@keyframes gs-pop-in {
-    from {
-        transform: scale(0.92);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+  width: 100%;
+  max-width: 980px;
+  max-height: 88vh;
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
 
 .gs-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 16px 20px;
-    background: #14161d;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #eef1ef;
+  flex: 0 0 auto;
 }
 
 .gs-modal-title {
-    margin: 0;
-    font-family: var(--font-inter), sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #fff;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gs-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .gs-modal-close {
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
+  flex: 0 0 auto;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: #f2f5f4;
+  color: var(--gs-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .gs-modal-close:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.08);
+  background: #e4e9e7;
 }
 
-/* ── Body: fixed player (left/main) + scrollable playlist (right) ── */
 .gs-modal-body {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    min-height: 0;
-    /* required for child overflow to scroll correctly */
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .gs-modal-player-col {
-    flex: 1 1 68%;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    background: #000;
+  flex: 1 1 68%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: #000;
 }
 
 .gs-modal-player-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background: #000;
-    flex-shrink: 0;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  flex: 0 0 auto;
 }
 
-.gs-modal-player-wrap iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-.gs-modal-fallback,
-.gs-modal-loading {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.6);
-    font-family: var(--font-inter), sans-serif;
-    font-size: 0.9rem;
-    text-align: center;
-    padding: 24px;
+.gs-modal-loading,
+.gs-modal-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cfd6d4;
+  font-size: 13px;
+  text-align: center;
+  padding: 16px;
 }
 
 .gs-now-playing-info {
-    padding: 14px 18px;
-    color: #fff;
-    font-family: var(--font-inter), sans-serif;
+  padding: 12px 16px;
+  background: #0c1a17;
+  color: #fff;
 }
 
 .gs-now-playing-title {
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin: 0 0 6px;
-    line-height: 1.4;
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .gs-auto-advance-note {
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.5);
-    margin: 0;
+  margin: 0;
+  font-size: 12px;
+  color: #a9beb8;
 }
 
-/* ── Playlist sidebar (corner of the modal, scrollable) ── */
 .gs-modal-playlist-col {
-    flex: 1 1 32%;
-    max-width: 360px;
-    min-width: 260px;
-    background: #181a22;
-    border-left: 1px solid rgba(255, 255, 255, 0.06);
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
+  flex: 1 1 32%;
+  max-width: 340px;
+  min-width: 0;
+  border-left: 1px solid #eef1ef;
+  display: flex;
+  flex-direction: column;
 }
 
 .gs-playlist-col-header {
-    padding: 14px 16px 10px;
-    flex-shrink: 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid #eef1ef;
+  flex: 0 0 auto;
 }
 
 .gs-playlist-col-title {
-    margin: 0;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.gs-playlist-col-title svg {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gs-ink);
 }
 
 .gs-playlist-col-count {
-    margin: 4px 0 0;
-    font-size: 0.74rem;
-    color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  font-size: 12px;
+  color: var(--gs-muted);
 }
 
-/* Scrollable list — this is the "scroll to view playlist videos" area */
 .gs-playlist-scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding: 8px;
-}
-
-.gs-playlist-scroll::-webkit-scrollbar {
-    width: 6px;
-}
-
-.gs-playlist-scroll::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.gs-playlist-scroll::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-}
-
-.gs-playlist-scroll::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.gs-playlist-item {
-    display: flex;
-    gap: 10px;
-    padding: 8px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.18s ease;
-    align-items: flex-start;
-}
-
-.gs-playlist-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-}
-
-.gs-playlist-item.is-active {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.gs-playlist-item-thumb-wrap {
-    position: relative;
-    flex-shrink: 0;
-    width: 104px;
-    aspect-ratio: 16 / 9;
-    border-radius: 6px;
-    overflow: hidden;
-    background: #0b0c10;
-}
-
-.gs-playlist-item-thumb-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.gs-playlist-item-index {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.35);
-}
-
-.gs-playlist-item.is-active .gs-playlist-item-index {
-    background: rgba(23, 51, 102, 0.55);
-}
-
-.gs-playlist-item-duration {
-    position: absolute;
-    bottom: 3px;
-    right: 3px;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    font-size: 0.62rem;
-    font-weight: 600;
-    padding: 1px 4px;
-    border-radius: 3px;
-}
-
-.gs-playlist-item-text {
-    flex: 1;
-    min-width: 0;
-}
-
-.gs-playlist-item-title {
-    margin: 0;
-    font-size: 0.78rem;
-    font-weight: 500;
-    color: #fff;
-    line-height: 1.35;
-    display: -webkit-box;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.gs-playlist-item.is-active .gs-playlist-item-title {
-    color: #8ab4ff;
-}
-
-.gs-playlist-item-now-playing {
-    margin: 4px 0 0;
-    font-size: 0.68rem;
-    font-weight: 600;
-    color: #8ab4ff;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 8px;
 }
 
 .gs-playlist-state-msg {
-    padding: 20px 16px;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.5);
-    text-align: center;
+  padding: 16px;
+  font-size: 13px;
+  color: var(--gs-muted);
+  text-align: center;
 }
 
-@media (max-width: 760px) {
-    .gs-modal-body {
-        flex-direction: column;
-        overflow-y: auto;
-    }
-
-    .gs-modal-playlist-col {
-        max-width: 100%;
-        min-width: 0;
-        border-left: none;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-        max-height: 280px;
-    }
+.gs-playlist-item {
+  display: flex;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
-@media (max-width: 640px) {
-    .gs-modal-backdrop {
-        padding: 0;
-    }
-
-    .gs-modal-content {
-        border-radius: 0;
-        max-width: 100%;
-        max-height: 100%;
-        height: 100%;
-    }
+.gs-playlist-item:hover {
+  background: #f4f8f6;
 }
 
+.gs-playlist-item.is-active {
+  background: var(--gs-teal-tint);
+}
+
+.gs-playlist-item-thumb-wrap {
+  position: relative;
+  flex: 0 0 auto;
+  width: 96px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0c1a17;
+}
+
+.gs-playlist-item-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gs-playlist-thumb-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #123a30;
+  color: #a9beb8;
+  font-size: 18px;
+}
+
+.gs-playlist-item-index {
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: rgba(4, 20, 16, 0.7);
+  color: #fff;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gs-playlist-item-duration {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  background: rgba(4, 20, 16, 0.7);
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.gs-playlist-item-text {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.gs-playlist-item-title {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--gs-ink);
+  display: -webkit-box;
+  /* -webkit-line-clamp: 2; */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.gs-playlist-item-now-playing {
+  margin: 4px 0 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--gs-teal);
+}
+
+/* ── Responsive: tablet ── */
+@media (max-width: 900px) {
+  .gs-modal-playlist-col {
+    max-width: 280px;
+  }
+}
+
+/* ── Responsive: phones — this is the layout that was breaking ── */
+@media (max-width: 680px) {
+  .gs-section {
+    padding: 40px 14px 48px;
+  }
+
+  .gs-swiper {
+    padding: 16px 4px 8px !important;
+  }
+
+  .gs-card-outer {
+    transform: scale(0.94);
+  }
+
+  .gs-modal-backdrop {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .gs-modal-content {
+    max-width: 100%;
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+  }
+
+  .gs-modal-header {
+    padding: max(10px, env(safe-area-inset-top)) 14px 10px;
+  }
+
+  .gs-modal-body {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .gs-modal-player-col {
+    flex: 0 0 auto;
+  }
+
+  .gs-modal-player-wrap {
+    aspect-ratio: 16 / 9;
+  }
+
+  .gs-modal-playlist-col {
+    max-width: 100%;
+    border-left: 0;
+    border-top: 1px solid #eef1ef;
+    flex: 1 1 auto;
+  }
+
+  .gs-playlist-scroll {
+    /* let the outer modal-body own the scroll on phones, avoids a scroll-within-scroll trap */
+    overflow-y: visible;
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+}

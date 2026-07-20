@@ -804,12 +804,12 @@ function AttapurPage() {
 
           <GallerySlider items={attapurVideos} />
 
-        <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
+        {/* <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents
           </h3>
           <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
+        </div> */}
         {/* <MarqueeComponent
           items={Attapur.gallery}
           direction="right"

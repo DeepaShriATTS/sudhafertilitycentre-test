@@ -30,8 +30,8 @@ function distanceKm(lat1, lng1, lat2, lng2) {
   const a =
     Math.sin(dLat / 2) ** 2 +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLng / 2) ** 2;
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLng / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
@@ -200,9 +200,12 @@ export default function BranchesDirectory() {
               </a>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              {nearestHasCoords && (
+              {(nearestBranch.mapsLink || nearestBranch.address) && (
                 <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${nearestBranch.lat},${nearestBranch.lng}`}
+                  href={
+                    nearestBranch.mapsLink ||
+                    `https://www.google.com/maps/dir/?api=1&origin=${userCoords.lat},${userCoords.lng}&destination=${encodeURIComponent(nearestBranch.address)}&travelmode=driving`
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-9 items-center gap-1.5 rounded-lg border border-[#1e2a45] px-3 text-xs font-medium text-[#1e2a45] transition-colors hover:bg-[#1e2a45] hover:text-white"
@@ -258,19 +261,25 @@ export default function BranchesDirectory() {
           <p className="py-6 text-center text-sm text-neutral-400">No branches match your search.</p>
         )}
 
-        <div role="list" className="flex flex-wrap gap-2.5">
+        <div
+          role="list"
+          className="grid gap-2"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}
+        >
           {visibleCities.map((branch) => (
             <a
               key={branch.link}
               href={`/${branch.link}`}
               role="listitem"
-              className={`group flex min-h-[44px] items-center gap-1.5 rounded-full border border-[#E8EDF5] bg-white px-3.5 py-2 text-sm font-medium ${BRAND_NAVY} shadow-sm transition-colors hover:border-[#1e2a45] hover:bg-[#1e2a45] hover:text-white`}
+              className={`flex flex-col items-center justify-center gap-0.5 rounded-md px-2 py-2 text-center text-xs font-medium ${BRAND_NAVY} transition-colors hover:bg-[#1e2a45] hover:text-white`}
             >
-              <MapPin className="h-3.5 w-3.5 flex-shrink-0 text-[#1e2a45] transition-colors group-hover:text-white" aria-hidden="true" />
-              {branch.title}
+              <span className="flex items-center gap-1">
+                <MapPin className="h-3 w-3 flex-shrink-0" aria-hidden="true" />
+                <span>{branch.title}</span>
+              </span>
               {branch.distance !== null && (
-                <span className="text-xs font-normal text-neutral-400 transition-colors group-hover:text-white/70">
-                  {branch.distance.toFixed(1)} km
+                <span className="text-[10px] font-normal text-neutral-400 group-hover:text-white">
+                  {branch.distance.toFixed(1)}km
                 </span>
               )}
             </a>

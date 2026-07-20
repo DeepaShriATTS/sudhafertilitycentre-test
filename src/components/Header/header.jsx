@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoCall, IoClose, IoLocationSharp } from "react-icons/io5";
 import { BsFillTelephoneInboundFill } from "react-icons/bs";
-import { FaWhatsapp } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import Logo from "@/assets/logo.svg";
 import Logodark from "@/assets/logo-dark.svg";
@@ -699,23 +698,7 @@ function Navbar() {
         </AnimatePresence>
       </div>
 
-      {!isMobileMenuOpen && (
-        <div className="contact-sidebar md:hidden" role="complementary" aria-label="Quick contact options">
-          <a
-            href="https://wa.me/7670076006"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Chat with us on WhatsApp"
-            className="contact-btn whatsapp-btn"
-          >
-            <FaWhatsapp aria-hidden="true" className="contact-icon whatsapp-icon" />
-          </a>
 
-          <a href="tel:7670076006" aria-label="Call us now" className="contact-btn phone-btn">
-            <IoCall aria-hidden="true" className="contact-icon phone-icon" />
-          </a>
-        </div>
-      )}
     </>
   );
 }

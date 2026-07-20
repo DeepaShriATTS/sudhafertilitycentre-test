@@ -41,7 +41,7 @@ export default function VerticalSidebar() {
   return (
     <>
       <aside 
-        className="vertical-sidebar-container hidden md:flex bg-transparent" 
+        className="vertical-sidebar-container flex bg-transparent" 
         role="complementary" 
         aria-label="Quick Access Contacts and Navigation"
       >
