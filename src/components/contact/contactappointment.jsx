@@ -451,7 +451,7 @@ function ContactAppointmentForm() {
                 </button>
 
               </form>
-              <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
+              <p className="text-[12px] sm:text-[10px] font-semibold text-[#173366]/85 text-end">
                 We will reach you within 45 minutes <span className="text-red-500">*</span>
               </p>
 

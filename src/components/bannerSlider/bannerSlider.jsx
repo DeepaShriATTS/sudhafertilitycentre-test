@@ -196,7 +196,7 @@ const BannerSlider = () => {
                         title={slide.btnText}
                         className="bg-white/20 text-white border-2 border-white/40 rounded-full hover:bg-[#FFC65C] hover:text-blue-900 hover:border-[#FFC65C] transition-all duration-300 w-fit text-sm sm:text-base"
                       />
-                      <p className="text-[10px] sm:text-[11px] text-[#FFC65C]/80 px-3">
+                      <p className="text-[12px] font-semibold sm:text-[10px] text-[#FFC65C]/80 px-3">
                         We will reach you within 45 minutes *
                       </p>
                     </div>

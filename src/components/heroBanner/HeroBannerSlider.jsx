@@ -223,6 +223,9 @@ const HeroBannerSlider = () => {
               <div className="hero-cta-row">
                 <div className="hero-book-btn-wrap">
                   <BookingButton variant="primary" title={activeSlide.btnText} />
+                    {/* <p className="text-[12px] sm:text-[10px] font-semibold text-[#173366]/85 text-start mx-2">
+                    We will reach you within 45 minutes <span className="text-red-500">*</span>
+                   </p> */}
                 </div>
 
                 <a href={PHONE_HREF} className="hero-phone-link">
@@ -267,11 +270,14 @@ const HeroBannerSlider = () => {
                     className={`hero-pg-dot ${i === activeIndex ? "is-active" : ""}`}
                     aria-label={`Go to slide ${i + 1}`}
                   />
+                 
                 ))}
+                 
               </div>
               <button onClick={goNext} className="hero-pg-arrow" aria-label="Next slide">
                 <MdChevronRight size={18} />
               </button>
+              
             </div>
           </div>
 

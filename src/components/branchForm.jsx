@@ -42,7 +42,7 @@ function BranchForm() {
           showNote={false}
         />
 
-        <p className="text-[10px] sm:text-[11px] text-white/70 text-end mt-2">
+        <p className="text-[12px] font-semibold sm:text-[10px] text-white/70 text-end mt-2">
         We will reach you within 45 minutes{" "}
         <span className="text-red-500" aria-hidden="true">*</span>
       </p>

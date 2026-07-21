@@ -1,32 +1,3 @@
-/**
- * AppointmentFormCore — The single reusable appointment form component.
- *
- * This component renders the complete form UI and is fully parameterised
- * via props so it can be dropped into any context: light-theme modal,
- * dark-theme branch page, hero section, etc.
- *
- * Props
- * ─────
- * @prop {string}   formType      Sent to the API to identify form origin
- *                                Default: "Branch Appointment"
- * @prop {"light"|"dark"} theme   Controls colour palette of all form elements
- *                                Default: "light"
- * @prop {string}   [heading]     Optional heading shown above the form
- * @prop {string}   [buttonText]  Submit button label
- *                                Default: " Schedule My Free Fertility Check"
- * @prop {string}   [className]   Extra class string on the root <div>
- * @prop {Function} [onSuccess]   Callback invoked after a successful submission
- * @prop {boolean}  [showNote]    Show the "We will reach you within 45 minutes" note
- *                                Default: true
- *
- * Usage examples
- * ──────────────
- * Light theme (modal / card):
- *   <AppointmentFormCore theme="light" formType="Branch Appointment" />
- *
- * Dark theme (branch hero):
- *   <AppointmentFormCore theme="dark" formType="branch" heading="Get Answers From Fertility Experts" />
- */
 
 "use client";
 

@@ -435,7 +435,7 @@ function Navbar() {
   return (
     <>
       <header
-        className={`w-full lg:py-2 font-outfit z-30 fixed top-0 left-0 transition-all duration-300 backdrop-blur-md ${
+        className={`site-header w-full lg:py-2 font-outfit z-30 fixed top-0 left-0 transition-all duration-300 backdrop-blur-md ${
           pathname === "/" ? "site-header-gradient" : "bg-white/70"
         }`}
       >

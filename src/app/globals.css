@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* Mobile-first: no layout gutter on small screens.
+     Sidebar switches to floating FAB mode on mobile. */
+  --sidebar-w: 0px;
+}
+
+/* Tablet and up: enable sidebar gutter */
+@media (min-width: 768px) {
+  :root {
+    --sidebar-w: 60px;
+  }
+}
+
 /* ── Prevent horizontal scrollbar globally ── */
 html,
 body {
@@ -243,25 +256,14 @@ div.relative.w-full:has(.branch-form-container) + div.container {
    prefers-reduced-motion.
    ───────────────────────────────────────────────────────────────────────── */
 
+/* WhatsApp glow ring — expands outward for more visibility */
 @keyframes waGlow {
-  0%, 100% { opacity: 0.35; }
-  50%      { opacity: 0.85; }
+  0%   { opacity: 0.7;  transform: scale(1);    }
+  70%  { opacity: 0;    transform: scale(1.55); }
+  100% { opacity: 0;    transform: scale(1.55); }
 }
 
-@keyframes phoneRing {
-  0%, 100% { transform: rotate(0deg); }
-  4%       { transform: rotate(-15deg); }
-  9%       { transform: rotate(15deg); }
-  14%      { transform: rotate(-15deg); }
-  19%      { transform: rotate(15deg); }
-  23%      { transform: rotate(0deg); }
-}
 
-/* ─────────────────────────────────────────────────────────────────────────
-   Shared "ringing" keyframes — still used by the navbar's inline phone
-   icons (the <span className="ring-pulse"> wrappers around IoCall /
-   BsFillTelephoneInboundFill further up in this file).
-   ───────────────────────────────────────────────────────────────────────── */
 
 @keyframes fabPulseRing {
   0%   { opacity: 0.55; transform: scale(1);    }
@@ -309,24 +311,19 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   }
 }
 
-/* ensure sticky header never gets clipped by an overflow-hidden ancestor */
 #header {
   position: relative;
   z-index: 30;
 }
 
-/* ==========================================================================
-   Full-Viewport-Height Vertical Sidebar (LCP Optimized)
-   Sidebar blends with section backgrounds — appears as a seamless right
-   edge of the page, not a separate floating component.
-   ========================================================================== */
+
 
 .vertical-sidebar-container {
   position: fixed;
   right: 0;
   top: 64px;
   bottom: 0;
-  width: 50px;
+  width: var(--sidebar-w);          /* 50px mobile → 60px tablet+ */
   height: calc(100dvh - 64px);
   z-index: 45;
   display: flex;
@@ -337,11 +334,8 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   contain: layout style;
   will-change: transform;
   pointer-events: none;
-  /* Match surrounding section bg — makes this invisible as a separate component */
   background-color: #ffffff;
-  /* Hairline separator — subtle enough to read as a page edge, not a panel border */
-  border-left: 1px solid rgba(23, 51, 102, 0.06);
-  /* No box-shadow — avoids the "floating card" look */
+  /* border-left: 1px solid rgba(23, 51, 102, 0.06); */
   box-shadow: none;
 }
 
@@ -351,50 +345,63 @@ div.relative.w-full:has(.branch-form-container) + div.container {
 
 @media (min-width: 768px) {
   .vertical-sidebar-container {
-    width: 60px;
     padding: 32px 0;
   }
 }
 
-@media (min-width: 1024px) {
+/* ── Mobile (≤767px): sidebar becomes floating FABs, gutters collapse ── */
+@media (max-width: 767px) {
+  /* No layout gutter on mobile — full 320px width for content */
+  .site-content-wrapper {
+    margin-right: 0;
+    margin-left:  0;
+  }
+
+  /* Hide left ghost gutter on mobile */
+  body::before {
+    display: none;
+  }
+
+  /* Sidebar switches from a full-height panel to a compact FAB cluster */
   .vertical-sidebar-container {
-    top: 96px;
-    height: calc(100dvh - 96px);
-  }
-}
-
-/* ==========================================================================
-   Right Gutter — reserves space so page content never slides under the sidebar.
-   Applied on body so full-bleed colored sections (testimonials blue,
-   contact gradient, etc.) still stretch edge-to-edge — the sidebar sits
-   on top of the correct section background color at every scroll position.
-   ========================================================================== */
-body {
-  padding-right: 50px;
-}
-
-@media (min-width: 768px) {
-  body {
-    padding-right: 60px;
-  }
-}
-
-/* Cancel any legacy per-section padding-right rules */
-main > section,
-main > div,
-footer {
-  padding-right: 0 !important;
-}
-
-/* Remove the body gutter on very small screens so narrow viewports aren't crushed;
-   the sidebar falls back to fully transparent floating mode there */
-@media (max-width: 374px) {
-  body {
-    padding-right: 0;
-  }
-  .vertical-sidebar-container {
+    position: fixed;
+    right: 14px;            /* float near the right edge */
+    bottom: 80px;           /* above mobile bottom bar */
+    top: auto;
+    left: auto;
+    width: auto;
+    height: auto;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
     background-color: transparent;
-    border-left: none;
+    border: none;
+    box-shadow: none;
+    z-index: 45;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  /* Make FAB buttons larger for touch targets */
+  .sidebar-action-btn {
+    width: 46px;
+    height: 46px;
+    box-shadow:
+      0 4px 18px rgba(0, 0, 0, 0.18),
+      0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Hide scroll-to-top in FAB mode (avoid clutter) */
+  .sidebar-footer {
+    display: none;
+  }
+}
+
+/* Very small screens (≤374px): keep same FAB mode */
+@media (max-width: 374px) {
+  .vertical-sidebar-container {
+    right: 10px;
+    bottom: 72px;
   }
 }
 
@@ -435,7 +442,7 @@ footer {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.05);
   color: #25d366;
-  animation: whatsappFloat 1.5s ease-in-out infinite;
+  animation: whatsappFloat 3s ease-in-out infinite;
   box-shadow:
     0 4px 14px rgba(16, 40, 78, 0.18),
     0 1px 4px rgba(0, 0, 0, 0.08);
@@ -514,7 +521,7 @@ footer {
 
 /* Ring animations adjusted to be performance-safe */
 .phone-icon-anim {
-  animation: phoneRing 1.8s ease-in-out infinite;
+  animation: phoneRing 2.5s ease-in-out infinite;
   transform-origin: center;
 }
 
@@ -524,13 +531,15 @@ footer {
   inset: -4px;
   z-index: 0;
   border-radius: 9999px;
-  background: radial-gradient(circle, rgba(37, 211, 102, 0.25) 0%, rgba(37, 211, 102, 0) 70%);
-  animation: waGlow 2s ease-in-out infinite;
+  border: 2px solid rgba(37, 211, 102, 0.6);
+  background: transparent;
+  animation: waGlow 2s ease-out infinite;
   pointer-events: none;
 }
 
 .sidebar-pulse-ring.phone-pulse {
-  background: radial-gradient(circle, rgba(255, 198, 92, 0.25) 0%, rgba(255, 198, 92, 0) 70%);
+  border-color: rgba(255, 198, 92, 0.6);
+  background: transparent;
 }
 
 /* Tooltip */
@@ -624,23 +633,35 @@ footer {
   transform: translateY(-2px);
 }
 
+/* ── WhatsApp: heartbeat bounce — double-tap pulse that feels alive ── */
 @keyframes whatsappFloat {
-  0%,100% {
-    transform: translateY(0) scale(1);
-  }
+  0%        { transform: scale(1)    translateY(0); }
+  14%       { transform: scale(1.18) translateY(-5px); }
+  28%       { transform: scale(1.08) translateY(-2px); }
+  42%       { transform: scale(1.16) translateY(-4px); }
+  56%       { transform: scale(1)    translateY(0); }
+  100%      { transform: scale(1)    translateY(0); }
+}
 
-  50% {
-    transform: translateY(-4px) scale(1.08);
-  }
+/* ── Phone: urgent 3-shake vibrate then pause ── */
+@keyframes phoneRing {
+  0%,  100% { transform: rotate(0deg)   scale(1); }
+  5%        { transform: rotate(-18deg) scale(1.1); }
+  10%       { transform: rotate(18deg)  scale(1.1); }
+  15%       { transform: rotate(-14deg) scale(1.05); }
+  20%       { transform: rotate(14deg)  scale(1.05); }
+  25%       { transform: rotate(-9deg)  scale(1); }
+  30%       { transform: rotate(9deg)   scale(1); }
+  35%       { transform: rotate(0deg)   scale(1); }
 }
 
 
 .site-header-gradient {
   background: linear-gradient(
     150deg,
-     #ffffff 0%,
-    #f7faff 55%,
-    #fdf6ea 100%
+    #ffffff 0%,
+    #f5f8ff 50%,
+    #fef3e2 100%
   );
 }
 
@@ -664,4 +685,22 @@ footer {
   background: #1a1a1a;
   color: #888;
   font-size: 20px;
+}
+
+/* Fixed header: sits between the two gutters.
+   left:var(--sidebar-w) keeps it clear of the left ghost gutter;
+   right:var(--sidebar-w) keeps it clear of the right sidebar.
+   width:auto lets the browser fill the remaining space naturally. */
+.site-header {
+  left:  var(--sidebar-w) !important;
+  right: var(--sidebar-w) !important;
+  width: auto !important;
+}
+
+@media (max-width: 374px) {
+  .site-header {
+    left:  0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
 }

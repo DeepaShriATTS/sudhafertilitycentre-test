@@ -4,6 +4,7 @@ import { Outfit, Inter, Noto_Sans_Kannada } from "next/font/google";
 import Header from "@/components/Header/header";
 import Footer from "@/components/footer/footer";
 import ClientLayout from "@/components/Header/ClientLayout";
+import VerticalSidebar from "@/components/VerticalSidebar/VerticalSidebar";
 import { NotFoundProvider } from "@/context/NotFoundContext";
 import Script from "next/script";
 import { DeferredFBPixel } from "@/components/DeferredFBPixel";
@@ -145,14 +146,16 @@ export default function RootLayout({ children }) {
         </noscript> */}
 
         <NotFoundProvider>
-          <Header />
-          <main>
-            <ClientLayout>{children}</ClientLayout>
-          </main>
-          <Footer />
+          <VerticalSidebar />
+          <div className="site-content-wrapper">
+            <Header />
+            <main>
+              <ClientLayout>{children}</ClientLayout>
+            </main>
+            <Footer />
+          </div>
         </NotFoundProvider>
         <DeferredFBPixel />
-
       </body>
     </html>
   );
