@@ -1,10 +1,14 @@
 import "./globals.css";
 import "./critical.css";
 import { Outfit, Inter, Noto_Sans_Kannada } from "next/font/google";
+import dynamic from "next/dynamic";
 import Header from "@/components/Header/header";
 import Footer from "@/components/footer/footer";
 import ClientLayout from "@/components/Header/ClientLayout";
+// VerticalSidebar deferred — has a 300ms internal delay anyway;
+// dynamic ssr:false removes it from the SSR bundle and defers client parse.
 import VerticalSidebar from "@/components/VerticalSidebar/VerticalSidebar";
+
 import { NotFoundProvider } from "@/context/NotFoundContext";
 import Script from "next/script";
 import { DeferredFBPixel } from "@/components/DeferredFBPixel";
@@ -82,22 +86,22 @@ export const metadata = {
 
 };
 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en-IN">
       <head>
         {/* Preconnect hints for third-party performance */}
+     
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://connect.facebook.net" />
         <link rel="dns-prefetch" href="https://analytics.google.com" />
-        {/* Specialties section MP4 videos — early DNS so TCP handshake
-            begins before the user scrolls to the section */}
         <link rel="dns-prefetch" href="https://ship-crm-img.s3.eu-north-1.amazonaws.com" />
-        {/* Video Testimonials section — YouTube embed iframes */}
         <link rel="dns-prefetch" href="https://www.youtube.com" />
         <link rel="dns-prefetch" href="https://img.youtube.com" />
+        <link rel="preconnect" href="https://connect.facebook.net" />
+        <link rel="dns-prefetch" href="https://googleads.g.doubleclick.net" />
 
         <meta name="robots" content="index" />
         {/* <GoogleTagManager gtmId="GTM-MZ5ZGW6" />  */}
@@ -107,29 +111,30 @@ export default function RootLayout({ children }) {
           strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
-      (function() {
-        function initGTM() {
+           (function() {
+         function initGTM() {
           if (window._gtmInitialised) return;
           window._gtmInitialised = true;
-          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-          })(window,document,'script','dataLayer','GTM-MZ5ZGW6');
-        }
+           })(window,document,'script','dataLayer','GTM-MZ5ZGW6');
+           }
 
-        var events = ['scroll', 'mousemove', 'keydown', 'touchstart', 'click'];
-        function trigger() {
-          initGTM();
-          events.forEach(function(e) { window.removeEventListener(e, trigger); });
-        }
-        events.forEach(function(e) {
-          window.addEventListener(e, trigger, { passive: true, once: true });
-        });
+           var events = ['scroll', 'mousemove', 'keydown', 'touchstart', 'click'];
+           var timeoutId = setTimeout(trigger, 4000); // fallback if no interaction
 
-        // Fallback: load anyway after 8s even with zero interaction
-         setTimeout(initGTM, 8000);
-         })();
+           function trigger() {
+            clearTimeout(timeoutId);
+            initGTM();
+            events.forEach(function(e) { window.removeEventListener(e, trigger); });
+           }
+
+           events.forEach(function(e) {
+            window.addEventListener(e, trigger, { passive: true, once: true });
+              });
+           })();
           `
           }}
         />

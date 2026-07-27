@@ -11,7 +11,16 @@ import fb from "@/assets/footer/fb.svg";
 import Insta from "@/assets/footer/insta.svg";
 import yt from "@/assets/footer/yt.svg";
 import { MdEmail } from "react-icons/md";
-import BranchesDirectory from "./knowyourBranch";
+import dynamic from "next/dynamic";
+
+const BranchesDirectory = dynamic(() => import("./knowyourBranch"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[200px] w-full animate-pulse bg-neutral-100 rounded-xl flex items-center justify-center text-sm text-neutral-400">
+      Loading branches…
+    </div>
+  ),
+});
 
 export const branches = [
   { title: "Ambattur", link: "fertility-centre-in-ambattur", mapsLink: "https://maps.app.goo.gl/KkML4gvpF71Vvwuy7",

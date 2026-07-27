@@ -1,13 +1,11 @@
+import bundleAnalyzer from '@next/bundle-analyzer';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "flowbite.s3.amazonaws.com",
-      },
       {
         protocol: "https",
         hostname: "img.youtube.com",
@@ -34,7 +32,6 @@ const nextConfig = {
     optimizePackageImports: [
       "swiper",
       "lucide-react",
-      "flowbite-react",
       "react-icons",
       "framer-motion",
     ],
@@ -45,6 +42,7 @@ const nextConfig = {
       ? { exclude: ['error', 'warn'] }
       : false,
   },
+  
   async headers() {
     return [
       // Long-lived cache for immutable Next.js static assets
@@ -114,13 +112,7 @@ const nextConfig = {
               chunks: 'async',
               priority: 20,
             },
-            // Isolate flowbite
-            flowbite: {
-              test: /[\\/]node_modules[\\/]flowbite[\\/]/,
-              name: 'vendor-flowbite',
-              chunks: 'async',
-              priority: 20,
-            },
+
           },
         },
       };
@@ -129,12 +121,13 @@ const nextConfig = {
     return config;
   },
   turbopack: {},
+ 
 };
 
-export default nextConfig;
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
 
-// import withBundleAnalyzer from '@next/bundle-analyzer';
-// const bundleAnalyzer = withBundleAnalyzer({
-//   enabled: process.env.ANALYZE === 'true',
-// });
-// export default bundleAnalyzer(nextConfig);
+export default withBundleAnalyzer(nextConfig);
+
+

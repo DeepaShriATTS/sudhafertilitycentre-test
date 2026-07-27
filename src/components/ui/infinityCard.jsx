@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utility";
 import { FcGoogle } from "react-icons/fc";
-
+import MobileReviewSlider from "../review_Card/MobileReviewSlider";
+import ReviewCardSkeleton from "../loaders/ReviewCardSkeleton";
 
 function ReviewCard({ item }) {
   return (
@@ -42,62 +42,6 @@ function ReviewCard({ item }) {
   );
 }
 
-
-function MobileReviewSlider({ items }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReducedMotion(mql.matches);
-    const handler = (e) => setReducedMotion(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
-
-  useEffect(() => {
-    if (!items || items.length <= 1 || isPaused) return;
-    const id = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % items.length);
-    }, 3000);
-    return () => clearInterval(id);
-  }, [items, isPaused]);
-
-  if (!items || items.length === 0) return null;
-
-  const slideOffset = reducedMotion ? 0 : 40;
-
-  const goTo = (index) => setActiveIndex(index);
-
-  return (
-    <div
-      className="w-full flex flex-col items-center gap-4 py-8"
-      onTouchStart={() => setIsPaused(true)}
-      onTouchEnd={() => setIsPaused(false)}
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
-    >
-      <div className="relative w-full flex justify-center overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeIndex}
-            initial={{ opacity: 0, x: slideOffset }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -slideOffset }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-          >
-            <ReviewCard item={items[activeIndex]} />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      
-    </div>
-  );
-}
-
-
 export const InfiniteMovingReviews = ({
   items,
   direction = "left",
@@ -108,22 +52,33 @@ export const InfiniteMovingReviews = ({
   const scrollerRef = React.useRef(null);
   const [start, setStart] = useState(false);
   const [duplicatedItems, setDuplicatedItems] = useState([]);
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    // We need enough items to fill the screen twice for a smooth infinite scroll.
-    // 15 items is plenty for standard screens (334px each = ~5000px).
-    const minItems = 15; 
+    setMounted(true);
+    const mql = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mql.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
-    // Ensure items exist and have length greater than 0
-    if (!items || items.length === 0) {
+  useEffect(() => {
+    if (!mounted || isMobile) return;
+
+    // Slice items to a maximum of 10 for the marquee to optimize DOM size
+    const sliced = items ? items.slice(0, 10) : [];
+    const minItems = 15;
+
+    if (sliced.length === 0) {
       setDuplicatedItems([]);
       return;
     }
 
-    // Always duplicate at least once (needed for seamless scroll logic)
-    const duplicatesNeeded = Math.max(2, Math.ceil(minItems / items.length));
+    const duplicatesNeeded = Math.max(2, Math.ceil(minItems / sliced.length));
 
-    const duplicatedArray = Array.from({ length: duplicatesNeeded }, () => [...items])
+    const duplicatedArray = Array.from({ length: duplicatesNeeded }, () => [...sliced])
       .flat()
       .map((item, index) => ({
         ...item,
@@ -137,7 +92,7 @@ export const InfiniteMovingReviews = ({
       getSpeed();
       setStart(true);
     }
-  }, [items, direction, speed]);
+  }, [items, direction, speed, mounted, isMobile]);
 
   const getDirection = () => {
     if (containerRef.current) {
@@ -161,40 +116,44 @@ export const InfiniteMovingReviews = ({
     }
   };
 
-  return (
-    <>
-      {/* Mobile: single-card auto-advancing slider */}
-      <div className="md:hidden w-full">
+  if (!mounted || !items || items.length === 0) {
+    return <ReviewCardSkeleton />;
+  }
+
+  if (isMobile) {
+    return (
+      <div className="w-full flex justify-center py-8">
         <MobileReviewSlider items={items} />
       </div>
+    );
+  }
 
-      {/* Tablet/Desktop: original infinite marquee, untouched */}
-      <div
-        ref={containerRef}
+  return (
+    <div
+      ref={containerRef}
+      style={{ minHeight: "398px" }}
+      className={cn(
+        "scroller relative z-10 w-full overflow-hidden group",
+        "hover:[--pause-animation:paused]",
+        className
+      )}
+    >
+      <ul
+        ref={scrollerRef}
         style={{ minHeight: "398px" }}
         className={cn(
-          "hidden md:block scroller relative z-10 w-full overflow-hidden group",
-          "hover:[--pause-animation:paused]",
-          className
+          "flex min-w-full shrink-0 gap-4 py-8 w-max flex-nowrap",
+          start && "animate-scroll motion-reduce:animate-none",
+          "[animation-play-state:var(--pause-animation,running)]"
         )}
       >
-        <ul
-          ref={scrollerRef}
-          style={{ minHeight: "398px" }}
-          className={cn(
-            "flex min-w-full shrink-0 gap-4 py-8 w-max flex-nowrap",
-            start && "animate-scroll motion-reduce:animate-none",
-            "[animation-play-state:var(--pause-animation,running)]"
-          )}
-        >
-          {duplicatedItems.map((item) => (
-            <li key={item.key} className="flex-shrink-0">
-              <ReviewCard item={item} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+        {duplicatedItems.map((item) => (
+          <li key={item.key} className="flex-shrink-0">
+            <ReviewCard item={item} />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

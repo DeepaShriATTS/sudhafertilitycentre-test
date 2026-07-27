@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { tabs } from "../../utils/homepageData"; // <-- your tabs array (40+ Years, Affordable, Trusted, Success Rate, Specialists)
+import { MetricsCardSkeleton } from "@/components/loaders/ReviewCardSkeleton";
+
 
 const AUTOPLAY_MS = 5000;
 const DRAG_THRESHOLD = 80;
@@ -29,6 +31,7 @@ const textVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
+
 export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
   // initialIndex defaults to 2 ("Trusted by 1Lakh + Families") to match the reference mock
   const [index, setIndex] = useState(initialIndex);
@@ -52,9 +55,9 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
   const activeTab = tabs[index];
   const ActiveIcon = activeTab.icon;
 
-  const goTo = useCallback(
+ const goTo = useCallback(
     (newIndex, dir) => {
-      if (isAnimatingRef.current) return; // guard against rapid clicks
+      if (isAnimatingRef.current || total === 0) return; // guard against rapid clicks
       isAnimatingRef.current = true;
       setDirection(dir);
       setIndex(((newIndex % total) + total) % total);
@@ -71,7 +74,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
 
   // Autoplay
   useEffect(() => {
-    if (!isPlaying || isHovering) {
+    if ( !isPlaying || isHovering || total === 0) {
       if (timerRef.current) clearInterval(timerRef.current);
       return;
     }
@@ -79,8 +82,8 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
       goTo(index + 1, 1);
     }, AUTOPLAY_MS);
     return () => clearInterval(timerRef.current);
-  }, [isPlaying, isHovering, index, goTo]);
-
+  }, [ isPlaying, isHovering, index, goTo, total]);
+ 
   const handleDragEnd = (event, info) => {
     if (info.offset.x < -DRAG_THRESHOLD) {
       handleNext();
@@ -88,6 +91,11 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
       handlePrev();
     }
   };
+
+  if ( total === 0) {
+    return <MetricsCardSkeleton />;
+  }
+
 
   return (
     <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#eef1fb] to-[#f7f8fd] px-6 py-16 md:px-16">
@@ -97,12 +105,10 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
           <span key={i} className="h-1 w-1 rounded-full bg-slate-400" />
         ))}
       </div>
-
+ 
       <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
         {/* LEFT: text content */}
         <div>
-         
-
           <AnimatePresence mode="wait">
             <motion.div
               key={`text-${index}`}
@@ -111,7 +117,6 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
               exit="hidden"
               variants={textVariants}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-
               className="cursor-grab select-none active:cursor-grabbing"
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
@@ -141,7 +146,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
             </motion.div>
           </AnimatePresence>
         </div>
-
+ 
         {/* RIGHT: image slider */}
         <motion.div
           className="relative mx-auto h-[260px] xs:h-[320px] sm:h-[380px] md:h-[420px] w-full max-w-[420px] cursor-grab select-none active:cursor-grabbing"
@@ -173,7 +178,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
             }}
             transition={{ duration: 0.55, ease: "easeInOut" }}
           />
-
+ 
           {/* front card */}
           <div className="absolute inset-0 overflow-hidden rounded-3xl shadow-2xl">
             <AnimatePresence custom={direction} mode="wait">
@@ -199,7 +204,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
               </motion.div>
             </AnimatePresence>
           </div>
-
+ 
           {/* navigation controller */}
           <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full bg-white/95 px-3 py-2 shadow-lg backdrop-blur">
             <motion.button
@@ -213,7 +218,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
             >
               <ChevronLeft size={18} />
             </motion.button>
-
+ 
             <motion.button
               type="button"
               aria-label={isPlaying ? "Pause autoplay" : "Play autoplay"}
@@ -236,7 +241,7 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
                 </motion.span>
               </AnimatePresence>
             </motion.button>
-
+ 
             <motion.button
               type="button"
               aria-label="Next slide"
@@ -248,9 +253,9 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
             >
               <ChevronRight size={18} />
             </motion.button>
-
+ 
             <span className="mx-1 h-5 w-px bg-slate-200" />
-
+ 
             <div className="relative flex w-14 items-center justify-center overflow-hidden text-sm font-semibold text-[#0f1f4d]">
               <AnimatePresence mode="wait">
                 <motion.span
@@ -270,3 +275,4 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
     </section>
   );
 }
+ 

@@ -14,11 +14,30 @@ export function DeferredFBPixel() {
       window._fbq = window._fbq || window.fbq;
     }
 
-    const timer = setTimeout(() => {
+    let initialised = false;
+    function initFB() {
+      if (initialised) return;
+      initialised = true;
       loadFacebookPixel();
-    }, 4500);
+    }
 
-    return () => clearTimeout(timer);
+    const events = ['scroll', 'mousemove', 'keydown', 'touchstart', 'click'];
+    function trigger() {
+      initFB();
+      events.forEach((e) => {
+        window.removeEventListener(e, trigger);
+      });
+    }
+
+    events.forEach((e) => {
+      window.addEventListener(e, trigger, { passive: true, once: true });
+    });
+
+    return () => {
+      events.forEach((e) => {
+        window.removeEventListener(e, trigger);
+      });
+    };
   }, []);
 
   return null;

@@ -9,7 +9,6 @@ import { getYoutubeThumbnail } from "@/middleware/videosRoute"; // adjust path i
 import Image from "next/image";
 
 import "swiper/css";
-import "swiper/css/navigation";
 import "../../app/cssStyling/videoSlider.css";
 
 // Max number of playlist videos that will play automatically, back to back,

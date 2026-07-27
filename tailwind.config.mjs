@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const flowbite = require("flowbite-react/tailwind");
+
 
 export default {
   // 'class' strategy: dark: variants are only generated when .dark is on <html>
@@ -9,7 +9,6 @@ export default {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    flowbite.content(),
   ],
   theme: {
     extend: {
@@ -23,6 +22,9 @@ export default {
             transform: "translate(calc(-50% - 0.5rem))",
           },
         },
+        shimmer: {
+          "100%": { transform: "translateX(100%)" },
+        },
       },
       colors: {
         background: "var(--background)",
@@ -33,7 +35,7 @@ export default {
       },
     },
   },
-  plugins: [addBrandVariables, flowbite.plugin()],
+  plugins: [addBrandVariables],
 };
 
 /**

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef, useLayoutEffect, useCallback } from "react";
+import { useState, useRef, useLayoutEffect, useCallback, useEffect } from "react";
 import { LuStethoscope, LuMicroscope, LuClipboardList, LuHeartPulse, LuChevronDown } from "react-icons/lu";
 import { GiBabyFace } from "react-icons/gi";
 import BookingButton from "@/components/button/bookingButton";
+import { IVFProcessTimelineSkeleton } from "../loaders/ReviewCardSkeleton";
 
 const steps = [
   {
@@ -52,6 +53,17 @@ export default function IVFProcessTimeline() {
   const [expanded, setExpanded] = useState({});
   const [overflowing, setOverflowing] = useState({});
   const descRefs = useRef({});
+  const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    const mql = window.matchMedia("(max-width: 768px)");
+    setIsMobile(mql.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mql.addEventListener("change", handler);
+    return () => mql.removeEventListener("change", handler);
+  }, []);
 
   const toggle = (id) => {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -70,10 +82,15 @@ export default function IVFProcessTimeline() {
   }, []);
 
   useLayoutEffect(() => {
+    if (!mounted) return;
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [measure]);
+  }, [measure, mounted]);
+
+  if (!mounted) {
+    return <IVFProcessTimelineSkeleton />;
+  }
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -88,122 +105,48 @@ export default function IVFProcessTimeline() {
       </div>
 
       {/* ---------- MOBILE LAYOUT (horizontal timeline list) ---------- */}
-      <div className="flex flex-col md:hidden">
-        {steps.map((step, idx) => {
-          const Icon = step.icon;
-          const isOpen = !!expanded[step.id];
-          const doesOverflow = !!overflowing[step.id];
-          const isLast = idx === steps.length - 1;
-
-          return (
-            <div key={step.id} className="flex gap-3">
-              {/* Left column: icon + duration + connector */}
-              <div className="flex flex-col items-center shrink-0 w-14">
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: "#EEF4FB", border: "1.5px solid #C9D9EE" }}
-                >
-                  <Icon size={22} color="#173366" />
-                </div>
-                {!isLast && <div className="w-[2px] flex-1 min-h-[24px] bg-gray-200 my-2" />}
-              </div>
-
-              {/* Right column: badges, title, description */}
-              <div className={`flex-1 min-w-0 ${isLast ? "pb-1" : "pb-5"}`}>
-                <div className="flex items-center flex-wrap gap-2 mb-1.5 pt-1">
-                  <span
-                    className="text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-md"
-                    style={{ backgroundColor: "#ffc65c", color: "#053081ff" }}
-                  >
-                    Step {step.id}
-                  </span>
-                  <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#EEF4FB] text-[#173366]">
-                    {step.duration}
-                  </span>
-                </div>
-
-                <p className="text-sm font-semibold text-[#173366] leading-snug mb-1">
-                  {step.title}
-                </p>
-
-                <p
-                  ref={(el) => (descRefs.current[`m-${step.id}`] = el)}
-                  className={`text-sm text-gray-600 leading-relaxed ${isOpen ? "" : "line-clamp-3"}`}
-                >
-                  {step.description}
-                </p>
-
-                {doesOverflow && (
-                  <button
-                    type="button"
-                    onClick={() => toggle(step.id)}
-                    aria-expanded={isOpen}
-                    className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-[#173366]"
-                  >
-                    {isOpen ? "Show less" : "Read more"}
-                    <LuChevronDown
-                      size={14}
-                      className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
-                    />
-                  </button>
-                )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* ---------- DESKTOP LAYOUT (card grid) ---------- */}
-      <div className="relative hidden md:block">
-        {/* Horizontal connector line */}
-        <div
-          className="absolute"
-          style={{
-            top: 40,
-            left: "calc(10% + 40px)",
-            right: "calc(10% + 40px)",
-            height: 1,
-            backgroundColor: "#e5e7eb",
-          }}
-        />
-
-        <div className="grid grid-cols-5 gap-6 items-start">
-          {steps.map((step) => {
+      {isMobile && (
+        <div className="flex flex-col">
+          {steps.map((step, idx) => {
             const Icon = step.icon;
             const isOpen = !!expanded[step.id];
             const doesOverflow = !!overflowing[step.id];
+            const isLast = idx === steps.length - 1;
+
             return (
-              <div key={step.id} className="flex flex-col items-center text-center relative">
-                <div
-                  className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center mb-5 shrink-0"
-                  style={{ backgroundColor: "#EEF4FB", border: "1.5px solid #C9D9EE" }}
-                >
-                  <Icon size={28} color="#173366" />
+              <div key={step.id} className="flex gap-3">
+                {/* Left column: icon + duration + connector */}
+                <div className="flex flex-col items-center shrink-0 w-14">
+                  <div
+                    className="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: "#EEF4FB", border: "1.5px solid #C9D9EE" }}
+                  >
+                    <Icon size={22} color="#173366" />
+                  </div>
+                  {!isLast && <div className="w-[2px] flex-1 min-h-[24px] bg-gray-200 my-2" />}
                 </div>
 
-                <p
-                  className="text-xs font-bold tracking-widest uppercase px-2 py-1 rounded-md mb-3"
-                  style={{ backgroundColor: "#ffc65c", color: "#053081ff" }}
-                >
-                  Step {step.id}
-                </p>
+                {/* Right column: badges, title, description */}
+                <div className={`flex-1 min-w-0 ${isLast ? "pb-1" : "pb-5"}`}>
+                  <div className="flex items-center flex-wrap gap-2 mb-1.5 pt-1">
+                    <span
+                      className="text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded-md"
+                      style={{ backgroundColor: "#ffc65c", color: "#053081ff" }}
+                    >
+                      Step {step.id}
+                    </span>
+                    <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#EEF4FB] text-[#173366]">
+                      {step.duration}
+                    </span>
+                  </div>
 
-                <span className="inline-block px-3 py-0.5 rounded-full text-md font-medium mb-3 bg-[#EEF4FB] text-[#173366]">
-                  {step.duration}
-                </span>
-
-                {/* Card — min-h instead of fixed h, so it grows with expanded content */}
-                <div
-                  className="flex flex-col items-center w-[200px] min-h-[200px] box-border rounded-2xl px-2 py-4"
-                  style={{ border: "1px solid #EEF2F8", backgroundColor: "#FAFBFE" }}
-                >
-                  <p className="text-sm font-semibold text-[#173366] leading-snug mb-3 min-h-[1.5rem] flex items-center">
+                  <p className="text-sm font-semibold text-[#173366] leading-snug mb-1">
                     {step.title}
                   </p>
 
                   <p
-                    ref={(el) => (descRefs.current[step.id] = el)}
-                    className={`text-sm text-gray-600 leading-relaxed ${isOpen ? "" : "line-clamp-4"}`}
+                    ref={(el) => (descRefs.current[`m-${step.id}`] = el)}
+                    className={`text-sm text-gray-600 leading-relaxed ${isOpen ? "" : "line-clamp-3"}`}
                   >
                     {step.description}
                   </p>
@@ -213,7 +156,7 @@ export default function IVFProcessTimeline() {
                       type="button"
                       onClick={() => toggle(step.id)}
                       aria-expanded={isOpen}
-                      className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#173366] hover:text-[#FFC65C] transition-colors"
+                      className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-[#173366]"
                     >
                       {isOpen ? "Show less" : "Read more"}
                       <LuChevronDown
@@ -227,7 +170,85 @@ export default function IVFProcessTimeline() {
             );
           })}
         </div>
-      </div>
+      )}
+
+      {/* ---------- DESKTOP LAYOUT (card grid) ---------- */}
+      {!isMobile && (
+        <div className="relative">
+          {/* Horizontal connector line */}
+          <div
+            className="absolute"
+            style={{
+              top: 40,
+              left: "calc(10% + 40px)",
+              right: "calc(10% + 40px)",
+              height: 1,
+              backgroundColor: "#e5e7eb",
+            }}
+          />
+
+          <div className="grid grid-cols-5 gap-6 items-start">
+            {steps.map((step) => {
+              const Icon = step.icon;
+              const isOpen = !!expanded[step.id];
+              const doesOverflow = !!overflowing[step.id];
+              return (
+                <div key={step.id} className="flex flex-col items-center text-center relative">
+                  <div
+                    className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center mb-5 shrink-0"
+                    style={{ backgroundColor: "#EEF4FB", border: "1.5px solid #C9D9EE" }}
+                  >
+                    <Icon size={28} color="#173366" />
+                  </div>
+
+                  <p
+                    className="text-xs font-bold tracking-widest uppercase px-2 py-1 rounded-md mb-3"
+                    style={{ backgroundColor: "#ffc65c", color: "#053081ff" }}
+                  >
+                    Step {step.id}
+                  </p>
+
+                  <span className="inline-block px-3 py-0.5 rounded-full text-md font-medium mb-3 bg-[#EEF4FB] text-[#173366]">
+                    {step.duration}
+                  </span>
+
+                  {/* Card — min-h instead of fixed h, so it grows with expanded content */}
+                  <div
+                    className="flex flex-col items-center w-[200px] min-h-[200px] box-border rounded-2xl px-2 py-4"
+                    style={{ border: "1px solid #EEF2F8", backgroundColor: "#FAFBFE" }}
+                  >
+                    <p className="text-sm font-semibold text-[#173366] leading-snug mb-3 min-h-[1.5rem] flex items-center">
+                      {step.title}
+                    </p>
+
+                    <p
+                      ref={(el) => (descRefs.current[step.id] = el)}
+                      className={`text-sm text-gray-600 leading-relaxed ${isOpen ? "" : "line-clamp-4"}`}
+                    >
+                      {step.description}
+                    </p>
+
+                    {doesOverflow && (
+                      <button
+                        type="button"
+                        onClick={() => toggle(step.id)}
+                        aria-expanded={isOpen}
+                        className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#173366] hover:text-[#FFC65C] transition-colors"
+                      >
+                        {isOpen ? "Show less" : "Read more"}
+                        <LuChevronDown
+                          size={14}
+                          className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       <div className="button flex justify-center mt-5 md:mt-8">
         <BookingButton

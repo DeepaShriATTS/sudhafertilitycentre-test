@@ -19,10 +19,10 @@ import BookingButton from "@/components/button/bookingButton";
 import Buttonbottm from "@/components/button";
 import Button from "@/components/button/button";
 import LoadingSpinner from '@/components/ui/loadingSpinner';
-// Hero Banner — static import (NOT dynamic).
-// The hero is always the LCP element: code-splitting it adds an extra
-// network round-trip before first paint. SSR renders it inline instead.
 import HeroBannerSlider from "@/components/heroBanner/HeroBannerSlider";
+import ReviewCardSkeleton from "@/components/loaders/ReviewCardSkeleton";
+import { AchievementTileSkeleton,TreatmentCardSkeleton,MetricsCardSkeleton,IVFProcessTimelineSkeleton } from "@/components/loaders/ReviewCardSkeleton";
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
 
 // ── Data
 import { tabs, reviews } from "../../utils/homepageData";
@@ -34,22 +34,24 @@ const FloatingButton = dynamic(
   { ssr: false, loading: () => null }
 );
 
-const VideoSlider = dynamic(() => import("@/components/videoCard/videoSlider"));
+const VideoSlider = dynamic(() => import("@/components/videoCard/videoSlider"), {
+  loading: () => <VideoSkeletonRow count={3} />
+});
 const Faq = dynamic(() => import("../../components/Faq"), {
-  loading: () => <LoadingSpinner height="300px" />
+  loading: () => <LoadingSpinner height="400px" />
 });
 
 const InfiniteMovingCardsDemo = dynamic(
   () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="398px" /> }
+  { loading: () => <ReviewCardSkeleton /> }
 );
 
 const MetricsTabs = dynamic(() => import("@/components/ui/tab"), {
-  loading: () => <LoadingSpinner height="200px" />
+  loading: () => <MetricsCardSkeleton/>
 });
 
 const VideoCard = dynamic(() => import("@/components/videoCard/videoCard"), {
-  loading: () => <LoadingSpinner height="300px" />
+  loading: () => <VideoSkeletonRow count={3} />
 });
 
 const ContactForm = dynamic(() => import("@/components/contact/contactForm"), {
@@ -57,25 +59,24 @@ const ContactForm = dynamic(() => import("@/components/contact/contactForm"), {
 });
 
 const GallerySlider = dynamic(() => import("@/components/videoCard/videoPlaylistSlider"), {
-  loading: () => <LoadingSpinner height="300px" />
+  loading: () => <VideoSkeletonRow count={3} badge caption />
 });
 
 const JourneyCard = dynamic(() => import("@/components/JourneyCard/journeyCard"), {
-  loading: () => <LoadingSpinner height="300px" />
+  loading: () => <IVFProcessTimelineSkeleton />
 });
 
 // ── Consistent section spacing (single source of truth) ──
 const SECTION_GAP = "mt-14 lg:mt-20";
 
-// ── LazySection: viewport-triggered lazy loading ──
-function LazySection({ children, height = "300px", className = "" }) {
+// LazySection: accept a fallback node
+function LazySection({ children, height = "300px", fallback = null, className = "" }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -85,14 +86,15 @@ function LazySection({ children, height = "300px", className = "" }) {
       },
       { rootMargin: "200px" }
     );
-
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
   return (
     <div ref={ref} className={className}>
-      {visible ? children : <div style={{ minHeight: height }} aria-hidden="true" />}
+      {visible
+        ? children
+        : fallback ?? <div style={{ minHeight: height }} aria-hidden="true" />}
     </div>
   );
 }
@@ -189,20 +191,7 @@ export default function Home() {
     return () => clearTimeout(t);
   }, []);
 
-  const [chatReady, setChatReady] = useState(false);
-  useEffect(() => {
-    const enable = () => setChatReady(true);
-    const onScroll = () => {
-      enable();
-      window.removeEventListener('scroll', onScroll);
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    const t = setTimeout(enable, 5000);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      clearTimeout(t);
-    };
-  }, []);
+  // chatReady state removed — it was never consumed in JSX
 
   return (
     <>
@@ -221,7 +210,7 @@ export default function Home() {
         {/* Review cards overlap */}
         <div className="relative z-10 -mt-12 sm:-mt-20 lg:-mt-16">
           <LazySection height="398px">
-            <InfiniteMovingCardsDemo reviews={reviews} />
+            <InfiniteMovingCardsDemo />
           </LazySection>
         </div>
 
@@ -234,6 +223,7 @@ export default function Home() {
         />
       </div>
 
+       
       <section className="relative">
         {/* ── Achievement Metrics ── */}
         <div className="lg:mt-20">
@@ -245,13 +235,21 @@ export default function Home() {
                 </h2>
                 <p className="font-outfit font-semibold lg:block mt-2 text-xl">Our Achievements</p>
               </div>
+              <LazySection
+                fallback={
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 xl:px-16 mt-9">
+                    {Array.from({ length: 4 }).map((_, i) => <AchievementTileSkeleton key={i} />)}
+                  </div>
+                }
+              >
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 xl:px-16 mt-9">
+                  <AchievementTile number="3.5L+" label="Infertile Couples Counselled" />
+                  <AchievementTile number="1L+" label="Laparoscopic Surgeries" />
+                  <AchievementTile number="35k+" label="IUI Babies" />
+                  <AchievementTile number="60k+" label="IVF Babies" />
+                </div>
+              </LazySection>
 
-              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 xl:px-16 mt-9">
-                <AchievementTile number="3.5L+" label="Infertile Couples Counselled" />
-                <AchievementTile number="1L+" label="Laparoscopic Surgeries" />
-                <AchievementTile number="35k+" label="IUI Babies" />
-                <AchievementTile number="60k+" label="IVF Babies" />
-              </div>
             </div>
           </div>
         </div>
@@ -273,13 +271,34 @@ export default function Home() {
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-9 items-stretch">
+                <LazySection
+                  height="400px"
+                  fallback={
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-9 items-stretch">
+                      <TreatmentCardSkeleton />
+                      <TreatmentCardSkeleton />
+                      <TreatmentCardSkeleton />
+                      <TreatmentCardSkeleton wide />
+                      <TreatmentCardSkeleton />
+                    </div>
+                  }
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-9 items-stretch">
+                    <TreatmentCard icon={Vitro} title="In Vitro Fertilization" subtitle="(IVF)" href="/in-vitro-fertilization" />
+                    <TreatmentCard icon={Intrauterine} title="Intrauterine Insemination" subtitle="(IUI)" href="/intrauterine-insemination" />
+                    <TreatmentCard icon={Intracytoplasmic} title="Intracytoplasmic Sperm Injection" subtitle="(ICSI)" href="/intracytoplasmic-sperm-injection" />
+                    <TreatmentCard icon={Laser_Assisted} title="PCOS (PCOS)/PCOD" href="/pcos-and-pdoc" wide />
+                    <TreatmentCard icon={Pregnancy} title="Pregnancy and Antenatal Care" href="/pregnancy-and-antenatal-care" />
+                  </div>
+                </LazySection>
+
+                {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 mt-9 items-stretch">
                   <TreatmentCard icon={Vitro} title="In Vitro Fertilization" subtitle="(IVF)" href="/in-vitro-fertilization" />
                   <TreatmentCard icon={Intrauterine} title="Intrauterine Insemination" subtitle="(IUI)" href="/intrauterine-insemination" />
                   <TreatmentCard icon={Intracytoplasmic} title="Intracytoplasmic Sperm Injection" subtitle="(ICSI)" href="/intracytoplasmic-sperm-injection" />
                   <TreatmentCard icon={Laser_Assisted} title="PCOS (PCOS)/PCOD" href="/pcos-and-pdoc" wide />
                   <TreatmentCard icon={Pregnancy} title="Pregnancy and Antenatal Care" href="/pregnancy-and-antenatal-care" />
-                </div>
+                </div> */}
 
                 <div className="button flex justify-center mt-8">
                   <Button title={"View All Treatments"} link="/fertility-treatments" />
@@ -300,7 +319,7 @@ export default function Home() {
               </div>
               <div className="tab mt-8">
                 <LazySection height="200px">
-                  <MetricsTabs tabs={tabs} />
+                  <MetricsTabs />
                 </LazySection>
               </div>
             </div>
@@ -393,7 +412,7 @@ export default function Home() {
               </div>
               <div className="tab mt-6 sm:mt-8 md:mt-12">
                 <LazySection height="300px">
-                  <VideoCard tabs={tabs} />
+                  <VideoCard />
                 </LazySection>
               </div>
             </div>

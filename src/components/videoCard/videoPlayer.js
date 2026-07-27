@@ -1,26 +1,10 @@
-// app/api/playlist/route.js
-//
-// Server-side YouTube playlist scraper (no API key required).
-//
-// Fetches https://www.youtube.com/playlist?list=<id>, pulls the embedded
-// `ytInitialData` JSON blob out of the page, and extracts a light list of
-// { id, title, thumbnail, duration } for each video. Runs entirely on the
-// server — the client only ever receives a small JSON payload, so this has
-// no impact on client bundle size or Lighthouse Performance score.
-//
-// Results are cached in-memory per playlist id for 1 hour (CACHE_TTL_MS)
-// to avoid re-scraping YouTube on every modal open. Swap the in-memory
-// cache for Redis/KV if you're running multiple server instances.
-//
-// Usage: GET /api/playlist?list=PLxxxxxxxxxxxxxxxx&limit=25
+
 
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
 const cache = new Map(); // playlistId -> { data, expiresAt }
 
 function extractInitialData(html) {
-  // ytInitialData is embedded as a <script>var ytInitialData = {...};</script>
-  // block. We locate it without a fragile regex across the whole document by
-  // scanning for the assignment and balancing braces from there.
+ 
   const marker = "var ytInitialData = ";
   const startIdx = html.indexOf(marker);
   if (startIdx === -1) return null;

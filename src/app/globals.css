@@ -6,6 +6,16 @@
   /* Mobile-first: no layout gutter on small screens.
      Sidebar switches to floating FAB mode on mobile. */
   --sidebar-w: 0px;
+   --brand-gradient: linear-gradient(
+    150deg,
+    #fdf8f6 0%,
+    #f7faff 55%,
+    #fdf6ea 100%
+  );
+}
+
+.hero-banner-slider {
+  background: var(--brand-gradient);
 }
 
 /* Tablet and up: enable sidebar gutter */
@@ -31,14 +41,7 @@ body {
   }
 }
 
-.site-header-gradient {
-  background: linear-gradient(
-    100deg,
-    rgba(255, 255, 255, 0.85) 0%,
-    rgba(247, 250, 255, 0.8) 55%,
-    rgba(238, 243, 255, 0.8) 100%
-  );
-}
+
 
 .no-visible-scrollbar {
     scrollbar-width: none;
@@ -104,6 +107,7 @@ h6{
   display: flex;
   gap: 5px;
   align-items: center;
+  min-height: 48px;
   /* clamp(min, preferred, max) — replaces 4 identical responsive overrides */
   padding: clamp(12px, 1.5vw, 14px);
   font-size: clamp(14px, 1.2vw, 16px);
@@ -127,6 +131,7 @@ h6{
     display: flex;
     gap: 5px;
     align-items: center;
+    min-height: 48px;
     padding: 12px;
     font-size: 16px;
     font-weight: 500;
@@ -334,8 +339,7 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   contain: layout style;
   will-change: transform;
   pointer-events: none;
-  background-color: #ffffff;
-  /* border-left: 1px solid rgba(23, 51, 102, 0.06); */
+ 
   box-shadow: none;
 }
 
@@ -384,8 +388,8 @@ div.relative.w-full:has(.branch-form-container) + div.container {
 
   /* Make FAB buttons larger for touch targets */
   .sidebar-action-btn {
-    width: 46px;
-    height: 46px;
+    width: 48px;
+    height: 48px;
     box-shadow:
       0 4px 18px rgba(0, 0, 0, 0.18),
       0 1px 4px rgba(0, 0, 0, 0.1);
@@ -612,8 +616,8 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   right: 24px;
   bottom: 24px;
 
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
 
   border-radius: 50%;
   background: #173366;
@@ -655,14 +659,8 @@ div.relative.w-full:has(.branch-form-container) + div.container {
   35%       { transform: rotate(0deg)   scale(1); }
 }
 
-
 .site-header-gradient {
-  background: linear-gradient(
-    150deg,
-    #ffffff 0%,
-    #f5f8ff 50%,
-    #fef3e2 100%
-  );
+ background: var(--brand-gradient);
 }
 
 .gs-hover-preview {
@@ -692,15 +690,75 @@ div.relative.w-full:has(.branch-form-container) + div.container {
    right:var(--sidebar-w) keeps it clear of the right sidebar.
    width:auto lets the browser fill the remaining space naturally. */
 .site-header {
-  left:  var(--sidebar-w) !important;
-  right: var(--sidebar-w) !important;
+  left:  calc(var(--sidebar-w) + 12px) !important;
+  right: calc(var(--sidebar-w) + 12px) !important;
   width: auto !important;
+  transition: transform 0.3s ease-out, background-color 0.3s ease-out, box-shadow 0.3s ease-out, opacity 0.3s ease-out;
+  will-change: transform, opacity;
+}
+
+.site-header:not(.site-header--scrolled) {
+  left:  calc(var(--sidebar-w) + 12px) !important;
+  right: calc(var(--sidebar-w) + 12px) !important;
 }
 
 @media (max-width: 374px) {
   .site-header {
-    left:  0 !important;
-    right: 0 !important;
-    width: 100% !important;
+    left:  8px !important;
+    right: 8px !important;
+    width: auto !important;
   }
+}
+
+@media (min-width: 640px) {
+  .site-header:not(.site-header--scrolled) {
+    left:  calc(var(--sidebar-w) + 20px) !important;
+    right: calc(var(--sidebar-w) + 20px) !important;
+  }
+}
+
+.site-header--scrolled {
+  left: 0 !important;
+  right: 0 !important;
+  transform: scale(0.98);
+}
+
+
+.mobile-menu-drawer {
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateX(100%);
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0.35s;
+}
+
+.mobile-menu-drawer--open {
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0s linear 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-menu-drawer,
+  .mobile-menu-drawer--open {
+    transition: none !important;
+  }
+}
+
+/* ── Scroll-to-top button: CSS fade-in (replaces framer-motion motion.button) */
+@keyframes sidebarBtnIn {
+  from { opacity: 0; transform: scale(0.75); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.sidebar-scroll-top-anim {
+  animation: sidebarBtnIn 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-scroll-top-anim { animation: none; }
 }

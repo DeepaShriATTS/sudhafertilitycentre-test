@@ -428,11 +428,11 @@ function ChennaiPage() {
                       <h3 className="text-[20px] font-semibold mt-2 leading-[1.4]">
                         Chief Doctors of Sudha Fertility Centre in Chennai
                       </h3>
-                     <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
+                      <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
                         Dr.S.Pradeepa Sudhakar.,
                       </h4>
                       <p className="text-md text-[#000000] mt-3">
-                       DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist 
+                        DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
                       </p>
                       {/* <p className="text-[#000000] mt-3">
                         Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS)
@@ -733,7 +733,7 @@ function ChennaiPage() {
           className="custom-class"
         /> */}
 
-          <GallerySlider items={chennaiVideos} />
+        <GallerySlider items={chennaiVideos} />
         {/* <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
           <h3 className=" font-semibold text-center ">
             Childless Couples to Happy Parents

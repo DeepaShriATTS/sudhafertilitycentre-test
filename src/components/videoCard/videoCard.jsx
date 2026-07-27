@@ -96,9 +96,6 @@ export const videos = [
   },
 ];
 
-// How long the pointer/focus must dwell on a card before the preview iframe
-// mounts. Kept effectively instant per requirement, but still a real timer
-// (not 0) so a fast mouse pass-over across the row doesn't spin up N iframes.
 const HOVER_PREVIEW_DELAY_MS = 1;
 
 export default function VideoCarousel() {

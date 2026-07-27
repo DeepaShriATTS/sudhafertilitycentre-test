@@ -1,17 +1,5 @@
 "use client";
 
-/**
- * BranchForm — Dark-theme wrapper around AppointmentFormCore.
- *
- * Used on individual branch pages as the hero-section contact form.
- * The glassmorphism card shell (motion.div, Calendar icon) is kept here
- * since it is purely presentational and specific to this context.
- *
- * All form logic (fetch, submit, validation, honeypot) lives in:
- *   - useAppointmentForm (hook)
- *   - AppointmentFormCore (component)
- */
-
 import { motion } from "framer-motion";
 import React from "react";
 import Calendar from "@/assets/branch/ambatur/callender.svg";

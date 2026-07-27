@@ -9,7 +9,7 @@ import Logodark from "@/assets/logo-dark.svg";
 import Bar from "@/assets/Navbar/bar.svg";
 import DarkLogo from "@/assets/logo-dark.svg";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion";
 import RequestCallModal from "./modal";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
@@ -206,12 +206,12 @@ function StateRow({ state }) {
   const [open, setOpen] = useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
-    placement: "right-start",
+    placement: "left-start",
     open,
     onOpenChange: setOpen,
     middleware: [
-      offset(4),
-      flip({ fallbackPlacements: ["left-start"] }),
+      offset(),
+      flip({ fallbackPlacements: ["left-end"] }),
       shift({ padding: 8 }),
       floatingSize({
         apply({ availableHeight, elements }) {
@@ -349,17 +349,23 @@ function NavDropdown({ item }) {
 
       {/* Treatments panel */}
       {item.title === "Treatments" && open && (
-        <motion.div
+        
+           <div
           ref={refs.setFloating}
           style={floatingStyles}
           {...getFloatingProps()}
+          className="z-10"
+
+        >
+        <motion.div
+       
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.2, ease: "easeInOut" }}
-          className="font-medium bg-white text-gray-800 py-4 px-6 min-w-[720px] shadow-lg rounded-[14px] z-10"
+         className="font-medium bg-white text-gray-800 py-4 px-6 w-[min(720px,calc(100vw-32px))] max-w-[720px] shadow-lg rounded-[14px] overflow-hidden"
         >
-          <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+         <div className="grid grid-cols-1 min-[1024px]:grid-cols-2 gap-x-8 gap-y-2">
             {item.dropdownItems.map((dropdownItem, dropIndex) => (
               <Link href={dropdownItem.link} key={dropIndex}>
                 <div className="px-2 py-1 text-[15px] hover:text-[#FFC65C] cursor-pointer">
@@ -369,6 +375,7 @@ function NavDropdown({ item }) {
             ))}
           </div>
         </motion.div>
+        </div>
       )}
 
       {/* Branches panel (states -> cities cascade) */}
@@ -435,9 +442,10 @@ function Navbar() {
   return (
     <>
       <header
-        className={`site-header w-full lg:py-2 font-outfit z-30 fixed top-0 left-0 transition-all duration-300 backdrop-blur-md ${
-          pathname === "/" ? "site-header-gradient" : "bg-white/70"
-        }`}
+        className={`site-header ${navbarColor ? "site-header--scrolled" : ""} font-outfit z-30 fixed backdrop-blur-md ${navbarColor
+            ? "top-0 w-full rounded-none shadow-[0_4px_20px_rgba(16,40,78,0.10)] lg:py-2"
+            : "top-3 sm:top-4 lg:top-5 left-3 right-3 sm:left-5 sm:right-5 rounded-full shadow-[0_8px_30px_rgba(16,40,78,0.12)] lg:py-2"
+          } ${pathname === "/" ? "site-header-gradient" : "bg-white/80"}`}
       >
         <div className="w-full" id="header">
           <div className="w-full px-4 sm:px-6 lg:px-8 h-full">
@@ -447,7 +455,13 @@ function Navbar() {
                   {/* Logo */}
                   <div className="w-28 sm:w-32 lg:w-44 flex items-center">
                     <Link href={"/"} className="flex items-center">
-                      <Image src={Logodark} alt="Sudha-Logo" className="w-full h-auto" />
+                      <Image src={Logodark} alt="Sudha-Logo"
+                       className="w-full h-auto rounded-full" 
+                        blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmZmYiLz48L3N2Zz4="
+
+                       placeholder="blur" 
+                       priority              
+                       />
                     </Link>
                   </div>
 
@@ -560,17 +574,12 @@ function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu */}
-      <div className="relative">
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              className="fixed inset-0 bg-white z-50 lg:hidden overflow-y-auto pb-9"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.4 }}
-            >
+      {/* Mobile Menu — CSS-only slide drawer, no framer-motion */}
+      <div
+        className={`mobile-menu-drawer fixed inset-0 bg-white z-50 lg:hidden overflow-y-auto pb-9${isMobileMenuOpen ? ' mobile-menu-drawer--open' : ''}`}
+        aria-hidden={!isMobileMenuOpen}
+        {...(!isMobileMenuOpen ? { inert: isMobileMenuOpen } : {})}
+      >
               <div className="container mx-auto py-6">
                 <div className="flex justify-between px-4">
                   <div className="w-40">
@@ -679,7 +688,7 @@ function Navbar() {
                     <Link
                       href="/#contact-now"
                       onClick={toggleMobileMenu}
-                      className="w-full py-4 text-center bg-[#173366] text-white font-semibold text-sm border-r border-white/20 hover:bg-[#1e4080] transition-colors"
+                      className="w-full py-4 text-center bg-[#173366] text-white font-semibold text-sm border-r border-white/20  transition-colors"
                     >
                       Book Appointment
                     </Link>
@@ -691,11 +700,8 @@ function Navbar() {
                     </button>
                   </div>
                 </div>
-                <RequestCallModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                {isModalOpen && <RequestCallModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
 
 
