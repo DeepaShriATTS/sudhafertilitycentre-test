@@ -4,6 +4,7 @@ import Image from "next/image";
 import BookingButton from "@/components/button/bookingButton";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { HiPhone, HiSparkles } from "react-icons/hi";
+import { SkeletonBox } from "@/components/loaders/SkeletonCardLoader"; // adjust path to your file
 
 import newbanner1 from "@/assets/Home/newbanner1.webp";
 import freecampmobile1 from "@/assets/Home/freecampmobile1.webp";
@@ -90,12 +91,17 @@ export default function HeroBannerActiveSlider() {
   const timerRef = useRef(null);
   const [autoPlayEnabled, setAutoPlayEnabled] = useState(false);
   const [loadedIndices, setLoadedIndices] = useState([0]);
+  const [imageReadyMap, setImageReadyMap] = useState({});
 
   useEffect(() => {
     setLoadedIndices((prev) =>
       prev.includes(activeIndex) ? prev : [...prev, activeIndex]
     );
   }, [activeIndex]);
+
+  const handleImageLoad = useCallback((i) => {
+    setImageReadyMap((prev) => (prev[i] ? prev : { ...prev, [i]: true }));
+  }, []);
 
   const statsRef = useRef(null);
   const [statsInView, setStatsInView] = useState(false);
@@ -153,6 +159,7 @@ export default function HeroBannerActiveSlider() {
   }, []);
 
   const activeSlide = slides[activeIndex];
+  const isActiveImageReady = !!imageReadyMap[activeIndex];
 
   const renderHeading = (heading, highlight) => {
     const idx = heading.indexOf(highlight);
@@ -256,7 +263,12 @@ export default function HeroBannerActiveSlider() {
             <div className="hero-frame-ring" aria-hidden="true" />
 
             {/* The Main Image Frame */}
-            <div className="hero-main-frame">
+            <div className="hero-main-frame relative">
+              {/* Reusable skeleton fills the frame until the active image loads */}
+              {!isActiveImageReady && (
+                <SkeletonBox className="absolute inset-0 h-full w-full rounded-2xl" />
+              )}
+
               {slides.map((slide, i) => {
                 const isLoaded = loadedIndices.includes(i);
                 if (!isLoaded) return null;
@@ -266,7 +278,7 @@ export default function HeroBannerActiveSlider() {
                     key={i}
                     className={`hero-image-slide ${i === activeIndex ? "is-active" : "pointer-events-none"}`}
                     style={{
-                      opacity: i === activeIndex ? 1 : 0,
+                      opacity: i === activeIndex && imageReadyMap[i] ? 1 : 0,
                       visibility: i === activeIndex ? "visible" : "hidden",
                       transition: "opacity 0.6s ease-in-out, visibility 0.6s ease-in-out",
                     }}
@@ -281,27 +293,11 @@ export default function HeroBannerActiveSlider() {
                       fetchPriority={i === 0 ? "high" : "auto"}
                       className="object-cover"
                       style={{ objectPosition: slide.imgPosition }}
+                      onLoad={() => handleImageLoad(i)}
                     />
                   </div>
                 );
               })}
-            </div>
-
-            {/* Floating Legacy chip — anchored on the image itself */}
-            <div className="hero-legacy-card">
-              <span className="hero-legacy-card-icon">
-                <HiSparkles size={16} />
-              </span>
-              <div className="hero-legacy-card-text">
-                <strong>40+ Years</strong>
-                <span>of trusted fertility care</span>
-              </div>
-            </div>
-
-            {/* Floating success-rate chip */}
-            <div className="hero-success-badge">
-              <span className="hero-badge-dot" />
-              <span>99% IVF Success</span>
             </div>
           </div>
         </div>

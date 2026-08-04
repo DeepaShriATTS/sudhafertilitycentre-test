@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { IoIosArrowDown } from "react-icons/io";
 import {
@@ -9,16 +9,14 @@ import {
   offset,
   autoUpdate,
   size as floatingSize,
-  useHover,
   useFocus,
   useDismiss,
   useInteractions,
-  safePolygon,
-  FloatingPortal
+  FloatingPortal,
 } from "@floating-ui/react";
 
-/* Heartbeat trace — the nav's signature underline. Flat line with one
-   pulse blip, drawn in on hover/focus/active via stroke-dashoffset. */
+const CLOSE_DELAY = 250; // ms — generous enough to cross the gap between panels
+
 function PulseTrace() {
   return (
     <svg className="navx-pulse" viewBox="0 0 26 7" preserveAspectRatio="none" aria-hidden="true">
@@ -27,8 +25,18 @@ function PulseTrace() {
   );
 }
 
-function StateRow({ state }) {
+function StateRow({ state, keepParentOpen, closeParentSoon }) {
   const [open, setOpen] = useState(false);
+  const closeTimer = useRef();
+
+  const openNow = () => {
+    clearTimeout(closeTimer.current);
+    setOpen(true);
+  };
+  const closeSoon = () => {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpen(false), CLOSE_DELAY);
+  };
 
   const { refs, floatingStyles, context } = useFloating({
     placement: "left-start",
@@ -50,18 +58,11 @@ function StateRow({ state }) {
     whileElementsMounted: autoUpdate,
   });
 
-  const hover = useHover(context, {
-    handleClose: safePolygon({ buffer: 6 }),
-    delay: { open: 0, close: 120 },
-  });
   const focus = useFocus(context);
-  const dismiss = useDismiss(context);
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    focus,
-    dismiss,
-  ]);
+  const dismiss = useDismiss(context, {
+    outsidePressEvent: "click", // wait for click, not pointerdown, so Link's click fires first
+  });
+  const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss]);
 
   if (state.name === "Pondicherry") {
     return (
@@ -73,8 +74,36 @@ function StateRow({ state }) {
     );
   }
 
+  // Hovering this row keeps BOTH this submenu and the grandparent panel open.
+  const rowHandlers = {
+    onMouseEnter: () => {
+      openNow();
+      keepParentOpen?.();
+    },
+    onMouseLeave: () => {
+      closeSoon();
+      closeParentSoon?.();
+    },
+  };
+
+  // Hovering the submenu itself keeps this submenu AND the grandparent open.
+  const submenuHandlers = {
+    onMouseEnter: () => {
+      openNow();
+      keepParentOpen?.();
+    },
+    onMouseLeave: () => {
+      closeSoon();
+      closeParentSoon?.();
+    },
+  };
+
   return (
-    <div ref={refs.setReference} className="navx-panel-state-row relative" {...getReferenceProps()}>
+    <div
+      ref={refs.setReference}
+      className="navx-panel-state-row relative"
+      {...getReferenceProps(rowHandlers)}
+    >
       <div tabIndex={0} className="navx-panel-item font-semibold flex justify-between items-center outline-none">
         <span>{state.name}</span>
         {state.branches.length > 0 && (
@@ -84,7 +113,12 @@ function StateRow({ state }) {
 
       {open && state.branches.length > 0 && (
         <FloatingPortal>
-          <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} className="z-50">
+          <div
+            ref={refs.setFloating}
+            style={floatingStyles}
+            {...getFloatingProps(submenuHandlers)}
+            className="z-50"
+          >
             <div className="navx-panel animate-dropdown-in py-2 min-w-[200px] max-h-96 overflow-y-auto overflow-x-hidden">
               {state.branches.map((branch, branchIndex) => (
                 <Link href={branch.link} key={branchIndex} className="navx-panel-item block">
@@ -101,6 +135,16 @@ function StateRow({ state }) {
 
 function NavDropdown({ item, pathname }) {
   const [open, setOpen] = useState(false);
+  const closeTimer = useRef();
+
+  const openNow = () => {
+    clearTimeout(closeTimer.current);
+    setOpen(true);
+  };
+  const closeSoon = () => {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setOpen(false), CLOSE_DELAY);
+  };
 
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom-start",
@@ -108,21 +152,15 @@ function NavDropdown({ item, pathname }) {
     onOpenChange: setOpen,
     middleware: [offset(10), flip(), shift({ padding: 16 })],
     whileElementsMounted: autoUpdate,
-     transform: false,
+    transform: false,
   });
 
-  const hover = useHover(context, {
-    handleClose: safePolygon({ buffer: 6 }),
-    delay: { open: 0, close: 120 },
-  });
   const focus = useFocus(context);
-  const dismiss = useDismiss(context);
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([
-    hover,
-    focus,
-    dismiss,
-  ]);
+  const dismiss = useDismiss(context, {
+    outsidePressEvent: "click", // wait for click, not pointerdown, so Link's click fires first
+  });
+  
+  const { getReferenceProps, getFloatingProps } = useInteractions([focus, dismiss]);
 
   const hasPanel =
     (item.dropdownItems && item.dropdownItems.length > 0) ||
@@ -130,11 +168,13 @@ function NavDropdown({ item, pathname }) {
 
   const isActive = typeof item.item === "string" && pathname === item.link;
 
+  const hoverHandlers = { onMouseEnter: openNow, onMouseLeave: closeSoon };
+
   return (
     <li className="relative">
       <div
         ref={refs.setReference}
-        {...getReferenceProps()}
+        {...getReferenceProps(hoverHandlers)}
         tabIndex={0}
         className={`navx-link ${open ? "navx-link--open" : ""} ${isActive ? "navx-link--active" : ""}`}
       >
@@ -150,7 +190,12 @@ function NavDropdown({ item, pathname }) {
       </div>
 
       {item.title === "Treatments" && open && (
-        <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} className="z-10">
+        <div
+          ref={refs.setFloating}
+          style={floatingStyles}
+          {...getFloatingProps(hoverHandlers)}
+          className="z-10"
+        >
           <div className="navx-panel animate-dropdown-in w-[min(720px,calc(100vw-32px))] max-w-[720px] py-2">
             <div className="navx-panel-eyebrow">Treatments &amp; Services</div>
             <div className="grid grid-cols-1 min-[1024px]:grid-cols-2 gap-x-2 gap-y-0 px-2 pb-2">
@@ -165,11 +210,21 @@ function NavDropdown({ item, pathname }) {
       )}
 
       {item.title === "Branches" && item.states && open && (
-        <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()} className="z-10">
+        <div
+          ref={refs.setFloating}
+          style={floatingStyles}
+          {...getFloatingProps(hoverHandlers)}
+          className="z-10"
+        >
           <div className="navx-panel animate-dropdown-in py-1 min-w-[220px]">
             <div className="navx-panel-eyebrow">Find a Centre</div>
             {item.states.map((state) => (
-              <StateRow key={state.name} state={state} />
+              <StateRow
+                key={state.name}
+                state={state}
+                keepParentOpen={openNow}
+                closeParentSoon={closeSoon}
+              />
             ))}
           </div>
         </div>

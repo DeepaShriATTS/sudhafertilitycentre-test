@@ -31,7 +31,7 @@ body {
   overflow-x: hidden;
   max-width: 100%;
   margin-inline: auto;
-  padding-top: 4rem;
+  /* padding-top: 4rem; */
 }
 
 
@@ -334,8 +334,7 @@ div.relative.w-full:has(.branch-form-container) + div.container {
 @media (max-width: 767px) {
   /* No layout gutter on mobile — full 320px width for content */
   .site-content-wrapper {
-    margin-right: 0;
-    margin-left:  0;
+    margin: 0 0px 0 35px;
   }
 
   /* Hide left ghost gutter on mobile */

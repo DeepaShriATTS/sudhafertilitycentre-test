@@ -27,9 +27,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px 16px;
-  background: #fbf7f1;
+  padding: 16px;
+  background: transparent;
   transition: background 0.35s ease, box-shadow 0.35s ease, padding 0.3s ease;
+   box-shadow: var(--nav-hairline);
 }
 
 @media (min-width: 640px) {
@@ -43,7 +44,7 @@
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    padding: 20px 40px;
+    padding: 18px;
   }
 
   .navx-chip-nav {
@@ -72,6 +73,67 @@
   border: 1px solid transparent;
   box-shadow: none;
   transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* ══════════════════════════════════════════════════
+   DARK MODE (unscrolled shell over the photo hero)
+   Only applies when the shell is transparent — once
+   .navx-shell--scrolled is added (or forced on the
+   homepage), everything falls back to the light/navy
+   styles defined above.
+   ══════════════════════════════════════════════════ */
+.navx-shell:not(.navx-shell--scrolled) .navx-link,
+.navx-shell:not(.navx-shell--scrolled) .navx-utility-link,
+.navx-shell:not(.navx-shell--scrolled) .navx-phone,
+.navx-shell:not(.navx-shell--scrolled) .navx-phone strong,
+.navx-shell:not(.navx-shell--scrolled) .navx-mobile-trigger,
+.navx-shell:not(.navx-shell--scrolled) .navx-caret {
+  color: #ffffff;
+}
+
+/* Link hover/focus/active — translucent white instead of the
+   light-mode cream chip, which would be invisible on white text */
+.navx-shell:not(.navx-shell--scrolled) .navx-link:hover,
+.navx-shell:not(.navx-shell--scrolled) .navx-link:focus-visible,
+.navx-shell:not(.navx-shell--scrolled) .navx-link--active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.navx-shell:not(.navx-shell--scrolled) .navx-link:focus-visible {
+  outline-color: var(--nav-gold);
+}
+
+/* Utility link ("Book Appointment" / "Find us") + mobile trigger
+   get the same subtle hover treatment */
+.navx-shell:not(.navx-shell--scrolled) .navx-utility-link:hover,
+.navx-shell:not(.navx-shell--scrolled) .navx-utility-link:focus-visible {
+  color: var(--nav-gold);
+}
+
+.navx-shell:not(.navx-shell--scrolled) .navx-mobile-trigger:hover,
+.navx-shell:not(.navx-shell--scrolled) .navx-mobile-trigger:focus-visible {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+/* Phone number: keep the pulse-ring icon on a white chip (it's a
+   self-contained badge, not flat text) but soften the ring border
+   since it now sits on a photo instead of white/navy chip bg */
+.navx-shell:not(.navx-shell--scrolled) .navx-phone .ring-pulse {
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 4px;
+  color: #ffffff;
+}
+
+.navx-shell:not(.navx-shell--scrolled) .navx-phone:hover strong {
+  color: var(--nav-gold);
+}
+
+/* CTA pill already reads fine (navy on photo) — just lift the
+   hover state slightly so it doesn't blend into a dark section
+   of the image */
+.navx-shell:not(.navx-shell--scrolled) .navx-cta-pill {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
 .navx-shell--scrolled .navx-chip {

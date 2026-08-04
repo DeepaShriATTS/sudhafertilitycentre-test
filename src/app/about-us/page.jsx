@@ -1,5 +1,7 @@
 import About from '@/pages/About'
 import React from 'react'
+// import Head from 'next/head';
+
 export const metadata = {
   title: "About Us - Sudha Fertility Centre",
   description: "Your parenthood journey starts in the hands of the best fertility experts in India. Sudha Fertility Centre is offering the compassionate care to help thousands of couples on their parenthood journey. As the best IVF centre in India…",
@@ -15,6 +17,9 @@ export const metadata = {
 
 
 function page() {
+  // <Head>
+  //   <link rel="alternate" href="https://sudhafertilitycentre.com/about-us" hreflang="en-in" />
+  // </Head>
     return (
     <About />
   )

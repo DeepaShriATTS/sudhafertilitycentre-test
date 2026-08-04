@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { IoCall, IoClose, IoLocationSharp, IoArrowForward } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
-import Logodark from "@/assets/logo-dark.svg";
-import DarkLogo from "@/assets/logo-dark.svg";
+import Logodark from "@/assets/logo.svg";
+import DarkLogo from "@/assets/logo-dark.webp";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 const RequestCallModal = dynamic(() => import("./modal"), { ssr: false });
@@ -33,6 +33,14 @@ function Navbar() {
   };
 
   const isBranchPage = branches.some((branch) => pathname.includes(branch.link));
+
+  // Homepage hero is a light gradient (no dark photo), so the
+  // transparent/white-text nav is unreadable there — force the
+  // scrolled (white bg, navy text) look on "/" at all times.
+  // Every other page keeps the dynamic transparent -> white-on-scroll
+  // behavior for overlapping its dark photo hero.
+  const isHome = pathname === "/";
+  const isScrolledStyle = isHome ? true : navbarColor;
 
   const handleStateClick = (index) => {
     setActiveState(activeState === index ? null : index);
@@ -74,15 +82,15 @@ function Navbar() {
   return (
     <>
       <header
-        className={`navx-shell font-outfit ${navbarColor ? "navx-shell--scrolled" : ""}`}
+        className={`navx-shell font-outfit ${isScrolledStyle ? "navx-shell--scrolled" : ""}`}
       >
         {/* ── Logo chip ── */}
         <div className="navx-chip navx-chip-logo">
           <Link href={"/"} className="navx-logo-link" aria-label="Sudha Fertility Centre Homepage">
             <Image
-              src={Logodark}
+              src={isScrolledStyle ? DarkLogo : Logodark}
               alt="Sudha-Logo"
-              className="w-full h-auto"
+              className="w-full h-auto rounded-full"
               blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxIiBoZWlnaHQ9IjEiPjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNmZmYiLz48L3N2Zz4="
               placeholder="blur"
               priority

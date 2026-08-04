@@ -2,7 +2,7 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
-import Logo from "@/assets/logo-dark.svg";
+import Logo from "@/assets/logo-dark.webp";
 import whatsapp from "@/assets/footer/whatsapp.svg";
 import Link from "next/link";
 import { MdArrowOutward, MdLocationOn } from "react-icons/md";
