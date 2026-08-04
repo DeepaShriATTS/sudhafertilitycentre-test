@@ -1,14 +1,14 @@
 import Home from "@/pages/home/Home";
-import Image from "next/image";
-import Head from 'next/head';
+
+export const metadata = {
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/",
+    },
+  },
+};
 
 export default function Page() {
-
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/" hreflang="en-in" />
-  </Head>
-  return (
-
-    <Home />
-  );
+  return <Home />;
 }

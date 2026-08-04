@@ -1,11 +1,20 @@
 import React from "react";
 import Banner from "@/assets/Policy/Banner.webp";
-import { MarqueeComponent } from "@/components/marqueeSlider";
-import { FaYoutube } from "react-icons/fa";
+
+
 import { Ambattur } from "@/middleware/imagesroute";
-import Button from "@/components/button";
-import Buttonbottm from "@/components/button";
+
 import Buttoncomponents from "@/components/button/button";
+import dynamic from "next/dynamic";
+import { Homevideos } from "@/middleware/videosRoute";
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
+
+
+const GallerySlider = dynamic(
+  () => import('@/components/videoCard/videoPlaylistSlider'),
+  { loading: () => <VideoSkeletonRow count={3} /> }
+);
+
 function OvulationCalculator() {
   return (
     <>
@@ -222,31 +231,7 @@ function OvulationCalculator() {
       </div>
 
       <section className="mt-[70px] md:mt-[100px] mb-[70px] md:mb-[100px]">
-        {/* <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        />
-
-        {/* <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
-        <h3 className=" font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div> */}
-
-
-        {/* <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
-        {/* </div>
-          </div> */}
+        <GallerySlider items={Homevideos} />
       </section>
     </>
   );

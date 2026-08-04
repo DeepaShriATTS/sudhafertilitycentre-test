@@ -1,13 +1,39 @@
 /* ══════════════════════════════════════════════════
-   HERO BANNER — Light "Turning Hope Into Happiness" theme
+   HERO SECTION — consolidated single file
+   (merges former hero-banner-slider.css + hero-slider.css v2
+   overrides into one source of truth — no more hunting
+   across two files to find which rule actually wins)
+
+   Signature: an organic, slowly-morphing image shape paired
+   with a single thin arc line (a quiet nod to "cycle"). The
+   arc reappears once, faintly, as a ring behind the frame —
+   one motif carried through, not several competing devices.
+
+   Requires the Fraunces display font. Prefer wiring it in via
+   next/font in your root layout instead of the @import below
+   (faster, no FOUT):
+
+     import { Fraunces } from "next/font/google";
+     const fraunces = Fraunces({
+       subsets: ["latin"],
+       axes: ["opsz"],
+       variable: "--font-fraunces",
+     });
+     // add fraunces.variable to your <html> className, then
+     // delete the @import line below.
+
    Mobile-first. Breakpoints: 375 | 480 | 640 | 768 | 1024 | 1280 | 1536
    ══════════════════════════════════════════════════ */
 
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&display=swap");
+
 :root {
-  --hero-navy: #173366;
-  --hero-navy-soft: #4a5a7a;
-  --hero-gold: #f5a623;
-  /* --hero-bg-from/mid/to removed — now using shared --brand-gradient */
+  --hero-navy: #14213d;
+  --hero-navy-soft: #5b6885;
+  --hero-gold: #e8a33d;
+  --hero-paper: #fbf7f1;
+  --hero-teal: #1f6f6b;
+  --font-fraunces: "Fraunces", Georgia, "Times New Roman", serif;
 }
 
 /* ─────────────────────────────────────────
@@ -17,13 +43,14 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  /* background: var(--brand-gradient); */
+  background: var(--hero-paper);
 }
 
-/* ─────────────────────────────────────────
-   DECORATIVE BACKGROUND (pure CSS, no image)
-   ───────────────────────────────────────── */
-.hero-decorative-canvas {
+/* ── arc motif: the page's one structural device, tucked
+   behind the image column instead of spanning the whole
+   section — quieter, and it no longer reads over anything
+   outside this component ── */
+.hero-arc-motif {
   position: absolute;
   inset: 0;
   pointer-events: none;
@@ -31,83 +58,32 @@
   overflow: hidden;
 }
 
-.hero-blob {
+.hero-arc-motif svg {
   position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.18;
+  bottom: 4%;
+  right: 6%;
+  width: 42%;
+  max-width: 460px;
+  height: auto;
+  opacity: 0.32;
 }
 
-.hero-blob--teal {
-  width: 220px;
-  height: 220px;
-  top: -8%;
-  right: 4%;
-  background: radial-gradient(circle, #1a8a8a 0%, transparent 70%);
-}
-
-.hero-blob--gold {
-  width: 200px;
-  height: 200px;
-  bottom: -10%;
-  left: -8%;
-  background: radial-gradient(circle, var(--hero-gold) 0%, transparent 70%);
-  opacity: 0.14;
-}
-
-@media (min-width: 480px) {
-  .hero-blob--teal { width: 300px; height: 300px; }
-  .hero-blob--gold { width: 260px; height: 260px; }
-}
-
-@media (min-width: 768px) {
-  .hero-blob--teal { width: 380px; height: 380px; top: -8%; right: 8%; }
-  .hero-blob--gold { width: 320px; height: 320px; bottom: -12%; left: -6%; }
-}
-
-@media (min-width: 1024px) {
-  .hero-blob--gold {
-    width: 450px;
-    height: 450px;
-    bottom: auto;
-    top: 15%;
-    left: 45%;
-    right: auto;
-    opacity: 0.25;
-    filter: blur(90px);
-    background: radial-gradient(circle, var(--hero-gold) 0%, transparent 70%);
-  }
-}
-
-.hero-dot-grid {
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  left: 2%;
-  bottom: 6%;
-  background-image: radial-gradient(rgba(23, 51, 102, 0.08) 1.5px, transparent 1.5px);
-  background-size: 14px 14px;
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .hero-dot-grid {
-    display: block;
+@media (max-width: 1023px) {
+  .hero-arc-motif svg {
+    bottom: 0%;
+    right: -8%;
+    width: 78%;
   }
 }
 
 /* ─────────────────────────────────────────
    SECTION WRAP / GRID
    ───────────────────────────────────────── */
-
-
-
 .hero-section-wrap {
   position: relative;
   z-index: 5;
   width: 100%;
   max-width: 1740px;
-  /* margin: 50px auto; */
 }
 
 .hero-grid {
@@ -145,22 +121,20 @@
   }
 }
 
-@media (min-width: 640px) and (max-height: 560px) and  (max-width:320px) {
-       .hero-grid {
-         display: grid;
-         grid-template-columns: 1fr 1fr;
-         align-items: center;
-         min-height: 0;
-         /* don't force a tall min-height on a short viewport */
-         padding-top: 24px;
-         padding-bottom: 24px;
-       }
-  
-       .hero-image-bleed {
-         width: clamp(160px, 28vh, 280px);
-         /* size off viewport height, not width */
-       }
-     }
+@media (min-width: 640px) and (max-height: 560px) and (max-width: 320px) {
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 0;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+
+  .hero-image-bleed {
+    width: clamp(160px, 28vh, 280px);
+  }
+}
 
 /* ══════════════════════════════════════════════════
    TEXT COLUMN
@@ -169,9 +143,6 @@
   position: relative;
   z-index: 10;
   width: 100%;
-  /* order matters on mobile: image first feels better once no scroll
-     indicator eats space below it — kept text-first per original markup,
-     just tightened the paddings so nothing feels like dead space */
   padding: 24px 18px 24px;
 }
 
@@ -224,62 +195,87 @@
   position: relative;
   width: 100%;
   max-width: 100%;
-}
-
-/* ── Eyebrow ── */
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--hero-navy-soft);
-  margin-bottom: 10px;
-}
-
-.hero-eyebrow-dash {
-  display: inline-block;
-  width: 18px;
-  height: 2px;
-  background: var(--hero-gold);
-  flex-shrink: 0;
+  /* stable min-heights prevent layout shift during slide transitions */
+  min-height: 380px;
 }
 
 @media (min-width: 480px) {
-  .hero-eyebrow {
-    gap: 10px;
-    font-size: 0.7rem;
-    margin-bottom: 14px;
-  }
-  .hero-eyebrow-dash {
-    width: 22px;
+  .hero-slide-panel {
+    min-height: 360px;
   }
 }
 
 @media (min-width: 640px) {
-  .hero-eyebrow {
-    font-size: 0.75rem;
-    margin-bottom: 18px;
+  .hero-slide-panel {
+    min-height: 320px;
   }
 }
 
-/* ── Heading ── */
-.hero-heading {
-  font-family: ui-serif, Georgia, "Times New Roman", serif;
-  /* lower floor so it doesn't feel oversized on 320-360px phones */
-  font-size: clamp(1.6rem, 1.25rem + 3.2vw, 3.6rem);
-  color: var(--hero-navy);
-  line-height: 1.18;
-  margin-bottom: 12px;
+@media (min-width: 768px) {
+  .hero-slide-panel {
+    min-height: 290px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-slide-panel {
+    min-height: 480px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .hero-slide-panel {
+    min-height: 440px;
+  }
+}
+
+/* ── Eyebrow: small pill chip ── */
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 8px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(20, 33, 61, 0.08);
+  font-family: var(--font-outfit);
+  font-size: 0.68rem;
   font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--hero-navy-soft);
+  margin-bottom: 18px;
+}
+
+.hero-eyebrow-dash {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--hero-gold);
+  color: #fff;
+  font-size: 0.6rem;
+  flex-shrink: 0;
+}
+
+/* ── Heading: serif display font, italic accent word ── */
+.hero-heading {
+  font-family: var(--font-fraunces);
+  font-weight: 500;
+  font-size: clamp(2.1rem, 1.3rem + 3.4vw, 4.1rem);
+  line-height: 1.08;
   letter-spacing: -0.01em;
+  color: var(--hero-navy);
+  margin-bottom: 12px;
   overflow-wrap: break-word;
   word-break: break-word;
 }
 
 .hero-heading-accent {
+  font-style: italic;
+  font-weight: 300;
   color: var(--hero-gold);
 }
 
@@ -297,8 +293,6 @@
 
 @media (min-width: 1024px) {
   .hero-heading {
-    font-size: clamp(3.375rem, 5vw, 4.5rem);
-    line-height: 1.04;
     max-width: 15ch;
     margin-bottom: 28px;
   }
@@ -306,6 +300,7 @@
 
 /* ── Description ── */
 .hero-description {
+  font-family: var(--font-outfit);
   font-size: clamp(0.85rem, 0.8rem + 0.3vw, 1.05rem);
   color: var(--hero-navy-soft);
   line-height: 1.6;
@@ -339,8 +334,6 @@
   margin-bottom: 22px;
 }
 
-/* Small + compact on phones — was full-width/56px tall, way too heavy
-   next to the phone link. Grows a little from 480px up. */
 .hero-book-btn-wrap {
   width: auto;
 }
@@ -351,7 +344,6 @@
   font-size: 0.8rem;
   padding-left: 16px;
   padding-right: 16px;
-  /* box-shadow: 0 8px 18px rgba(23, 51, 102, 0.16); */
 }
 
 .hero-phone-link {
@@ -370,7 +362,8 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: #eef3ff;
+  background: #ffffff;
+  border: 1px solid rgba(20, 33, 61, 0.08);
   color: var(--hero-navy);
   flex-shrink: 0;
 }
@@ -394,16 +387,12 @@
   white-space: nowrap;
 }
 
-/* From 480px there's enough room for button + phone side by side */
 @media (min-width: 480px) {
   .hero-cta-row {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     gap: 18px;
-  }
-  .hero-book-btn-wrap {
-    width: auto;
   }
   .hero-book-btn-wrap :where(a, button) {
     width: auto;
@@ -435,27 +424,19 @@
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  gap: 10px;
+  gap: 22px;
   margin-bottom: 20px;
   max-width: 100%;
 }
 
-@media (min-width: 375px) {
-  .hero-stats-row {
-    gap: 12px;
-  }
-}
-
 @media (min-width: 480px) {
   .hero-stats-row {
-    gap: 18px;
     margin-bottom: 28px;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-stats-row {
-    gap: 24px;
     margin-bottom: 20px;
   }
 }
@@ -468,18 +449,22 @@
 }
 
 .hero-stat strong {
-  font-size: clamp(0.85rem, 0.55rem + 1.6vw, 1.6rem);
+  font-family: var(--font-fraunces);
+  font-weight: 500;
+  font-size: clamp(1rem, 0.8rem + 0.9vw, 1.5rem);
   color: var(--hero-navy);
-  font-weight: 800;
   line-height: 1.1;
   white-space: nowrap;
-  /* tabular-nums keeps digit width fixed so the count-up doesn't jitter
-     the label layout as the numbers change */
+  /* tabular-nums keeps digit width fixed so count-up doesn't jitter layout */
   font-variant-numeric: tabular-nums;
 }
 
 .hero-stat span {
-  font-size: clamp(0.55rem, 0.45rem + 0.4vw, 0.78rem);
+  font-family: var(--font-outfit);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.62rem;
+  font-weight: 600;
   color: var(--hero-navy-soft);
   white-space: nowrap;
 }
@@ -487,7 +472,7 @@
 .hero-stat-divider {
   width: 1px;
   height: 22px;
-  background: rgba(23, 51, 102, 0.15);
+  background: rgba(20, 33, 61, 0.14);
   flex-shrink: 0;
 }
 
@@ -514,13 +499,28 @@
 }
 
 .hero-pg-dot {
+  position: relative;
   width: 8px;
   height: 8px;
+  padding: 0px 4px;
   border-radius: 50%;
-  background: rgba(23, 51, 102, 0.2);
+  background: rgba(20, 33, 61, 0.18);
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
+}
+
+/* accessible touch target padding — expands hit area without visual shift */
+.hero-pg-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
 }
 
 .hero-pg-dot.is-active {
@@ -533,7 +533,7 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: 1.5px solid rgba(23, 51, 102, 0.15);
+  border: 1.5px solid rgba(20, 33, 61, 0.12);
   background: #ffffff;
   color: var(--hero-navy);
   display: flex;
@@ -552,12 +552,13 @@
 }
 
 .hero-pg-arrow:hover {
-  background: #eef3ff;
+  background: var(--hero-paper);
 }
 
 /* ══════════════════════════════════════════════════
-   IMAGE COLUMN — bleeds to the section edge, no card
-   shadow, large circular frame with a thin halo ring.
+   IMAGE COLUMN — organic morphing frame with one quiet
+   ring echoing the background arc, and two floating
+   chips anchored fully on the image itself.
    ══════════════════════════════════════════════════ */
 .hero-image-col {
   position: relative;
@@ -565,8 +566,6 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  /* the old 76-88px bottom pad was leftover space for a scroll indicator
-     that no longer exists — dropped down to a normal section gap */
   padding: 8px 0 28px;
 }
 
@@ -584,92 +583,102 @@
 
 @media (min-width: 1024px) {
   .hero-image-col {
-    position: relative;
     width: auto;
     min-width: 0;
     justify-content: flex-end;
     align-self: stretch;
     padding: 0;
+    padding-right: clamp(24px, 4vw, 56px);
   }
 }
 
-.hero-image-bleed {
+/* ── Canvas ── */
+.hero-canvas {
   position: relative;
-  width: clamp(190px, 62vw, 300px);
-  aspect-ratio: 1 / 1;
-}
-
-@media (min-width: 375px) {
-  .hero-image-bleed {
-    width: clamp(210px, 60vw, 320px);
-  }
-}
-
-@media (min-width: 480px) {
-  .hero-image-bleed {
-    width: clamp(240px, 56vw, 360px);
-  }
+  width: clamp(200px, 65vw, 320px);
+  aspect-ratio: 4 / 5; /* Elegant portrait aspect ratio */
 }
 
 @media (min-width: 640px) {
-  .hero-image-bleed {
-    width: clamp(300px, 46vw, 400px);
-  }
-}
-
-@media (min-width: 768px) {
-  .hero-image-bleed {
-    width: clamp(320px, 40vw, 420px);
+  .hero-canvas {
+    width: clamp(300px, 45vw, 380px);
   }
 }
 
 @media (min-width: 1024px) {
-  .hero-image-bleed {
-    position: absolute;
-    top: 50%;
-    right: -2%;
-    left: auto;
-    bottom: auto;
-    transform: translateY(-50%);
-    width: clamp(420px, 34vw, 620px);
-    aspect-ratio: 1 / 1;
+  .hero-canvas {
+    position: relative;
+    margin-left: auto;
+    width: clamp(380px, 28vw, 560px);
   }
 }
 
 @media (min-width: 1280px) {
-  .hero-image-bleed {
-    width: clamp(460px, 32vw, 660px);
+  .hero-canvas {
+    width: clamp(410px, 26vw, 610px);
   }
 }
 
 @media (min-width: 1536px) {
-  .hero-image-bleed {
-    width: clamp(500px, 30vw, 700px);
+  .hero-canvas {
+    width: clamp(450px, 25vw, 650px);
   }
 }
 
-.hero-image-ring {
-  display: none;
+/* Ambient glow behind card — the only "atmosphere" layer left;
+   it does the depth work the old dot-grid/dashed-circle stack
+   used to do, with none of the visual noise. */
+.hero-canvas-glow {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  right: 10%;
+  bottom: 10%;
+  background: radial-gradient(circle, rgba(31, 111, 107, 0.16) 0%, rgba(232, 163, 61, 0.12) 60%, transparent 100%);
+  filter: blur(45px);
+  z-index: 0;
+  pointer-events: none;
 }
 
-.hero-image-frame {
+/* Signature ring — a single thin arc-toned outline that peeks
+   from behind the frame's soft corner. It's the same idea as the
+   background arc line, carried into the image column instead of
+   competing with it, so the whole section reads as one motif. */
+.hero-frame-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 40px 12px 40px 12px;
+  border: 1.5px solid rgba(31, 111, 107, 0.3);
+  transform: translate(14px, 16px);
+  z-index: 1;
+  pointer-events: none;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-canvas:hover .hero-frame-ring {
+  transform: translate(8px, 9px);
+}
+
+/* Main Image Frame with asymmetric modern rounded corners */
+.hero-main-frame {
   position: relative;
   z-index: 2;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
   overflow: hidden;
+  border-radius: 40px 12px 40px 12px;
+  border: 1px solid rgba(20, 33, 61, 0.08);
+  box-shadow: 0 24px 50px rgba(20, 33, 61, 0.12);
+  background: #ffffff;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (min-width: 1024px) {
-  .hero-image-frame {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
+.hero-canvas:hover .hero-main-frame {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 64px rgba(20, 33, 61, 0.16);
 }
 
+/* Active Slide Transitions */
 .hero-image-slide {
   position: absolute;
   inset: 0;
@@ -682,13 +691,161 @@
 }
 
 @keyframes heroFadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-canvas:hover .hero-frame-ring,
+  .hero-canvas:hover .hero-main-frame {
+    transform: none;
+  }
   .hero-image-slide {
     animation: none;
     opacity: 1;
+  }
+}
+
+/* ── Floating "Legacy" chip — anchored fully on the image now,
+   instead of overhanging the frame edge into empty space. ── */
+.hero-legacy-card {
+  position: absolute;
+  left: 6%;
+  bottom: 6%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 16px 36px rgba(20, 33, 61, 0.14),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-canvas:hover .hero-legacy-card {
+  transform: translateY(-3px);
+}
+
+.hero-legacy-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--hero-paper);
+  color: var(--hero-teal);
+  flex-shrink: 0;
+}
+
+.hero-legacy-card-text strong {
+  display: block;
+  font-family: var(--font-fraunces);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--hero-navy);
+  line-height: 1.15;
+}
+
+.hero-legacy-card-text span {
+  font-family: var(--font-outfit);
+  font-size: 0.7rem;
+  color: var(--hero-navy-soft);
+}
+
+/* ── Floating "Success rate" chip — same inset treatment, opposite corner ── */
+.hero-success-badge {
+  position: absolute;
+  right: 6%;
+  top: 6%;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 14px 30px rgba(20, 33, 61, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-family: var(--font-outfit);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--hero-teal);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-canvas:hover .hero-success-badge {
+  transform: translateY(3px);
+}
+
+.hero-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--hero-gold);
+  position: relative;
+}
+
+.hero-badge-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: var(--hero-gold);
+  animation: badgeDotPulse 2s infinite ease-out;
+}
+
+@keyframes badgeDotPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* ── Mobile Layout Adjustments ── */
+@media (max-width: 639px) {
+  .hero-legacy-card {
+    left: 5%;
+    bottom: 5%;
+    padding: 10px 14px;
+    gap: 9px;
+    border-radius: 14px;
+  }
+  .hero-legacy-card-icon {
+    width: 30px;
+    height: 30px;
+  }
+  .hero-legacy-card-text strong {
+    font-size: 0.85rem;
+  }
+  .hero-legacy-card-text span {
+    font-size: 0.6rem;
+  }
+
+  .hero-success-badge {
+    right: 5%;
+    top: 5%;
+    padding: 6px 12px;
+    font-size: 0.62rem;
+  }
+
+  .hero-frame-ring {
+    transform: translate(9px, 10px);
   }
 }

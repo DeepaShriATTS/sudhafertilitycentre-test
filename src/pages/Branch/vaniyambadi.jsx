@@ -1,191 +1,191 @@
 "use client";
-import React, { useState } from "react";
-import BgAbout from "@/assets/branch/ambatur/hospital.webp";
+// import React, { useState } from "react";
+// import BgAbout from "@/assets/branch/ambatur/hospital.webp";
 
-import Image from "next/image";
-import Button from "@/components/button";
-import SudhaAbout from "@/assets/branch/vellore/vellore_about.webp";
-import { motion } from "framer-motion";
-import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
-import Hospital from "@/assets/dummy-location.webp";
-import AYSWARIYA from "@/assets/branch/vellore/AYSWARIYA.webp";
-import Beatrice from "@/assets/dummy-image.webp";
-import ImageGrid from "@/components/imagegrid";
-import Buttonbottm from "@/components/button";
-import { MdArrowOutward, MdLocationOn } from "react-icons/md";
-import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
+// import Image from "next/image";
+// import Button from "@/components/button";
+// import SudhaAbout from "@/assets/branch/vellore/vellore_about.webp";
+// import { motion } from "framer-motion";
+// import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
+// import Hospital from "@/assets/dummy-location.webp";
+// import AYSWARIYA from "@/assets/branch/vellore/AYSWARIYA.webp";
+// import Beatrice from "@/assets/dummy-image.webp";
+// import ImageGrid from "@/components/imagegrid";
+// import Buttonbottm from "@/components/button";
+// import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+// import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
-import { IoCallOutline } from "react-icons/io5";
-import { AiTwotoneMail } from "react-icons/ai";
-import FAQItem from "@/components/accordion";
-import AppointmentForm from "@/components/appointmentForm";
-import Navbar from "@/components/branchNav";
-import ImageSlider from "@/components/imageSlider";
-import { MarqueeComponent } from "@/components/marqueeSlider";
-import { Ambattur, Vaniyambadi } from "@/middleware/imagesroute";
-import ScrollMotion from "@/components/animation/scrollMotion";
-import BranchForm from "@/components/branchForm";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
-import { CiLocationOn } from "react-icons/ci";
-import Link from "next/link";
+// import { IoCallOutline } from "react-icons/io5";
+// import { AiTwotoneMail } from "react-icons/ai";
+// import FAQItem from "@/components/accordion";
+// import AppointmentForm from "@/components/appointmentForm";
+// import Navbar from "@/components/branchNav";
+// import ImageSlider from "@/components/imageSlider";
+// import { MarqueeComponent } from "@/components/marqueeSlider";
+// import { Ambattur, Vaniyambadi } from "@/middleware/imagesroute";
+// import ScrollMotion from "@/components/animation/scrollMotion";
+// import BranchForm from "@/components/branchForm";
+// // import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+// import { CiLocationOn } from "react-icons/ci";
+// import Link from "next/link";
 import NotFound from "@/app/not-found";
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import dynamic from "next/dynamic";
-// Dynamic imports with same loading component
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
+// import LoadingSpinner from '@/components/ui/loadingSpinner';
+// import dynamic from "next/dynamic";
+// // Dynamic imports with same loading component
+// const InfiniteMovingCardsDemo = dynamic(
+//   () => import('@/components/review_Card/reviewCard'),
+//   { loading: () => <LoadingSpinner height="400px" /> }
+// );
 
 
 function VaniyambadiPage() {
-  const [visibleCount, setVisibleCount] = useState(5);
-  const [openIndex, setOpenIndex] = useState(null);
-  const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
+//   const [visibleCount, setVisibleCount] = useState(5);
+//   const [openIndex, setOpenIndex] = useState(null);
+//   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
 
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+//   const toggleFAQ = (index) => {
+//     setOpenIndex(openIndex === index ? null : index);
+//   };
 
-  const toggleViewMore = () => {
-    if (showAll) {
-      setVisibleCount(5); // Reset to initial count when showing less
-      setShowAll(false); // Properly toggle state
-    } else {
-      setVisibleCount(Vaniyambadi.faqs.length); // Show all FAQs
-      setShowAll(true); // Properly toggle state
-    }
-  };
-  const sections = [
-    { id: "about", label: "About" },
-    { id: "facilities", label: "Facilities" },
-    { id: "specialists", label: "Fertility Specialists" },
-    { id: "gallery", label: "Gallery" },
-    { id: "location", label: "Location" },
-  ];
+//   const toggleViewMore = () => {
+//     if (showAll) {
+//       setVisibleCount(5); // Reset to initial count when showing less
+//       setShowAll(false); // Properly toggle state
+//     } else {
+//       setVisibleCount(Vaniyambadi.faqs.length); // Show all FAQs
+//       setShowAll(true); // Properly toggle state
+//     }
+//   };
+//   const sections = [
+//     { id: "about", label: "About" },
+//     { id: "facilities", label: "Facilities" },
+//     { id: "specialists", label: "Fertility Specialists" },
+//     { id: "gallery", label: "Gallery" },
+//     { id: "location", label: "Location" },
+//   ];
 
-  const vellore = [
-    {
-      quote:
-        "Excellent Thanks for All Doctor's STAFFS & Sisters good Service All STAFFS & SISTERS and AISHWARYA madam.... I am Very Very Happy with Hospital. Everyone there is so nice Knowledgeable....     Have a good day 🐥🐥🐥🐥🐥🐥",
-      name: "Thilagavathy S",
-      title: "Patient",
-    },
-    {
-      quote:
-        "I visited many hospitals and spent lots of time and money but no success. A neighbour suggested sudha hospital Vellore. And now I am happy results. Thanks team",
-      name: "Preetha B",
-      title: "Patient",
-    },
-    {
-      quote:
-        "Today I visited in-house camp. Staffs very good approach. Dr explanation very clear. Thank you sudha",
-      name: "Kuppan Anjali",
-      title: "Patient",
-    },
-    {
-      quote:
-        "I am taking treatment in vellore sudha hospital. Treatment was good. staff and nurse good.Dr. Ayswariya mam was good caring I am very satisfied with this best IVF centre. I suggested this hospital for my friends &family",
-      name: "Revathi Sathyakumar",
-      title: "Patient",
-    },
-    {
-      quote:
-        "We have went for many fertility centre .but we didn't get success. After 5 years of my marriage life  now I am announcing that we got pregnant thank you Dr Aishwarya mam and all staff nurse and Admin sir  and  staff of sudha hospital Vellore . Thank you",
-      name: "Praveen Selvaraji",
-      title: "Patient",
-    },
-    {
-      quote:
-        "Very professional and vibrant atmosphere.doctors are very experienced and expert in this field and patient enough to hear and clear all our doubts . reception staffs very quick and well experienced. All the staffs are co operative.highly recommended for sudha fertility centre vellore.",
-      name: "Rollex",
-      title: "Patient",
-    },
-    {
-      quote:
-        "Today I visited sudha hospital Vellore. Dr ayswariya mam   and Dr devanayagi mam approach, treatment explanation very clear. I felt comfortable during my visit. I had wonderful experience",
-      name: "Sarala S",
-      title: "Patient",
-    },
-    {
-      quote:
-        "I have been married for 3 years and was trying to get pregnant, but all our efforts failed. Later, I heard about sudha fertility centre, Vellore and visited the centre few months back. Doctor explained all the treatments very clear.The team of vellore sudha treated me as their sister. I thank the entire team for the support through out my journey. Now I'm pregnant and I'm very happy to be a parent now. My entire family is celebrating sudha fertility centre, Vellore to give us the great joy. I'll definitely recommend the sudha fertility centre to all. Thank you so much to the entire team.",
-      name: "Ishwarya P",
-      title: "Patient",
-    },
-    {
-      quote:
-        "We visited sudha hospital vellore for myself.doctors are professional and experienced.the nursing staff and front office staffs are supportive and provide good treatment  and the hospital has  good hygiene  and sanitazion practices. Thanks lot.highly recommended",
-      name: "Manidevi Manidevi",
-      title: "Patient",
-    },
-    {
-      quote:
-        "Very good place for interlity treatment. Especially the mental support you get from the accomodation service. All the staff like.provide great  treatment and support and service. Especially IVF treatment is good Sudha fertility hospital available for any help. Really liked my stay here",
-      name: "Gayathri S",
-      title: "Patient",
-    },
-    {
-      quote:
-        "good service and excellent doctors and staffs this is my first time  came to hospital. I'm going to lot off fertility my frd refferal this hospital really is very good care and service Doctor clear explain to iui treatment and IVF treatment.",
-      name: "Divya E",
-      title: "Patient",
-    },
-    {
-      quote:
-        "I would recommend to Vellore sudha hospital .very good experience ,thanks to doctors , staff's & management .The best fertility centre in Vellore",
-      name: "Sivasripriya",
-      title: "Patient",
-    },
-    {
-      quote:
-        "Visited sudha hospital Vellore. Dr ayswariya was very friendly and the care given by entire team wasvery good . Best fertility center in Vellore I recommend sudha fertility center",
-      name: "Navanitham Rani",
-      title: "Patient",
-    },
-    {
-      quote:
-        "I came for my daughter treatment they really helped me a lot. Doctor and Nurses reception staff,Admin person all are heling me lot to contiue my daughters treatment . Thanks to sudha Vellore.",
-      name: "Pokkisham V",
-      title: "Patient",
-    },
-    {
-      quote:
-        "One of Best Fertility Centre in Vellore..  Patient care from Nursing Side and Staffs are behaving friendly.. Dr.Ayswariya mam Guiding me a clearly about the problems..The Quality of Service and response was good.  Cost is very cheap and compare to other Fertility Centres in Vellore .I was admitted for 2days in room. Infrastructure is good.",
-      name: "VinothKumar Rajasekaran",
-      title: "Patient",
-    },
-    {
-      quote:
-        "We have gone many places for infertility but we didn't get success but 5th year of marriage life now I'm announcing that we got pregnant and no word to say we gone under the treatment sudha hospital Vellore have treated in Good way and good care we are proud to say we are pregnant thank to sudha hospital Vellore, highly recommend.",
-      name: "Kumuda C",
-      title: "Patient",
-    },
-    {
-      quote:
-        "We visited sudha hospital vellore for my self. We really Happy with the sevice and staff helpingtendency. Its a great place to treatment for fertility.",
-      name: "Sarasu s Sarasu s",
-      title: "Patient",
-    },
-    {
-      quote:
-        "Doctors are  professional and experienced.the nursing staff  and front office staffs are  supportive and provide good treatment and the hospital has good hygiene and sanitization practices.hospital staff is courteous cooperative and helpful.once again thanks to sudha.highly recommended.",
-      name: "Vimal Raj",
-      title: "Patient",
-    },
-    {
-      quote:
-        "Dr. Ayswariya mam and her entire  team are all very professional and compassionate. We are grateful for all the attention ans care they provided. Sudha Fertility centre and team are amazing",
-      name: "Sura m",
-      title: "Patient",
-    },
-    {
-      quote:
-        "One of the Best Fertility Centre for Sudha Fertility Centre in vellore very we'll experienced Doctor available in this hospitals medicine took the Time Pharmacy staff both are nicely handle the patients nursing staffs also doing they are duty nicely staff all are approaching very well  ",
-      name: "Vagamudi mallika Mallika janaki",
-      title: "Patient",
-    },
-  ];
+//   const vellore = [
+//     {
+//       quote:
+//         "Excellent Thanks for All Doctor's STAFFS & Sisters good Service All STAFFS & SISTERS and AISHWARYA madam.... I am Very Very Happy with Hospital. Everyone there is so nice Knowledgeable....     Have a good day 🐥🐥🐥🐥🐥🐥",
+//       name: "Thilagavathy S",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "I visited many hospitals and spent lots of time and money but no success. A neighbour suggested sudha hospital Vellore. And now I am happy results. Thanks team",
+//       name: "Preetha B",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "Today I visited in-house camp. Staffs very good approach. Dr explanation very clear. Thank you sudha",
+//       name: "Kuppan Anjali",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "I am taking treatment in vellore sudha hospital. Treatment was good. staff and nurse good.Dr. Ayswariya mam was good caring I am very satisfied with this best IVF centre. I suggested this hospital for my friends &family",
+//       name: "Revathi Sathyakumar",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "We have went for many fertility centre .but we didn't get success. After 5 years of my marriage life  now I am announcing that we got pregnant thank you Dr Aishwarya mam and all staff nurse and Admin sir  and  staff of sudha hospital Vellore . Thank you",
+//       name: "Praveen Selvaraji",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "Very professional and vibrant atmosphere.doctors are very experienced and expert in this field and patient enough to hear and clear all our doubts . reception staffs very quick and well experienced. All the staffs are co operative.highly recommended for sudha fertility centre vellore.",
+//       name: "Rollex",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "Today I visited sudha hospital Vellore. Dr ayswariya mam   and Dr devanayagi mam approach, treatment explanation very clear. I felt comfortable during my visit. I had wonderful experience",
+//       name: "Sarala S",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "I have been married for 3 years and was trying to get pregnant, but all our efforts failed. Later, I heard about sudha fertility centre, Vellore and visited the centre few months back. Doctor explained all the treatments very clear.The team of vellore sudha treated me as their sister. I thank the entire team for the support through out my journey. Now I'm pregnant and I'm very happy to be a parent now. My entire family is celebrating sudha fertility centre, Vellore to give us the great joy. I'll definitely recommend the sudha fertility centre to all. Thank you so much to the entire team.",
+//       name: "Ishwarya P",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "We visited sudha hospital vellore for myself.doctors are professional and experienced.the nursing staff and front office staffs are supportive and provide good treatment  and the hospital has  good hygiene  and sanitazion practices. Thanks lot.highly recommended",
+//       name: "Manidevi Manidevi",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "Very good place for interlity treatment. Especially the mental support you get from the accomodation service. All the staff like.provide great  treatment and support and service. Especially IVF treatment is good Sudha fertility hospital available for any help. Really liked my stay here",
+//       name: "Gayathri S",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "good service and excellent doctors and staffs this is my first time  came to hospital. I'm going to lot off fertility my frd refferal this hospital really is very good care and service Doctor clear explain to iui treatment and IVF treatment.",
+//       name: "Divya E",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "I would recommend to Vellore sudha hospital .very good experience ,thanks to doctors , staff's & management .The best fertility centre in Vellore",
+//       name: "Sivasripriya",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "Visited sudha hospital Vellore. Dr ayswariya was very friendly and the care given by entire team wasvery good . Best fertility center in Vellore I recommend sudha fertility center",
+//       name: "Navanitham Rani",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "I came for my daughter treatment they really helped me a lot. Doctor and Nurses reception staff,Admin person all are heling me lot to contiue my daughters treatment . Thanks to sudha Vellore.",
+//       name: "Pokkisham V",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "One of Best Fertility Centre in Vellore..  Patient care from Nursing Side and Staffs are behaving friendly.. Dr.Ayswariya mam Guiding me a clearly about the problems..The Quality of Service and response was good.  Cost is very cheap and compare to other Fertility Centres in Vellore .I was admitted for 2days in room. Infrastructure is good.",
+//       name: "VinothKumar Rajasekaran",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "We have gone many places for infertility but we didn't get success but 5th year of marriage life now I'm announcing that we got pregnant and no word to say we gone under the treatment sudha hospital Vellore have treated in Good way and good care we are proud to say we are pregnant thank to sudha hospital Vellore, highly recommend.",
+//       name: "Kumuda C",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "We visited sudha hospital vellore for my self. We really Happy with the sevice and staff helpingtendency. Its a great place to treatment for fertility.",
+//       name: "Sarasu s Sarasu s",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "Doctors are  professional and experienced.the nursing staff  and front office staffs are  supportive and provide good treatment and the hospital has good hygiene and sanitization practices.hospital staff is courteous cooperative and helpful.once again thanks to sudha.highly recommended.",
+//       name: "Vimal Raj",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "Dr. Ayswariya mam and her entire  team are all very professional and compassionate. We are grateful for all the attention ans care they provided. Sudha Fertility centre and team are amazing",
+//       name: "Sura m",
+//       title: "Patient",
+//     },
+//     {
+//       quote:
+//         "One of the Best Fertility Centre for Sudha Fertility Centre in vellore very we'll experienced Doctor available in this hospitals medicine took the Time Pharmacy staff both are nicely handle the patients nursing staffs also doing they are duty nicely staff all are approaching very well  ",
+//       name: "Vagamudi mallika Mallika janaki",
+//       title: "Patient",
+//     },
+//   ];
 
   return (
     <>

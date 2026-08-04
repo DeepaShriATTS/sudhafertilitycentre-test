@@ -10,39 +10,45 @@ const nextConfig = {
         protocol: "https",
         hostname: "img.youtube.com",
       },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "i3.ytimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "ship-crm-img.s3.eu-north-1.amazonaws.com",
+      },
     ],
-    // Tuned to match actual sizes= attributes in use:
-    //   hero bg   → 100vw  (max real viewport: 1536px)
-    //   hero blob → 42vw at 1024–1536px, 100vw below
-    //   thumbs    → 33vw / 50vw / 100vw
-    // Removing the default 2048 / 3840 stops Next.js from generating
-    // variants that are never requested by any <Image sizes="..."> on the site.
+
     deviceSizes: [375, 414, 640, 768, 1024, 1280, 1536],
     imageSizes: [16, 32, 64, 128, 256, 384, 512, 645],
     formats: ["image/avif", "image/webp"],
-    // Cache optimized images on CDN for 30 days (default is 60 s)
+
     minimumCacheTTL: 2592000,
   },
   experimental: {
     optimizeCss: true,
-    // Inline CSS into HTML → eliminates render-blocking CSS waterfall (saves ~400ms FCP)
-    // Trade-off: HTML is slightly larger; returning visitors re-download CSS with each HTML.
-    // If TTFB regression appears, remove this flag.
+
     inlineCss: true,
     optimizePackageImports: [
       "swiper",
       "lucide-react",
       "react-icons",
       "framer-motion",
+        "react-leaflet",
     ],
   },
   compiler: {
-    // Remove console.log in production but keep console.error
+
     removeConsole: process.env.NODE_ENV === 'production'
       ? { exclude: ['error', 'warn'] }
       : false,
   },
-  
+
   async headers() {
     return [
       // Long-lived cache for immutable Next.js static assets
@@ -121,7 +127,7 @@ const nextConfig = {
     return config;
   },
   turbopack: {},
- 
+
 };
 
 const withBundleAnalyzer = bundleAnalyzer({

@@ -3,23 +3,24 @@
 import AmbatturPage from '@/pages/Branch/ambattur'
 import React from 'react'
 import Script from "next/script";
-import Head from 'next/head';
 
 
 export const metadata = {
   title: "Best Fertility Centre in Ambattur - Sudha Fertility Centre",
   description: "Experience family milestones at Sudha Fertility Centre in Ambattur, where advanced IVF & IUI pair with patient care. Schedule a visit today",
-  keywords: "Fertility Centre in Ambattur"
+  keywords: "Fertility Centre in Ambattur",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-ambattur",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-ambattur",
+    },
+  },
 };
 
 
 
-function page() {
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-ambattur" hreflang="en-in" />
-
-  </Head>
-  return (
+export default function page() {
+    return (
     <>
 
       <Script
@@ -210,4 +211,3 @@ function page() {
 }
 
 
-export default page

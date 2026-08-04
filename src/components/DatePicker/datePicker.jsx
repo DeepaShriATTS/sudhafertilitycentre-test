@@ -108,7 +108,7 @@ const CalendarGrid  = ({
 
       <div className="grid grid-cols-7 mb-1">
         {DAYS.map((d) => (
-          <div key={d} className="text-center text-[10px] font-medium text-neutral-400 uppercase tracking-wide py-1">
+          <div key={d} className="text-center text-[10px] font-medium text-neutral-500 uppercase tracking-wide py-1">
             {d}
           </div>
         ))}
@@ -306,7 +306,7 @@ const DateInput = ({
               : "border-[#B1B2B3] hover:border-neutral-400 bg-white",
       ].join(" ")}
     >
-      <span className={value ? "text-neutral-800" : "text-neutral-400"}>
+      <span className={value ? "text-neutral-800" : "text-neutral-500"}>
         {value ? formatDate(value) : "DD/MM/YYYY"}
       </span>
       <span className="ml-auto">

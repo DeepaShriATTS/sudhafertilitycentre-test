@@ -16,10 +16,21 @@ import Hysteroscopy from "@/assets/Treatments/Hysteroscopy.svg";
 import Intrauterine from "@/assets/Treatments/Intrauterine.svg";
 import Intracytoplasmic from "@/assets/Treatments/Intracytoplasmic.svg";
 import Image from "next/image";
-import { MarqueeComponent } from "@/components/marqueeSlider";
+
 import { Ambattur } from "@/middleware/imagesroute";
-import { motion } from "framer-motion";
+
 import Script from "next/script";
+
+import dynamic from "next/dynamic";
+import { Homevideos } from "@/middleware/videosRoute";
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
+
+
+const GallerySlider = dynamic(
+  () => import('@/components/videoCard/videoPlaylistSlider'),
+  { loading: () => <VideoSkeletonRow count={3} /> }
+);
+
 export default function Thankyou() {
   return (
     <div>
@@ -429,30 +440,9 @@ export default function Thankyou() {
         </div>
       </div>
 
-      {/* MarqueeComponent */}
       <section className="mt-[70px] lg:mt-[100px] mb-[70px] lg:mb-[100px]">
-        {/* <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        />
-        {/* <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
-          <h2 className="text-2xl font-bold text-center ">
-            Childless Couples to Happy Parents
-          </h2>
-          <Button text="Watch on Youtube " />
-        </div> */}
-        {/* <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
-        {/* </div>
-          </div> */}
+       
+        <GallerySlider items={Homevideos} />
       </section>
     </div>
   );

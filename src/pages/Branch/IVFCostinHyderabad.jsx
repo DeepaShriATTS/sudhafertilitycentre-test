@@ -1,35 +1,41 @@
 "use client";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-import Calendar from "@/assets/branch/ambatur/callender.svg";
 import Image from "next/image";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/hyderabad/hyderabad_about.webp";
 import { motion } from "framer-motion";
-import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
+
 import Hospital from "@/assets/branch/hyderabad/Hyderabad.webp";
-import Pranitha from "@/assets/branch/hyderabad/pranitha-reshmi.webp";
+
 import ImageGrid from "@/components/imagegrid";
-import Buttonbottm from "@/components/button";
-import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+
+import {  MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
-import { MarqueeComponent } from "@/components/marqueeSlider";
+
 import { IVFCostinHyderabadfaq } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
 // import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
+import { hyderabadVideos } from "@/middleware/videosRoute";
 import LoadingSpinner from '@/components/ui/loadingSpinner';
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
 import dynamic from "next/dynamic";
 // Dynamic imports with same loading component
 const InfiniteMovingCardsDemo = dynamic(
   () => import('@/components/review_Card/reviewCard'),
   { loading: () => <LoadingSpinner height="400px" /> }
+);
+
+const GallerySlider = dynamic(
+  () => import('@/components/videoCard/videoPlaylistSlider'),
+  { loading: () => <VideoSkeletonRow count={3} /> }
 );
 
 function IVFCostinHyderabad() {
@@ -911,33 +917,7 @@ function IVFCostinHyderabad() {
       </div>
 
       <section>
-        {/* <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
-          items={IVFCostinHyderabadfaq.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        />
-        {/* <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
-          <h3 className=" font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm
-            text="Watch on Youtube"
-            link="https://www.youtube.com/@sudhafertilitycentre"
-          />
-        </div> */}
-
-        {/* <MarqueeComponent
-          items={IVFCostinHyderabadfaq.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
-
-        {/* </div>
-          </div> */}
+       <GallerySlider items={hyderabadVideos} />
       </section>
     </>
   );

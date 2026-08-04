@@ -1,6 +1,5 @@
 import React from "react";
 import Script from "next/script";
-import Head from "next/head";
 import IUITreatmentHyderabad from "@/pages/Branch/IUITreatmentinHyderabad";
 
 export const metadata = {
@@ -10,16 +9,15 @@ export const metadata = {
     "Sudha Fertility Centre offers expert IUI treatment in Hyderabad with high success rates. Affordable, minimally invasive fertility treatment for eligible couples. Book FREE consultation.",
   keywords:
     "IUI treatment in Hyderabad ,IUI procedure Hyderabad ,IUI vs IVF which is better ,intrauterine insemination Hyderabad ,IUI success rate Hyderabad ,how many IUI cycles before IVF ,IUI clinic Hyderabad ,IUI cost in Hyderabad ,who is eligible for IUI treatment ,best IUI centre Hyderabad ,IUI treatment process India ,IUI treatment near me ,IUI specialist Hyderabad ,IUI for unexplained infertility ,IUI with donor sperm Hyderabad ",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/iui-treatment-in-hyderabad",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/iui-treatment-in-hyderabad",
+    },
+  },
 };
 export default function page() {
-  <Head>
-    <link
-      rel="alternate"
-      href="https://sudhafertilitycentre.com/iui-treatment-in-hyderabad"
-      hreflang="en-in"
-    />
-  </Head>;
-
+  
   return (
     <div>
       <Script

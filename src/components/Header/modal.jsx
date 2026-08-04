@@ -7,13 +7,15 @@ import { branches } from "../footer/footer";
 import { MdArrowOutward } from "react-icons/md";
 import SuccessMessage from "../SuccessMessage";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 // import DatePicker from "./DatePicker/datePicker";
 import { SlClose } from "react-icons/sl";
 import { fetchBranchList } from "@/lib/api/branches";
 import { apiClient } from "@/lib/axios/instance";
 import { cleanPhone } from "@/lib/utility";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useKeyboardShortcut } from "@/hooks/useKeyboardShortcut";
+
 
 const Modals = ({ isOpen, onClose }) => {
   const [successMessage, setSuccessMessage] = useState(false);
@@ -68,6 +70,12 @@ const Modals = ({ isOpen, onClose }) => {
     }
   };
 
+  const modalRef = useRef(null);
+
+  // Set up keyboard accessibility
+  useFocusTrap(modalRef, isOpen);
+  useKeyboardShortcut("Escape", onClose, isOpen);
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -96,6 +104,10 @@ const Modals = ({ isOpen, onClose }) => {
           exit={{ opacity: 0 }}
         >
           <motion.div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
             className="bg-white p-6 rounded-3xl shadow-lg w-[100%] md:w-[34%]"
             initial={{ scale: 0.8, opacity: 0 }} // Start small & invisible
             animate={{ scale: 1, opacity: 1 }} // Scale up & fade in
@@ -103,17 +115,26 @@ const Modals = ({ isOpen, onClose }) => {
             transition={{ duration: 0.3, ease: "easeInOut" }} // Smooth transition
           >
             {/* Header Animation */}
-            <div className="flex justify-between">
+            <div className="flex justify-between items-start">
               <motion.h3
-                className="font-semibold  mb-4"
+                id="modal-title"
+                className="font-semibold mb-4"
                 initial={{ opacity: 0, y: -20 }} // Start off-screen
                 animate={{ opacity: 1, y: 0 }} // Fade and slide into place
                 transition={{ duration: 0.5 }}
               >
                 Ready to Start Your Journey to <br /> Meet Your Little One?
               </motion.h3>
-              <SlClose onClick={onClose} size={30} className="text-[#061C3D]" />
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close modal"
+                className="text-[#061C3D] hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-[#173366] rounded-md p-1 min-h-[44px] flex items-center justify-center transition-opacity"
+              >
+                <SlClose size={30} aria-hidden="true" />
+              </button>
             </div>
+
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <input type="hidden" name="formType" value="Appointment" />

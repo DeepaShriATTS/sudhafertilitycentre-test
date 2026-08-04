@@ -2,21 +2,21 @@
 import TrichyPage from '@/pages/Branch/trichy'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 export const metadata = {
   title: "Best Fertility Centre in Trichy - Sudha Fertility Centre",
   description: "With empathetic specialists and modern IVF & IUI treatments, Sudha Fertility Centre in Trichy stands as the top choice. Call to consult.",
-  keywords: "Fertility Centre in Trichy"
+  keywords: "Fertility Centre in Trichy",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-trichy",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-trichy",
+    },
+  },
 };
 
 export default function page() {
 
-  <Head>
-
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-trichy" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
 

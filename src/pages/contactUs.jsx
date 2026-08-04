@@ -1,28 +1,27 @@
 "use client";
 import React from "react";
 import Banner from "@/assets/contact-us/Banner.webp";
-import Insta from "@/assets/Home/insta.svg";
-import Linkedin from "@/assets/Home/linkedin.svg";
-import youtube from "@/assets/Home/youtube.svg";
-import x from "@/assets/Home/x.svg";
-import fb from "@/assets/Home/fb.svg";
+
 import Image from "next/image";
-import { MdArrowOutward } from "react-icons/md";
+
 import WriteToUs from "@/assets/contact-us/WriteToUs.svg";
-import ForOurPatients from "@/assets/contact-us/ForOurPatients.svg";
-import Book from "@/assets/contact-us/Book.svg";
-import Queries from "@/assets/contact-us/Queries.svg";
+
 import ChatSupport from "@/assets/contact-us/ChatSupport.svg";
 import Donor from "@/assets/contact-us/Donor.svg";
 import SubBanner from "@/assets/contact-us/SubBanner.webp";
-import { MarqueeComponent } from "@/components/marqueeSlider";
-import { FaYoutube } from "react-icons/fa";
-import Button from "@/components/button/button";
-import { Ambattur } from "@/middleware/imagesroute";
 import BookingButton from "@/components/button/bookingButton";
-import ContactForm from "@/components/contact/contactForm";
-import Buttonbottm from "@/components/button";
+
 import ContactAppointmentForm from "@/components/contact/contactappointment";
+import dynamic from "next/dynamic";
+import { Homevideos } from "@/middleware/videosRoute";
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
+
+
+const GallerySlider = dynamic(
+  () => import('@/components/videoCard/videoPlaylistSlider'),
+  { loading: () => <VideoSkeletonRow count={3} /> }
+);
+
 
 function ContactUs() {
   return (
@@ -270,30 +269,9 @@ function ContactUs() {
         </div>
       </div>
 
-      {/* MarqueeComponent */}
       <section className="mt-[70] md:mt-[100px] mb-[70] md:mb-[100px]">
-        {/* <div className="container mx-auto">
-          <div className=" mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        />
-        {/* <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
-          <h3 className=" font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div> */}
-        {/* <MarqueeComponent
-              items={Ambattur.gallery}
-              direction="right"
-              speed="fast"
-              className="custom-class"
-            /> */}
-        {/* </div>
-        </div> */}
+       <GallerySlider items={Homevideos} />
+        
       </section>
     </>
   );

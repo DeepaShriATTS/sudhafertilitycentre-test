@@ -1,0 +1,514 @@
+/* ══════════════════════════════════════════════════
+   HEADER / NAV — v2
+   Signature: a segmented floating cluster (logo chip /
+   nav pill / action chip) instead of one flat bar — plus
+   a heartbeat-trace underline on links, echoing the
+   pulse-ring motif already used on the phone/WhatsApp FABs.
+   ══════════════════════════════════════════════════ */
+
+:root {
+  --nav-navy: #14213d;
+  --nav-navy-soft: rgba(20, 33, 61, 0.6);
+  --nav-gold: #e8a33d;
+  --nav-paper: #fbf7f1;
+  --nav-hairline: rgba(20, 33, 61, 0.09);
+  --nav-shadow: 0 12px 30px rgba(20, 33, 61, 0.1);
+}
+
+/* Kill the old single-pill header — the shell is now just a
+   positioning context for the three chips inside it. */
+.navx-shell {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fbf7f1;
+  transition: background 0.35s ease, box-shadow 0.35s ease, padding 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .navx-shell {
+    padding: 18px 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navx-shell {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 20px 40px;
+  }
+
+  .navx-chip-nav {
+    justify-self: center;
+  }
+}
+
+.navx-shell--scrolled {
+ background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  box-shadow: var(--nav-shadow);
+  padding: 0 16px;
+}
+
+@media (min-width: 640px) {
+  .navx-shell--scrolled { padding: 0 24px; }
+}
+
+@media (min-width: 1024px) {
+  .navx-shell--scrolled { padding: 0 32px; }
+}
+
+.navx-chip {
+  background: transparent;
+  border: 1px solid transparent;
+  box-shadow: none;
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.navx-shell--scrolled .navx-chip {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-radius: 0;
+}
+
+/* ── logo chip ── */
+.navx-chip-logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  width: 116px;
+}
+
+@media (min-width: 1024px) {
+  .navx-chip-logo {
+    width: 148px;
+    padding: 9px 18px;
+  }
+}
+
+.navx-logo-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.navx-logo-link:hover,
+.navx-logo-link:focus-visible {
+  transform: scale(1.04);
+}
+
+.navx-logo-link:focus-visible {
+  outline: 2px solid var(--nav-gold);
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+/* ── center nav pill (desktop only) ── */
+.navx-chip-nav {
+  display: none;
+}
+
+.navx-shell--scrolled .navx-chip-logo,
+.navx-shell--scrolled .navx-chip-nav,
+.navx-shell--scrolled .navx-chip-actions {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+
+@media (min-width: 1024px) {
+  .navx-chip-nav {
+    display: flex;
+    align-items: center;
+    border-radius: 999px;
+    padding: 4px 6px;
+  }
+}
+
+.navx-nav-list {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.navx-link {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 9px 16px 6px;
+  border-radius: 999px;
+  color: var(--nav-navy);
+  font-family: var(--font-outfit);
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  outline: none;
+  transition: background 0.2s ease;
+}
+
+.navx-link:hover,
+.navx-link:focus-visible,
+.navx-link--active {
+  background: var(--nav-paper);
+}
+
+.navx-link:focus-visible {
+  outline: 2px solid var(--nav-gold);
+  outline-offset: -1px;
+}
+
+.navx-link-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.navx-caret {
+  transition: transform 0.25s ease;
+  opacity: 0.55;
+}
+
+.navx-link--open .navx-caret {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* heartbeat trace */
+.navx-pulse {
+  display: block;
+  width: 26px;
+  height: 7px;
+  overflow: visible;
+}
+
+.navx-pulse path {
+  fill: none;
+  stroke: var(--nav-gold);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 70;
+  stroke-dashoffset: 70;
+  transition: stroke-dashoffset 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navx-link:hover .navx-pulse path,
+.navx-link:focus-visible .navx-pulse path,
+.navx-link--active .navx-pulse path {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navx-pulse path,
+  .navx-logo-link {
+    transition: none;
+  }
+}
+
+/* ── action chip (phone / CTA / mobile trigger) ── */
+.navx-chip-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .navx-chip-actions {
+    padding: 8px 8px 8px 20px;
+  }
+}
+
+.navx-phone {
+  display: none;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--nav-navy-soft);
+  white-space: nowrap;
+}
+
+.navx-phone strong {
+  color: var(--nav-navy);
+  font-weight: 700;
+}
+
+@media (min-width: 1280px) {
+  .navx-phone {
+    display: inline-flex;
+  }
+}
+
+.navx-cta-pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: var(--nav-navy);
+  color: #fff;
+  font-family: var(--font-outfit);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: background 0.25s ease, transform 0.25s ease, letter-spacing 0.25s ease;
+}
+
+.navx-cta-pill:hover,
+.navx-cta-pill:focus-visible {
+  background: #0c1730;
+  transform: translateY(-1px);
+}
+
+.navx-cta-pill .navx-cta-arrow {
+  transition: transform 0.25s ease;
+}
+
+.navx-cta-pill:hover .navx-cta-arrow {
+  transform: translateX(3px);
+}
+
+.navx-mobile-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--nav-navy);
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .navx-mobile-trigger {
+    display: none;
+  }
+}
+
+.navx-utility-link {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .navx-utility-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--nav-navy);
+    padding: 8px 4px;
+    white-space: nowrap;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   DROPDOWN PANELS
+   ══════════════════════════════════════════════════ */
+.navx-panel {
+  background: #ffffff;
+  border: 1px solid var(--nav-hairline);
+  border-radius: 20px;
+  box-shadow: 0 22px 48px rgba(20, 33, 61, 0.16);
+  overflow: hidden;
+}
+
+.navx-panel-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--nav-navy-soft);
+}
+
+.navx-panel-eyebrow::before {
+  content: "";
+  width: 14px;
+  height: 2px;
+  background: var(--nav-gold);
+  flex-shrink: 0;
+}
+
+.navx-panel-item {
+  position: relative;
+  display: block;
+  padding: 9px 20px 9px 26px;
+  font-size: 14.5px;
+  color: var(--nav-navy);
+  transition: background 0.18s ease, padding-left 0.18s ease;
+}
+
+.navx-panel-item::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--nav-gold);
+  transform: translateY(-50%) scale(0);
+  transition: transform 0.18s ease;
+}
+
+.navx-panel-item:hover,
+.navx-panel-item:focus-visible {
+  background: var(--nav-paper);
+  padding-left: 30px;
+}
+
+.navx-panel-item:hover::before,
+.navx-panel-item:focus-visible::before {
+  transform: translateY(-50%) scale(1);
+}
+
+.navx-panel-state-row {
+  border-top: 1px solid var(--nav-hairline);
+}
+.navx-panel-state-row:first-child {
+  border-top: none;
+}
+
+/* ══════════════════════════════════════════════════
+   MOBILE DRAWER
+   ══════════════════════════════════════════════════ */
+.navx-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--nav-hairline);
+}
+
+.navx-drawer-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--nav-paper);
+  color: var(--nav-navy);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.navx-drawer-close:hover,
+.navx-drawer-close:focus-visible {
+  background: var(--nav-navy);
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.navx-drawer-row {
+  border-bottom: 1px solid var(--nav-hairline);
+  opacity: 0;
+  transform: translateX(14px);
+  animation: navxRowIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.mobile-menu-drawer:not(.mobile-menu-drawer--open) .navx-drawer-row {
+  animation: none;
+  opacity: 0;
+}
+
+.navx-drawer-state-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  color: var(--nav-navy);
+  text-align: left;
+}
+
+.navx-drawer-branch-link {
+  padding-left: 24px; 
+}
+
+@keyframes navxRowIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.navx-drawer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--nav-navy);
+}
+
+.navx-drawer-link--active::after {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--nav-gold);
+}
+
+.navx-drawer-sub {
+  background: var(--nav-paper);
+  border-radius: 12px;
+  margin: 0 0 10px;
+  padding: 4px 6px;
+}
+
+.navx-drawer-sub-link {
+  display: block;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--nav-navy-soft);
+  border-radius: 8px;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.navx-drawer-sub-link:hover,
+.navx-drawer-sub-link:focus-visible {
+  background: #fff;
+  color: var(--nav-navy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navx-drawer-row {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+  .navx-drawer-close {
+    transition: none;
+  }
+}

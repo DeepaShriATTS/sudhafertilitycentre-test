@@ -287,7 +287,7 @@ export const chilakaluripet = [
   {
     id: 3,
     videoUrl: "https://www.youtube.com/playlist?list=PLdN42FR9d9LU",
-    firstVideoUrl: "hhttps://youtu.be/iuxBTa5oWJw?si=aYidGsfNt9oo1io4",
+    firstVideoUrl: "https://youtu.be/iuxBTa5oWJw?si=aYidGsfNt9oo1io4",
     // videoUrl: "https://youtu.be/31pzOTqJx7Y?si=fQJCLA-vf8pvL1Ez",
     title: "Our IUI Success – A Dream Come True",
     description:

@@ -2,20 +2,21 @@
 import AttapurPage from '@/pages/Branch/attapur'
 import React from 'react'
 import Script from "next/script";
-import Head from 'next/head';
 
 export const metadata = {
   title: "Best Fertility Centre in Attapur - Sudha Fertility Centre",
   description: "Sudha Fertility Centre in Attapur provides specialised care and expert IVF & IUI treatments to achieve your parenthood dream. Book a slot.",
-  keywords: "Fertility Centre in Attapur"
+  keywords: "Fertility Centre in Attapur",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-attapur",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-attapur",
+    },
+  },
 };
 
 function page() {
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-attapur" hreflang="en-in" />
-
-  </Head>
-
+  
 
   return (
     <>

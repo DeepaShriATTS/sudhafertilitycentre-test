@@ -2,7 +2,6 @@
 import RamanathapuramPage from '@/pages/Branch/ramanathapuram'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 
 
@@ -11,14 +10,16 @@ export const metadata = {
   title: "Best Fertility Centre in Ramanathapuram - Sudha Fertility Centre",
   description: "Expect the best at Sudha Fertility Centre in Ramanathapuram, offering tailored IVF & IUI treatments and trusted guidance. Schedule a visit.",
   keywords: "Fertility Centre in Ramanathapuram",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-ramanathapuram",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-ramanathapuram",
+    },
+  },
 };
 
 export default function page() {
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-ramanathapuram" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
 

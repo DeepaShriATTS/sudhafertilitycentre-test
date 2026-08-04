@@ -1,6 +1,5 @@
 import React from "react";
 import Script from "next/script";
-import Head from "next/head";
 import KallakurichiPage from "@/pages/Branch/kallakurichi";
 
 export const metadata = {
@@ -8,17 +7,16 @@ export const metadata = {
   description:
     "Choosing Sudha Fertility Centre in Kallakurichi ensures you receive innovative IVF & IUI treatments and trusted care. Reserve your slot.",
   keywords:
-    "Fertility Centre in Kallakurichi"
+    "Fertility Centre in Kallakurichi",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-kallakurichi",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-kallakurichi",
+    },
+  },
 };
 export default function page() {
-  <Head>
-    <link
-      rel="alternate"
-      href="https://sudhafertilitycentre.com/fertility-centre-in-kallakurichi"
-      hreflang="en-in"
-    />
-  </Head>;
-
+  
   return (
     <div>
       <Script

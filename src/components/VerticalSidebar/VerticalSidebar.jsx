@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { FaWhatsapp, FaChevronUp } from "react-icons/fa";
 import { IoCall } from "react-icons/io5";
-import Link from "next/link";
-import RequestCallModal from "../Header/modal";
+import dynamic from "next/dynamic";
 
-// framer-motion removed — scroll-to-top uses CSS @keyframes instead.
-// This keeps framer-motion out of the synchronous layout bundle, lowering TBT.
+const RequestCallModal = dynamic(() => import("../Header/modal"), { ssr: false });
+
 
 export default function VerticalSidebar() {
   const [mounted, setMounted] = useState(false);

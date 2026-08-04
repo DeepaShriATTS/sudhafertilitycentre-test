@@ -1,0 +1,11 @@
+# Target modern evergreen browsers only.
+# This prevents Next.js/SWC from emitting unnecessary ES5/ES6 polyfills
+# (Array.at, flat, flatMap, Object.fromEntries, Object.hasOwn,
+#  String.trimStart, String.trimEnd) that waste ~641 KiB of JS budget.
+last 2 Chrome versions
+last 2 Firefox versions
+last 2 Safari versions
+last 2 Edge versions
+last 2 Opera versions
+not dead
+not IE 11

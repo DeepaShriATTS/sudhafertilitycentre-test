@@ -5,6 +5,7 @@ import { LuStethoscope, LuMicroscope, LuClipboardList, LuHeartPulse, LuChevronDo
 import { GiBabyFace } from "react-icons/gi";
 import BookingButton from "@/components/button/bookingButton";
 import { IVFProcessTimelineSkeleton } from "../loaders/ReviewCardSkeleton";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 const steps = [
   {
@@ -53,40 +54,48 @@ export default function IVFProcessTimeline() {
   const [expanded, setExpanded] = useState({});
   const [overflowing, setOverflowing] = useState({});
   const descRefs = useRef({});
+
+  // FIX H-4: Replaced window.innerWidth + mounted state pattern.
+  // useMediaQuery starts false on server/hydration, preventing mismatch.
+  // Shows skeleton for the first render cycle until the hook syncs.
+  const isMobile = useMediaQuery("(max-width: 767px)");
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const mql = window.matchMedia("(max-width: 768px)");
-    setIsMobile(mql.matches);
-    const handler = (e) => setIsMobile(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
   }, []);
 
   const toggle = (id) => {
     setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const measure = useCallback(() => {
-    const next = {};
+  useEffect(() => {
+    if (!mounted) return;
+
+    const resizeObserver = new ResizeObserver(() => {
+      window.requestAnimationFrame(() => {
+        const next = {};
+        steps.forEach((step) => {
+          const el = descRefs.current[step.id] || descRefs.current[`m-${step.id}`];
+          if (el) {
+            next[step.id] = el.scrollHeight > el.clientHeight + 1;
+          }
+        });
+        setOverflowing(next);
+      });
+    });
+
     steps.forEach((step) => {
       const el = descRefs.current[step.id];
-      if (el) {
-        // measure against a temporary clamp state by checking scrollHeight vs a 4-line cap
-        next[step.id] = el.scrollHeight > el.clientHeight + 1;
-      }
+      const mel = descRefs.current[`m-${step.id}`];
+      if (el) resizeObserver.observe(el);
+      if (mel) resizeObserver.observe(mel);
     });
-    setOverflowing(next);
-  }, []);
 
-  useLayoutEffect(() => {
-    if (!mounted) return;
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [measure, mounted]);
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [mounted, isMobile]);
 
   if (!mounted) {
     return <IVFProcessTimelineSkeleton />;
@@ -96,10 +105,12 @@ export default function IVFProcessTimeline() {
     <div className="max-w-7xl mx-auto">
       {/* Header */}
       <div className="text-center mb-5">
-        <p className="text-[#173366] text-xs font-semibold tracking-[0.2em] uppercase mb-2 md:mb-3">
-          Step by step
-        </p>
-        <p className="text-gray-600 text-sm md:text-base">
+          <h3 className="font-outfit font-semibold">
+               Step by step
+              <span className="lg:block"></span>
+            </h3>
+       
+          <p className="text-gray-600 text-center mt-2">
           Every step carefully managed to maximise your chance of success
         </p>
       </div>

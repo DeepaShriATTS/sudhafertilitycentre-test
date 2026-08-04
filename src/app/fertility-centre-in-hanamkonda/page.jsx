@@ -1,7 +1,6 @@
 
 import React from "react";
 import Script from "next/script";
-import Head from "next/head";
 import HanamkondaPage from "@/pages/Branch/hanamkonda";
 
 export const metadata = {
@@ -9,17 +8,16 @@ export const metadata = {
   description:
     "Reaching family milestones is easier with Sudha Fertility Centre in Hanamkonda, bringing modern IVF & IUI labs close to home. Book a slot.",
     keywords:
-    "Fertility Centre in Hanamkonda"
-  };
+    "Fertility Centre in Hanamkonda",
+    alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-hanamkonda",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-hanamkonda",
+    },
+  },
+};
 export default function page() {
-  <Head>
-    <link
-      rel="alternate"
-      href="https://sudhafertilitycentre.com/fertility-centre-in-hanamkonda"
-      hreflang="en-in"
-    />
-  </Head>;
-
+  
   return (
     <div>
       <Script

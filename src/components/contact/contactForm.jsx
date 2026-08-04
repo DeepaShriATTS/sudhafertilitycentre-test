@@ -12,7 +12,6 @@ import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import SuccessMessage from "../SuccessMessage";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
 import { fetchBranchList } from "@/lib/api/branches";

@@ -5,7 +5,6 @@ import { X, ArrowUp, MessageCircle, Maximize2, Minimize2 } from "lucide-react";
 import { fetchBranchList } from "@/lib/api/branches";
 import { apiClient } from "@/lib/axios/instance";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import "./fertilityChatbot.css";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";

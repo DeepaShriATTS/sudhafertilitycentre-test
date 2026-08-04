@@ -1,0 +1,7 @@
+Migration started: 2026-07-31T08:54:20.134Z
+Source directory exists: d:\deepa\deepaAMC\sudhafertilitycentre-nextjs\src\app
+Found next/head in: d:\deepa\deepaAMC\sudhafertilitycentre-nextjs\src\app\api\migrate\route.js
+Successfully migrated: d:\deepa\deepaAMC\sudhafertilitycentre-nextjs\src\app\api\migrate\route.js
+Found next/head in: d:\deepa\deepaAMC\sudhafertilitycentre-nextjs\src\app\layout.js
+Successfully migrated: d:\deepa\deepaAMC\sudhafertilitycentre-nextjs\src\app\layout.js
+Migration finished successfully.

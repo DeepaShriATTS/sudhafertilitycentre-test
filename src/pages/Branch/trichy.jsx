@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-import Calendar from "@/assets/branch/ambatur/callender.svg";
+
 import Image from "next/image";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/Trichy/trichy_about.webp";
@@ -9,10 +9,10 @@ import { motion } from "framer-motion";
 import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 import Hospital from "@/assets/branch/Trichy/trichy.webp";
 import uma from "@/assets/branch/Trichy/uma.webp";
-import Shaheen from "@/assets/branch/Trichy/trichy-shaheen.webp";
+
 import ImageGrid from "@/components/imagegrid";
-import Buttonbottm from "@/components/button";
-import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+
+import {  MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
 
@@ -22,7 +22,6 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Trichy } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
@@ -31,13 +30,19 @@ import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
 import { trichyVideos } from "@/middleware/videosRoute";
-import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+
 import LoadingSpinner from '@/components/ui/loadingSpinner';
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
 import dynamic from "next/dynamic";
 // Dynamic imports with same loading component
 const InfiniteMovingCardsDemo = dynamic(
   () => import('@/components/review_Card/reviewCard'),
   { loading: () => <LoadingSpinner height="400px" /> }
+);
+
+const GallerySlider = dynamic(
+  () => import("@/components/videoCard/videoPlaylistSlider"),
+  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
 );
 
 
@@ -486,10 +491,8 @@ function TrichyPage() {
                     transition={{ duration: 0.5 }}
                   >
 
-                    <div className="w-full lg:w-1/2">
-                      {/* <h3 className="text-[20px] font-semibold ">
-                        Our Fertility Specialist in Trichy
-                      </h3> */}
+                    {/* <div className="w-full lg:w-1/2">
+                    
                       <h3 className="text-[18px] text-[#173366] font-semibold ">
                         Dr. J. Shaheen
                       </h3>
@@ -500,10 +503,10 @@ function TrichyPage() {
                       <p className="text-gray-600 mt-3">
                         Dr. J. Shaheen is a dedicated Fertility Consultant and Gynaecologist at Sudha Fertility Centre in Trichy, specializing in women's reproductive health and fertility care. With a strong foundation in Obstetrics and Gynaecology, she offers comprehensive evaluations and individualized treatment plans to support couples facing fertility challenges. Known for her compassionate approach and clinical expertise, Dr. Shaheen strives to make every patient's journey to parenthood a confident and supported one.
                       </p>
-                    </div>
-                    <div className="w-full lg:w-1/2">
+                    </div> */}
+                    {/* <div className="w-full lg:w-1/2">
                       <Image src={Shaheen} alt="uma" className="w-full h-auto rounded-xl" />
-                    </div>
+                    </div> */}
                   </motion.div>
                   <hr className="mt-4 border-gray-300" />
 
@@ -681,33 +684,7 @@ function TrichyPage() {
       </div>
 
       <section>
-        {/* <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        {/* <MarqueeComponent
-          items={Trichy.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        /> */}
-
            <GallerySlider items={trichyVideos} />
-
-        {/* <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
-          <h3 className=" font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div> */}
-
-
-        {/* <MarqueeComponent
-          items={Trichy.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
-        {/* </div>
-          </div> */}
       </section>
     </>
   );

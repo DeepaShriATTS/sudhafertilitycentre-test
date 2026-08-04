@@ -4,30 +4,18 @@ import ManapparaiPage from '@/pages/Branch/manapparai'
 import React from 'react'
 import Script from "next/script";
 
-import Head from "next/head";
-
-function ManapparaiFaqSchema() {
-
-
-
-  return (
-    <Head>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-      />
-
-      <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-manapparai" hreflang="en-in" />
-
-    </Head>
-  );
-}
 
 
 export const metadata = {
   title: "Best Fertility Centre in Manapparai - Sudha Fertility Centre",
   description: "The team at Sudha Fertility Centre in Manapparai combines clinical innovation and expert IVF & IUI care to help couples conceive. Call us.",
-  keywords: "Fertility Centre in Manapparai"
+  keywords: "Fertility Centre in Manapparai",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-manapparai",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-manapparai",
+    },
+  },
 };
 
 export default function page() {

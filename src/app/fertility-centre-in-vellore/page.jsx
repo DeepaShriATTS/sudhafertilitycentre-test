@@ -1,20 +1,21 @@
 import VellorePage from '@/pages/Branch/vellore'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 export const metadata = {
   title: "Best Fertility Centre in Vellore - Sudha Fertility Centre",
   description: "Discover how hopeful parents rely on Sudha Fertility Centre in Vellore for advanced IVF & IUI labs and expert doctors. Book online now.",
-  keywords: "Fertility Centre in Vellore"
+  keywords: "Fertility Centre in Vellore",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-vellore",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-vellore",
+    },
+  },
 };
 
 export default function page() {
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-vellore" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
 

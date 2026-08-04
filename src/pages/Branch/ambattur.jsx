@@ -1,7 +1,7 @@
 "use client";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-import Calendar from "@/assets/branch/ambatur/callender.svg";
 import Image from "next/image";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/ambatur/ambattur_about.webp";
@@ -11,36 +11,42 @@ import PadmavathiDevi from "@/assets/branch/ambatur/davuluru.webp";
 import Hospital from "@/assets/branch/ambatur/hospital_img.webp";
 import { CiLocationOn } from "react-icons/ci";
 import ImageGrid from "@/components/imagegrid";
-import Buttonbottm from "@/components/button";
-import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+
+import {  MdLocationOn } from "react-icons/md";
 // import Button from "@/components/button/button";
-import Insta from "@/assets/Home/instagram.svg";
-import youtube from "@/assets/Home/youtube.svg";
-import fb from "@/assets/Home/facebook.svg";
+
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
-import { FaArrowRight } from "react-icons/fa";
 import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
 // import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import Link from "next/link";
 import { ambatturVideos } from "@/middleware/videosRoute";
-import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 import LoadingSpinner from '@/components/ui/loadingSpinner';
-import dynamic from "next/dynamic";
+import Dhanabakiyam from "@/assets/branch/coimbatore/dhanabakiyamone.png";
+
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
+
 // Dynamic imports with same loading component
 const InfiniteMovingCardsDemo = dynamic(
   () => import('@/components/review_Card/reviewCard'),
   { loading: () => <LoadingSpinner height="400px" /> }
 );
+
+const GallerySlider = dynamic(
+  () => import("@/components/videoCard/videoPlaylistSlider"),
+  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
+  
+);
+
+
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -52,7 +58,7 @@ function AmbatturPage() {
   const [openIndex, setOpenIndex] = useState(null);
   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
 
-  console.log("Ambattur", Ambattur);
+
 
   const toggleFAQ = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -383,13 +389,14 @@ function AmbatturPage() {
 
               <ScrollMotion>
                 <section id="specialists">
+
                   <motion.div
                     className="flex flex-wrap lg:flex-nowrap gap-8 mt-5"
-                    initial="initial"
-                    animate="animate"
-                    variants={fadeInUp}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
                   >
-                    <div className="w-full lg:w-1/2">
+                    <div className="w-full lg:w-1/2 mt-5">
                       <h3 className="text-[#173366]  font-semibold leading-[1.4]">
                         Fertility Specialists <br />
                         in Ambattur
@@ -397,6 +404,45 @@ function AmbatturPage() {
                       <h3 className="text-[20px] font-semibold mt-3 leading-[1.4]">
                         Chief Experts of Sudha Fertility Centre in Ambattur
                       </h3>
+                      <h4 className="text-[18px] text-[#173366] font-semibold mt-2">
+                        S. Dhanabagyam
+                      </h4>
+                      <p className="text-md text-[#000000] mt-3">
+                        MBBS, MD, O&G, ART
+                      </p>
+                      <p className="text-md text-[#000000] mt-3">
+                        Senior Consultant IVF & ART Specialist
+                      </p>
+                      <p className="mt-3 text-gray-600">
+                        Dr. Dhanabagyam, a fertility and women’s health visionary, had a dream to create a women’s care and fertility centre offering best treatments at affordable prices. Under her guidance and expertise the first Sudha Fertility Centre was started in 1995 in Erode. Today the centre has grown into a network of 40+ highly successful branches across South India and Sri Lanka.
+                      </p>
+                    </div>
+                    <div className="w-full lg:w-1/2 mt-5">
+                      <Image
+                        src={Dhanabakiyam}
+                        alt="Dhanabakiyam"
+                        className="w-full h-auto rounded-xl"
+                      />
+                    </div>
+                  </motion.div>
+
+                  <motion.div
+                    className="flex flex-wrap lg:flex-nowrap gap-8 mt-5"
+                    initial="initial"
+                    animate="animate"
+                    variants={fadeInUp}
+                  >
+
+                     <div className="w-full lg:w-1/2 mt-5">
+                      <Image
+                        src={Pradeepa}
+                        alt="Pradeepa"
+                        className="w-full h-auto rounded-xl"
+                      />
+                    </div>
+                    
+                    <div className="w-full lg:w-1/2">
+                     
                       <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
                         Dr.S.Pradeepa Sudhakar.,
                       </h4>
@@ -430,13 +476,7 @@ function AmbatturPage() {
                         </ul>
                       </div>
                     </div>
-                    <div className="w-full lg:w-1/2 mt-5">
-                      <Image
-                        src={Pradeepa}
-                        alt="Pradeepa"
-                        className="w-full h-auto rounded-xl"
-                      />
-                    </div>
+                   
                   </motion.div>
                   <motion.div className="sm-hidden">
                     <p className="text-md  text-gray-600 mt-3">
@@ -687,29 +727,9 @@ function AmbatturPage() {
       </div>
 
       <section>
-        {/* <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        {/* <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        /> */}
+       
         <GallerySlider items={ambatturVideos} />
-        {/* <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
-          <h3 className=" font-bold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div> */}
-        {/* <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
-        {/* </div>
-          </div> */}
+      
       </section>
     </>
   );

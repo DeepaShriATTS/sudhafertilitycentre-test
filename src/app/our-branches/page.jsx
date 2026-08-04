@@ -1,6 +1,5 @@
 import Branches from '@/pages/Treatment/branches';
 import React from 'react'
-import Head from 'next/head';
 
 
 export const metadata = {
@@ -8,14 +7,17 @@ export const metadata = {
   description: "",
   keywords: "",
   robots: 'noindex, nofollow',
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/our-branches",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/our-branches",
+    },
+  },
 };
 
 
 function page() {
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/our-branches" hreflang="en-in" />
-  </Head>
-  return (
+    return (
     <Branches />
   )
 }

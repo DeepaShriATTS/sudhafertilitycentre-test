@@ -1,20 +1,21 @@
 import TiruvannamalaiPage from '@/pages/Branch/tiruvannamalai'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 export const metadata = {
   title: "Best Fertility Centre in Tiruvannamalai - Sudha Fertility Centre",
   description: "Consult Sudha Fertility Centre in Thiruvannamalai for innovative IVF & IUI treatments, heartfelt support, and guidance. Connect with us.",
-  keywords: "Fertility Centre in Thiruvannamalai"
+  keywords: "Fertility Centre in Thiruvannamalai",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-tiruvannamalai",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-tiruvannamalai",
+    },
+  },
 };
 
 export default function page() {
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-tiruvannamalai" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

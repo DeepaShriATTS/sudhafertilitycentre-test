@@ -1,22 +1,24 @@
 import NellorePage from '@/pages/Branch/nellore'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 
 
 export const metadata = {
   title: "Best Fertility Centre in Nellore - Sudha Fertility Centre",
   description: "Hopeful parents choose Sudha Fertility Centre in Nellore for modern IVF & IUI labs, expert doctors, and care. Schedule a clinic visit.",
-  keywords: "Fertility Centre in Nellore"
+  keywords: "Fertility Centre in Nellore",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-nellore",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-nellore",
+    },
+  },
 };
 
 export default function page() {
 
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-nellore" hrefLang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

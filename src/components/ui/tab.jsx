@@ -4,8 +4,9 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from "lucide-react";
 import Image from "next/image";
-import { tabs } from "../../utils/homepageData"; // <-- your tabs array (40+ Years, Affordable, Trusted, Success Rate, Specialists)
+import { tabs } from "../../utils/homepageData";
 import { MetricsCardSkeleton } from "@/components/loaders/ReviewCardSkeleton";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 
 const AUTOPLAY_MS = 5000;
@@ -40,16 +41,9 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
   const [isHovering, setIsHovering] = useState(false);
   const isAnimatingRef = useRef(false);
   const timerRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  // FIX H-4: Replaced window.innerWidth useEffect (caused mobile layout flicker)
+  // with useMediaQuery hook. Hook starts false on SSR, syncs after mount.
+  const isMobile = useMediaQuery("(max-width: 767px)");
 
   const total = tabs.length;
   const activeTab = tabs[index];
@@ -129,9 +123,10 @@ export default function TrustedFamiliesSlider({ initialIndex = 2 }) {
               {ActiveIcon ? (
                 <ActiveIcon size={28} className="mb-3 text-amber-500" />
               ) : null}
-              <h3 className="mb-4 text-3xl font-bold text-[#0f1f4d] md:text-4xl">
+              <h2 className="mb-4 text-3xl font-bold text-[#0f1f4d] md:text-4xl">
                 {activeTab.content.heading}
-              </h3>
+              </h2>
+
               <p className="mb-8 whitespace-pre-line text-slate-600">
                 {activeTab.content.description}
               </p>

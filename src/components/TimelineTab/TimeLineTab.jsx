@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Tab2024 from "../../assets/About/2024.webp";
 import Tab2023 from "../../assets/About/2024.webp";
@@ -101,38 +101,6 @@ const timelineData = [
 
 const TimelineTabs = () => {
   const [selectedYear, setSelectedYear] = useState("2024");
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const timelineContainerRef = useRef(null);
-
-  useEffect(() => {
-    const timelineContainer = timelineContainerRef.current;
-    if (timelineContainer) {
-      const containerWidth = timelineContainer.offsetWidth;
-      const scrollWidth = timelineContainer.scrollWidth;
-      setScrollPosition(timelineContainer.scrollLeft);
-    }
-  }, [selectedYear]);
-
-  const handleScroll = (direction) => {
-    const timelineContainer = timelineContainerRef.current;
-    const scrollAmount = 200;
-    if (direction === "left") {
-      timelineContainer.scrollLeft -= scrollAmount;
-    } else {
-      timelineContainer.scrollLeft += scrollAmount;
-    }
-    setScrollPosition(timelineContainer.scrollLeft);
-  };
-
-  const shouldShowScrollButtons = () => {
-    const timelineContainer = timelineContainerRef.current;
-    if (timelineContainer) {
-      const containerWidth = timelineContainer.offsetWidth;
-      const scrollWidth = timelineContainer.scrollWidth;
-      return scrollWidth > containerWidth;
-    }
-    return false;
-  };
 
   return (
     <div className="w-full relative">
@@ -165,7 +133,6 @@ const TimelineTabs = () => {
       </div>
 
       <div
-        ref={timelineContainerRef}
         id="timeline-container"
         className="overflow-y-auto grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:flex gap-4 py-4 px-4 max-h-[500px] scroll-smooth no-scrollbar"
       >

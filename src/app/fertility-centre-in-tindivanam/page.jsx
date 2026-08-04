@@ -1,21 +1,23 @@
 import TindivanamPage from '@/pages/Branch/tindivanam'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 
 export const metadata = {
   title: "Best Fertility Centre in Tindivanam - Sudha Fertility Centre",
   description: "Trust Sudha Fertility Centre in Tindivanam to combine innovation, trusted IVF/IUI specialists, and heartfelt support. Schedule now.",
-  keywords: " Fertility Centre in Tindivanam"
+  keywords: " Fertility Centre in Tindivanam",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-tindivanam",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-tindivanam",
+    },
+  },
 };
 
 export default function page() {
 
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-tindivanam" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

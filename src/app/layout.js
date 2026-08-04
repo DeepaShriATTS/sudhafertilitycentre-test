@@ -1,18 +1,19 @@
 import "./globals.css";
 import "./critical.css";
+import "react-phone-input-2/lib/style.css";
 import { Outfit, Inter, Noto_Sans_Kannada } from "next/font/google";
 import dynamic from "next/dynamic";
 import Header from "@/components/Header/header";
 import Footer from "@/components/footer/footer";
 import ClientLayout from "@/components/Header/ClientLayout";
-// VerticalSidebar deferred — has a 300ms internal delay anyway;
-// dynamic ssr:false removes it from the SSR bundle and defers client parse.
 import VerticalSidebar from "@/components/VerticalSidebar/VerticalSidebar";
 
 import { NotFoundProvider } from "@/context/NotFoundContext";
 import Script from "next/script";
 import { DeferredFBPixel } from "@/components/DeferredFBPixel";
 import ogimg from "@/assets/og_sudha.jpeg"
+import SkipToContent from "@/components/ui/SkipToContent";
+
 // import { GoogleTagManager } from "@next/third-parties/google";
 
 const outfit = Outfit({
@@ -123,7 +124,7 @@ export default function RootLayout({ children }) {
            }
 
            var events = ['scroll', 'mousemove', 'keydown', 'touchstart', 'click'];
-           var timeoutId = setTimeout(trigger, 4000); // fallback if no interaction
+           var timeoutId = setTimeout(trigger, 8000); // raised from 4s: prevents GTM firing during LCP on slow 4G
 
            function trigger() {
             clearTimeout(timeoutId);
@@ -140,6 +141,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={` ${outfit.variable} ${inter.variable} ${notoSansKannada.variable} antialiased font-outfit`}>
+        <SkipToContent />
         {/* Google Tag Manager - Noscript fallback */}
         {/* <noscript>
           <iframe
@@ -154,7 +156,7 @@ export default function RootLayout({ children }) {
           <VerticalSidebar />
           <div className="site-content-wrapper">
             <Header />
-            <main>
+            <main id="main-content">
               <ClientLayout>{children}</ClientLayout>
             </main>
             <Footer />

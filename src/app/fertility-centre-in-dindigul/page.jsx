@@ -1,7 +1,6 @@
 import DindigulPage from '@/pages/Branch/dindigul'
 import React from 'react'
 import Script from "next/script";
-import Head from 'next/head';
 
 
 
@@ -12,13 +11,16 @@ export const metadata = {
   description: "Find expert fertility guidance, compassionate care, and advanced IVF & IUI options at Sudha Fertility Centre in Dindigul. Contact us today.",
   keywords: "Fertility Centre in Dindigul",
 
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-dindigul",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-dindigul",
+    },
+  },
 };
 
 export default function page() {
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-dindigul" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

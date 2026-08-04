@@ -7,14 +7,69 @@ import Play from '../../assets/Home/play-btn.svg';
 import Image from 'next/image';
 
 export const getYoutubeThumbnail = (videoUrl) => {
-  if (videoUrl.includes('embed/')) {
-    const videoId = videoUrl.split('embed/')[1].split('?')[0];
-    return `https://img.youtube.com/vi/${videoId}/0.jpg`;
-  } else {
-    console.error('Invalid YouTube embed URL');
-    return 'https://via.placeholder.com/300x200.png?text=Invalid+Video';
+  if (!videoUrl) return "";
+  try {
+    let videoId = "";
+    if (videoUrl.includes("embed/")) {
+      videoId = videoUrl.split("embed/")[1].split("?")[0];
+    } else if (videoUrl.includes("watch?v=")) {
+      videoId = videoUrl.split("watch?v=")[1].split("&")[0];
+    } else if (videoUrl.includes("youtu.be/")) {
+      videoId = videoUrl.split("youtu.be/")[1].split("?")[0];
+    }
+    return videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : "";
+  } catch {
+    return "";
   }
 };
+
+function VideoCardImage({ video, isLikelyLCP }) {
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [fallbackStep, setFallbackStep] = useState(0);
+
+  const videoId = video.videoUrl?.includes("embed/")
+    ? video.videoUrl.split("embed/")[1].split("?")[0]
+    : null;
+
+  const candidates = [
+    video.thumbnail,
+    videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : null,
+    videoId ? `https://i.ytimg.com/vi/${videoId}/mqdefault.jpg` : null,
+    videoId ? `https://i.ytimg.com/vi/${videoId}/sddefault.jpg` : null,
+  ].filter(Boolean);
+
+  const currentSrc = candidates[fallbackStep] || candidates[0];
+
+  return (
+    <div className="relative w-full h-52 overflow-hidden bg-neutral-200">
+      {!imgLoaded && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-neutral-200 animate-pulse">
+          <div className="w-12 h-12 rounded-full bg-white/70 animate-ping" />
+        </div>
+      )}
+      <Image
+        src={currentSrc}
+        alt={video.title || "Video thumbnail"}
+        className={`w-full h-52 object-cover transition-opacity duration-300 ${
+          imgLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        width={500}
+        height={300}
+        unoptimized
+        onLoad={() => setImgLoaded(true)}
+        onError={() => {
+          if (fallbackStep + 1 < candidates.length) {
+            setFallbackStep((prev) => prev + 1);
+          } else {
+            setImgLoaded(true);
+          }
+        }}
+        priority={isLikelyLCP}
+        loading={isLikelyLCP ? undefined : "lazy"}
+      />
+    </div>
+  );
+}
 
 export const videos = [
   {
@@ -203,17 +258,7 @@ export default function VideoCarousel() {
                   title={video.title}
                 />
               ) : (
-                <Image
-                  src={video.thumbnail}
-                  alt={video.title}
-                  className="w-full h-52 object-cover"
-                  width={500}
-                  height={300}
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  priority={isLikelyLCP}
-                  fetchPriority={isLikelyLCP ? 'high' : 'auto'}
-                  loading={isLikelyLCP ? undefined : 'lazy'}
-                />
+                <VideoCardImage video={video} isLikelyLCP={isLikelyLCP} />
               )}
 
               <button

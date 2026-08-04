@@ -1,20 +1,21 @@
 import VijayawadaPage from '@/pages/Branch/vijayawada'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 export const metadata = {
   title: "Best Fertility Centre in Vijayawada - Sudha Fertility Centre",
   description: " Sudha Fertility Centre in Vijayawada stands out with world‑class IVF & IUI treatments, trusted doctors, and support. Call us to book.",
-  keywords: "Fertility Centre in Vijayawada"
+  keywords: "Fertility Centre in Vijayawada",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-vijayawada",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-vijayawada",
+    },
+  },
 };
 
 export default function page() {
 
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-vijayawada" hreflang="en-in" />
-  </Head>
-  return (
+    return (
     <div>
 
       <Script

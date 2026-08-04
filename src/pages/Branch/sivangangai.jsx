@@ -1,17 +1,16 @@
 "use client";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-import Calendar from "@/assets/branch/ambatur/callender.svg";
 import Image from "next/image";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/Salem/salem_about.webp";
 import { motion } from "framer-motion";
 import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 import Hospital from "@/assets/dummy-location.webp";
-import charulatha from "@/assets/branch/Salem/charulatha.webp";
+
 import ImageGrid from "@/components/imagegrid";
-import Buttonbottm from "@/components/button";
-import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+
+import {  MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
 import { IoCallOutline } from "react-icons/io5";
@@ -20,16 +19,14 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Sivagangai } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
 // import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
-import NotFound from "@/app/not-found";
-import { sivangangaiVideos } from "@/middleware/videosRoute";
-import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+
+import { Homevideos } from "@/middleware/videosRoute";
 import LoadingSpinner from '@/components/ui/loadingSpinner';
 import dynamic from "next/dynamic";
 import { SalemReview,sections } from "./salem";
@@ -38,6 +35,13 @@ const InfiniteMovingCardsDemo = dynamic(
   () => import('@/components/review_Card/reviewCard'),
   { loading: () => <LoadingSpinner height="400px" /> }
 );
+import { VideoSkeletonRow } from '@/components/loaders/VideoCardSkeleton';
+
+const GallerySlider = dynamic(
+  () => import("@/components/videoCard/videoPlaylistSlider"),
+  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
+);
+
 
 function SivangangaiPage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -253,11 +257,13 @@ function SivangangaiPage() {
                         in Sivagangai
                       </h3>
                       <h4 className="text-[20px] font-semibold mt-3 leading-[1.4]">
-                        Meet Dr. S. Pradeepa Sudhakar, the Chief Expert at Sudha Fertility Centre in Sivagangai and Vice President of Sudha Hospitals Pvt. Ltd.  
+                        Meet Dr. S. Pradeepa Sudhakar, the Chief Expert at Sudha Fertility Centre in Sivagangai and
+                        <br />
+                         Vice President of Sudha Hospitals Pvt Ltd.  
                       </h4>
-                     <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
+                     <p className=" text-[#173366] font-semibold mt-3">
                        Dr. S. Pradeepa Sudhakar holds qualifications in DGO, DNB (OG), MNAMS, and FICOG, and she serves as a Senior Consultant IVF and ART Specialist.  
-                      </h4>
+                      </p>
                        <p className="text-md text-[#000000] mt-3">
                        Dr. S. Pradeepa Sudhakar is renowned for her exceptional clinical skills and in-depth expertise in fertility-enhancing procedures and advanced reproductive technologies. She focuses on patient care and maintains impressive success rates, helping countless couples achieve their dream of becoming parents.  
 
@@ -492,32 +498,7 @@ function SivangangaiPage() {
       </div>
 
       <section>
-        {/* <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
-          items={Sivagangai.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        />
-
-        
-        {/* <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
-          <h3 className=" font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div> */}
-
-
-        <MarqueeComponent
-          items={Sivagangai.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        />
-        {/* </div>
-          </div> */}
+        <GallerySlider items={Homevideos} />
       </section>
     </>
   );

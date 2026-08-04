@@ -468,6 +468,7 @@ export default function GallerySlider({ items = [] }) {
                             className="gs-thumb"
                             width={480}
                             height={300}
+                            unoptimized
                             onError={() => handleImageError(item.id)}
                           />
                         ) : (

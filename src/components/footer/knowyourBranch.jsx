@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Search, MapPin, Navigation, Loader2, MapPinned, Navigation2 } from 'lucide-react';
-import { branches } from './footer';
+import { branches } from './footerData';
 
 // Leaflet touches `window` at import time, so it must never run during SSR.
 const LocationPickerMap = dynamic(() => import('./LocationPicker'), {
@@ -116,8 +116,7 @@ export default function BranchesDirectory() {
   const visibleCities = filteredCities.slice(0, previewCount);
   const remaining = filteredCities.length - visibleCities.length;
 
-  const nearestHasCoords =
-    nearestBranch && typeof nearestBranch.lat === 'number' && typeof nearestBranch.lng === 'number';
+ 
 
   return (
     <div className="mx-auto w-full max-w-6xl py-6 md:py-12">
@@ -187,7 +186,7 @@ export default function BranchesDirectory() {
         {userCoords && nearestBranch && (
           <div className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#E8EDF5] bg-white p-4 shadow-sm">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-neutral-400">Nearest branch</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">Nearest branch</p>
               <a
                 href={`/${nearestBranch.link}`}
                 className={`mt-0.5 flex items-center gap-1.5 text-base font-semibold ${BRAND_NAVY} hover:text-[#FFC65C]`}
@@ -258,11 +257,10 @@ export default function BranchesDirectory() {
         </div>
 
         {filteredCities.length === 0 && (
-          <p className="py-6 text-center text-sm text-neutral-400">No branches match your search.</p>
+          <p className="py-6 text-center text-sm text-neutral-600">No branches match your search.</p>
         )}
 
         <div
-          role="list"
           className="grid gap-2"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}
         >
@@ -270,7 +268,6 @@ export default function BranchesDirectory() {
             <a
               key={branch.link}
               href={`/${branch.link}`}
-              role="listitem"
               className={`flex flex-col items-center justify-center gap-0.5 rounded-md px-2 py-2 text-center text-xs font-medium ${BRAND_NAVY} transition-colors hover:bg-[#1e2a45] hover:text-white`}
             >
               <span className="flex items-center gap-1">
@@ -278,7 +275,7 @@ export default function BranchesDirectory() {
                 <span>{branch.title}</span>
               </span>
               {branch.distance !== null && (
-                <span className="text-[10px] font-normal text-neutral-400 group-hover:text-white">
+                <span className="text-[10px] font-normal text-neutral-500 group-hover:text-white">
                   {branch.distance.toFixed(1)}km
                 </span>
               )}

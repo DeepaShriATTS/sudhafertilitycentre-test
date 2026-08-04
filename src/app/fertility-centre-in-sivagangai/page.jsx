@@ -1,21 +1,22 @@
 import SivangangaiPage from '@/pages/Branch/sivangangai'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 
 export const metadata = {
   title: "Best Fertility Centre in Sivangangai - Sudha Fertility Centre",
   description: "As the leading choice, Sudha Fertility Centre in Sivagangai provides heartfelt support and innovative IVF & IUI treatments. Consult us today.",
-  keywords: "Fertility Centre in Sivagangai"
+  keywords: "Fertility Centre in Sivagangai",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-sivangangai",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-sivangangai",
+    },
+  },
 };
 export default function page() {
 
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-sivangangai" hreflang="en-in" />
-  </Head>
-
+  
 
 
   return (

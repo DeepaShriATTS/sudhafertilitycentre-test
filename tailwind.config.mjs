@@ -38,11 +38,7 @@ export default {
   plugins: [addBrandVariables],
 };
 
-/**
- * Only expose the 3 brand CSS custom properties actually used in this project.
- * The previous addVariablesForColors generated ~500 variables for EVERY Tailwind
- * color, adding ~15-20 KiB of unused CSS to every page.
- */
+
 function addBrandVariables({ addBase }) {
   addBase({
     ":root": {

@@ -8,45 +8,40 @@ import SudhaAbout from "@/assets/branch/coimbatore/coimbatore_about.webp";
 import { motion } from "framer-motion";
 import Dhanabakiyam from "@/assets/branch/coimbatore/dhanabakiyamone.png";
 import Ambika from "@/assets/branch/coimbatore/ambika.webp";
-import Vishnupriya from "@/assets/branch/coimbatore/vishnu-priya.webp";
 
 
 import Hospital from "@/assets/branch/coimbatore/cbe.webp";
-import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+import {  MdLocationOn } from "react-icons/md";
 import ImageGrid from "@/components/imagegrid";
-import Buttonbottm from "@/components/button";
+
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
-import {
-  FaFacebook,
-  FaYoutube,
-  FaInstagram,
-  FaWalking,
-  FaMapMarkerAlt,
-  FaShareAlt,
-  FaArrowLeft,
-  FaArrowRight,
-} from "react-icons/fa";
+
 import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Coimbatore } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import { coimbatoreVideos } from "@/middleware/videosRoute";
-import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 import LoadingSpinner from '@/components/ui/loadingSpinner';
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
+
 import dynamic from "next/dynamic";
 // Dynamic imports with same loading component
 const InfiniteMovingCardsDemo = dynamic(
   () => import('@/components/review_Card/reviewCard'),
   { loading: () => <LoadingSpinner height="400px" /> }
+);
+
+const GallerySlider = dynamic(
+  () => import("@/components/videoCard/videoPlaylistSlider"),
+  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
+  
 );
 
 function CoimbatorePage() {
@@ -82,7 +77,7 @@ function CoimbatorePage() {
       quote:
         `I got a very wonderfull experance from here because Dr. Dhanabagyam mam and her staff's also provided us with very good
   support and care. Excellent medical team and medicine's are available here.So thank you very much to Dr. Dhanabagyam mam
-  ( MD), Asst. Docters: Dr. Karthika mam, Dr. Vishnupriya mam, OP sisters: Thilaka sister,Mallika sister etc., Reception
+  ( MD), Asst. Docters: Dr. Karthika mam, OP sisters: Thilaka sister,Mallika sister etc., Reception
   sister: Jeni sister and all supportive staffs....`,
       name: "liji arumughan",
       title: "Patient",
@@ -92,7 +87,6 @@ function CoimbatorePage() {
         `We got male baby.thaks to Dr.Dhanabakyam mam.(M.D)
   Assistant Doctors
   Dr.karthiga mam
-  Dr.vishnupriya mam
   OPD thiaga sister
   OPD selin sister.
   Reception Jeni sister
@@ -552,40 +546,6 @@ function CoimbatorePage() {
 
                   </motion.div>
 
-                  <motion.div
-                    className="flex flex-wrap lg:flex-nowrap gap-8 mt-5"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-
-                    <div className="w-full lg:w-1/2 mt-5">
-
-
-                      <h4 className="text-[18px] text-[#173366] font-semibold mt-2">
-                        Dr. C. Vishnupriya
-                      </h4>
-                      <p className="text-md text-[#000000] mt-3">
-                        MBBS, MS (OG)
-
-                      </p>
-                      <p className="text-md text-[#000000] mt-3">
-                        Consultant – OBGY
-                      </p>
-                      <p className="mt-3 text-gray-600">
-                        Dr. C. Vishnupriya is an experienced OBGY consultant at Sudha Fertility Centre, committed to providing holistic care in women’s health, from adolescence through menopause. She specializes in managing both routine and high-risk obstetric cases, as well as a wide range of gynaecological conditions. With a gentle and approachable manner, Dr. Vishnupriya ensures that every patient receives personalized, evidence-based care in a supportive environment.
-                      </p>
-                    </div>
-                    <div className="w-full lg:w-1/2 mt-5">
-                      <Image
-                        src={Vishnupriya}
-                        alt="Vishnupriya"
-                        className="w-full h-auto rounded-xl"
-                      />
-                    </div>
-
-                  </motion.div>
-
                   <hr className="mt-4 border-gray-300" />
                 </section>
               </ScrollMotion>
@@ -676,35 +636,7 @@ function CoimbatorePage() {
                           </div>
                         </div>
 
-                        {/* Social Media Section */}
-                        {/* <div>
-                          <div className="flex items-center mb-2">
-                            <div className="w-[20px] border-t border-2 border-black ml-2"></div>
-                            <p className="p-1 text-sm sm:text-base md:text-lg font-bold">
-                              Connect with us:
-                            </p>
-                          </div>
-                          <div className="flex space-x-4">
-                            <Link
-                              href="https://www.facebook.com/sudhafertilitycentre"
-                              target="_blank"
-                            >
-                              <FaFacebook className="text-4xl  text-gray-600 bg-white p-2 rounded-full" />
-                            </Link>
-                            <Link
-                              href="https://www.youtube.com/@sudhafertilitycentre"
-                              target="_blank"
-                            >
-                              <FaYoutube className="text-4xl text-gray-600 bg-white p-2 rounded-full" />
-                            </Link>
-                            <Link
-                              href="https://instagram.com/sudhafertilitycentre/"
-                              target="_blank"
-                            >
-                              <FaInstagram className="text-4xl text-gray-600 bg-white p-2 rounded-full" />
-                            </Link>
-                          </div>
-                        </div> */}
+                       
                       </div>
                     </div>
                     <div className="w-full lg:w-1/2">
@@ -719,20 +651,7 @@ function CoimbatorePage() {
                             height={500} // Set a default height
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 700px" // Define sizes for different breakpoints
                           />
-                          {/* <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs flex justify-around items-center p-2 rounded-b-lg">
-                            <div className="flex items-center space-x-1">
-                              <FaWalking />
-                              <span>3D Walk Through</span>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                              <FaMapMarkerAlt />
-                              <span>Get Direction</span>
-                            </div>
-                            <div className="flex items-center space-x-1">
-                              <FaShareAlt />
-                              <span>Share</span>
-                            </div>
-                          </div> */}
+                         
                         </div>
                       </div>
                     </div>
@@ -787,32 +706,9 @@ function CoimbatorePage() {
       </div>
 
       <section>
-        {/* <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        {/* <MarqueeComponent
-          items={Coimbatore.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        /> */}
 
         <GallerySlider items={coimbatoreVideos} />
-
-
-        {/* <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
-          <h3 className=" font-semibold text-center ">
-            // Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div> */}
-        {/* <MarqueeComponent
-          items={Coimbatore.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
-        {/* </div>
-          </div> */}
+        
       </section>
     </>
   );
