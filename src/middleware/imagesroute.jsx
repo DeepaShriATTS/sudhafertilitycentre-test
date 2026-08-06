@@ -309,12 +309,10 @@ export const Ambattur = {
 
 
 export const Aruppukottai = {
-  // gallery: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
-  gallery: [Imageone, Imagetwo, Imagethree, Imagefive],
+  gallery: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
   Facilities: { Facilitiesimg },
 
-  // marquee: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
-  marquee: [Imageone, Imagetwo, Imagethree, Imagefive],
+  marquee: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
   faqs: [
     {
       question: "What fertility treatments are available in Aruppukottai?  ",
@@ -1963,35 +1961,84 @@ export const Kallakurichi = {
   ],
   faqs: [
     {
-      question: "What fertility treatments are available in Kallakurichi?",
-      answer:  "Numerous fertility treatments are available in Kallakurichi. However, Sudha Fertility Centre is the only fertility hospital offering all types of fertility counselling and treatments under one roof. We provide various treatments, including IVF, IUI, ICSI, fertility preservation options, and other modern treatments in Kallakurichi."
-    
-        
-    },
-    
-    {
-      question: "  What is the cost of IVF in Kallakurichi?   ",
+      question: "What fertility treatments are available in Kallakurichi? ",
       answer:
-       "The cost of IVF in Kallakurichi may vary for each individual, considering their body health, medical history, hormone levels, and more. At Sudha Fertility Centre, the fertility experts take a complete report of your body condition and provide IVF at the best cost."
-      },
-    {
-      question: " What is the cost of fertility treatments in Kallakurichi?   ",
-      answer: 
-          "There are plenty of varieties in fertility treatments, as each treatment has different procedures, and each patient requires a different treatment. Thus, the cost of fertility treatments depends on the specific treatment, medicine, and number of cycles required. However, Sudha Fertility Centre in Kallakurichi offers the best fertility treatments at an affordable cost with utmost care. "   
+        (<>
+          <p className="text-gray-600 mt-3">
+           There are many fertility treatments available, Sudha Fertility Centre in Kallakurichi provides personalised treatments suitable for your needs. We offer various treatments including IVF, ICSI, IUI, and fertility preservation options. As the best fertility centre in Kallakurichi, we specialise in providing comprehensive care with advanced technologies.  
+          </p>
+         
+
+
+        </>),
     },
-   
     {
-      question: "How can I choose the best fertility hospital in Kallakurichi? ",
+      question: "What is the cost of IVF in Kallakurichi? ",
       answer:
-        "Choosing the best fertility hospital is vital to availing quality treatment. When looking for the best fertility hospital, check for the treatments they offer, facilities, success rates, expertise of the doctors, and location. Nevertheless, Sudha Fertility meets all these criteria by providing world-class treatment facilities and the best fertility experts.  "
-      },
+        "The cost of IVF treatment in Kallakurichi depends on many factors like your medical history, the number of cycles it takes, hormonal conditions, etc. The average cost of IVF treatment in Kallakurichi may vary for each individual. At Sudha Fertility Centre, with the best IVF doctors in Kallakurichi, we provide exceptional IVF treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IVF hospital in Kallakurichi.   ",
+    },
+    {
+      question: "What is the cost of fertility treatments in Kallakurichi? ",
+      answer:
+        "Each fertility treatment is offered at different costs as it involves different processes. Also, the cost of fertility treatments depends on multiple factors like medical history, health condition, hormonal imbalance, etc. Sudha Fertility Centre in Kallakurichi provides the best fertility treatments at an affordable cost. As the best fertility hospital in Kallakurichi, we treat our patients with utmost care, and our experienced fertility specialists in Kallakurichi are here to support you at every step of your parenthood journey.  ",
+    },
+    {
+      question: "How can I choose the best fertility hospital in Kallakurichi?  ",
+      answer:(<>
+          <p className="text-gray-600 mt-3">
+          When choosing the best fertility hospital you have to look at these factors, the location of the hospital, the treatments they offer, the facilities, the success rates, and the expertise of the fertility doctors in the hospital. Sudha Fertility Centre, the best fertility hospital in Kallakurichi, is equipped with world-class facilities and the best fertility experts and holds a high success rate.  
+          </p>
+         
+
+          
+
+
+        </>),
+    },
+    {
+      question: "Which is the best fertility hospital in Kallakurichi? ",
+      answer:
+        "Sudha Fertility Centre is the best fertility hospital in Kallakurichi. We offer world-class fertility treatments with intellectually equipped fertility doctors in Kallakurichi, with a high success rate.   ",
+    },
 
     {
-      question: " Which is the best fertility hospital in Kallakurichi?",
+      question: "Which hospital has the best fertility doctors in Kallakurichi?  ",
       answer:
-        "Without a doubt, Sudha Fertility Centre is the best fertility hospital in Kallakurichi, as they offer numerous fertility treatments, straightforward counselling, and guide you throughout the fertility journey.  "
-      },
-   
+        "Dr. S. Pradeepa, the chief consultant of Sudha Fertility Centre in Kallakurichi, is one the best fertility experts in Kallakurichi. This branch is equipped with the best fertility doctors in Kallakurichi with a record of thousands of couples delivering healthy babies, and free medical camps conducted every month.  ",
+    },
+    {
+      question:
+        "Which hospital is best for PCOD/PMOS (PCOS) treatment in Kallakurichi? ",
+      answer:
+        "Find the best treatments for Polyendocrine Metabolic Ovarian Syndrome (Polycystic Ovarian Syndrome)  and Polycystic Ovarian Disease by the best fertility doctors and gynecologists in Kallakurichi at Sudha Fertility Centre in Kallakurichi. The doctors examine you completely to diagnose the root cause and provide you with the best PCOD/PMOS (PCOS) treatments. ",
+    },
+    {
+      question: "Can I do household work during IVF treatment? ",
+      answer:
+        "Light household work for 10 to 15 minutes is generally fine during IVF treatment. However, prolonged activity or lifting heavy objects is not advisable. If you experience any discomfort, consult your doctor immediately. At Sudha Fertility Centre in Kallakurichi, our IVF doctors provide you a personalised treatment and comprehensive care and will guide you throughout your parenthood journey.",
+    },
+    {
+      question:
+        "Which is the No. 1 fertility hospital in South India?  ",
+      answer:
+        "With a high success rate and equipped with the best fertility experts, world-class facilities, and exceptional fertility treatments, Sudha Fertility Centre in Kallakurichi is the No. 1 fertility hospital in South India ",
+    },
+    {
+      question:
+        "What reduces male fertility? ",
+      answer:
+        "Male fertility is affected by many factors such as lifestyle choices, exposure to toxins, medications, genetics, testicle surgeries, tight-fitting clothes, etc. At Sudha Fertility Centre our fertility doctors examine you and identify the root cause of male infertility and provide you with the best treatments.  ",
+    },
+    {
+      question: "When is the right time to start IVF treatment?",
+      answer:
+        "If you’re looking to start IVF treatment, the right time to begin IVF treatment depends on individual factors like your age, fertility history, health condition, and previous treatment history. Couples are advised to opt for IVF if they have tried pregnancy naturally for more than a year. If you’re over 35, IVF can help you with a successful pregnancy. At Sudha Fertility Centre, the best IVF hospital in Kallakurichi, our IVF doctors examine you and suggest the best time and approach for your IVF treatment.",
+    },
+    {
+      question: "What is the cost of IUI treatment in Kallakurichi?  ",
+      answer:
+        "The cost of IUI treatment in Kallakurichi depends on many factors like your medical history, medications, hormonal conditions, etc. The average cost of IUI treatment in Kallakurichi may vary for each individual. At Sudha Fertility Centre, with the best IUI doctors in Kallakurichi, we provide exceptional IUI treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IUI hospital in Kallakurichi. ",
+    },
 
     // Add more FAQs as needed
   ],
@@ -2864,35 +2911,76 @@ export const Sivagangai = {
   faqs: [
     {
       id: 1,
-      question: "What fertility treatments are available in Sivagangai? ",
+      question: "What fertility treatments are available in Sivagangai?",
       answer:
-       "Sivagangai has a diverse range of fertility treatments. However, Sudha Fertility Centre is the exclusive provider of all these fertility services. We provide a variety of fertility treatments, including IUI, IVF, ICSI, fertility preservation options, and numerous additional treatments."
-      },
+        "There are many fertility treatments available, Sudha Fertility Centre in Sivagangai provides personalised treatments suitable for your needs. We offer various treatments including IVF, ICSI, IUI, and fertility preservation options. As the best fertility centre in Sivagangai, we specialise in providing comprehensive care with advanced technologies.  ",
+    },
     {
       id: 2,
       question: "What is the cost of IVF in Sivagangai? ",
       answer:
-        "The cost of IVF treatment differs for each person, influenced by factors such as hormone levels, medical history, and overall health. At Sudha Fertility Centre, we simplify this process by assessing your health and delivering a tailored treatment plan that ensures you receive the best care."
-      },
+        "The cost of IVF treatment in Sivagangai depends on many factors like your medical history, the number of cycles it takes, hormonal conditions, etc. The average cost of IVF treatment in Sivagangai may vary for each individual. At Sudha Fertility Centre, with the best IVF doctors in Sivagangai, we provide exceptional IVF treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IVF hospital in Sivagangai. ",
+    },
     {
       id: 3,
       question: "What is the cost of fertility treatments in Sivagangai? ",
       answer:
-       "Fertility treatments in Sivagangai differ greatly because each one includes various procedures, and every patient needs a tailored approach. As a result, the cost of these treatments depends on the specific procedure, medication, and the number of cycles required. Sudha Fertility Centre in Sivagangai provides top-quality fertility treatments at an affordable price while ensuring excellent care."
-      },
+        "Each fertility treatment is offered at different costs as it involves different processes. Also, the cost of fertility treatments depends on multiple factors like medical history, health condition, hormonal imbalance, etc. Sudha Fertility Centre in Sivagangai provides the best fertility treatments at an affordable cost. As the best fertility hospital in Sivagangai, we treat our patients with utmost care, and our experienced fertility specialists in Sivagangai are here to support you at every step of your parenthood journey.",
+    },
     {
       id: 4,
       question: "How can I choose the best fertility hospital in Sivagangai?  ",
       answer:
-       "Selecting the right fertility hospital is crucial for receiving quality care. Several factors should guide your decision in finding the best option, including the available treatments, facilities, success rates, doctors' expertise, and location. Sudha Fertility Centre stands out by offering excellent treatment facilities and a team of highly skilled fertility specialists."
-      },
+        "When choosing the best fertility hospital you have to look at these factors, the location of the hospital, the treatments they offer, the facilities, the success rates, and the expertise of the fertility doctors in the hospital. Sudha Fertility Centre, the best fertility hospital in Sivagangai, is equipped with world-class facilities and the best fertility experts and holds a high success rate.  ",
+    },
     {
       id: 5,
       question: "Which is the best fertility hospital in Sivagangai? ",
       answer:
-       "Sudha Fertility Centre stands out as the best fertility hospital in Sivagangai, providing numerous fertility treatments, clear counselling, and guidance throughout the fertility journey."
-      },
-    
+        "Sudha Fertility Centre is the best fertility hospital in Sivagangai. We offer world-class fertility treatments with intellectually equipped fertility doctors in Sivagangai, with a high success rate.    ",
+    },
+    {
+      id: 6,
+      question: "Which hospital has the best fertility doctors in Sivagangai? ",
+      answer:
+        "Dr. S. Pradeepa, the chief consultant of Sudha Fertility Centre in Sivagangai, is one the best fertility experts in Sivagangai. This branch is equipped with the best fertility doctors in Sivagangai with a record of thousands of couples delivering healthy babies, and free medical camps conducted every month.  ",
+    },
+    {
+      id: 7,
+      question: "Which hospital is best for PCOD/PMOS (PCOS) treatment in Sivagangai? ",
+      answer:
+        "Find the best treatments for Polyendocrine Metabolic Ovarian Syndrome (Polycystic Ovarian Syndrome)  and Polycystic Ovarian Disease by the best fertility doctors and gynecologists in Sivagangai at Sudha Fertility Centre in Sivagangai. The doctors examine you completely to diagnose the root cause and provide you with the best PCOD/PMOS (PCOS) treatments.    ",
+    },
+    {
+      id: 8,
+      question: "Can I do household work during IVF treatment?",
+      answer:
+        "Light household work for 10 to 15 minutes is generally fine during IVF treatment. However, prolonged activity or lifting heavy objects is not advisable. If you experience any discomfort, consult your doctor immediately. At Sudha Fertility Centre in Sivagangai, our IVF doctors provide you a personalised treatment and comprehensive care and will guide you throughout your parenthood journey.  ",
+    },
+    {
+      id: 9,
+      question: "Which is the No. 1 fertility hospital in South India?",
+      answer:
+        "With a high success rate and equipped with the best fertility experts, world-class facilities, and exceptional fertility treatments, Sudha Fertility Centre in Sivagangai is the No. 1 fertility hospital in South India. ",
+    },
+    {
+      id: 10,
+      question: "What reduces male fertility? ",
+      answer:
+        "Male fertility is affected by many factors such as lifestyle choices, exposure to toxins, medications, genetics, testicle surgeries, tight-fitting clothes, etc. At Sudha Fertility Centre our fertility doctors examine you and identify the root cause of male infertility and provide you with the best treatments.",
+    },
+    {
+      id: 11,
+      question: "When is the right time to start IVF treatment? ",
+      answer:
+        " If you’re looking to start IVF treatment, the right time to begin IVF treatment depends on individual factors like your age, fertility history, health condition, and previous treatment history. Couples are advised to opt for IVF if they have tried pregnancy naturally for more than a year. If you’re over 35, IVF can help you with a successful pregnancy. At Sudha Fertility Centre, the best IVF hospital in Sivagangai, our IVF doctors examine you and suggest the best time and approach for your IVF treatment.",
+    },
+    {
+      id: 12,
+      question: "What is the cost of IUI treatment in Sivagangai? ",
+      answer:
+        "The cost of IUI treatment in Sivagangai depends on many factors like your medical history, medications, hormonal conditions, etc. The average cost of IUI treatment in Sivagangai may vary for each individual. At Sudha Fertility Centre, with the best IUI doctors in Sivagangai, we provide exceptional IUI treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IUI hospital in Sivagangai. ",
+    },
 
     // Add more FAQs as needed
   ],

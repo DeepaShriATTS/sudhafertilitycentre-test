@@ -1,24 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import Banner from "@/assets/contact-us/Banner.webp";
+import Button from "@/components/button";
+
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Dhanabagyam from "@/assets/About/dhanabagyam.webp";
 import Pradeepa from "@/assets/About/pradeepa.webp";
 import Link from "next/link";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
+import { FaYoutube } from "react-icons/fa";
 import { Ambattur } from "@/middleware/imagesroute";
-
-import dynamic from "next/dynamic";
-import { Homevideos } from "@/middleware/videosRoute";
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-const GallerySlider = dynamic(
-  () => import('@/components/videoCard/videoPlaylistSlider'),
-  { loading: () => <VideoSkeletonRow count={3} /> }
-);
-
-
+import Buttonbottm from "@/components/button";
 
 import { MdArrowOutward } from "react-icons/md";
 const managementData = [
@@ -388,7 +381,24 @@ function InterviewSection() {
       </div>
 
       <section className="mt-[70px] md:mt-[100px] mb-[70px] md:mb-[100px]">
-        <GallerySlider items={Homevideos} />
+        <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        />
+        <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
+          <h3 className=" font-bold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
       </section>
     </>
   );

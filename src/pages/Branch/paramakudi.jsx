@@ -8,14 +8,14 @@ import Button from "@/components/button";
 import { motion } from "framer-motion";
 import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 // import Hospital from "@/assets/branch/Paramakudi/Paramakudi.webp";
-import SoundharyaNivasini from "@/assets/branch/theni/SoundharyaNivasini.webp";
+// import SoundharyaNivasini from "@/assets/branch/Paramakudi/SoundharyaNivasini.webp";
 import SudhaAbout from "@/assets/branch/theni/theni_about.webp";
 import Hospital from "@/assets/branch/theni/Theni.webp";
 import { Theni } from "@/middleware/imagesroute";
 
 import ImageGrid from "@/components/imagegrid";
-
-import {  MdLocationOn } from "react-icons/md";
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
 
@@ -25,30 +25,15 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Paramakudi } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import { paramakudiVideos } from "@/middleware/videosRoute";
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-import dynamic from "next/dynamic";
-// Dynamic imports with same loading component
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
-
-const GallerySlider = dynamic(
-  () => import("@/components/videoCard/videoPlaylistSlider"),
-  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
-);
-
-
-
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function ParamakudiPage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -498,18 +483,18 @@ function ParamakudiPage() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="w-full lg:w-1/2">
+                    {/* <div className="w-full lg:w-1/2">
                       <Image
                         src={SoundharyaNivasini}
                         alt="SoundharyaNivasini"
                         className="w-full h-auto rounded-xl"
                       />
-                    </div>
+                    </div> */}
                     <div className="w-full lg:w-1/2">
-                      <h3 className="text-[20px] font-semibold ">
+                      {/* <h3 className="text-[20px] font-semibold ">
                       Our Fertility Specialist in Paramakudi
-                      </h3>
-                      <h3 className="text-[18px] text-[#173366] font-semibold mt-3">
+                      </h3> */}
+                      {/* <h3 className="text-[18px] text-[#173366] font-semibold mt-3">
                         Dr. U. Soundharya Nivasini
                       </h3>
                       <p className="text-md text-[#000000] mt-3">
@@ -520,7 +505,7 @@ function ParamakudiPage() {
                       </p>
                       <p className="text-gray-600 mt-3">
                         Dr. U Soundharya Nivasini, a fertility consultant at Sudha Fertility Centre, Paramakudi, brings expertise honed through DNB (Obstetrics & Gynaecology) training at Meenakshi Mission Hospital and Research Centre, Madurai. With a track record of over 60 successful IUI procedures and consultations with more than 1000 patients, Dr. Nivasini consistently garners praise for her compassionate care and empowering guidance.
-                      </p>
+                      </p> */}
                     </div>
                   </motion.div>
 
@@ -709,8 +694,44 @@ function ParamakudiPage() {
       </div>
 
       <section>
-
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        {/* <MarqueeComponent
+          items={Paramakudi.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* <MarqueeComponent
+          items={Theni.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        /> */}
         <GallerySlider items={paramakudiVideos} />
+        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+
+        {/* <MarqueeComponent
+          items={Paramakudi.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+
+        {/* <MarqueeComponent
+          items={Theni.gallery}
+           direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

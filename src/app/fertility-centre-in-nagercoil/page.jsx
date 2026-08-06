@@ -2,6 +2,7 @@ import NagercoilPage from '@/pages/Branch/nagercoil'
 import React from 'react'
 import Script from "next/script";
 
+import Head from "next/head";
 
 
 
@@ -9,15 +10,12 @@ export const metadata = {
   title: "Best Fertility Centre in Nagercoil - Sudha Fertility Centre",
   description: "Turn to Sudha Fertility Centre in Nagercoil for trusted reproductive guidance, advanced IVF & IUI labs, and expert specialists. Book now.",
   keywords: "Fertility Centre in Nagercoil",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-nagercoil",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-nagercoil",
-    },
-  },
 };
 export default function page() {
-  
+  <Head>
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-nagercoil" hreflang="en-in" />
+  </Head>
+
 
   return (
     <div>

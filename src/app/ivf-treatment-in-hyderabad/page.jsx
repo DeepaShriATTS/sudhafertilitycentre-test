@@ -1,6 +1,7 @@
 import React from "react";
 import Script from "next/script";
-import IVFTreatmentHyderabad from "@/pages/Branch/IVFTreatmentinHyderabad";
+import Head from "next/head";
+import IVFTreatmentHyderabad from "@/pages/Branch/IVFTreatmentinHyderabad ";
 
 export const metadata = {
   title:
@@ -9,15 +10,16 @@ export const metadata = {
     "Looking for the best IVF treatment in Hyderabad? Sudha Fertility Centre offers advanced IVF with personalised protocols, expert embryologists & 85% success rate. Book your FREE consultation today. ",
   keywords:
     "IVF treatment in Hyderabad ,IVF specialist in Hyderabad ,how many IVF cycles are needed ,best IVF centre in Hyderabad ,IVF procedure steps ,IVF treatment cost Hyderabad ,IVF in Hyderabad ,IVF success rate Hyderabad ,who needs IVF treatment ,IVF hospital Hyderabad ,test tube baby centre Hyderabad ,IVF vs ICSI difference ,IVF clinic Hyderabad ,IVF treatment process India ,IVF treatment near me Hyderabad ",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/ivf-treatment-in-hyderabad",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/ivf-treatment-in-hyderabad",
-    },
-  },
 };
 export default function page() {
-  
+  <Head>
+    <link
+      rel="alternate"
+      href="https://sudhafertilitycentre.com/ivf-treatment-in-hyderabad"
+      hreflang="en-in"
+    />
+  </Head>;
+
   return (
     <div>
       <Script

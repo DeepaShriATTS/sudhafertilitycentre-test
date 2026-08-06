@@ -1,31 +1,32 @@
 "use client";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-import Calendar from "@/assets/branch/ambatur/callender.svg";
 import Image from "next/image";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/hyderabad/hyderabad_about.webp";
 import { motion } from "framer-motion";
-import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 import Hospital from "@/assets/branch/hyderabad/Hyderabad.webp";
-import Pranitha from "@/assets/branch/hyderabad/pranitha-reshmi.webp";
 import ImageGrid from "@/components/imagegrid";
 import Buttonbottm from "@/components/button";
-import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+import { MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import { MarqueeComponent } from "@/components/marqueeSlider";
-import { IVFCostinHyderabadfaq } from "@/middleware/imagesroute";
+import {
+  Ambattur,
+  Hyderabad,
+  IVFTreatmentHyderabadfaq,
+} from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
 import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
-function IVFCostinHyderabad() {
+function IVFTreatmentHyderabad() {
   const [visibleCount, setVisibleCount] = useState(5);
   const [openIndex, setOpenIndex] = useState(null);
   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
@@ -39,7 +40,7 @@ function IVFCostinHyderabad() {
       setVisibleCount(5); // Reset to initial count when showing less
       setShowAll(false); // Properly toggle state
     } else {
-      setVisibleCount(IVFCostinHyderabadfaq.faqs.length); // Show all FAQs
+      setVisibleCount(IVFTreatmentHyderabadfaq.faqs.length); // Show all FAQs
       setShowAll(true); // Properly toggle state
     }
   };
@@ -51,134 +52,31 @@ function IVFCostinHyderabad() {
     { id: "location", label: "Location" },
   ];
 
-  const ivfCostComparison = [
+  const tabledata = [
     {
-      city: <p>Hyderabad </p>,
-      ivfBasicCycle: "₹₹1.5L – ₹2.0L ",
-      ivficsi: <p>₹1.8L – ₹2.5L</p>,
-      notes: <p>Competitive pricing + Sudha's 85% success rate</p>,
+      agegroup: "Under 35",
+      clinicalpregnancyrate: "Up to 85%",
+      recommendation: "Highest success — ideal window",
     },
     {
-      city: <p>Mumbai</p>,
-      ivfBasicCycle: "₹2.0L – ₹3.0L ",
-      ivficsi: <p>₹2.5L – ₹3.5L</p>,
-      notes: <p>Higher cost due to city premium</p>,
+      agegroup: "35 – 37",
+      clinicalpregnancyrate: "60 – 70%",
+      recommendation: "Good outcomes with tailored protocol",
     },
     {
-      city: <p>Delhi / Gurgaon </p>,
-      ivfBasicCycle: "₹1.8L – ₹2.8L",
-      ivficsi: <p>₹2.2L – ₹3.2L </p>,
-      notes: <p>Similar range to Hyderabad </p>,
+      agegroup: "38 – 40",
+      clinicalpregnancyrate: "45 – 55%",
+      recommendation: "PGT recommended for embryo selection",
     },
     {
-      city: <p>Chennai </p>,
-      ivfBasicCycle: "₹1.5L – ₹2.2L ",
-      ivficsi: <p>₹1.8L – ₹2.8L </p>,
-      notes: <p>Similar to Hyderabad </p>,
+      agegroup: "40 – 42",
+      clinicalpregnancyrate: "30 – 40%",
+      recommendation: "Donor egg IVF may be discussed",
     },
     {
-      city: <p>Bengaluru</p>,
-      ivfBasicCycle: "₹1.8L – ₹2.5L",
-      ivficsi: <p>₹2.0L – ₹3.0L </p>,
-      notes: <p>Slightly higher</p>,
-    },
-  ];
-
-  const ivfaddoncosts = [
-    {
-      AddOnProcedure: (
-        <Link href="/icsi-treatment-in-hyderabad" className="text-[#033ab1]">
-          ICSI (Intracytoplasmic Sperm Injection){" "}
-        </Link>
-      ),
-      AdditionalCost: "₹30,000 – ₹50,000",
-      WhenRecommended: (
-        <p>
-          <Link href="/male-infertility" className="text-[#033ab1]">
-            Male factor infertility
-          </Link>
-          , poor past fertilisation{" "}
-        </p>
-      ),
-    },
-    {
-      AddOnProcedure: "PGT-A (Preimplantation Genetic Testing)  ",
-      AdditionalCost: "₹60,000 – ₹1,00,000 ",
-      WhenRecommended:
-        "Women 37+, recurrent miscarriage, repeated IVF failure ",
-    },
-    {
-      AddOnProcedure: "Embryo Vitrification (Freezing) ",
-      AdditionalCost: "₹20,000 – ₹30,000 ",
-      WhenRecommended: "Freeze-all cycles, surplus embryos ",
-    },
-    {
-      AddOnProcedure: "ERA (Endometrial Receptivity Analysis) ",
-      AdditionalCost: "₹25,000 – ₹40,000  ",
-      WhenRecommended: "Recurrent implantation failure ",
-    },
-    {
-      AddOnProcedure: "Sperm DNA Fragmentation Test ",
-      AdditionalCost: "₹3,000 – ₹6,000 ",
-      WhenRecommended:
-        "Male factor, poor embryo quality, recurrent miscarriage ",
-    },
-    {
-      AddOnProcedure: "TESE / PESA (Surgical Sperm Retrieval) ",
-      AdditionalCost: "₹20,000 – ₹40,000",
-      WhenRecommended: "Azoospermia — no sperm in ejaculate ",
-    },
-  ];
-  const ivfcost = [
-    {
-      treatment: (
-        <Link href="/intrauterine-insemination" className="text-[#033ab1]">
-          IUI Treatment
-        </Link>
-      ),
-      costrange: "₹8,000 – ₹25,000 ",
-      notes: "Minimally invasive, first-line treatment ",
-    },
-    {
-      treatment: (
-        <Link href="/in-vitro-fertilization" className="text-[#033ab1]">
-          IUI Treatment
-        </Link>
-      ),
-      costrange: "₹1,50,000 – ₹2,00,000",
-      notes: "Egg retrieval, fertilisation, embryo transfer ",
-    },
-    {
-      treatment: (
-        <Link
-          href="/intracytoplasmic-sperm-injection"
-          className="text-[#033ab1]"
-        >
-          IVF + ICSI{" "}
-        </Link>
-      ),
-      costrange: "₹1,80,000 – ₹2,50,000 ",
-      notes: "Recommended for male factor infertility ",
-    },
-    {
-      treatment: "IVF + ICSI + PGT ",
-      costrange: "₹2,50,000 – ₹3,50,000 ",
-      notes: "Genetic testing of embryos included ",
-    },
-    {
-      treatment: "Frozen Embryo Transfer (FET) ",
-      costrange: "₹40,000 – ₹80,000 ",
-      notes: "Using previously frozen embryos ",
-    },
-    {
-      treatment: "Donor Egg IVF ",
-      costrange: "₹2,50,000 – ₹4,00,000 ",
-      notes: "For poor ovarian reserve / advanced age ",
-    },
-    {
-      treatment: "Fertility Medications ",
-      costrange: "₹40,000 – ₹80,000 ",
-      notes: "Billed separately, varies by response ",
+      agegroup: "Above 42",
+      clinicalpregnancyrate: "20 – 30%",
+      recommendation: "Donor egg IVF significantly improves odds",
     },
   ];
 
@@ -343,8 +241,11 @@ function IVFCostinHyderabad() {
                     transition={{ duration: 0.5 }}
                   >
                     <h1 className="font-bold mt-4">
-                      IVF Cost in Hyderabad 2025 — Complete, Transparent Price
-                      Guide at Sudha Fertility Centre
+                      Best IVF Treatment in Hyderabad{" "}
+                      <br className="hidden sm:block" />
+                      <span className="text-[#FDCB58]">
+                        Personalised Care at Sudha Fertility Centre
+                      </span>
                     </h1>
 
                     <Button
@@ -395,30 +296,39 @@ function IVFCostinHyderabad() {
                         Introduction
                       </h2>
                       <p className="mt-3  text-gray-600">
-                        One of the first questions couples ask when considering
-                        IVF is: how much will it cost? At Sudha Fertility
-                        Centre, we believe in complete transparency — no hidden
-                        charges, no surprise fees. This page gives you a
-                        comprehensive, honest breakdown of IVF costs in
-                        Hyderabad so you can plan your fertility journey with
-                        confidence.{" "}
-                        <Link
-                          href="https://sudhafertilitycentre.com/ivf-treatment-in-hyderabad"
-                          className="text-[#033ab1]"
-                        >
-                          IVF treatment costs in Hyderabad
-                        </Link>{" "}
-                        range from approximately ₹1.5 lakhs to ₹3.5 lakhs per
-                        cycle depending on the protocol required, the clinic
-                        chosen, and any additional procedures such as{" "}
-                        <Link
-                          href="/intracytoplasmic-sperm-injection"
-                          className="text-[#033ab1]"
-                        >
-                          ICSI
-                        </Link>{" "}
-                        or embryo freezing.
+                        For couples in Hyderabad who have been trying to
+                        conceive without success, IVF — In Vitro Fertilization —
+                        can be the turning point that changes everything. At
+                        Sudha Fertility Centre, Hyderabad, we have helped
+                        thousands of couples achieve their dream of parenthood
+                        through advanced, evidence-based IVF treatment that is
+                        personalised to each couple's unique medical needs. With
+                        40+ years of fertility expertise, 85% IVF success rates,
+                        and over 60,000 IVF babies delivered across our network,
+                        we are one of the most trusted IVF centres in Hyderabad.
+                        Book your FREE consultation today and take the first
+                        step.
                       </p>
+                      <h2 className="text-[#173366] mb-3  font-semibold">
+                        What is IVF Treatment?
+                      </h2>
+                      <p className="mt-3  text-gray-600">
+                        IVF (In Vitro Fertilisation) is an assisted reproductive
+                        technology (ART) in which eggs are retrieved from the
+                        woman's ovaries, fertilised with sperm in a specialised
+                        laboratory, and the resulting embryo is carefully
+                        transferred into the uterus to establish pregnancy. IVF
+                        is today one of the most successful fertility treatments
+                        available, with modern techniques significantly
+                        improving success rates compared to earlier decades. At
+                        Sudha Fertility Centre in Hyderabad, every IVF cycle is
+                        planned using the latest reproductive science and
+                        monitored by experienced embryologists in our Class A
+                        IVF laboratory.
+                      </p>
+                      <h2 className="text-[#173366] mb-3  font-semibold">
+                        Who Needs IVF Treatment in Hyderabad?
+                      </h2>
                     </div>
                     <div className="w-full lg:w-1/2 mt-5 sm-hidden">
                       <Image
@@ -434,298 +344,228 @@ function IVFCostinHyderabad() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
-                      IVF vs ICSI — Key Differences
-                    </h2>
-
-                    <div className="overflow-x-auto p-4">
-                      <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
-                        {/* Header */}
-                        <thead className="bg-blue-900 text-white">
-                          <tr>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              Treatment
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              Cost Range (per cycle)
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              Notes
-                            </th>
-                          </tr>
-                        </thead>
-
-                        {/* Body */}
-                        <tbody className="text-gray-700">
-                          {ivfcost.map((item) => (
-                            <tr className="bg-blue-100">
-                              <td className="px-4 py-3">{item.treatment}</td>
-                              <td className="px-4 py-3 font-semibold text-green-700">
-                                {item.costrange}
-                              </td>
-                              <td className="px-4 py-3">{item.notes}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-
-                    <p className="text-md text-gray-600">
-                      All prices are indicative ranges. Your actual cost depends
-                      on your individual treatment protocol. Sudha Fertility
-                      Centre provides a written cost estimate after your initial
-                      consultation — with no hidden charges.{" "}
+                    <p className="mt-3 mb-3 text-gray-600">
+                      IVF is recommended when other fertility treatments have
+                      not succeeded or when specific medical conditions affect
+                      natural conception. Our fertility specialists in Hyderabad
+                      recommend IVF for:
                     </p>
-                    <p className="text-md text-gray-600">
-                      <Link
-                        href="/iui-treatment-in-hyderabad"
-                        className="text-[#033ab1]"
-                      >
-                        See our IUI treatment in Hyderabad
-                      </Link>{" "}
-                      and{" "}
-                      <Link
-                        href="/ivf-treatment-in-hyderabad"
-                        className="text-[#033ab1]"
-                      >
-                        See our IVF treatment in Hyderabad page
-                      </Link>{" "}
-                      for your understanding and clarification.{" "}
-                    </p>
-
-                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
-                      What Does an IVF Package at Sudha Include?
-                    </h2>
                     <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
                       <li>
-                        Initial fertility consultation and treatment planning
+                        Blocked or damaged fallopian tubes preventing natural
+                        egg travel
                       </li>
                       <li>
-                        All monitoring scans during ovarian stimulation
-                        (typically 3–5 scans)
+                        Low sperm count or poor sperm motility (male factor
+                        infertility)
+                      </li>
+                      <li>PMOS (PCOS) / PCOD affecting ovulation and egg quality</li>
+                      <li>Endometriosis causing adhesions or ovarian damage</li>
+                      <li>
+                        Unexplained infertility — where no clear cause is
+                        identified
                       </li>
                       <li>
-                        Egg retrieval procedure including anaesthesia and OT
-                        charges
+                        Recurrent pregnancy loss or multiple failed IUI cycles
                       </li>
-                      <li>Sperm preparation and laboratory fertilisation</li>
-                      <li>Embryo culture for 3–5 days</li>
-                      <li>Pregnancy blood test (beta-hCG) at day 14</li>
-                      <li>Post-transfer medications for 2 weeks</li>
+                      <li>
+                        Advanced maternal age (35+ years) with diminishing
+                        ovarian reserve
+                      </li>
+                      <li>
+                        Genetic conditions requiring pre-implantation genetic
+                        testing (PGT)
+                      </li>
                     </ul>
+                    <p className="mt-3 text-gray-600">
+                      Not sure if IVF is right for you? Our specialists offer a
+                      FREE fertility evaluation at our Hyderabad centre to
+                      assess your individual situation and recommend the most
+                      suitable path forward.
+                    </p>
 
+                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
+                      IVF Treatment Process at Sudha Fertility Centre — Step by
+                      Step
+                    </h2>
                     <p className="text-gray-600 mt-3">
-                      Fertility medications (stimulation injections) are billed
-                      separately as the dosage varies significantly from patient
-                      to patient based on ovarian response. We clearly
-                      communicate all medication costs before your cycle begins.
+                      Our IVF protocol at Hyderabad follows a carefully
+                      structured, 6-step process:
                     </p>
+                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
+                      <li>
+                        Step 1 — Fertility Evaluation & Consultation
+                        Comprehensive hormonal tests (AMH, FSH, LH), semen
+                        analysis, ultrasound scan and a detailed consultation
+                        with our IVF specialist to personalise your treatment
+                        plan.
+                      </li>
+                      <li>
+                        Step 2 — Ovarian Stimulation Hormonal injections over
+                        8–12 days stimulate your ovaries to produce multiple
+                        mature eggs. Progress is monitored through regular
+                        ultrasound scans and blood tests at our Hyderabad
+                        centre.
+                      </li>
+                      <li>
+                        Step 3 — Egg Retrieval (OPU) Under light anaesthesia,
+                        our surgeon retrieves mature eggs from the ovarian
+                        follicles using a thin ultrasound-guided needle. The
+                        procedure takes approximately 20 minutes. You return
+                        home the same day.
+                      </li>
+                      <li>
+                        Step 4 — Fertilisation in the Lab Retrieved eggs are
+                        fertilised with the partner's (or donor's) sperm in our
+                        state-of-the-art embryology laboratory. In cases of male
+                        factor infertility, ICSI — where a single sperm is
+                        injected directly into each egg — is performed to
+                        maximise fertilisation rates.
+                      </li>
+                      <li>
+                        Step 5 — Embryo Culture & Selection Fertilised embryos
+                        are cultured for 3–5 days in our IVF lab under carefully
+                        controlled conditions. Our embryologists grade each
+                        embryo at day 3 and day 5 (blastocyst stage) and select
+                        the highest-quality embryo for transfer.
+                      </li>
+                      <li>
+                        Step 6 — Embryo Transfer & Pregnancy Confirmation The
+                        selected embryo is gently placed into the uterus using a
+                        thin catheter in a simple, painless procedure that takes
+                        around 10 minutes. A pregnancy blood test (beta-hCG) is
+                        performed 14 days later to confirm conception. Surplus
+                        good-quality embryos are vitrified (frozen) for future
+                        use at no additional culture cost.
+                      </li>
+                    </ul>
 
-                    <h2 className="text-[#173366] mb-3 mt-3  font-semibold">
-                      IVF Add-On Costs — ICSI, PGT, Embryo Freezing
+                    <h2 className="text-[#173366] mb-3  font-semibold">
+                      Why Choose Sudha Fertility Centre for IVF in Hyderabad?
                     </h2>
-
+                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
+                      <li>
+                        85% IVF Success Rate — Among the highest in Hyderabad,
+                        backed by consistent clinical outcomes across thousands
+                        of cycles
+                      </li>
+                      <li>
+                        40+ Years of Fertility Excellence — Sudha Fertility
+                        Centre has been a pioneer in fertility care since 1984,
+                        building four decades of reproductive medicine
+                        expertise.
+                      </li>
+                      <li>
+                        60,000+ IVF Babies Delivered — A testament to our
+                        expertise and the trust of families across South India,
+                        Bangladesh, and Sri Lanka.
+                      </li>
+                      <li>
+                        Expert IVF Specialists — Dr. V. Pranitha Reshmi MBBS,
+                        DGO, DNB, ICOG, FMAS (360+ ICSI cycles, 600+ IUI
+                        procedures, ICOG Fellowship 12 years of experience)lead
+                        our dedicated Hyderabad team.
+                      </li>
+                      <li>
+                        Class A IVF Laboratory — Our advanced embryology lab
+                        operates in a fully controlled environment — optimal air
+                        quality, temperature, and humidity — for the best
+                        possible embryo development outcomes
+                      </li>
+                      <li>
+                        Personalised Treatment Plans — No two patients are
+                        treated the same. Every IVF protocol is individually
+                        customised to your specific diagnosis, age, ovarian
+                        reserve, and fertility profile.
+                      </li>
+                      <li>
+                        Transparent Pricing — Clear, upfront IVF cost structure
+                        with no hidden charges. Affordable EMI options
+                        available. Full written cost estimate provided before
+                        your cycle begins.
+                      </li>
+                    </ul>
+                    <h2 className="text-[#173366] mb-3  font-semibold">
+                      IVF Success Rates at Sudha Fertility Centre Hyderabad
+                    </h2>
+                    <p className="text-gray-600 mt-3">
+                      Our IVF success rates are consistently among the best in
+                      Hyderabad. Here is a guide to expected success rates by
+                      age group:
+                    </p>
                     <div className="overflow-x-auto p-4">
                       <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
                         {/* Header */}
                         <thead className="bg-blue-900 text-white">
                           <tr>
                             <th className="text-left px-4 py-3 font-semibold">
-                              Add-On Procedure
+                              Age Group
                             </th>
                             <th className="text-left px-4 py-3 font-semibold">
-                              Additional Cost
+                              Clinical Pregnancy Rate
                             </th>
                             <th className="text-left px-4 py-3 font-semibold">
-                              When Recommended
+                              Recommendation
                             </th>
                           </tr>
                         </thead>
 
                         {/* Body */}
                         <tbody className="text-gray-700">
-                          {ivfaddoncosts.map((item) => (
+                          {tabledata.map((item) => (
                             <tr className="bg-blue-100">
-                              <td className="px-4 py-3">
-                                {item.AddOnProcedure}
-                              </td>
+                              <td className="px-4 py-3">{item.agegroup}</td>
                               <td className="px-4 py-3 font-semibold text-green-700">
-                                {item.AdditionalCost}
+                                {item.clinicalpregnancyrate}
                               </td>
                               <td className="px-4 py-3">
-                                {item.WhenRecommended}
+                                {item.recommendation}
                               </td>
                             </tr>
                           ))}
                         </tbody>
                       </table>
                     </div>
-
-                    <h2 className="text-[#173366] mb-3 mt-3  font-semibold">
-                      Factors That Affect Your IVF Cost
+                    <h2 className="text-[#173366] mb-3  font-semibold">
+                      Our IVF Specialists in Hyderabad
                     </h2>
-
-                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
-                      <li>
-                        <b> Your Age:</b> Older patients may need higher
-                        medication doses, increasing cycle cost.
-                      </li>
-                      <li>
-                        <b>Ovarian Reserve:</b> Women with low AMH or poor
-                        ovarian reserve may require modified protocols.
-                      </li>
-                      <li>
-                        <b>Number of Cycles:</b> Multiple IVF cycles increase
-                        total expenditure. Our high success rates minimise the
-                        need for repeat cycles.
-                      </li>
-                      <li>
-                        <b>Additional Procedures:</b>{" "}
-                        <Link
-                          href="/intracytoplasmic-sperm-injection"
-                          className="text-[#033ab1]"
-                        >
-                          ICSI
-                        </Link>
-                        , PGT, endometrial scratch, ERA, and embryo freezing
-                        each add to the base cost.
-                      </li>
-                      <li>
-                        <Link
-                          href="/intracytoplasmic-sperm-injection"
-                          className="text-[#033ab1]"
-                        >
-                          <b>Male Factor Severity:</b>
-                        </Link>
-                        Surgical sperm retrieval (TESE/PESA) adds to overall
-                        treatment cost when required.
-                      </li>
-                    </ul>
-
-                    <h2 className="text-[#173366] mb-3 mt-3  font-semibold">
-                      How Sudha Fertility Centre Keeps IVF Affordable in
-                      Hyderabad
-                    </h2>
-
-                    <ul className="text-md text-gray-600 list-disc pl-4 leading-[2.2]">
-                      <li>
-                        <b>Transparent, itemised pricing:</b> You receive a full
-                        written cost estimate before your cycle begins. No
-                        surprise charges mid-cycle.
-                      </li>
-                      <li>
-                        <b> No unnecessary procedures:</b> We recommend only
-                        clinically indicated add-ons. You will never be upsold
-                        on procedures that do not improve your specific outcome.
-                      </li>
-                      <li>
-                        <b>High first-cycle success rates:</b> An 85% IVF
-                        success rate means fewer couples need multiple cycles —
-                        significantly reducing total treatment cost.
-                      </li>
-                      <li>
-                        <b>Affordable FET cycles:</b> When surplus embryos are
-                        frozen, subsequent frozen embryo transfers are available
-                        at a fraction of the fresh cycle cost (₹40,000–₹80,000).
-                      </li>
-                      <li>
-                        <b>EMI payment options:</b> No-cost EMI plans available
-                        through selected partners to spread your treatment cost
-                        over manageable monthly payments.
-                      </li>
-                    </ul>
-
-                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
-                      Is IVF Covered by Insurance in India?
-                    </h2>
-                    <p>
-                      Currently, most standard health insurance policies in
-                      India do not cover IVF or assisted reproductive
-                      treatments. However, some group employer health policies
-                      and specialised fertility riders now offer partial
-                      coverage. We recommend checking your policy document or
-                      speaking to your insurer directly. Our billing team can
-                      provide itemised cost documents to support any insurance
-                      claims you may be eligible for.{" "}
+                    <p className="text-gray-600 mt-3">
+                      Dr.S.Pradeepa Sudhakar., — DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS). Dr. Pradeepa is a leading IVF specialist with memberships in ASRM, ESHRE, ISAR, FOGSI, and the International Federation of Fertility Societies (IFFS). She has overseen the establishment of 40+ Sudha Fertility branches across South India and brings unmatched clinical expertise and leadership to our Hyderabad team. 
                     </p>
-
-                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
-                      EMI and Payment Plan Options
-                    </h2>
-                    <p>
-                      We understand that IVF is a significant financial
-                      investment. Sudha Fertility Centre Hyderabad offers
-                      flexible payment options to help make treatment
-                      accessible:
+                    <p className="text-gray-600 mt-3">
+                      Dr. V. Pranitha Reshmi — MBBS, DGO, DNB, ICOG, FMAS. Dr. Pranitha is a dedicated Fertility Consultant at <Link href="/fertility-centre-in-banjara-hills" className="text-[#033ab1]">Sudha Fertility Centre, Banjara Hills</Link>, Hyderabad with 12 years of experience in women's health and reproductive care. Her areas of expertise include fertility evaluations, IVF, IUI, PMOS (PCOS) management, and minimally invasive procedures. She is known for her compassionate approach, clear communication, and personalised treatment plans — consistently earning high patient satisfaction at our Hyderabad centre. 
                     </p>
-                    <ul className="text-md text-gray-600">
-                      <li>
-                        No-cost EMI options available through selected financing
-                        partners{" "}
-                      </li>
-                      <li>
-                        Staged payment plans — spread the cost across your
-                        treatment timeline{" "}
-                      </li>
-                      <li>
-                        Transparent upfront quotation — no surprise charges
-                        mid-cycle{" "}
-                      </li>
-                    </ul>
-
-                    <p>
-                      Speak to our patient support team at our{" "}
-                      <Link
-                        href="/fertility-centre-in-banjarahills"
-                        className="text-[#033ab1]"
-                      >
-                        Banjara Hills, Hyderabad centre
-                      </Link>{" "}
-                      to learn about the current payment options available to
-                      you.
-                    </p>
-
-                    <h2 className="text-[#173366] mb-3 mt-2 font-semibold">
-                      IVF Cost Comparison — Hyderabad vs Other Major Cities
+                    <div>
+                      <h2 className="text-[#173366] mb-3  font-semibold">
+                     IVF Treatment Cost in Hyderabad
                     </h2>
-                    <div className="overflow-x-auto p-4 mt-2">
-                      <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
-                        {/* Header */}
-                        <thead className="bg-blue-900 text-white">
-                          <tr>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              City
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              IVF Basic Cycle
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              IVF + ICSI
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                              Notes
-                            </th>
-                          </tr>
-                        </thead>
-
-                        {/* Body */}
-                        <tbody className="text-gray-700">
-                          {ivfCostComparison.map((item) => (
-                            <tr className="bg-blue-100">
-                              <td className="px-4 py-3">{item.city}</td>
-                              <td className="px-4 py-3 font-semibold text-green-700">
-                                {item.ivfBasicCycle}
-                              </td>
-                              <td className="px-4 py-3">{item.ivficsi}</td>
-                              <td className="px-4 py-3">{item.notes}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                    <p className="text-gray-600 mt-3">
+                      IVF treatment costs in Hyderabad range from approximately ₹1.5 lakhs to ₹3.5 lakhs per cycle, depending on the protocol required and any additional procedures such as <Link href="/intracytoplasmic-sperm-injection" className="text-[#033ab1]">ICSI</Link>, PGT, or embryo freezing. Sudha Fertility Centre provides a full written cost estimate after your initial consultation — with no hidden charges. For a complete breakdown of all treatment costs, visit our dedicated <Link href="/ivf-cost-in-hyderabad" className="text-[#033ab1]">IVF Cost in Hyderabad page</Link>. 
+                    </p>
                     </div>
-            
-                
                   </motion.div>
+
+
+                  <motion.div>
+                                        <h2 className="text-[#173366] mb-3  font-semibold">
+                     IVF Patient Success Stories from Hyderabad
+                    </h2>
+                    <p className="text-gray-600 mt-3">
+                     "After 8 years of trying and multiple failed attempts elsewhere, Sudha Fertility Centre gave us our miracle. Dr. Pranitha explained every step clearly and the team was with us throughout. Today we are proud parents of healthy twins." — Sravanthi K., Hyderabad 
+                    </p>
+                    <p className="text-gray-600 mt-3">
+                      "We were hesitant after so many disappointments, but the compassion and expertise at Sudha Banjara Hills changed everything. Our first IVF cycle at Sudha was successful. We cannot thank Dr. Pranitha and the entire Sudha team enough." — Priya & Ravi, Jubilee Hills, Hyderabad 
+                    </p>
+                    <p className="text-gray-600 mt-3">
+                      "Transparent, honest, and genuinely caring — Sudha Fertility Centre is everything you hope for when going through IVF." — Lakshmi M., Banjara Hills 
+                    </p>
+
+
+                 
+  
+                  </motion.div>
+
+
 
                   <hr className="mt-4" />
                 </section>
@@ -738,7 +578,7 @@ function IVFCostinHyderabad() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <ImageGrid images={IVFCostinHyderabadfaq.gallery} />
+                    <ImageGrid images={IVFTreatmentHyderabadfaq.gallery} />
                   </motion.div>
 
                   <hr className="mt-4 border-gray-300" />
@@ -858,9 +698,9 @@ function IVFCostinHyderabad() {
         <div className="max-w-5xl mx-auto px-4 py-16 sm:px-6 lg:px-8 h-full">
           <section>
             <h2 className=" font-semibold text-center mb-6">
-              FAQs — IVF Cost in Hyderabad
+              Frequently Asked Questions
             </h2>
-            {IVFCostinHyderabadfaq.faqs
+            {IVFTreatmentHyderabadfaq.faqs
               .slice(0, visibleCount)
               .map((faq, index) => (
                 <FAQItem
@@ -871,7 +711,7 @@ function IVFCostinHyderabad() {
                   toggle={() => toggleFAQ(index)}
                 />
               ))}
-            {IVFCostinHyderabadfaq.faqs.length > 5 && ( // Ensure button is shown if there are more than 5 FAQs
+            {IVFTreatmentHyderabadfaq.faqs.length > 5 && ( // Ensure button is shown if there are more than 5 FAQs
               <div className="text-center mt-16">
                 <button
                   className="button-all mx-auto"
@@ -891,13 +731,10 @@ function IVFCostinHyderabad() {
             )}
 
             <h2 className="text-[#173366] mb-3 mt-4 font-semibold">
-              Get a FREE Personalised IVF Cost Estimate
+              Book Your Free IVF Consultation in Hyderabad
             </h2>
             <p className="text-gray-600 mt-3">
-              Every patient's fertility situation is unique — and so is their IVF cost. Call
-              <Link href="/fertility-centre-in-hyderabad" className="text-[#033ab1]">
-                 our Hyderabad centre 
-              </Link>on +91 76-7007-6006 or <Link href="/contact-us" className="text-[#033ab1]">book a FREE consultation</Link> online to receive a personalised, written IVF cost estimate tailored to your specific diagnosis and treatment needs. No obligations, no pressure — just honest, transparent guidance. 
+             Ready to begin your IVF journey? Sudha Fertility Centre's Hyderabad team is here to guide you — from your first consultation through every step of treatment and beyond. <Link href="/contact-us" className="text-[#033ab1]">Book your FREE consultation</Link> today by calling +91 76-7007-6006 or filling in our online appointment form. Our Hyderabad centre is located at <Link href="/fertility-centre-in-banjara-hills" className="text-[#033ab1]">Banjara Hills</Link> and is open Monday to Saturday, 9 AM to 6 PM. 
             </p>
           </section>
         </div>
@@ -907,7 +744,7 @@ function IVFCostinHyderabad() {
         {/* <div className="container mx-auto">
             <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
         <MarqueeComponent
-          items={IVFCostinHyderabadfaq.gallery}
+          items={IVFTreatmentHyderabadfaq.gallery}
           direction="left"
           speed="fast"
           className="custom-class"
@@ -922,7 +759,7 @@ function IVFCostinHyderabad() {
           />
         </div>
         {/* <MarqueeComponent
-          items={IVFCostinHyderabadfaq.gallery}
+          items={IVFTreatmentHyderabadfaq.gallery}
           direction="right"
           speed="fast"
           className="custom-class"
@@ -935,4 +772,4 @@ function IVFCostinHyderabad() {
   );
 }
 
-export default IVFCostinHyderabad;
+export default IVFTreatmentHyderabad;

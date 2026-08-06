@@ -2,22 +2,20 @@
 import KrishnagiriPage from '@/pages/Branch/krishnagiri'
 import React from 'react'
 import Script from "next/script";
+import Head from 'next/head';
 
 
 export const metadata = {
   title: "Best Fertility Centre in Krishnagiri - Sudha Fertility Centre",
   description: "Seeking a baby? Sudha Fertility Centre in Krishnagiri offers advanced IVF and IUI care, blending medical expertise with compassion. Call now.",
   keywords: "Fertility Centre in Krishnagiri",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-krishnagiri",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-krishnagiri",
-    },
-  },
 };
 export default function page() {
 
-  
+  <Head>
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-krishnagiri" hreflang="en-in" />
+  </Head>
+
 
   return (
     <div>

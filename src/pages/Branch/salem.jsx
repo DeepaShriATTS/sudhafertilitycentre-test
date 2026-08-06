@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-
+import Calendar from "@/assets/branch/ambatur/callender.svg";
 import Image from "next/image";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/Salem/salem_about.webp";
@@ -10,8 +10,8 @@ import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 import Hospital from "@/assets/branch/Salem/salem.webp";
 import charulatha from "@/assets/branch/Salem/charulatha.webp";
 import ImageGrid from "@/components/imagegrid";
-
-import {  MdLocationOn } from "react-icons/md";
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
 import { IoCallOutline } from "react-icons/io5";
@@ -20,32 +20,45 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Salem } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import { salemVideos } from "@/middleware/videosRoute";
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import { VideoSkeletonRow } from '@/components/loaders/VideoCardSkeleton';
+function SalemPage() {
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
 
-import dynamic from "next/dynamic";
-// Dynamic imports with same loading component
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
-const GallerySlider = dynamic(
-  () => import("@/components/videoCard/videoPlaylistSlider"),
-  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
-);
+  const toggleViewMore = () => {
+    if (showAll) {
+      setVisibleCount(5); // Reset to initial count when showing less
+      setShowAll(false); // Properly toggle state
+    } else {
+      setVisibleCount(Salem.faqs.length); // Show all FAQs
+      setShowAll(true); // Properly toggle state
+    }
+  };
+  const sections = [
+    { id: "about", label: "About" },
+    { id: "facilities", label: "Facilities" },
+    { id: "specialists", label: "Fertility Specialists" },
+    { id: "gallery", label: "Gallery" },
+    { id: "location", label: "Location" },
+  ];
 
 
- export const SalemReview = [
+
+  const SalemReview = [
     {
       quote:
         "Am interested to share review about sudha Salem branch.... Staffs with good approach with us doctors and staffs approach were satisfied for us",
@@ -168,38 +181,6 @@ const GallerySlider = dynamic(
       title: "Patient",
     },
   ];
-
-  export const sections = [
-    { id: "about", label: "About" },
-    { id: "facilities", label: "Facilities" },
-    { id: "specialists", label: "Fertility Specialists" },
-    { id: "gallery", label: "Gallery" },
-    { id: "location", label: "Location" },
-  ];
-
-function SalemPage() {
-  const [visibleCount, setVisibleCount] = useState(5);
-  const [openIndex, setOpenIndex] = useState(null);
-  const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
-
-  const toggleFAQ = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-
-  const toggleViewMore = () => {
-    if (showAll) {
-      setVisibleCount(5); // Reset to initial count when showing less
-      setShowAll(false); // Properly toggle state
-    } else {
-      setVisibleCount(Salem.faqs.length); // Show all FAQs
-      setShowAll(true); // Properly toggle state
-    }
-  };
-
-
-
-
-
 
 
 
@@ -688,9 +669,32 @@ function SalemPage() {
       </div>
 
       <section>
-    
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        {/* <MarqueeComponent
+          items={Salem.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        /> */}
+
            <GallerySlider items={salemVideos} />
 
+      
+        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Salem.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

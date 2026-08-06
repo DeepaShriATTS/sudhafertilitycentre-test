@@ -1,196 +1,188 @@
 "use client";
-// import React, { useState } from "react";
-// import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-// import Calendar from "@/assets/branch/ambatur/callender.svg";
-// import Image from "next/image";
-// import Button from "@/components/button";
-// import SudhaAbout from "@/assets/branch/ambatur/ambattur_about.webp";
-// import { motion } from "framer-motion";
-// import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
-// import PadmavathiDevi from "@/assets/dummy-image.webp";
-// import Hospital from "@/assets/dummy-location.webp";
-// import { CiLocationOn } from "react-icons/ci";
-// import ImageGrid from "@/components/imagegrid";
-// import Buttonbottm from "@/components/button";
-// import { MdArrowOutward, MdLocationOn } from "react-icons/md";
-// // import Button from "@/components/button/button";
-// import Insta from "@/assets/Home/instagram.svg";
-// import youtube from "@/assets/Home/youtube.svg";
-// import fb from "@/assets/Home/facebook.svg";
-// import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
+import React, { useState } from "react";
+import BgAbout from "@/assets/branch/ambatur/hospital.webp";
+import Calendar from "@/assets/branch/ambatur/callender.svg";
+import Image from "next/image";
+import Button from "@/components/button";
+import SudhaAbout from "@/assets/branch/ambatur/ambattur_about.webp";
+import { motion } from "framer-motion";
+import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
+import PadmavathiDevi from "@/assets/dummy-image.webp";
+import Hospital from "@/assets/dummy-location.webp";
+import { CiLocationOn } from "react-icons/ci";
+import ImageGrid from "@/components/imagegrid";
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+// import Button from "@/components/button/button";
+import Insta from "@/assets/Home/instagram.svg";
+import youtube from "@/assets/Home/youtube.svg";
+import fb from "@/assets/Home/facebook.svg";
+import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
-// import { FaArrowRight } from "react-icons/fa";
-// import { IoCallOutline } from "react-icons/io5";
-// import { AiTwotoneMail } from "react-icons/ai";
-// import FAQItem from "@/components/accordion";
-// import AppointmentForm from "@/components/appointmentForm";
-// import Navbar from "@/components/branchNav";
-// import ImageSlider from "@/components/imageSlider";
-// import { MarqueeComponent } from "@/components/marqueeSlider";
-// import { Ambattur, Aruppukottai } from "@/middleware/imagesroute";
-// import ScrollMotion from "@/components/animation/scrollMotion";
-// import BranchForm from "@/components/branchForm";
-// // import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
-// import Link from "next/link";
+import { FaArrowRight } from "react-icons/fa";
+import { IoCallOutline } from "react-icons/io5";
+import { AiTwotoneMail } from "react-icons/ai";
+import FAQItem from "@/components/accordion";
+import AppointmentForm from "@/components/appointmentForm";
+import Navbar from "@/components/branchNav";
+import ImageSlider from "@/components/imageSlider";
+import { MarqueeComponent } from "@/components/marqueeSlider";
+import { Ambattur, Aruppukottai } from "@/middleware/imagesroute";
+import ScrollMotion from "@/components/animation/scrollMotion";
+import BranchForm from "@/components/branchForm";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import Link from "next/link";
 import NotFound from "@/app/not-found";
-// import dynamic from "next/dynamic";
-// import LoadingSpinner from '@/components/ui/loadingSpinner';
 
-// Dynamic imports with same loading component
-// const InfiniteMovingCardsDemo = dynamic(
-//   () => import('@/components/review_Card/reviewCard'),
-//   { loading: () => <LoadingSpinner height="400px" /> }
-// );
-
-// const fadeInUp = {
-//   initial: { opacity: 0, y: 20 },
-//   animate: { opacity: 1, y: 0 },
-//   transition: { duration: 0.5 },
-// };
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 },
+};
 
 function AruppukottaiPage() {
-//   const [visibleCount, setVisibleCount] = useState(5);
-//   const [openIndex, setOpenIndex] = useState(null);
-//   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
 
 
-//   const toggleFAQ = (index) => {
-//     setOpenIndex(openIndex === index ? null : index);
-//   };
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
-//   const toggleViewMore = () => {
-//     if (showAll) {
-//       setVisibleCount(5); // Reset to initial count when showing less
-//       setShowAll(false); // Properly toggle state
-//     } else {
-//       setVisibleCount(Ambattur.faqs.length); // Show all FAQs
-//       setShowAll(true); // Properly toggle state
-//     }
-//   };
-//   const sections = [
-//     { id: "about", label: "About" },
-//     { id: "facilities", label: "Facilities" },
-//     { id: "specialists", label: "Fertility Specialists" },
-//     { id: "gallery", label: "Gallery" },
-//     { id: "location", label: "Location" },
-//   ];
+  const toggleViewMore = () => {
+    if (showAll) {
+      setVisibleCount(5); // Reset to initial count when showing less
+      setShowAll(false); // Properly toggle state
+    } else {
+      setVisibleCount(Ambattur.faqs.length); // Show all FAQs
+      setShowAll(true); // Properly toggle state
+    }
+  };
+  const sections = [
+    { id: "about", label: "About" },
+    { id: "facilities", label: "Facilities" },
+    { id: "specialists", label: "Fertility Specialists" },
+    { id: "gallery", label: "Gallery" },
+    { id: "location", label: "Location" },
+  ];
 
-//   const ambattur = [
-//     {
-//       quote:
-//         "Doctors and staffs are very friendly. Very good atmosphere. Comfortable to take treatment. Especially our Dr. Shyla mam is very kind and gave good guidance to us. Thank you for being support to all our situations.",
-//       name: "ANITHA K",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Very good doctors and staffs. Good environment . Very kind and calm doctor. Very well treatment.",
-//       name: "jothi sankar",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "This is vinothinibalaji. Naan Inga treatment paathutu irukan. Romba calm and genuinely treated. The doctor and staff are all treated good. This is very wonderful experience.",
-//       name: "Reena Reena",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Doctor is very friendly. Am so Thankful to her. Took only two months treatment. She guided me well. Thanks to her and staffs",
-//       name: "Jeya Lakshmi",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Very good and doctors are lovely to eplain the treatment. Staff also kindly treat me.",
-//       name: "Vinothini Vino",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "I got a very wonderful experance from here because Dr Shyla mam and her staff also provided us with very good support and Excellent medical team and medicine are available here. So thank you very much to doctors, OP sisters, councillor Nivetha sister, Reception sisters Kokila, Anitha, Admin mam Mrs Dhanalakshmi mam good support. All supportive staff.........",
-//       name: "Kalai RCB",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "I had a very positive experience at this hospital, especially in the emergency ward a hung relief during a stress situation. I want to specifically recommend Dr mam for his kind and caring approach.He made a difficult time much easier to management kindly thanks to each and everyone.",
-//       name: "Vimal Ravi",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Within 4 months of treatment attain positive result in the first attempt of ivf with the help of Dr mam....Thanks a lot to workers who are working here....",
-//       name: "Mano Sham",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Had a great experience in sudha hospital has a great cooperation staffs and doctors are very good and positive the best hospital. Got positive result after many years of treatment. Special thanks to Drs.",
-//       name: "Kamu Kamaraj",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "I am taking treatment in Chennai sudha hospital. Treatment was good staff .nurse Dr mam was good caring I am very satisfied with this branch.best IVF centre .I suggested this hospital for my friends & family.....",
-//       name: "K. nisha ",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Happy to share my experience in today camp visit in chennai sudha hospital centre.Good care all staff Dr mam explain the treatment very well thank you sudha fertility centre chennai.today useful day...",
-//       name: "selvi",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Dear sudha hospital chennai Doctor consultation is good and effective and also staffs are good. Counselling also good in explain wise very well. One of the best fertility centre in Ambattur sudha fertility centre.",
-//       name: "Isweriya .s",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good hospital. And doctor was very kindly all staff are give clear explanation thanksto come sudha hospitalchennai",
-//       name: "Gpriyanka Gpriya",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Sudha ferlity centre chennai very good doctor and all staff are good very nice experience in sudha ferlity centre chennai thank to each and everyone ivf treatment cost was very low and package amount thank to sudha ferlity centre chennai",
-//       name: "Karthick Vill",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Sudha fertility centre chennai was very friendly and good experience and all staff give clear answer to each and everyone thank to sudha hospital Chennai best IVF treatment and low cost",
-//       name: "SWETHA B",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Best fertility hospital in chennai. Amount wise very affordable. Doctor is very good consultation and staffs is good.Thank you",
-//       name: "JEBA NITHISH N.S",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Hi myself is Nivetha iam taking treatment for Sudha hospital Chennai for best Ivf treatment in Chennai iam married 5 years I did not a baby iam coming to Sudha hospital now iam pregnant thanks to sharing my experience to Sudha hospital Chennai thanks to each and every staff thanks to Sudha hospital Chennai each doctor and staff nurse and everyone",
-//       name: "Nivetha Elumalai",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good fertility hospital in chennai to take IVF treatment. Doctor mam & counsellor gave confidence to us. They clearly explained about treatment procedure. Low Treatment cost also. Staff nurse & other staff taking care of us very well.Recommended one.",
-//       name: "Vivek Mech",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "I highly recommend Sudha Hospitals to anyone planning for IVF, as they deliver positive results on the first attempt. They have a talented team of doctors and an amazing staff across all departments who provide the utmost care.",
-//       name: "Mukul Pahuja",
-//       title: "Patient",
-//     },
-//   ];
+  const ambattur = [
+    {
+      quote:
+        "Doctors and staffs are very friendly. Very good atmosphere. Comfortable to take treatment. Especially our Dr. Shyla mam is very kind and gave good guidance to us. Thank you for being support to all our situations.",
+      name: "ANITHA K",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Very good doctors and staffs. Good environment . Very kind and calm doctor. Very well treatment.",
+      name: "jothi sankar",
+      title: "Patient",
+    },
+    {
+      quote:
+        "This is vinothinibalaji. Naan Inga treatment paathutu irukan. Romba calm and genuinely treated. The doctor and staff are all treated good. This is very wonderful experience.",
+      name: "Reena Reena",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Doctor is very friendly. Am so Thankful to her. Took only two months treatment. She guided me well. Thanks to her and staffs",
+      name: "Jeya Lakshmi",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Very good and doctors are lovely to eplain the treatment. Staff also kindly treat me.",
+      name: "Vinothini Vino",
+      title: "Patient",
+    },
+    {
+      quote:
+        "I got a very wonderful experance from here because Dr Shyla mam and her staff also provided us with very good support and Excellent medical team and medicine are available here. So thank you very much to doctors, OP sisters, councillor Nivetha sister, Reception sisters Kokila, Anitha, Admin mam Mrs Dhanalakshmi mam good support. All supportive staff.........",
+      name: "Kalai RCB",
+      title: "Patient",
+    },
+    {
+      quote:
+        "I had a very positive experience at this hospital, especially in the emergency ward a hung relief during a stress situation. I want to specifically recommend Dr mam for his kind and caring approach.He made a difficult time much easier to management kindly thanks to each and everyone.",
+      name: "Vimal Ravi",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Within 4 months of treatment attain positive result in the first attempt of ivf with the help of Dr mam....Thanks a lot to workers who are working here....",
+      name: "Mano Sham",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Had a great experience in sudha hospital has a great cooperation staffs and doctors are very good and positive the best hospital. Got positive result after many years of treatment. Special thanks to Drs.",
+      name: "Kamu Kamaraj",
+      title: "Patient",
+    },
+    {
+      quote:
+        "I am taking treatment in Chennai sudha hospital. Treatment was good staff .nurse Dr mam was good caring I am very satisfied with this branch.best IVF centre .I suggested this hospital for my friends & family.....",
+      name: "K. nisha ",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Happy to share my experience in today camp visit in chennai sudha hospital centre.Good care all staff Dr mam explain the treatment very well thank you sudha fertility centre chennai.today useful day...",
+      name: "selvi",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Dear sudha hospital chennai Doctor consultation is good and effective and also staffs are good. Counselling also good in explain wise very well. One of the best fertility centre in Ambattur sudha fertility centre.",
+      name: "Isweriya .s",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good hospital. And doctor was very kindly all staff are give clear explanation thanksto come sudha hospitalchennai",
+      name: "Gpriyanka Gpriya",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Sudha ferlity centre chennai very good doctor and all staff are good very nice experience in sudha ferlity centre chennai thank to each and everyone ivf treatment cost was very low and package amount thank to sudha ferlity centre chennai",
+      name: "Karthick Vill",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Sudha fertility centre chennai was very friendly and good experience and all staff give clear answer to each and everyone thank to sudha hospital Chennai best IVF treatment and low cost",
+      name: "SWETHA B",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Best fertility hospital in chennai. Amount wise very affordable. Doctor is very good consultation and staffs is good.Thank you",
+      name: "JEBA NITHISH N.S",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Hi myself is Nivetha iam taking treatment for Sudha hospital Chennai for best Ivf treatment in Chennai iam married 5 years I did not a baby iam coming to Sudha hospital now iam pregnant thanks to sharing my experience to Sudha hospital Chennai thanks to each and every staff thanks to Sudha hospital Chennai each doctor and staff nurse and everyone",
+      name: "Nivetha Elumalai",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good fertility hospital in chennai to take IVF treatment. Doctor mam & counsellor gave confidence to us. They clearly explained about treatment procedure. Low Treatment cost also. Staff nurse & other staff taking care of us very well.Recommended one.",
+      name: "Vivek Mech",
+      title: "Patient",
+    },
+    {
+      quote:
+        "I highly recommend Sudha Hospitals to anyone planning for IVF, as they deliver positive results on the first attempt. They have a talented team of doctors and an amazing staff across all departments who provide the utmost care.",
+      name: "Mukul Pahuja",
+      title: "Patient",
+    },
+  ];
 
   return (
 

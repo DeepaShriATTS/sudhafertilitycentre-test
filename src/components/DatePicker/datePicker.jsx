@@ -66,7 +66,7 @@ const CalendarIcon = () => (
 // ─── Calendar Grid (Day Panel) ─────────────────────────────────────────────
 
 const CalendarGrid  = ({
-  view, onPrev, onNext, onSelect, onMonthClick, onYearClick, selectedDate, minDate, maxDate,
+  view, onPrev, onNext, onSelect, onMonthClick, onYearClick, selectedDate,
 }) => {
   const today = new Date();
   const days  = getCalendarDays(view.year, view.month);
@@ -108,7 +108,7 @@ const CalendarGrid  = ({
 
       <div className="grid grid-cols-7 mb-1">
         {DAYS.map((d) => (
-          <div key={d} className="text-center text-[10px] font-medium text-neutral-500 uppercase tracking-wide py-1">
+          <div key={d} className="text-center text-[10px] font-medium text-neutral-400 uppercase tracking-wide py-1">
             {d}
           </div>
         ))}
@@ -119,37 +119,15 @@ const CalendarGrid  = ({
           const isToday    = isSameDay(d.date, today);
           const isSelected = isSameDay(d.date, selectedDate);
 
-          // Check if date falls outside minDate / maxDate limits
-          let isDisabled = false;
-          const compareDate = new Date(d.date);
-          compareDate.setHours(0, 0, 0, 0);
-
-          if (minDate) {
-            const minCompare = new Date(minDate);
-            minCompare.setHours(0, 0, 0, 0);
-            if (compareDate < minCompare) {
-              isDisabled = true;
-            }
-          }
-          if (maxDate) {
-            const maxCompare = new Date(maxDate);
-            maxCompare.setHours(0, 0, 0, 0);
-            if (compareDate > maxCompare) {
-              isDisabled = true;
-            }
-          }
-
           let cellCls =
-            "h-8 w-full flex items-center justify-center text-xs transition-colors relative select-none rounded-lg";
+            "h-8 w-full flex items-center justify-center text-xs cursor-pointer transition-colors relative select-none rounded-lg";
 
-          if (isDisabled) {
-            cellCls += " text-neutral-300 cursor-not-allowed bg-neutral-50/50";
-          } else if (!d.current) {
-            cellCls += " text-neutral-300 cursor-pointer hover:bg-neutral-100";
+          if (!d.current) {
+            cellCls += " text-neutral-300";
           } else if (isSelected) {
-            cellCls += " bg-[#1C315E] text-white cursor-pointer";
+            cellCls += " bg-[#1C315E] text-white";
           } else {
-            cellCls += " text-neutral-700 hover:bg-neutral-100 cursor-pointer";
+            cellCls += " text-neutral-700 hover:bg-neutral-100";
           }
           if (isToday && !isSelected) cellCls += " font-semibold";
 
@@ -158,8 +136,7 @@ const CalendarGrid  = ({
               key={i}
               type="button"
               className={cellCls}
-              disabled={isDisabled}
-              onClick={() => d.current && !isDisabled && onSelect(d.date)}
+              onClick={() => d.current && onSelect(d.date)}
             >
               {d.date.getDate()}
               {isToday && !isSelected && (
@@ -306,7 +283,7 @@ const DateInput = ({
               : "border-[#B1B2B3] hover:border-neutral-400 bg-white",
       ].join(" ")}
     >
-      <span className={value ? "text-neutral-800" : "text-neutral-500"}>
+      <span className={value ? "text-neutral-800" : "text-neutral-400"}>
         {value ? formatDate(value) : "DD/MM/YYYY"}
       </span>
       <span className="ml-auto">
@@ -327,8 +304,6 @@ export const DatePicker = ({
   error,
   readOnly = false,
   align = "bottom",
-  minDate = new Date(), // default to today to prevent booking in the past
-  maxDate,
 }) => {
   const today = new Date();
   const [open,    setOpen]    = useState(false);
@@ -394,7 +369,6 @@ export const DatePicker = ({
         type="text"
         readOnly
         tabIndex={0}
-        aria-label="Date Picker Input"
         onFocus={() => setFocused(true)}
         onBlur={() => {
           if (!open) {
@@ -410,7 +384,6 @@ export const DatePicker = ({
         required={required}
         value={value}
         placeholder={placeholder}
-        minDate={minDate}
         isOpen={open}
         hasError={showError || !!error}
         onClick={handleOpen}
@@ -432,8 +405,6 @@ export const DatePicker = ({
               onPrev={prevMonth}
               onNext={nextMonth}
               selectedDate={value}
-              minDate={minDate}
-              maxDate={maxDate}
               onMonthClick={() => setPanel("month")}
               onYearClick={() => setPanel("year")}
               onSelect={(date) => {

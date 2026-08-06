@@ -1,6 +1,6 @@
 "use client";
 import Button from "@/components/button/button";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import React, { useState } from "react";
 import SubBanner from "@/assets/contact-us/SubBanner.webp";
 import Tab1 from "../assets/international/Visa.webp";
@@ -15,34 +15,23 @@ import Icon4 from "@/assets/Home/tab4.svg";
 import Icon5 from "@/assets/Home/tab5.svg";
 import FAQItem from "@/components/accordion";
 import Image from "next/image";
-
+import fb from "@/assets/Home/fb.svg";
+import x from "@/assets/Home/x.svg";
+import Linkedin from "@/assets/Home/linkedin.svg";
+import youtube from "@/assets/Home/youtube.svg";
+import Insta from "@/assets/Home/insta.svg";
 import BookingButton from "@/components/button/bookingButton";
 import VideoThumbnail from "@/assets/international/VideoThumbnail.png";
 import MetricsTabs from "@/components/ui/internationaltab";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { IoArrowBackSharp, IoArrowForwardOutline } from "react-icons/io5";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur } from "@/middleware/imagesroute";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaYoutube } from "react-icons/fa";
 import ContactForm from "@/components/contact/contactForm";
 import Link from "next/link";
-
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import dynamic from "next/dynamic";
-
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
-
-
-import { homeVideos } from "@/data/homeVideos";
-import VideoSkeletonRow from "@/components/loaders/VideoCardSkeleton";
-const GallerySlider = dynamic(
-  () => import("@/components/videoCard/videoPlaylistSlider"),
-  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
-  
-);
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward } from "react-icons/md";
 
 const testimonials = [
   {
@@ -762,8 +751,29 @@ function International() {
       </div>
 
       <section className="mt-[70] md:mt-[100px] mb-[70] md:mb-[100px]">
-       <GallerySlider items={homeVideos}/>
-       
+        {/* <div className="container mx-auto">
+          <div className=" mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        />
+        <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-bold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+
+        {/* <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+        </div> */}
       </section>
     </>
   );

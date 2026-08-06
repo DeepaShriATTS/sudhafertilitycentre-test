@@ -8,11 +8,10 @@ import SudhaAbout from "@/assets/branch/tiruvannamalai/tiruvannamalai_about.webp
 import { motion } from "framer-motion";
 import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 import Hospital from "@/assets/branch/tiruvannamalai/tiruvannamalai.webp";
-import Akalya from "@/assets/branch/tiruvannamalai/akalya.webp";
-import brinda from "@/assets/branch/tiruvannamalai/brinda.webp";
+import Akalya from "@/assets/branch/tiruvannamalai/agalaya.webp";
 import ImageGrid from "@/components/imagegrid";
-
-import {  MdLocationOn } from "react-icons/md";
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
 import { IoCallOutline } from "react-icons/io5";
@@ -21,29 +20,16 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Tiruvannamalai } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 
 import { tiruvannamalaiVideos } from "@/middleware/videosRoute";
-
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-import dynamic from "next/dynamic";
-// Dynamic imports with same loading component
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
-
-const GallerySlider = dynamic(
-  () => import("@/components/videoCard/videoPlaylistSlider"),
-  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
-);
-
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function TiruvannamalaiPage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -396,40 +382,10 @@ function TiruvannamalaiPage() {
                         Dr. M. Akalya
                       </h3>
                       <p className="text-[#000000] mt-3">MBBS, MS (OG)</p>
-                      <p className="text-[#000000]">Gynaecologist</p>
+                      <p className="text-[#000000] mt-3">Gynaecologist</p>
                       <p className=" text-gray-600 mt-3">
-                       Dr. M. Akalya is a skilled Gynaecologist practicing at Sudha Fertility Centre. She focuses on the medical and surgical care of the female reproductive system. She treats patients for heavy menstrual bleeding, white discharge issues, vaginal infections, and early pregnancy care. Dr. Akalya translates her clinical training into everyday solutions, helping women manage routine reproductive tract issues and maintain overall wellness.
+                        Dr. M. Akalya is a skilled Gynaecologist at Sudha Fertility Centre, with expertise in managing reproductive health and fertility-related concerns. She offers thorough evaluations and personalized treatment plans for women experiencing fertility challenges. With a focus on evidence-based care and patient comfort, Dr. Akalya is committed to guiding couples through their fertility journey with clarity and compassion.
                       </p>
-                    </div>
-                  </motion.div>
-
-                    <motion.div
-                    className="flex flex-col-reverse lg:flex-row gap-8 mt-7"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    
-                    <div className="w-full lg:w-1/2">
-                      {/* <h3 className="text-[20px] font-semibold ">
-                        Our Fertility Specialist in Tiruvannamalai
-                      </h3> */}
-                      <h3 className="text-[18px] text-[#173366] font-semibold mt-3">
-                        Dr. Brinda
-                      </h3>
-                      <p className="text-[#000000] mt-3">MBBS, MS (OG)</p>
-                      <p className="text-[#000000]">Gynaecologist</p>
-                      <p className=" text-gray-600 mt-3">
-                       Dr. Brinda is a qualified Gynaecologist at Sudha Fertility Centre, holding a Master of Surgery in Obstetrics and Gynaecology. She treats a wide variety of female health conditions, including pelvic pain, menstrual cycle irregularities, and lifestyle-related reproductive issues. Her clinical practice involves diagnosing and treating urinary tract infections in women, managing routine prenatal checkups, and guiding patients through safe, medically supervised pregnancies.
-
-                      </p>
-                    </div>
-                    <div className="w-full lg:w-1/2">
-                      <Image
-                        src={brinda}
-                        alt="brinda"
-                        className="w-full h-auto rounded-xl"
-                      />
                     </div>
                   </motion.div>
 
@@ -611,9 +567,30 @@ function TiruvannamalaiPage() {
       </div>
 
       <section>
-    
-           <GallerySlider items={tiruvannamalaiVideos} />
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        {/* <MarqueeComponent
+          items={Tiruvannamalai.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        /> */}
 
+           <GallerySlider items={tiruvannamalaiVideos} />
+        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Tiruvannamalai.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

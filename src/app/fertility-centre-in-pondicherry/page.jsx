@@ -1,23 +1,22 @@
 import PuducherryPage from '@/pages/Branch/puducherry'
 import React from 'react'
 import Script from "next/script";
+import Head from "next/head";
 
 
 
 export const metadata = {
   title: "Best Fertility Centre in Pondicherry - Sudha Fertility Centre",
   description: " Benefit from advanced consulting, modern labs, and IVF/IUI procedures at Sudha Fertility Centre in Pondicherry. Schedule your visit now.",
-  keywords: "Fertility Centre in Pondicherry",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-pondicherry",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-pondicherry",
-    },
-  },
+  keywords: "Fertility Centre in Pondicherry"
 };
 export default function page() {
 
-    return (
+  <Head>
+
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-pondicherry" hreflang="en-in" />
+  </Head>
+  return (
     <div>
 
       <Script

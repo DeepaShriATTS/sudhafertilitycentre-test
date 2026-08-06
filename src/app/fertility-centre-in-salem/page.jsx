@@ -1,22 +1,21 @@
 import SalemPage from '@/pages/Branch/salem'
 import React from 'react'
 import Script from "next/script";
+import Head from "next/head";
 
 
 export const metadata = {
   title: "Best Fertility Centre in Salem - Sudha Fertility Centre",
   description: "Start your story at Sudha Fertility Centre in Salem, widely known for personalised IVF & IUI solutions and family care. Book your slot now.",
-  keywords: "Fertility Centre in Salem",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-salem",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-salem",
-    },
-  },
+  keywords: "Fertility Centre in Salem"
 };
 export default function page() {
 
-  
+  <Head>
+
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-salem" hreflang="en-in" />
+  </Head>
+
   return (
     <div>
       <Script

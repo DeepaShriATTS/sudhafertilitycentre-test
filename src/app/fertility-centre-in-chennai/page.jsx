@@ -2,6 +2,7 @@
 import ChennaiPage from '@/pages/Branch/chennai'
 import React from 'react'
 import Script from "next/script";
+import Head from 'next/head';
 
 
 
@@ -10,16 +11,14 @@ export const metadata = {
   title: "Best Fertility Centre / Hospital in Chennai - Sudha Fertility Centre",
   description: "Experience expert care at Sudha Fertility Centre in Chennai, guiding you from IUI support to advanced IVF treatments. Plan a clinic visit.",
   keywords: "Fertility Centre in Chennai",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-chennai",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-chennai",
-    },
-  },
 };
 
 function page() {
-  
+  <Head>
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-chennai" hreflang="en-in" />
+
+  </Head>
+
   return (
     <>
       <Script

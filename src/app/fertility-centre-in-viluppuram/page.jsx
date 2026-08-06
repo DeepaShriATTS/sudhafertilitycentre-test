@@ -1,6 +1,7 @@
 import ViluppuramPage from '@/pages/Branch/viluppuram'
 import React from 'react'
 import Script from "next/script";
+import Head from "next/head";
 
 
 export const metadata = {
@@ -8,17 +9,14 @@ export const metadata = {
   description: "Overcome infertility at Sudha Fertility Centre in Villupuram, where high-tech IVF & IUI setups map out your care. Book a slot today.",
   keywords: "Fertility Centre in Viluppuram",
 
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-viluppuram",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-viluppuram",
-    },
-  },
 };
 
 export default function page() {
 
-  
+  <Head>
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-viluppuram" hreflang="en-in" />
+  </Head>
+
   return (
     <div>
       <Script

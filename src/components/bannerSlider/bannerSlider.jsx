@@ -3,7 +3,6 @@ import React, { useRef, useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import BookingButton from "@/components/button/bookingButton";
 import freecamp from "@/assets/Home/freecamp.webp";
-import freecampmobile from "@/assets/Home/freecampmobile.webp";
 import newbanner from "@/assets/Home/newbanner.webp";
 import successstories from "@/assets/Home/successstories.webp";
 import { MdChevronLeft, MdChevronRight } from "react-icons/md";
@@ -15,15 +14,13 @@ const slides = [
     description:
       "Our experts are here to take away your years of waiting and help you start your family. Because your home deserves the beautiful chaos of tiny baby footsteps and endless joy",
     img: newbanner,
-    mobileImg: newbanner,
   },
   {
     heading: "For everyone who is tired of looking at an empty cradle",
-    btnText: " Book a Free expert fertility check",
+    btnText: "Begin your free parenthood Journey",
     description:
       "We have spent forty years changing quiet, lonely houses into happy homes filled with laughter. Our forty-year legacy is written in the smiles of over one lakh IVF babies born here",
     img: freecamp,
-    mobileImg: freecampmobile,
   },
   {
     heading: "You do not have to travel far or face this alone",
@@ -31,11 +28,10 @@ const slides = [
     description:
       "We have opened 40+ Centres across South India so you can get expert medical help close to home. Come sit down for a private, completely free chat with our doctors at our next neighborhood camp",
     img: successstories,
-    mobileImg: successstories,
   },
 ];
 
-const SLIDE_DURATION = 4500;
+const SLIDE_DURATION = 5000;
 const FADE_MS = 1400;
 
 const BannerSlider = () => {
@@ -89,7 +85,11 @@ const BannerSlider = () => {
       style={{ height: "95vh" }}
       onClick={handleBannerClick}
     >
-
+      {/* All slides are mounted simultaneously and pre-loaded.
+          Only opacity changes — nothing mounts/unmounts on transition,
+          so there is no image decode/flash race.
+          Image + gradients + text all fade together as ONE unit (no stagger) —
+          a single synchronized crossfade reads as smoother than sequenced fades. */}
       {slides.map((slide, index) => {
         const isActive = index === activeIndex;
         return (
@@ -115,47 +115,15 @@ const BannerSlider = () => {
                   : "none",
               }}
             >
-              {/* Mobile + Desktop combined via <picture> — browser fetches only ONE image */}
-              {index === 0 ? (
-                <picture>
-                  <source
-                    media="(max-width: 767px)"
-                    srcSet={(slide.mobileImg || slide.img).src}
-                  />
-                  <img
-                    src={slide.img.src}
-                    alt={slide.heading}
-                    fetchPriority="high"
-                    loading="eager"
-                    decoding="async"
-                    className="absolute inset-0 w-full h-full object-cover object-center"
-                  />
-                </picture>
-              ) : (
-                <>
-                  {/* Keep next/image for non-first slides — they're lazy-loaded anyway, no conflict */}
-                  <Image
-                    src={slide.mobileImg || slide.img}
-                    alt={slide.heading}
-                    fill
-                    loading="lazy"
-                    quality={70}
-                    sizes="100vw"
-                    className="block md:hidden object-cover object-center"
-                  />
-                  <Image
-                    src={slide.img}
-                    alt={slide.heading}
-                    fill
-                    loading="lazy"
-                    quality={70}
-                    sizes="(max-width: 768px) 768px, (max-width: 1280px) 1280px, 1920px"
-                    className="hidden md:block object-cover object-center"
-                  />
-                </>
-              )}
-
-
+              <Image
+                src={slide.img}
+                alt={slide.heading}
+                fill
+                priority
+                fetchPriority={index === 0 ? "high" : "auto"}
+                sizes="100vw"
+                className="object-cover object-center"
+              />
             </div>
 
             {/* Main gradient — covers left ~60% on desktop, full width on mobile */}
@@ -186,9 +154,9 @@ const BannerSlider = () => {
                       as one piece instead of parts arriving separately. */}
                   <div className="flex-1 flex items-center">
                     <div className="max-w-lg xl:max-w-xl text-white w-full">
-                      <h1 className="text-[#FFC65C] font-outfit font-bold text-xl sm:text-2xl lg:text-3xl xl:text-4xl leading-snug mb-3 sm:mb-4">
+                      <h2 className="text-[#FFC65C] font-outfit font-bold text-xl sm:text-2xl lg:text-3xl xl:text-4xl leading-snug mb-3 sm:mb-4">
                         {slide.heading}
-                      </h1>
+                      </h2>
                       <p className="text-white/80 text-sm sm:text-base leading-[1.7] mb-4 sm:mb-6 max-w-md">
                         {slide.description}
                       </p>
@@ -196,7 +164,7 @@ const BannerSlider = () => {
                         title={slide.btnText}
                         className="bg-white/20 text-white border-2 border-white/40 rounded-full hover:bg-[#FFC65C] hover:text-blue-900 hover:border-[#FFC65C] transition-all duration-300 w-fit text-sm sm:text-base"
                       />
-                      <p className="text-[12px] font-semibold sm:text-[10px] text-[#FFC65C]/80 px-3">
+                      <p className="text-[10px] sm:text-[11px] text-[#FFC65C]/80 px-3">
                         We will reach you within 45 minutes *
                       </p>
                     </div>

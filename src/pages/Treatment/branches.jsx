@@ -3,26 +3,22 @@ import Banner from "@/assets/branch/ambatur/hospital.webp";
 import Button from "@/components/button/button";
 import Tab1 from "@/assets/Home/tab1.webp";
 import Tab2 from "@/assets/Home/tab2.webp";
-
+import Tab3 from "@/assets/Home/tab3.webp";
+import Tab4 from "@/assets/Home/tab4.webp";
+import Tab5 from "@/assets/Home/tab5.webp";
+import Icon1 from "@/assets/Home/tab1.svg";
 import Icon2 from "@/assets/Home/tab2.svg";
-
+import Icon3 from "@/assets/Home/tab3.svg";
 import Icon4 from "@/assets/Home/tab4.svg";
-
-
+import Icon5 from "@/assets/Home/tab5.svg";
+import Buttonbottm from "@/components/button";
 import BranchTabs from "@/components/ui/branchtab";
+import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
+import { FaArrowRight } from "react-icons/fa6";
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur } from "@/middleware/imagesroute";
-
-import dynamic from "next/dynamic";
-import { Homevideos } from "@/middleware/videosRoute";
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-const GallerySlider = dynamic(
-  () => import('@/components/videoCard/videoPlaylistSlider'),
-  { loading: () => <VideoSkeletonRow count={3} /> }
-);
-
-
+import { FaYoutube } from "react-icons/fa";
+import Link from "next/link";
 // const tabs = [
 //   {
 //     title: "All Branches",
@@ -166,7 +162,7 @@ const tamilNaduBranches = [
   },
   {
     name: "Ramanathapuram",
-    address: "68, Madurai - Rameswaram Hwy, Ramanathapuram, Tamil Nadu 623502",
+    address: "No: 6/1155-2, D'block, Madurai - Rameswaram Rd, Opp. to RTO office, Kadampa Nagar, Ramanathapuram, Tamil Nadu - 623504.",
     branchLink: "/fertility-centre-in-ramanathapuram",
     link: "https://maps.app.goo.gl/ucTyi5L2TBeWhwPT8",
     phone: "90-8731-4545"
@@ -216,7 +212,7 @@ const tamilNaduBranches = [
 
   {
     name: "Tiruvannamalai",
-    address: "Third Floor, No.2, C/O. Ponni Hospital, Main Rd, Gandhinagar, Tiruvannamalai, Tamil Nadu 606601",
+    address: "C/O, Nalam Hospital, First Floor, 5/2A/9th Street, Maanthopu, Polur Road, Opposite Hotel Vijay Park, Tiruvannamalai, Tamil Nadu - 606601.",
     branchLink: "/fertility-centre-in-tiruvannamalai",
     link: "https://maps.app.goo.gl/LUcDVC633fxJ3Ltw7",
     phone: "90-4796-6006"
@@ -574,9 +570,30 @@ function Branches() {
         </div>
       </div>
 
-
+      {/* MarqueeComponent */}
       <section>
-        <GallerySlider items={Homevideos} />
+        {/* <div className="container mx-auto">
+            <div className=" mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        />
+        <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

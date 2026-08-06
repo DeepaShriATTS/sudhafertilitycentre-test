@@ -14,22 +14,12 @@ import Hysteroscopy from "@/assets/Treatments/Hysteroscopy.svg";
 import Intracytoplasmic from "@/assets/Treatments/Intracytoplasmic.svg";
 import Intrauterine from "@/assets/Treatments/Intrauterine.svg";
 import Vitro from "@/assets/Treatments/Vitro.svg";
-
+import Buttonbottm from "@/components/button";
+import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { FaArrowRight } from "react-icons/fa6";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur } from "@/middleware/imagesroute";
-
-import dynamic from "next/dynamic";
-import { Homevideos } from "@/middleware/videosRoute";
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-const GallerySlider = dynamic(
-  () => import('@/components/videoCard/videoPlaylistSlider'),
-  { loading: () => <VideoSkeletonRow count={3} /> }
-);
-
-
+import { FaYoutube } from "react-icons/fa";
 import Link from "next/link";
 function Treatment() {
   return (
@@ -167,7 +157,7 @@ function Treatment() {
 
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mt-8 shadow-[0px_0px_30px_0px_rgba(0,0,0,0.08)]
-           relative"
+ relative"
           >
             {/* First Row */}
             <div className="py-16 relative border-r border-b lg:border-b last:border-r-0 ">
@@ -424,8 +414,30 @@ function Treatment() {
         </div>
       </div>
 
+      {/* MarqueeComponent */}
       <section>
-      <GallerySlider items={Homevideos} />
+        {/* <div className="container mx-auto">
+            <div className=" mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        />
+        <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

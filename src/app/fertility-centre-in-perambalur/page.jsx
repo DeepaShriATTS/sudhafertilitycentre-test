@@ -1,6 +1,7 @@
-// import PerambalurPage from '@/pages/Branch/perambalur'
+import PerambalurPage from '@/pages/Branch/perambalur'
 import React from 'react'
-// import Script from "next/script";
+import Script from "next/script";
+import Head from "next/head";
 
 
 
@@ -9,18 +10,16 @@ export const metadata = {
   description: "Sudha Fertility Centre in Perambalur offers advanced IVF and IUI care, blending trusted expertise with modern labs. Reach out to us today.",
   keywords: "Fertility Centre in Perambalur",
    
-    alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-perambalur",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-perambalur",
-    },
-  },
-};
+  };
 export default function page() {
 
-    return (
+  <Head>
+
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-perambalur" hreflang="en-in" />
+  </Head>
+  return (
     <div>
-{/* 
+
   <Script
   type="application/ld+json"
   dangerouslySetInnerHTML={{
@@ -110,9 +109,9 @@ export default function page() {
               ],
             }),
           }}
-        /> */}
+        />
 
-      {/* <PerambalurPage /> */}
+      <PerambalurPage />
     </div>
   )
 }

@@ -1,22 +1,20 @@
 import TirunelveliPage from '@/pages/Branch/tirunelveli'
 import React from 'react'
 import Script from "next/script";
+import Head from "next/head";
 
 
 export const metadata = {
   title: "Best Fertility Centre in Tirunelveli - Sudha Fertility Centre",
   description: "Sudha Fertility Centre in Tirunelveli stands out with expert IVF specialists, innovative IUI treatments, and great care. Schedule today.",
-  keywords: "Fertility Centre in Tirunelveli",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-tirunelveli",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-tirunelveli",
-    },
-  },
+  keywords: "Fertility Centre in Tirunelveli"
 };
 
 export default function page() {
-  
+  <Head>
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-tirunelveli" hreflang="en-in" />
+  </Head>
+
   return (
     <div>
       <Script

@@ -14,31 +14,13 @@ import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { FertilityCentreinBanjaraHillsHyderabadfaq } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-import dynamic from "next/dynamic";
-import { hyderabadVideos } from "@/middleware/videosRoute";
-// Dynamic imports with same loading component
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
-
-
-const GallerySlider = dynamic(
-  () => import('@/components/videoCard/videoPlaylistSlider'),
-  { loading: () => <VideoSkeletonRow count={3} /> }
-);
-
 
 function FertilityCentreinBanjaraHillsHyderabad() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -823,9 +805,32 @@ function FertilityCentreinBanjaraHillsHyderabad() {
       </div>
 
       <section>
-    
-        <GallerySlider items={hyderabadVideos} />
-       
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        <MarqueeComponent
+          items={FertilityCentreinBanjaraHillsHyderabadfaq.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        />
+        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm
+            text="Watch on Youtube"
+            link="https://www.youtube.com/@sudhafertilitycentre"
+          />
+        </div>
+        {/* <MarqueeComponent
+          items={FertilityCentreinBanjaraHillsHyderabadfaq.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

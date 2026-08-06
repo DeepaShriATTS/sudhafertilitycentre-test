@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { MdArrowOutward } from "react-icons/md";
 import { Toaster } from "react-hot-toast";
@@ -10,68 +10,43 @@ import fb from "@/assets/Home/fb.svg";
 import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import SuccessMessage from "../SuccessMessage";
-// import { branches } from "../footer/footer";
+import { branches } from "../footer/footer";
 import { useRouter } from "next/navigation";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
-import { fetchBranchList } from "@/lib/api/branches";
-import { apiClient } from "@/lib/axios/instance";
-import { cleanPhone } from "@/lib/utility";
-
 
 function BookAppointmentForm() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
-  const [branchList, setBranchList] = useState([]);
   const router = useRouter();
   // Using useForm for validation
   const {
     register,
     handleSubmit,
     control,
-    setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
   const onSubmit = async (formData) => {
     setSubmissionError("");
     try {
-      const crmPayload = {
-        name: formData.name,
-        branch: formData.branch,
-        mobile: cleanPhone(formData.mobile),
-        source_type: "21",
-        lead_type: "4",
-      };
+      const response = await fetch("/api/saveData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-      await apiClient.post("/lead/websitelead/", crmPayload);
-
-      router.push("/thank-you");
-      setSuccessMessage(true);
-    } catch (err) {
-      const responseData = err.response?.data;
-      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
-      if (responseData && responseData.errors) {
-        Object.entries(responseData.errors).forEach(([field, msg]) => {
-          setError(field, { type: "server", message: String(msg) });
-        });
-        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
+      if (response.ok) {
+        router.push("/thank-you");
+        setSuccessMessage(true);
       } else {
-        setSubmissionError(errorMessage);
+        const errorData = await response.json().catch(() => ({}));
+        setSubmissionError(errorData.error || "Failed to submit the form. Please try again.");
       }
+    } catch (error) {
+      console.error("Network error:", error);
+      setSubmissionError("Network error. Please check your connection.");
     }
   };
-
-  useEffect(() => {
-    let isMounted = true;
-    fetchBranchList().then((list) => {
-      if (isMounted) {
-        setBranchList(list);
-      }
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   return (
     <>
@@ -81,7 +56,7 @@ function BookAppointmentForm() {
         className="py-16 bg-cover bg-center"
         style={{
           background:
-            "linear-gradient(170deg, #191a1bff, #F0F5FF 60%, white 60%, white)",
+            "linear-gradient(170deg, #F0F5FF, #F0F5FF 60%, white 60%, white)",
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
@@ -238,9 +213,9 @@ function BookAppointmentForm() {
                     render={({ field }) => (
                       <SearchableSelect
                         {...field}
-                        options={branchList}
-                        labelKey="branch_name"
-                        valueKey="id"
+                        options={branches}
+                        labelKey="title"
+                        valueKey="title"
                         placeholder="Your nearest Sudha Fertility Centre"
                         error={errors.branch?.message}
                       />
@@ -261,17 +236,17 @@ function BookAppointmentForm() {
                 <div className="pt-5">
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className={`button-all w-full justify-center mx-auto text-center flex items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+                    className="button-all w-full justify-center mx-auto text-center"
                   >
-                    {isSubmitting ? "Submitting..." : " Schedule My Free Fertility Check"}
-                    {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
+                    Take your free step toward parenthood
+                    <MdArrowOutward className="rotate-45" />
                   </button>
+                 
                 </div>
               </form>
-              <p className="text-[12px] font-semibold sm:text-[10px] text-[#173366]/85 text-end">
-                We will reach you within 45 minutes <span className="text-red-500">*</span>
-              </p>
+               <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
+                    We will reach you within 45 minutes <span className="text-red-500">*</span>
+                </p>
 
               <SuccessMessage
                 show={successMessage}

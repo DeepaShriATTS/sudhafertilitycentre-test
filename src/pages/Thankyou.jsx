@@ -16,38 +16,49 @@ import Hysteroscopy from "@/assets/Treatments/Hysteroscopy.svg";
 import Intrauterine from "@/assets/Treatments/Intrauterine.svg";
 import Intracytoplasmic from "@/assets/Treatments/Intracytoplasmic.svg";
 import Image from "next/image";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur } from "@/middleware/imagesroute";
-
+import { motion } from "framer-motion";
 import Script from "next/script";
-
-import dynamic from "next/dynamic";
-import { Homevideos } from "@/middleware/videosRoute";
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-const GallerySlider = dynamic(
-  () => import('@/components/videoCard/videoPlaylistSlider'),
-  { loading: () => <VideoSkeletonRow count={3} /> }
-);
-
 export default function Thankyou() {
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.fbq) {
+      window.fbq("track", "Lead");
+    } else {
+      console.warn("Facebook Pixel is not loaded yet.");
+    }
+  }, []);
   return (
     <div>
       <Script
-        id="facebook-lead-event"
-        strategy="lazyOnload"
+        id="facebook-pixel"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
-            if (typeof window !== 'undefined') {
-              window.fbq = window.fbq || function() {
-                (window.fbq.q = window.fbq.q || []).push(arguments);
-              };
-              fbq('track', 'Lead');
-            }
+            !function(f,b,e,v,n,t,s) {
+              if(f.fbq) return; n=f.fbq=function() { n.callMethod ?
+              n.callMethod.apply(n, arguments) : n.queue.push(arguments) };
+              if(!f._fbq) f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
+              n.queue=[]; t=b.createElement(e); t.async=!0;
+              t.src=v; s=b.getElementsByTagName(e)[0];
+              s.parentNode.insertBefore(t,s)
+            }(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+
+            fbq('init', 'YOUR_PIXEL_ID');
+            fbq('track', 'PageView');
           `,
         }}
       />
+      <Script id="facebook-track-lead" strategy="afterInteractive">
+        {`
+          if (typeof fbq === 'function') {
+            fbq('track', 'Lead');
+          } else {
+            console.warn("Facebook Pixel is not loaded yet.");
+          }
+        `}
+      </Script>
 
       <div className="container mx-auto md:mt-[80px] mt-[70px] ">
         <div className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
@@ -440,9 +451,30 @@ export default function Thankyou() {
         </div>
       </div>
 
+      {/* MarqueeComponent */}
       <section className="mt-[70px] lg:mt-[100px] mb-[70px] lg:mb-[100px]">
-       
-        <GallerySlider items={Homevideos} />
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        />
+        <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
+          <h2 className="text-2xl font-bold text-center ">
+            Childless Couples to Happy Parents
+          </h2>
+          <Button text="Watch on Youtube " />
+        </div>
+        {/* <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </div>
   );

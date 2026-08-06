@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
+import Calendar from "@/assets/branch/ambatur/callender.svg";
 import Image from "next/image";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/Puducherry/pondicherry_about.webp";
@@ -9,8 +10,8 @@ import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 import Hospital from "@/assets/branch/Puducherry/pondicherry.webp";
 import AISHWARYAJAGAN from "@/assets/branch/Puducherry/DR.AISHWARYAJAGAN.webp";
 import ImageGrid from "@/components/imagegrid";
-
-import {  MdLocationOn } from "react-icons/md";
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
 
@@ -20,29 +21,15 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import { Ambattur, Puducherry } from "@/middleware/imagesroute";
 import BranchForm from "@/components/branchForm";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import { pondyVideos } from "@/middleware/videosRoute";
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import { VideoSkeletonRow } from '@/components/loaders/VideoCardSkeleton';
-import dynamic from "next/dynamic";
-import priyadarshini from "@/assets/branch/Puducherry/priyadarshini.webp";
-// Dynamic imports with same loading component
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
-
-
-const GallerySlider = dynamic(
-  () => import("@/components/videoCard/videoPlaylistSlider"),
-  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
-);
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function PuducherryPage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -499,38 +486,6 @@ function PuducherryPage() {
                     </div>
                   </motion.div>
 
-                  <motion.div
-                    className="flex flex-col-reverse lg:flex-row gap-8 mt-7 "
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    
-                    <div className="w-full lg:w-1/2">
-                      
-                      <h3 className="text-[18px] text-[#173366] font-semibold mt-3">
-                        Dr. Priyadarshini. V
-                      </h3>
-                      <p className="text-md text-[#000000] mt-3">
-                        MBBS, M.S. (OG)
-                      </p>
-                      <p className="text-md text-[#000000] mt-3">
-                        Consultant in Obstetrics & Gynaecology
-                      </p>
-                    
-                      <p className="text-gray-600 mt-3">
-                        Dr. Priyadarshini. V is a dedicated Consultant in Obstetrics and Gynaecology at Sudha Fertility Centre. She specifically handles the medical management of pregnancy and female reproductive disorders. In her practice, she treats patients for irregular periods, ovarian cysts, pelvic infections, and routine pregnancy care. She focuses on monitoring fetal development and managing smooth deliveries, ensuring women receive clear guidance through every stage of their health journey.
-                      </p>
-                    </div>
-                    <div className="w-full lg:w-1/2">
-                      <Image
-                        src={priyadarshini}
-                        alt="priyadarshini"
-                        className="w-full h-auto rounded-xl"
-                      />
-                    </div>
-                  </motion.div>
-
                   <hr className="mt-4 border-gray-300" />
                 </section>
               </ScrollMotion>
@@ -713,11 +668,31 @@ function PuducherryPage() {
       </div>
 
       <section>
-       
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        {/* <MarqueeComponent
+          items={Puducherry.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        /> */}
 
         <GallerySlider items={pondyVideos} />
 
-      
+        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Puducherry.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

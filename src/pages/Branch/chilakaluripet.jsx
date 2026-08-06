@@ -1,14 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
+import Calendar from "@/assets/branch/ambatur/callender.svg";
 import Image from "next/image";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/hyderabad/hyderabad_about.webp";
 import { motion } from "framer-motion";
 import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
 import Hospital from "@/assets/branch/chilakaluripet/chilakaluripet.webp";
+import Ramya from "@/assets/branch/chilakaluripet/ramya-krishna.webp";
 import ImageGrid from "@/components/imagegrid";
-import {  MdLocationOn } from "react-icons/md";
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
@@ -16,30 +19,15 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-import { Ambattur,Chilakaluripets } from "@/middleware/imagesroute";
+import { MarqueeComponent } from "@/components/marqueeSlider";
+import { Ambattur, Chilakaluripets, Hyderabad } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
-
-
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-import dynamic from "next/dynamic";
-import { chilakaluripet } from "@/middleware/videosRoute";
-
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
-
-const GallerySlider = dynamic(
-  () => import("@/components/videoCard/videoPlaylistSlider"),
-  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
-  
-);
-
-
+// import { chilakaluripetVideos } from "@/middleware/videosRoute";
+// import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 
 function Chilakaluripet() {
@@ -502,6 +490,39 @@ function Chilakaluripet() {
                     </ul>
                   </motion.div>
 
+
+                  <motion.div
+                    className="flex flex-col-reverse lg:flex-row gap-8 mt-7 "
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="w-full lg:w-1/2">
+                      <Image
+                        src={Ramya}
+                        alt="Ramya Krishna"
+                        className="w-full h-auto rounded-xl"
+                      />
+                    </div>
+                    <div className="w-full lg:w-1/2">
+                      {/* <h3 className="text-[20px] font-semibold">
+                        Our Fertility Specialist in Hyderabad
+                      </h3> */}
+                      <h3 className="text-[18px] text-[#173366] font-semibold mt-3">
+                        Dr. J. Ramya Krishna,
+                      </h3>
+                      <p className="text-md text-[#000000] mt-3">
+                        MBBS, MS (OBG)
+                      </p>
+                      <p className="text-[#000000] mt-3">
+                        Fertility Specialist
+                      </p>
+                      <p className=" text-gray-600 mt-3">
+                        Dr. J. Ramya Krishna is a dedicated Fertility Specialist at Sudha Fertility Centre, with expertise in Obstetrics, Gynaecology, and reproductive health. She is committed to providing personalized and compassionate care to couples dealing with infertility. With a strong academic foundation and a patient-centric approach, Dr. Ramya Krishna focuses on delivering effective, evidence-based treatments to help individuals achieve their dream of parenthood.
+                      </p>
+                    </div>
+                  </motion.div>
+
                   <hr className="mt-4 border-gray-300" />
                 </section>
               </ScrollMotion>
@@ -687,8 +708,31 @@ function Chilakaluripet() {
       </div>
 
       <section>
-       
-          <GallerySlider items={chilakaluripet} />
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        <MarqueeComponent
+          items={Chilakaluripets.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        />
+
+          {/* <GallerySlider items={chilakaluripetVideos} /> */}
+
+        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Chilakaluripets.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

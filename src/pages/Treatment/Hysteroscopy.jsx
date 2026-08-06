@@ -4,27 +4,25 @@ import Banner from "@/assets/Treatments/IVF/Banner.webp";
 import About from "@/assets/Treatments/Hysteroscopy/About.webp";
 import Microscope from "@/assets/Treatments/IVF/microscope.webp";
 import WhyChoose from "@/assets/Treatments/IVF/WhyChoose.webp";
-
+import ChooseIVF from "@/assets/Treatments/IVF/ChooseIVF.webp";
+import Tick from "@/assets/Treatments/IVF/Tick.svg";
 import Facilities from "@/assets/Treatments/IVF/Facilities.webp";
-
+import PrepareIVF from "@/assets/Treatments/IVF/PrepareIVF.webp";
 import Button from "@/components/button/button";
 import Image from "next/image";
-
+import FAQItem from "@/components/accordion";
 import SubBanner from "@/assets/contact-us/SubBanner.webp";
 import { Ambattur } from "@/middleware/imagesroute";
-
+import Insta from "@/assets/Home/insta.svg";
+import Linkedin from "@/assets/Home/linkedin.svg";
+import youtube from "@/assets/Home/youtube.svg";
+import x from "@/assets/Home/x.svg";
+import fb from "@/assets/Home/fb.svg";
+import Buttonbottm from "@/components/button";
+import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
+import { MarqueeComponent } from "@/components/marqueeSlider";
+import { FaYoutube } from "react-icons/fa";
 import ContactForm from "@/components/contact/contactForm";
-
-import dynamic from "next/dynamic";
-import { Homevideos } from "@/middleware/videosRoute";
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-const GallerySlider = dynamic(
-  () => import('@/components/videoCard/videoPlaylistSlider'),
-  { loading: () => <VideoSkeletonRow count={3} /> }
-);
-
 
 const facilities = [
   {
@@ -429,10 +427,30 @@ function Hysteroscopy() {
         <ContactForm />
       </div>
 
-   
+      {/* MarqueeComponent */}
       <section className="md:mt-[100px] mt-[70px] md:mb-[100px] mb-[70px]">
-       <GallerySlider items={Homevideos} />
-        
+        {/* <div className="container mx-auto">
+          <div className=" mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+            <MarqueeComponent
+              items={Ambattur.gallery}
+              direction="left"
+              speed="fast"
+              className="custom-class"
+            />
+            <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
+            <h3 className=" font-semibold text-center ">
+      Childless Couples to Happy Parents
+    </h3>
+    <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
+            </div>
+            {/* <MarqueeComponent
+              items={Ambattur.gallery}
+              direction="right"
+              speed="fast"
+              className="custom-class"
+            /> */}
+          {/* </div>
+        </div> */}
       </section>
     </>
   );

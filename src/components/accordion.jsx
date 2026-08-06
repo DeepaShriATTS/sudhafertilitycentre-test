@@ -11,7 +11,7 @@ function FAQItem({ question, answer, isOpen, toggle }) {
         className="flex justify-between items-center cursor-pointer mt-5"
         onClick={toggle}
       >
-        <h3 className="text-lg font-semibold ">{question}</h3>
+        <h4 className="text-lg font-semibold ">{question}</h4>
         <span className="">{isOpen ? <FaMinus size={15}/> : <FaPlus size={15}/>}</span>
       </div>
  

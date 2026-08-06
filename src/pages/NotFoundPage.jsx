@@ -1,23 +1,12 @@
 "use client";
 import Image from "next/image";
-
+import Link from "next/link";
 import notfound from "../assets/404/notfound.svg"
 import Button from "@/components/button";
 import { FaArrowRight } from "react-icons/fa";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur } from "@/middleware/imagesroute";
-
-import dynamic from "next/dynamic";
-import { Homevideos } from "@/middleware/videosRoute";
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-const GallerySlider = dynamic(
-  () => import('@/components/videoCard/videoPlaylistSlider'),
-  { loading: () => <VideoSkeletonRow count={3} /> }
-);
-
-
+import Buttonbottm from "@/components/button";
 
 export default function NotFoundPage() {
   return (
@@ -31,14 +20,36 @@ export default function NotFoundPage() {
           <h3 className="text-gray-600 mt-2">something went wrong!</h3>
           <div className="flex justify-center mt-5">
           <Button text="Go to Home" icon={<FaArrowRight />} link="/"  />
+
+                {/* MarqueeComponent */}
    
 
           </div>
         </div>
       </div>
       <section className="mt-[70px] lg:mt-[100px] mb-[70px] lg:mb-[100px]">
-        <GallerySlider items={Homevideos} />
-       
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        />
+        <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
+          <h2 className=" font-bold text-center ">
+            Childless Couples to Happy Parents
+          </h2>
+          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Ambattur.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </div>
   );

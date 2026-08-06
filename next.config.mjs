@@ -1,73 +1,27 @@
-import bundleAnalyzer from '@next/bundle-analyzer';
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  compress: true,
-  poweredByHeader: false,
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "img.youtube.com",
-      },
-      {
-        protocol: "https",
-        hostname: "i.ytimg.com",
-      },
-      {
-        protocol: "https",
-        hostname: "i3.ytimg.com",
-      },
-      {
-        protocol: "https",
-        hostname: "ship-crm-img.s3.eu-north-1.amazonaws.com",
+        hostname: "**", // ✅ Allows all external images
       },
     ],
-
-    deviceSizes: [375, 414, 640, 768, 1024, 1280, 1536],
-    imageSizes: [16, 32, 64, 128, 256, 384, 512, 645],
+    domains: ["flowbite.s3.amazonaws.com", "img.youtube.com"], // ✅ Keep existing domains
     formats: ["image/avif", "image/webp"],
-
-    minimumCacheTTL: 2592000,
+    unoptimized: false,
   },
-  experimental: {
-    optimizeCss: true,
-
-    inlineCss: true,
-    optimizePackageImports: [
-      "swiper",
-      "lucide-react",
-      "react-icons",
-      "framer-motion",
-        "react-leaflet",
-    ],
-  },
-  compiler: {
-
-    removeConsole: process.env.NODE_ENV === 'production'
-      ? { exclude: ['error', 'warn'] }
-      : false,
-  },
-
   async headers() {
     return [
-      // Long-lived cache for immutable Next.js static assets
       {
-        source: '/_next/static/(.*)',
+        source: "/(.*)",
         headers: [
-          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-        ],
-      },
-      // HTML pages: always revalidate
-      {
-        source: '/(.*)',
-        headers: [
-          { key: 'Cache-Control', value: 'public, max-age=0, must-revalidate' },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "X-Frame-Options", value: "DENY" },
-          { key: "X-XSS-Protection", value: "1; mode=block" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" },
+          { key: "Cache-Control", value: "no-store, must-revalidate" },
+          { key: "X-Content-Type-Options", value: "nosniff" }, // Prevent MIME sniffing
+          { key: "X-Frame-Options", value: "DENY" }, // Prevent Clickjacking
+          { key: "X-XSS-Protection", value: "1; mode=block" }, // Protect against XSS
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" }, // Secure referrer policy
+          { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" }, // Enforce HTTPS
         ],
       },
     ];
@@ -83,57 +37,96 @@ const nextConfig = {
       { source: "/overcoming-ovulation-changes-with-natural-methods", destination: "/blog/overcoming-ovulation-changes-with-natural-methods/", permanent: true },
       { source: "/indian-foods-increase-sperm-count", destination: "/blog/indian-foods-increase-sperm-count/", permanent: true },
       { source: "/fertility-centre-in-dindgul", destination: "/fertility-centre-in-dindigul", permanent: true },
+
+
       {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.sudhafertilitycentre.com" }],
-        destination: "https://sudhafertilitycentre.com/:path*",
-        permanent: true,
-      },
+                source: "/:path*", // ✅ Match all paths
+                has: [{ type: "host", value: "www.sudhafertilitycentre.com" }], // ✅ Only for "www"
+                destination: "https://sudhafertilitycentre.com/:path*",
+                permanent: true,
+              },
     ];
   },
-  webpack: (config, { dev }) => {
+   webpack: (config, { dev }) => {
     if (dev) {
-      config.cache = false;
+      config.cache = false; 
     }
-
-    // Better vendor chunk splitting — isolates large libraries into cacheable chunks
-    if (!dev) {
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          ...config.optimization?.splitChunks,
-          cacheGroups: {
-            ...config.optimization?.splitChunks?.cacheGroups,
-            // Isolate swiper so it doesn't bloat the main bundle
-            swiper: {
-              test: /[\\/]node_modules[\\/]swiper[\\/]/,
-              name: 'vendor-swiper',
-              chunks: 'async',
-              priority: 20,
-            },
-            // Isolate framer-motion
-            framerMotion: {
-              test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
-              name: 'vendor-framer',
-              chunks: 'async',
-              priority: 20,
-            },
-
-          },
-        },
-      };
-    }
-
     return config;
   },
-  turbopack: {},
-
+  
 };
 
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
 
-export default withBundleAnalyzer(nextConfig);
+export default nextConfig;
+
+
+
+
+
+
+
+
+
+// /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   images: {
+//     remotePatterns: [
+//       {
+//         protocol: "https",
+//         hostname: "**", // ✅ Allows all external images
+//       },
+//       {
+//         protocol: "http",
+//         hostname: "localhost", // ✅ Allows localhost images
+//       },
+//     ],
+//     domains: [
+//       "flowbite.s3.amazonaws.com",
+//       "img.youtube.com",
+//       "your-image-source.com", // ✅ Add your image sources here
+//     ],
+//     formats: ["image/avif", "image/webp"],
+//   },
+
+//   async headers() {
+//     return [
+//       {
+//         source: "/(.*)", // ✅ Apply security headers to all routes
+//         headers: [
+//           { key: "Cache-Control", value: "no-store, must-revalidate" },
+//           { key: "X-Content-Type-Options", value: "nosniff" }, // Prevent MIME sniffing
+//           { key: "X-Frame-Options", value: "DENY" }, // Prevent Clickjacking
+//           { key: "X-XSS-Protection", value: "1; mode=block" }, // Protect against XSS
+//           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" }, // Secure referrer policy
+//           { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains; preload" }, // Enforce HTTPS
+//           {
+//             key: "Content-Security-Policy",
+//             value:
+//               "default-src 'self'; script-src 'self' 'unsafe-inline' https://trusted-cdn.com; " +
+//               "style-src 'self' 'unsafe-inline'; img-src 'self' data: https://trusted-images.com https://flowbite.s3.amazonaws.com https://img.youtube.com https://your-image-source.com; " +
+//               "font-src 'self' https://trusted-fonts.com; media-src 'self' https://your-video-source.com",
+//           },
+//         ],
+//       },
+//     ];
+//   },
+
+//   async redirects() {
+//     return [
+//       { source: "/treatment", destination: "/fertility-treatments", permanent: true },
+//       { source: "/fertility-centre-in-bengaluru", destination: "/fertility-centre-in-bangalore", permanent: true },
+//       { source: "/pcos-and-pdoc", destination: "/pcos-and-pcod", permanent: true },
+//       {
+//         source: "/:path*", // ✅ Match all paths
+//         has: [{ type: "host", value: "www.sudhafertilitycentre.com" }], // ✅ Only for "www"
+//         destination: "https://sudhafertilitycentre.com/:path*",
+//         permanent: true,
+//       },
+//     ];
+//   },
+// };
+
+// export default nextConfig;
+
 
 

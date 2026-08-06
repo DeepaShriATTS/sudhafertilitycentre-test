@@ -1,189 +1,182 @@
 "use client";
-// import React, { useState } from "react";
-// import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-// import Calendar from "@/assets/branch/ambatur/callender.svg";
-// import Image from "next/image";
-// import Button from "@/components/button";
-// import SudhaAbout from "@/assets/branch/chennai/chennai_about.webp";
-// import { motion } from "framer-motion";
-// import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
-// import Shanmugavalli from "@/assets/dummy-image.webp";
-// import Indhumathy from "@/assets/branch/chennai/indhumathy.webp";
-// import Hospital from "@/assets/dummy-location.webp";
-// import Buttonbottm from "@/components/button";
-// import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
-// import ImageGrid from "@/components/imagegrid";
-// import { MdArrowOutward, MdLocationOn } from "react-icons/md";
-// import { IoCallOutline } from "react-icons/io5";
-// import { AiTwotoneMail } from "react-icons/ai";
-// import FAQItem from "@/components/accordion";
-// import AppointmentForm from "@/components/appointmentForm";
-// import Navbar from "@/components/branchNav";
-// import ImageSlider from "@/components/imageSlider";
-// import { MarqueeComponent } from "@/components/marqueeSlider";
-// import { Ambattur, Bodinayakanur } from "@/middleware/imagesroute";
-// import ScrollMotion from "@/components/animation/scrollMotion";
-// import BranchForm from "@/components/branchForm";
-// // import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
-// import { CiLocationOn } from "react-icons/ci";
-// import Link from "next/link";
+import React, { useState } from "react";
+import BgAbout from "@/assets/branch/ambatur/hospital.webp";
+import Calendar from "@/assets/branch/ambatur/callender.svg";
+import Image from "next/image";
+import Button from "@/components/button";
+import SudhaAbout from "@/assets/branch/chennai/chennai_about.webp";
+import { motion } from "framer-motion";
+import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
+import Shanmugavalli from "@/assets/dummy-image.webp";
+import Indhumathy from "@/assets/branch/chennai/indhumathy.webp";
+import Hospital from "@/assets/dummy-location.webp";
+import Buttonbottm from "@/components/button";
+import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
+import ImageGrid from "@/components/imagegrid";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+import { IoCallOutline } from "react-icons/io5";
+import { AiTwotoneMail } from "react-icons/ai";
+import FAQItem from "@/components/accordion";
+import AppointmentForm from "@/components/appointmentForm";
+import Navbar from "@/components/branchNav";
+import ImageSlider from "@/components/imageSlider";
+import { MarqueeComponent } from "@/components/marqueeSlider";
+import { Ambattur, Bodinayakanur } from "@/middleware/imagesroute";
+import ScrollMotion from "@/components/animation/scrollMotion";
+import BranchForm from "@/components/branchForm";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { CiLocationOn } from "react-icons/ci";
+import Link from "next/link";
 import NotFound from "@/app/not-found";
-// import LoadingSpinner from '@/components/ui/loadingSpinner';
-// import dynamic from "next/dynamic";
-// // Dynamic imports with same loading component
-// const InfiniteMovingCardsDemo = dynamic(
-//   () => import('@/components/review_Card/reviewCard'),
-//   { loading: () => <LoadingSpinner height="400px" /> }
-// );
 
 function BodinayakanurPage() {
-//   const [visibleCount, setVisibleCount] = useState(5);
-//   const [openIndex, setOpenIndex] = useState(null);
-//   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
 
-//   const toggleFAQ = (index) => {
-//     setOpenIndex(openIndex === index ? null : index);
-//   };
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
-//   const toggleViewMore = () => {
-//     if (showAll) {
-//       setVisibleCount(5); // Reset to initial count when showing less
-//       setShowAll(false); // Properly toggle state
-//     } else {
-//       setVisibleCount(Bodinayakanur.faqs.length); // Show all FAQs
-//       setShowAll(true); // Properly toggle state
-//     }
-//   };
-//   const sections = [
-//     { id: "about", label: "About" },
-//     { id: "facilities", label: "Facilities" },
-//     { id: "specialists", label: "Fertility Specialists" },
-//     { id: "gallery", label: "Gallery" },
-//     { id: "location", label: "Location" },
-//   ];
+  const toggleViewMore = () => {
+    if (showAll) {
+      setVisibleCount(5); // Reset to initial count when showing less
+      setShowAll(false); // Properly toggle state
+    } else {
+      setVisibleCount(Bodinayakanur.faqs.length); // Show all FAQs
+      setShowAll(true); // Properly toggle state
+    }
+  };
+  const sections = [
+    { id: "about", label: "About" },
+    { id: "facilities", label: "Facilities" },
+    { id: "specialists", label: "Fertility Specialists" },
+    { id: "gallery", label: "Gallery" },
+    { id: "location", label: "Location" },
+  ];
 
-//   const chennai = [
-//     {
-//       quote:
-//         "Very happy to share after 10 yrs. We got good news from sudha hospital chennai. We thanks to sudha hospital entire team. I would like to recommend about sudha fertility center chennai as it values for all patients.",
-//       name: "tbs delivery004",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "This is not a review but my thanks notes to Sudha Hospital. We have been struggling for almost 4 years for this miracle. Last November 2022 we came to Sudha Hospital from the day one Doctors, Nurses, Admin team, Pharmacy team and Lab technician gave their immense service and support to make this miracle happen. Special thanks to Dr. Shyla, Dr. Nairuti and Dr. Laksmi who are extremely friendly and positive throughout our treatment. I Highly recommend Sudha Hospital. Thank you all for this wonderful moment in our life. May God bless Sudha Hospital and their Staffs with happiness and prosperity.",
-//       name: "Sachin Gavaskar Dev",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good treatment and best ivf treatment for sudha hospital chennai brnach",
-//       name: "Baskar Baskar",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "I am on cloud nine writing this review. Sudha Fertility center is THE BEST in Chennai hands down. Doctors and Nurses give their 200% to make this miracle happen. Special thanks to Dr. Shyla, Dr. Nairuti and Dr. Laksmi who are extremely friendly and positive throughout the process. Shout out to all Nurses and Admin staff for their immense services may God bless them and their families. HIGHLY RECOMMENDED for those who are waiting for this miracle to happen. Thank you so much Sudha Hospital.❤️🥰😘😘😘.....",
-//       name: "SINDHU BAIRAVI",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "I been here from 3 months receptionist and nurse and doctors are very kind we started treatment IFB still now it's very good service and very nice ambience the attenders of pharmacy the very present 💝🎁💝 ",
-//       name: "Ak Ak",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good afternoon man and sir Ian taking treatment for sudha hospital Chennai now I am having so many struggle for many hospital Ian coming to this centre of positive vibes and friendly carrying for each and everyone thanks to very doctor DR. Lakshmi DR. Shyla DR. Nairuti and admin and counsellor and reception staff and staff nurse very carrying and friendly thanks to Sudha hospital Chennai very much",
-//       name: "Ramesh R",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Hi everyone my self is sevathri iam taking treatment for sudha hospital chennai married 4 years iam got ivf treatment now iam pregnant thanks to sudha hospital chennai thanks to DR. Dhanabayam and Dr.pradeepa mam iam really thank u DR.lakshmi and Dr.shyla DR.nairuti mam and every staff nurse and admin and counsellor and lab and reception staff and each and everyone carrying friendly andtakecare for each and everyone thanks to sudha hospital chennai very hearly good ivf treatment and in chennai",
-//       name: "Desappan M",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Well experienced doctors and staffs. neat and clean. Best fertility centre in Vellore. Highly recommend .",
-//       name: "Saravanan Neelakandan",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Hai I'm monisha here I like to share my review and opinion about sudha fertility centre , Chennai. Staff and doctor are so kind and reception staff treaed me like their family . Nursing staff are well trained and knowledged. Doctors explained everything about process and my health oriented things. Really got satisfied with their explanations",
-//       name: "MONISHA MALATHI",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "I am feeling very happy that my wife revathi got a baby girl after 2 yrs . 2 yrs of struggle so much of depression and society talks and then we find a right path that is sudha fertility centre we came and visited the hospital and she got conceived and now I am a proud father. This is all only because of sudha hospital, excellent treatment and good atmosphere, friendly staffs on the whole it's an very good fertility centre that I can recommend to everyone..... TQ sudha for your effort and support ❤️",
-//       name: "Jagadeesan R",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "My name is jaieswari ni am taking treatment in sudha hospital Chennai Last three year many hospital Iam take a treatment for baby .but last six month sudha hospital take a treatment still I am pregnant for iui . Thanks for Sudha hospital.dr.s and admin and all the staff. I am very happy the moment I suggested this hospital. Thanks for management.",
-//       name: "Jai P",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Hai, here I like to sharing my experience about Sudha fertility, Chennai express all doctors and staff are well experienced about fertility treatments. Best IVF center in Chennai. Well equipped Hospital for IVF treatment Thank you sudha",
-//       name: "Sudhakar Jaganathan",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Treatment is really good and transparent. All the doctors and hospital staff members are kind and friendly. Especially Dr. Shyla mam. The way she explains everything gives us hope. She is energetic and spreads positivity towards patients. Overall very satisfied and happy. Thanks to Sudha Hospitals for making our lives better and happier.",
-//       name: "Jagan",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Doctors and all the staffs are very caring and friendly. Doctors clearly explains the treatment process. Their words are very kind and give positive hopes. All staffs answers all our doubts clearly with patience. Treating way is excellent. Doctors does treatment for us wholeheartedly to bring a positive results and Smile on our faces. Very thankful to Sudha hospitals.",
-//       name: "Manju P",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "I'm so very happy for sudha hospital Chennai branch.After long time we got positive results.Really very kind all staffs and doctors.I strongly recommend sudha hospital Chennai.",
-//       name: "Sathvan sathvan",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Sudha hospital is the best fertility center.. I have taken treatment at here. Doctors are very kind and they explained about treatment very clearly..and all other staffs gave good response and whenever I asked any doubt to them.they answered anytime with clear and proper guidance.i am very satisfied.thanks to Sudha Hospitals😊..",
-//       name: "yazhini rajendiran",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Hi this is lingesh here as I want to share my experience about sudha Fertility Centre chennai .... where I went to consult doctor for our childless problem on 2022 the staffs and the doctors are very friendly and they take in care of us very kindly and safely now after the best surgery we got pregnant in 2023 and 2024 I got a baby girl .....this is only because of sudha Fertility Centre the management and the doctors & staff tq sudha for your valuable service",
-//       name: "Lingesh Lee",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Hi mam iam taking treatment for sudha hospital Chennai good experience and taking care for me thank to sudha hospital Chennai branch",
-//       name: "N MEENA",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good morning mam iam taking for IVF treatment for sudha hospital Chennai good results for IVF treatment and thanks to Dr.Lakshmi and Dr.shyla and Dr.Nairuti mam and admin mam dhanalakshmi and nivetha counsellor and reception staff and nurse and lab everyone are very kind answer thanks to sudha hospital Chennai IVF treatment is good and carrying doctor thanks to sudha hospital Chennai",
-//       name: "CHANDRAN R",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Hi everyone Iam to happy to share my experience in sudha hospital Chennai my name is nandhini I am taking treatment for sudha hospital for Ivf and good results Iam so happy to tell this thanks to every doctor and admin and counsellor and all staff nurse and housekeeping",
-//       name: "raman",
-//       title: "Patient",
-//     },
-//   ];
+  const chennai = [
+    {
+      quote:
+        "Very happy to share after 10 yrs. We got good news from sudha hospital chennai. We thanks to sudha hospital entire team. I would like to recommend about sudha fertility center chennai as it values for all patients.",
+      name: "tbs delivery004",
+      title: "Patient",
+    },
+    {
+      quote:
+        "This is not a review but my thanks notes to Sudha Hospital. We have been struggling for almost 4 years for this miracle. Last November 2022 we came to Sudha Hospital from the day one Doctors, Nurses, Admin team, Pharmacy team and Lab technician gave their immense service and support to make this miracle happen. Special thanks to Dr. Shyla, Dr. Nairuti and Dr. Laksmi who are extremely friendly and positive throughout our treatment. I Highly recommend Sudha Hospital. Thank you all for this wonderful moment in our life. May God bless Sudha Hospital and their Staffs with happiness and prosperity.",
+      name: "Sachin Gavaskar Dev",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good treatment and best ivf treatment for sudha hospital chennai brnach",
+      name: "Baskar Baskar",
+      title: "Patient",
+    },
+    {
+      quote:
+        "I am on cloud nine writing this review. Sudha Fertility center is THE BEST in Chennai hands down. Doctors and Nurses give their 200% to make this miracle happen. Special thanks to Dr. Shyla, Dr. Nairuti and Dr. Laksmi who are extremely friendly and positive throughout the process. Shout out to all Nurses and Admin staff for their immense services may God bless them and their families. HIGHLY RECOMMENDED for those who are waiting for this miracle to happen. Thank you so much Sudha Hospital.❤️🥰😘😘😘.....",
+      name: "SINDHU BAIRAVI",
+      title: "Patient",
+    },
+    {
+      quote:
+        "I been here from 3 months receptionist and nurse and doctors are very kind we started treatment IFB still now it's very good service and very nice ambience the attenders of pharmacy the very present 💝🎁💝 ",
+      name: "Ak Ak",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good afternoon man and sir Ian taking treatment for sudha hospital Chennai now I am having so many struggle for many hospital Ian coming to this centre of positive vibes and friendly carrying for each and everyone thanks to very doctor DR. Lakshmi DR. Shyla DR. Nairuti and admin and counsellor and reception staff and staff nurse very carrying and friendly thanks to Sudha hospital Chennai very much",
+      name: "Ramesh R",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Hi everyone my self is sevathri iam taking treatment for sudha hospital chennai married 4 years iam got ivf treatment now iam pregnant thanks to sudha hospital chennai thanks to DR. Dhanabayam and Dr.pradeepa mam iam really thank u DR.lakshmi and Dr.shyla DR.nairuti mam and every staff nurse and admin and counsellor and lab and reception staff and each and everyone carrying friendly andtakecare for each and everyone thanks to sudha hospital chennai very hearly good ivf treatment and in chennai",
+      name: "Desappan M",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Well experienced doctors and staffs. neat and clean. Best fertility centre in Vellore. Highly recommend .",
+      name: "Saravanan Neelakandan",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Hai I'm monisha here I like to share my review and opinion about sudha fertility centre , Chennai. Staff and doctor are so kind and reception staff treaed me like their family . Nursing staff are well trained and knowledged. Doctors explained everything about process and my health oriented things. Really got satisfied with their explanations",
+      name: "MONISHA MALATHI",
+      title: "Patient",
+    },
+    {
+      quote:
+        "I am feeling very happy that my wife revathi got a baby girl after 2 yrs . 2 yrs of struggle so much of depression and society talks and then we find a right path that is sudha fertility centre we came and visited the hospital and she got conceived and now I am a proud father. This is all only because of sudha hospital, excellent treatment and good atmosphere, friendly staffs on the whole it's an very good fertility centre that I can recommend to everyone..... TQ sudha for your effort and support ❤️",
+      name: "Jagadeesan R",
+      title: "Patient",
+    },
+    {
+      quote:
+        "My name is jaieswari ni am taking treatment in sudha hospital Chennai Last three year many hospital Iam take a treatment for baby .but last six month sudha hospital take a treatment still I am pregnant for iui . Thanks for Sudha hospital.dr.s and admin and all the staff. I am very happy the moment I suggested this hospital. Thanks for management.",
+      name: "Jai P",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Hai, here I like to sharing my experience about Sudha fertility, Chennai express all doctors and staff are well experienced about fertility treatments. Best IVF center in Chennai. Well equipped Hospital for IVF treatment Thank you sudha",
+      name: "Sudhakar Jaganathan",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Treatment is really good and transparent. All the doctors and hospital staff members are kind and friendly. Especially Dr. Shyla mam. The way she explains everything gives us hope. She is energetic and spreads positivity towards patients. Overall very satisfied and happy. Thanks to Sudha Hospitals for making our lives better and happier.",
+      name: "Jagan",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Doctors and all the staffs are very caring and friendly. Doctors clearly explains the treatment process. Their words are very kind and give positive hopes. All staffs answers all our doubts clearly with patience. Treating way is excellent. Doctors does treatment for us wholeheartedly to bring a positive results and Smile on our faces. Very thankful to Sudha hospitals.",
+      name: "Manju P",
+      title: "Patient",
+    },
+    {
+      quote:
+        "I'm so very happy for sudha hospital Chennai branch.After long time we got positive results.Really very kind all staffs and doctors.I strongly recommend sudha hospital Chennai.",
+      name: "Sathvan sathvan",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Sudha hospital is the best fertility center.. I have taken treatment at here. Doctors are very kind and they explained about treatment very clearly..and all other staffs gave good response and whenever I asked any doubt to them.they answered anytime with clear and proper guidance.i am very satisfied.thanks to Sudha Hospitals😊..",
+      name: "yazhini rajendiran",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Hi this is lingesh here as I want to share my experience about sudha Fertility Centre chennai .... where I went to consult doctor for our childless problem on 2022 the staffs and the doctors are very friendly and they take in care of us very kindly and safely now after the best surgery we got pregnant in 2023 and 2024 I got a baby girl .....this is only because of sudha Fertility Centre the management and the doctors & staff tq sudha for your valuable service",
+      name: "Lingesh Lee",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Hi mam iam taking treatment for sudha hospital Chennai good experience and taking care for me thank to sudha hospital Chennai branch",
+      name: "N MEENA",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good morning mam iam taking for IVF treatment for sudha hospital Chennai good results for IVF treatment and thanks to Dr.Lakshmi and Dr.shyla and Dr.Nairuti mam and admin mam dhanalakshmi and nivetha counsellor and reception staff and nurse and lab everyone are very kind answer thanks to sudha hospital Chennai IVF treatment is good and carrying doctor thanks to sudha hospital Chennai",
+      name: "CHANDRAN R",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Hi everyone Iam to happy to share my experience in sudha hospital Chennai my name is nandhini I am taking treatment for sudha hospital for Ivf and good results Iam so happy to tell this thanks to every doctor and admin and counsellor and all staff nurse and housekeeping",
+      name: "raman",
+      title: "Patient",
+    },
+  ];
 
   return (
     <>

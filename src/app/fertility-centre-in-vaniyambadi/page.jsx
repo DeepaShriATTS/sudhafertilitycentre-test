@@ -1,25 +1,24 @@
-// import VaniyambadiPage from '@/pages/Branch/vaniyambadi'
+import VaniyambadiPage from '@/pages/Branch/vaniyambadi'
 import React from 'react'
-// import Script from "next/script";
+import Script from "next/script";
+import Head from "next/head";
 
 export const metadata = {
   title: "Best Fertility Centre in Vaniyambadi - Sudha Fertility Centre",
   description: "Sudha Fertility Centre in Vaniyambadi combines advanced IVF/IUI science, expert specialists, and compassionate care. Visit our clinic.",
-  keywords: "Fertility Centre in Vaniyambadi",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-vaniyambadi",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-vaniyambadi",
-    },
-  },
+  keywords: "Fertility Centre in Vaniyambadi"
 };
 
 export default function page() {
-  
+  <Head>
+
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-vaniyambadi" hreflang="en-in" />
+  </Head>
+
   return (
     <div>
 
-      {/* <Script
+      <Script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
@@ -150,9 +149,9 @@ export default function page() {
             ]
           })
         }}
-      /> */}
+      />
 
-      {/* <VaniyambadiPage /> */}
+      <VaniyambadiPage />
     </div>
   )
 }

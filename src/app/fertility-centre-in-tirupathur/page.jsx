@@ -1,23 +1,21 @@
 import TirupathurPage from '@/pages/Branch/tirupathur'
 import React from 'react'
 import Script from "next/script";
+import Head from "next/head";
 
 
 export const metadata = {
   title: "Best Fertility Centre in Tirupathur - Sudha Fertility Centre",
   description: " Sudha Fertility Centre in Tirupathur offers high success rates, advanced IVF, and experienced IUI specialists. Contact us to visit.",
-  keywords:"Fertility Centre in Tirupathur",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-tirupathur",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-tirupathur",
-    },
-  },
+  keywords:"Fertility Centre in Tirupathur"
 };
 
 export default function page() {
 
-  
+  <Head>
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-tirupathur" hreflang="en-in" />
+  </Head>
+
   return (
     <div>
       <Script

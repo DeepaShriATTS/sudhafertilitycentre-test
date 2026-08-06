@@ -1,15 +1,14 @@
+"use client";
+
 import React from "react";
 import InfiniteMovingReviews from "../ui/infinityCard";
-import { reviews } from "../../utils/homepageData";
 
 
-export default function InfiniteMovingCardsDemo() {
+export function InfiniteMovingCardsDemo({reviews}) {
   return (
     (<div
-      style={{ minHeight: "398px" }}
-      className="branch-reviews-wrapper rounded-md flex flex-col antialiased  items-center justify-center relative overflow-hidden">
-       
-      <InfiniteMovingReviews items={reviews} direction="left" />
+      className=" rounded-md flex flex-col antialiased  items-center justify-center relative overflow-hidden">
+      <InfiniteMovingReviews items={reviews} direction="left" speed="slow" />
     </div>)
   );
 }

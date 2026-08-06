@@ -2,22 +2,20 @@
 import Thoothukudi from '@/pages/Branch/thoothukudi'
 import React from 'react'
 import Script from "next/script";
+import Head from "next/head";
 
 export const metadata = {
   title: "Best Fertility Centre in Thoothukudi - Sudha Fertility Centre",
   description: "Experience parenthood success at Sudha Fertility Centre in Thoothukudi, providing world‑class IVF & IUI treatments. Book online today.",
-  keywords: "Fertility Centre in Thoothukudi",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-thoothukudi",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-thoothukudi",
-    },
-  },
+  keywords: "Fertility Centre in Thoothukudi"
 };
 
 export default function page() {
 
-    return (
+  <Head>
+    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-thoothukudi" hreflang="en-in" />
+  </Head>
+  return (
     <div>
 
 

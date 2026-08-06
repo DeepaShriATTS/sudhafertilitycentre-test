@@ -19,29 +19,15 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Ongole } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import { ongoleVideos } from "@/middleware/videosRoute";
-import LoadingSpinner from '@/components/ui/loadingSpinner';
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-import dynamic from "next/dynamic";
-// Dynamic imports with same loading component
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
-
-const GallerySlider = dynamic(
-  () => import("@/components/videoCard/videoPlaylistSlider"),
-  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
-);
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function OngolePage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -433,6 +419,42 @@ function OngolePage() {
                     </ul>
                   </motion.div>
 
+                  <motion.div
+                    className="flex flex-col-reverse lg:flex-row gap-8 mt-7 "
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="w-full lg:w-1/2 sm-hidden ">
+                      <Image
+                        src={Hima}
+                        alt="Hima Bindu"
+                        className="w-full h-auto rounded-xl"
+                      />
+                    </div>
+
+                    <div className="w-full lg:w-1/2">
+                      {/* <h3 className="text-[20px] font-semibold mt-3">
+                        Our Fertility Specialist in Vijayawada
+                      </h3> */}
+                      <h3 className="text-[18px] text-[#173366] font-semibold ">
+                        Dr. D. Hima Bindu
+                      </h3>
+                      <p className=" text-[#000000] mt-3">
+                        MBBS, MS (OBG)
+                      </p>
+                      <p className="text-[#000000] mt-3">
+                        Fertility Specialist
+                      </p>
+                      <p className="text-gray-600 mt-3">
+                        Dr. D. Hima Bindu is a committed Fertility Specialist at Sudha Fertility Centre in Ongole, with expertise in Obstetrics, Gynaecology, and reproductive medicine. She offers personalized and evidence-based fertility care, helping couples navigate their journey to parenthood with confidence and clarity. With a strong clinical foundation and compassionate approach, Dr. Hima Bindu focuses on delivering effective solutions tailored to each patient’s unique needs.
+                      </p>
+                    </div>
+
+
+                  </motion.div>
+
+
                   <hr className="mt-5 border-gray-300" />
                 </section>
               </ScrollMotion>
@@ -614,7 +636,29 @@ function OngolePage() {
 
       </div>
       <section>
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        {/* <MarqueeComponent
+          items={Ongole.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        /> */}
            <GallerySlider items={ongoleVideos} />
+        <div className="flex justify-center gap-4 flex-wrap items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Ongole.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

@@ -1,204 +1,197 @@
 "use client";
-// import React, { useState } from "react";
-// import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-// import Calendar from "@/assets/branch/ambatur/callender.svg";
-// import Image from "next/image";
-// import Button from "@/components/button";
-// import SudhaAbout from "@/assets/branch/Puducherry/pondicherry_about.webp";
-// import { motion } from "framer-motion";
-// import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
-// import Hospital from "@/assets/dummy-location.webp";
-// import AISHWARYAJAGAN from "@/assets/branch/Puducherry/DR.AISHWARYAJAGAN.webp";
-// import ImageGrid from "@/components/imagegrid";
-// import Buttonbottm from "@/components/button";
-// import { MdArrowOutward, MdLocationOn } from "react-icons/md";
-// import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
+import React, { useState } from "react";
+import BgAbout from "@/assets/branch/ambatur/hospital.webp";
+import Calendar from "@/assets/branch/ambatur/callender.svg";
+import Image from "next/image";
+import Button from "@/components/button";
+import SudhaAbout from "@/assets/branch/Puducherry/pondicherry_about.webp";
+import { motion } from "framer-motion";
+import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
+import Hospital from "@/assets/dummy-location.webp";
+import AISHWARYAJAGAN from "@/assets/branch/Puducherry/DR.AISHWARYAJAGAN.webp";
+import ImageGrid from "@/components/imagegrid";
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
 
-// import { IoCallOutline } from "react-icons/io5";
-// import { AiTwotoneMail } from "react-icons/ai";
-// import FAQItem from "@/components/accordion";
-// import AppointmentForm from "@/components/appointmentForm";
-// import Navbar from "@/components/branchNav";
-// import ImageSlider from "@/components/imageSlider";
-// import { MarqueeComponent } from "@/components/marqueeSlider";
-// import ScrollMotion from "@/components/animation/scrollMotion";
-// import { Ambattur, Perambalur } from "@/middleware/imagesroute";
-// import BranchForm from "@/components/branchForm";
-// // import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
-// import { CiLocationOn } from "react-icons/ci";
-// import Link from "next/link";
+import { IoCallOutline } from "react-icons/io5";
+import { AiTwotoneMail } from "react-icons/ai";
+import FAQItem from "@/components/accordion";
+import AppointmentForm from "@/components/appointmentForm";
+import Navbar from "@/components/branchNav";
+import ImageSlider from "@/components/imageSlider";
+import { MarqueeComponent } from "@/components/marqueeSlider";
+import ScrollMotion from "@/components/animation/scrollMotion";
+import { Ambattur, Perambalur } from "@/middleware/imagesroute";
+import BranchForm from "@/components/branchForm";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { CiLocationOn } from "react-icons/ci";
+import Link from "next/link";
 import NotFound from "@/app/not-found";
-// import LoadingSpinner from '@/components/ui/loadingSpinner';
-// import dynamic from "next/dynamic";
-// // Dynamic imports with same loading component
-// const InfiniteMovingCardsDemo = dynamic(
-//   () => import('@/components/review_Card/reviewCard'),
-//   { loading: () => <LoadingSpinner height="400px" /> }
-// );
 
 function PerambalurPage() {
-//   const [visibleCount, setVisibleCount] = useState(5);
-//   const [openIndex, setOpenIndex] = useState(null);
-//   const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
+  const [visibleCount, setVisibleCount] = useState(5);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [showAll, setShowAll] = useState(false); // State to track if all FAQs are shown
 
-//   const toggleFAQ = (index) => {
-//     setOpenIndex(openIndex === index ? null : index);
-//   };
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
-//   const toggleViewMore = () => {
-//     if (showAll) {
-//       setVisibleCount(5); // Reset to initial count when showing less
-//       setShowAll(false); // Properly toggle state
-//     } else {
-//       setVisibleCount(Perambalur.faqs.length); // Show all FAQs
-//       setShowAll(true); // Properly toggle state
-//     }
-//   };
-//   const sections = [
-//     { id: "about", label: "About" },
-//     { id: "facilities", label: "Facilities" },
-//     { id: "specialists", label: "Fertility Specialists" },
-//     { id: "gallery", label: "Gallery" },
-//     { id: "location", label: "Location" },
-//   ];
+  const toggleViewMore = () => {
+    if (showAll) {
+      setVisibleCount(5); // Reset to initial count when showing less
+      setShowAll(false); // Properly toggle state
+    } else {
+      setVisibleCount(Perambalur.faqs.length); // Show all FAQs
+      setShowAll(true); // Properly toggle state
+    }
+  };
+  const sections = [
+    { id: "about", label: "About" },
+    { id: "facilities", label: "Facilities" },
+    { id: "specialists", label: "Fertility Specialists" },
+    { id: "gallery", label: "Gallery" },
+    { id: "location", label: "Location" },
+  ];
 
 
-//   const PondicherryReview = [
-//     {
-//       quote:
-//         "Sudha Fertility Hospital in pondicherry offers effective and affordable fertility treatments. The doctors use advanced techniques and provide the best care. The success rate is high. So thankful.",
-//       name: "Vishnu Ratchagan",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good hospital setting. And ventilation. Staffs behavior good in manner. Particularly kamini sister, sankari sister and raji sister. Special thanks to Dr. Aiswarya mam. Excellent explanation and calm approach towards patients . Counseling sister padmapriya very friendly in manner and very good procedure explanation.",
-//       name: "Sumathi Ragav",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good staff...we express heartfelt thanks to dr.iswarya mam..we come with lots of doubts and fears...we started with hopeful positive activities towards baby...wonderful team keep it up...compared to other hospitals cost is too low....",
-//       name: "Parsina Mary.M",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Best treatment at affordable prices...good staffs ....staffs are very kind...thanks to Dr. Iswarya mam ...out parenthood comes true...special thanks to Padma Priya sister who explains procedures very detailedly and kindly.... wonderful full keep it up...my heartfull thanks",
-//       name: "Kayal Vizhi",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good hospital setting. Staffs are very kind and care taking...thank you so much for dr. Iswarya mam..special thanks to counselling sister padmapriya very good procedure explanation",
-//       name: "prakash prakash",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "After multiple failed attempts in other hospitals, we lost hope. I finally found success at Sudha IVF Centre in Pondicherry .The doctors are highly skilled, and the treatments are advanced. Highly recommended!",
-//       name: "Dhina Dhinagar",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Sudha Fertility Centre in pondicherry provides amazing care. From consultation to treatment, everything was handled professionally. The doctors explained our options well. Highly recommend this IVF Centre in pondicherry!",
-//       name: "Sakthivel S",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good hospital setting. Staffs are very good. Thank you to dr. Aiswarya mam. Good team. Keep it up. Special thanks to padmapriya sister....",
-//       name: "Vijay Vs",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good environment and ventilation hospital setting. Dr. Aiswarya jagan mam very kind and detilaed explation of procedures. Sisters kamini and raji so kind and taking care. Counsellor padmapriya very good explanation of all procedures. Thank u for all. Good team. Keep it up.",
-//       name: "Venkatesan S",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Best Fertility Centre in pondy! The treatment plan was clear, and the doctors explained every step well. I felt comfortable throughout my IVF journey.",
-//       name: "Sowmya M",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good environment and ventilation setting. Dr. Aishwarya mam explained procedure very clearly. Kamini sister and raji sis very kind taking care of us . Now we are entering to the parenting . Only possible to Sudha hospital. Special thanks to vignesh sir and vivek sir,and padmapriya sister. Good team",
-//       name: "Karthiga Devi",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "The doctors are very experienced, and the treatment process is smooth. I highly recommend this IVF Hospital in pondy for anyone facing fertility issues.",
-//       name: "Sowmya M",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Good hospital and ventilation setting. Staffs are very friendly. Dr. Aishwarya Japan mam explain the condition very detailedly. Kamins sister, Raji sister are very caring . Padmapriya sister give very good counseling and detailed explanation",
-//       name: "Anbu Arasi",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Thanks to Dr. Aishwarya Jagan Mam and her wonderful team. Our cousin is now 4 months pregnant and very excited. Dr. Aishwarya Jagan is a very professional and passionate doctor; Thanks again for helping them start their family. We highly recommend them.",
-//       name: "Suresh Krish",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Doctor advice was satisfactory. Staff nurse & other staff was friendly behaviour. One of the best ivf centre in pondicherry. Treating us like their own friends and family members. thank you...",
-//       name: "Rajalakshmi Rajavel",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "One of the low cost IVF treatment in pondicherry. Staffs are very good. Good hospital setting. Dr. Aiwarya mam treatment good.",
-//       name: "Sakthi Kalai",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "Sudha hospital a very wonderful hospital in pondicherry. Dr.Aishwarya jegan is very very responsible & fantastic dr in her duty all staffs r sooo much responsible especially kamini sister very verry good staffs,veni,viji,Sarasa,raj good staffs I have been married for 10yrs I have lot of pbm ex.thyroid chocolate cyst,fits,one time IVF failure ,6 time iui failure,3 times scopy but Dr.Aiswarya mdm clear my all pbm now I am 2 month pregnant thank u sudha my life will again blossoms.......",
-//       name: "Priyasathish S",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "One of the Low IVF cost treatment in pondicherry. Good hospitality service by staffs. Consultation advice is satisfying.",
-//       name: "Padma Priya",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "One of the best IVF hospital in Pondicherry at low cost treatment. Explanation of Procedure by doctor mam was good & staff nurse behaviour was so kind. Thank you sudha hospital for treating me like as their family member.",
-//       name: "sarasa S",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         `First of all thanks to sudha hospital team Pondicherry. happy to say My Sister blessed twin boy and girl Dr.Aishwarya Jagan consultation and caring good. Admission period ward staffs good approach caring house.
-//   keeping department cleaning well`,
-//       name: "Vidhya Veeraiyan",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "One of the best fertility centre in pondicherry. Doctor mam & counsellor advice gives positive energy. They are giving treatment as their hospital quotes. தாய்மை ஒரு வரம். Hoping for the best.",
-//       name: "Johnkomathi",
-//       title: "Patient",
-//     },
-//     {
-//       quote:
-//         "My endless gratitude to sudha fertility center, for blessing us with our precious gift and made our way journey comfortable 🙏. We don't know how this team baked away all our worries, making my treatment 100 percent successful with best memories. Love and immense respect from New born parents",
-//       name: "Kuralanban P",
-//       title: "Patient",
-//     },
-//   ];
+  const PondicherryReview = [
+    {
+      quote:
+        "Sudha Fertility Hospital in pondicherry offers effective and affordable fertility treatments. The doctors use advanced techniques and provide the best care. The success rate is high. So thankful.",
+      name: "Vishnu Ratchagan",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good hospital setting. And ventilation. Staffs behavior good in manner. Particularly kamini sister, sankari sister and raji sister. Special thanks to Dr. Aiswarya mam. Excellent explanation and calm approach towards patients . Counseling sister padmapriya very friendly in manner and very good procedure explanation.",
+      name: "Sumathi Ragav",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good staff...we express heartfelt thanks to dr.iswarya mam..we come with lots of doubts and fears...we started with hopeful positive activities towards baby...wonderful team keep it up...compared to other hospitals cost is too low....",
+      name: "Parsina Mary.M",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Best treatment at affordable prices...good staffs ....staffs are very kind...thanks to Dr. Iswarya mam ...out parenthood comes true...special thanks to Padma Priya sister who explains procedures very detailedly and kindly.... wonderful full keep it up...my heartfull thanks",
+      name: "Kayal Vizhi",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good hospital setting. Staffs are very kind and care taking...thank you so much for dr. Iswarya mam..special thanks to counselling sister padmapriya very good procedure explanation",
+      name: "prakash prakash",
+      title: "Patient",
+    },
+    {
+      quote:
+        "After multiple failed attempts in other hospitals, we lost hope. I finally found success at Sudha IVF Centre in Pondicherry .The doctors are highly skilled, and the treatments are advanced. Highly recommended!",
+      name: "Dhina Dhinagar",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Sudha Fertility Centre in pondicherry provides amazing care. From consultation to treatment, everything was handled professionally. The doctors explained our options well. Highly recommend this IVF Centre in pondicherry!",
+      name: "Sakthivel S",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good hospital setting. Staffs are very good. Thank you to dr. Aiswarya mam. Good team. Keep it up. Special thanks to padmapriya sister....",
+      name: "Vijay Vs",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good environment and ventilation hospital setting. Dr. Aiswarya jagan mam very kind and detilaed explation of procedures. Sisters kamini and raji so kind and taking care. Counsellor padmapriya very good explanation of all procedures. Thank u for all. Good team. Keep it up.",
+      name: "Venkatesan S",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Best Fertility Centre in pondy! The treatment plan was clear, and the doctors explained every step well. I felt comfortable throughout my IVF journey.",
+      name: "Sowmya M",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good environment and ventilation setting. Dr. Aishwarya mam explained procedure very clearly. Kamini sister and raji sis very kind taking care of us . Now we are entering to the parenting . Only possible to Sudha hospital. Special thanks to vignesh sir and vivek sir,and padmapriya sister. Good team",
+      name: "Karthiga Devi",
+      title: "Patient",
+    },
+    {
+      quote:
+        "The doctors are very experienced, and the treatment process is smooth. I highly recommend this IVF Hospital in pondy for anyone facing fertility issues.",
+      name: "Sowmya M",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Good hospital and ventilation setting. Staffs are very friendly. Dr. Aishwarya Japan mam explain the condition very detailedly. Kamins sister, Raji sister are very caring . Padmapriya sister give very good counseling and detailed explanation",
+      name: "Anbu Arasi",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Thanks to Dr. Aishwarya Jagan Mam and her wonderful team. Our cousin is now 4 months pregnant and very excited. Dr. Aishwarya Jagan is a very professional and passionate doctor; Thanks again for helping them start their family. We highly recommend them.",
+      name: "Suresh Krish",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Doctor advice was satisfactory. Staff nurse & other staff was friendly behaviour. One of the best ivf centre in pondicherry. Treating us like their own friends and family members. thank you...",
+      name: "Rajalakshmi Rajavel",
+      title: "Patient",
+    },
+    {
+      quote:
+        "One of the low cost IVF treatment in pondicherry. Staffs are very good. Good hospital setting. Dr. Aiwarya mam treatment good.",
+      name: "Sakthi Kalai",
+      title: "Patient",
+    },
+    {
+      quote:
+        "Sudha hospital a very wonderful hospital in pondicherry. Dr.Aishwarya jegan is very very responsible & fantastic dr in her duty all staffs r sooo much responsible especially kamini sister very verry good staffs,veni,viji,Sarasa,raj good staffs I have been married for 10yrs I have lot of pbm ex.thyroid chocolate cyst,fits,one time IVF failure ,6 time iui failure,3 times scopy but Dr.Aiswarya mdm clear my all pbm now I am 2 month pregnant thank u sudha my life will again blossoms.......",
+      name: "Priyasathish S",
+      title: "Patient",
+    },
+    {
+      quote:
+        "One of the Low IVF cost treatment in pondicherry. Good hospitality service by staffs. Consultation advice is satisfying.",
+      name: "Padma Priya",
+      title: "Patient",
+    },
+    {
+      quote:
+        "One of the best IVF hospital in Pondicherry at low cost treatment. Explanation of Procedure by doctor mam was good & staff nurse behaviour was so kind. Thank you sudha hospital for treating me like as their family member.",
+      name: "sarasa S",
+      title: "Patient",
+    },
+    {
+      quote:
+        `First of all thanks to sudha hospital team Pondicherry. happy to say My Sister blessed twin boy and girl Dr.Aishwarya Jagan consultation and caring good. Admission period ward staffs good approach caring house.
+  keeping department cleaning well`,
+      name: "Vidhya Veeraiyan",
+      title: "Patient",
+    },
+    {
+      quote:
+        "One of the best fertility centre in pondicherry. Doctor mam & counsellor advice gives positive energy. They are giving treatment as their hospital quotes. தாய்மை ஒரு வரம். Hoping for the best.",
+      name: "Johnkomathi",
+      title: "Patient",
+    },
+    {
+      quote:
+        "My endless gratitude to sudha fertility center, for blessing us with our precious gift and made our way journey comfortable 🙏. We don't know how this team baked away all our worries, making my treatment 100 percent successful with best memories. Love and immense respect from New born parents",
+      name: "Kuralanban P",
+      title: "Patient",
+    },
+  ];
 
 
   return (

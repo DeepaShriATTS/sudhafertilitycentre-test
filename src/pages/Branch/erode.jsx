@@ -11,7 +11,8 @@ import Hospital from "@/assets/branch/erode/erode.webp";
 import Vanitha from "@/assets/branch/erode/vanitha.webp";
 import Deepeka from "@/assets/branch/erode/deepeka.webp";
 import ImageGrid from "@/components/imagegrid";
-import {  MdLocationOn } from "react-icons/md";
+import Buttonbottm from "@/components/button";
+import { MdArrowOutward, MdLocationOn } from "react-icons/md";
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 
 import { IoCallOutline } from "react-icons/io5";
@@ -20,37 +21,15 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-
+import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Coimbatore, Erode } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
-
-import LoadingSpinner from '@/components/ui/loadingSpinner';
 import { erodeVideos } from "@/middleware/videosRoute";
-import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
-
-
-import dynamic from "next/dynamic";
-
-// Dynamic imports with same loading component
-const InfiniteMovingCardsDemo = dynamic(
-  () => import('@/components/review_Card/reviewCard'),
-  { loading: () => <LoadingSpinner height="400px" /> }
-);
-
-const GallerySlider = dynamic(
-  () => import('@/components/videoCard/videoPlaylistSlider'),
-  { loading: () => <VideoSkeletonRow count={3} /> }
-);
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 },
-};
+import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
 
 function ErodePage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -240,9 +219,9 @@ function ErodePage() {
                   {/* Left Content */}
                   <motion.div
                     className="text-white w-full lg:w-1/2"
-                    initial="initial"
-                    animate="animate"
-                    variants={fadeInUp}
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
                   >
                     <h2 className="text-[#FFC65C]  font-semibold uppercase">
                       VANAKKAM Erode
@@ -269,8 +248,7 @@ function ErodePage() {
             </div>
           </div>
         </div>
-
-         <div className="w-full ">
+        <div className="absolute -bottom-80 lg:-bottom-64 w-full ">
           <InfiniteMovingCardsDemo reviews={ErodeReview} />
         </div>
         <div
@@ -282,7 +260,7 @@ function ErodePage() {
         ></div>
       </div>
 
-    <div className="container mx-auto ">
+      <div className="container mx-auto mt-72 lg:mt-60">
         <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 flex flex-col lg:flex-row gap-8">
           <div className="w-full lg:w-2/3">
             <div className="w-full pe-5">
@@ -294,14 +272,14 @@ function ErodePage() {
                 <section id="about" className="  pt-2">
                   <div
                     className="flex flex-col lg:flex-row gap-8"
-                    initial="initial"
-                    animate="animate"
-                    variants={fadeInUp}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
                   >
-                     <div className="w-full lg:w-1/2 mt-5">
-                      <h3 className="text-[#173366] mb-2  font-semibold">
+                    <div className="w-full lg:w-1/2 mt-5">
+                      <h2 className="text-[#173366] text-[24px] mb-3  font-semibold">
                         About
-                      </h3>
+                      </h2>
                       <p className="mt-3 mb-3 text-gray-600">
                         Sudha Fertility Centre launched its branch in Erode in 1995. With more than four decades of service in fertility care, Sudha is the best fertility hospital in Erode. We are driven by the mission to provide personalized care and support in every step of your parenthood journey. With the best fertility doctors in Erode, we offer the best fertility treatments that has made us the best fertility centre in Erode.
                       </p>
@@ -747,9 +725,31 @@ function ErodePage() {
       </div>
 
       <section>
-       
+        {/* <div className="container mx-auto">
+            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
+        {/* <MarqueeComponent
+          items={Erode.gallery}
+          direction="left"
+          speed="fast"
+          className="custom-class"
+        /> */}
+
         <GallerySlider items={erodeVideos} />
 
+        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
+          <h3 className=" font-semibold text-center ">
+            Childless Couples to Happy Parents
+          </h3>
+          <Buttonbottm text="Watch on Youtube" link="https://www.youtube.com/@sudhafertilitycentre" />
+        </div>
+        {/* <MarqueeComponent
+          items={Erode.gallery}
+          direction="right"
+          speed="fast"
+          className="custom-class"
+        /> */}
+        {/* </div>
+          </div> */}
       </section>
     </>
   );

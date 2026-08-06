@@ -1,5 +1,6 @@
 import React from "react";
 import Script from "next/script";
+import Head from "next/head";
 import ICSITreatmentHyderabad from "@/pages/Branch/ICSITreatmentinHyderabad";
 import IVFCostinHyderabad from "@/pages/Branch/IVFCostinHyderabad";
 
@@ -10,15 +11,16 @@ export const metadata = {
     "How much does IVF cost in Hyderabad? Complete IVF cost breakdown for 2025 — base cycle, ICSI, PGT, FET & medications. Transparent pricing at Sudha Fertility Centre. Get FREE estimate. ",
   keywords:
     "IVF cost in Hyderabad,IVF price Hyderabad 2025,what is included in IVF package ,IVF treatment cost Hyderabad ,affordable IVF Hyderabad ,IVF vs ICSI cost comparison ,IVF price in Hyderabad ,IVF cost India ,how to reduce IVF cost ,cheapest IVF Hyderabad ,IVF package cost Hyderabad ,IVF EMI options Hyderabad ,IVF cost per cycle India ,IVF treatment expenses ,IVF hidden charges Hyderabad ",
-  alternates: {
-    canonical: "https://sudhafertilitycentre.com/ivf-cost-in-hyderabad",
-    languages: {
-      "en-IN": "https://sudhafertilitycentre.com/ivf-cost-in-hyderabad",
-    },
-  },
 };
 export default function page() {
-  
+  <Head>
+    <link
+      rel="alternate"
+      href="https://sudhafertilitycentre.com/ivf-cost-in-hyderabad"
+      hreflang="en-in"
+    />
+  </Head>;
+
   return (
     <div>
       <Script

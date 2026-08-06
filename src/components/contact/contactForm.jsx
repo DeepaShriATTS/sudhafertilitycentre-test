@@ -12,11 +12,13 @@ import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import SuccessMessage from "../SuccessMessage";
 import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
-import { fetchBranchList } from "@/lib/api/branches";
-import { apiClient } from "@/lib/axios/instance";
-import { cleanPhone } from "@/lib/utility";
+import {
+  websiteleadCreateListEndpoint,
+  branchtableListEndpoint,
+} from "@/pages/api/shipapi";
 
 function ContactForm() {
   const [successMessage, setSuccessMessage] = useState(false);
@@ -32,60 +34,93 @@ function ContactForm() {
     register,
     handleSubmit,
     reset,
-    setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm();
 
   // ✅ onSubmit Function (Fully fixed)
   const onSubmit = async (formData) => {
-    setSubmissionError("");
+    console.log("Submitting formData:", formData);
+    setSubmissionError(""); // clear previous error
 
     try {
-      // Format appointment date
+      // 1️⃣ Format appointment date
       const d = formData.appointmentDate;
       const appointmentDate = d
-        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
+        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
+          2,
+          "0"
+        )}-${String(d.getDate()).padStart(2, "0")}`
         : "";
 
-      const crmPayload = {
+      // 2️⃣ First submit to local api/saveData for server-side validation check
+      const saveResponse = await fetch("/api/saveData", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (!saveResponse.ok) {
+        const errorData = await saveResponse.json().catch(() => ({}));
+        const validationErr = errorData.error || "Failed to validate form on server.";
+        console.error("Save Data API failed:", validationErr);
+        setSubmissionError(validationErr);
+        return;
+      }
+
+      // 3️⃣ Format and build CRM request body
+      const body = {
         name: formData.name,
         branch: formData.branch,
-        mobile: cleanPhone(formData.mobile),
+        mobile: formData.mobile?.replace(/\D/g, "").startsWith("91")
+          ? formData.mobile.replace(/\D/g, "").substring(2)
+          : formData.mobile,
+        appointment_date: appointmentDate,
         source_type: "21",
         lead_type: "4",
       };
 
-      // Direct POST to CRM endpoint using global base URL configuration
-      await apiClient.post("/lead/websitelead/", crmPayload);
+      // 4️⃣ Send data to CRM backend
+      const response = await fetch(websiteleadCreateListEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
 
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Lead API error:", errorText);
+        setSubmissionError("Failed to submit lead. Please try again later.");
+        return;
+      }
+
+      // 5️⃣ Success: show success message and reset
       setSuccessMessage(true);
+      console.log("Lead submitted successfully ✅");
       reset();
       setSelectedDate(null);
-    } catch (err) {
-      const responseData = err.response?.data;
-      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
-      if (responseData && responseData.errors) {
-        Object.entries(responseData.errors).forEach(([field, msg]) => {
-          setError(field, { type: "server", message: String(msg) });
-        });
-        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
-      } else {
-        setSubmissionError(errorMessage);
-      }
+    } catch (error) {
+      console.error("Unexpected Server Error:", error);
+      setSubmissionError("Something went wrong. Please try again later.");
     }
   };
 
-  // Fetch branches via internal proxy — CRM base URL never exposed to client
+  // ✅ Fetch branches
   useEffect(() => {
-    let isMounted = true;
-    fetchBranchList().then((list) => {
-      if (isMounted) {
-        setBranchList(list);
+    async function fetchData() {
+      try {
+        const res = await fetch(branchtableListEndpoint);
+        if (res.ok) {
+          const data = await res.json();
+          console.log("Branches loaded:", data?.data?.list);
+          setBranchList(data?.data?.list || []);
+        } else {
+          console.error("Branch API responded with an error");
+        }
+      } catch (err) {
+        console.error("Fetch Error!", err);
       }
-    });
-    return () => {
-      isMounted = false;
-    };
+    }
+    fetchData();
   }, []);
 
   // ✅ Auto-focus first input
@@ -112,11 +147,11 @@ function ContactForm() {
         }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Left Column */}
             <div>
               <h2 className="font-semibold mb-5">Book your Free Appointment</h2>
-              <p className="text-[18px] mb-6 lg:mb-16">
+              <p className="text-[18px] mb-16">
                 Take the first step towards your parenthood journey.
               </p>
 
@@ -245,10 +280,6 @@ function ContactForm() {
                           fontSize: "14px",
                           color: "#262626",
                         }}
-                        dropdownStyle={{
-                          width: "260px",
-                          maxWidth: "85vw",
-                        }}
                       />
                     )}
                   />
@@ -318,15 +349,14 @@ function ContactForm() {
                 {/* Submit */}
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className={`button-all w-full flex justify-center items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
+                  className="button-all w-full flex justify-center items-center"
                 >
-                  {isSubmitting ? "Submitting..." : " Schedule My Free Fertility Check"}
-                  {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
+                  Take your free step toward parenthood
+                  <MdArrowOutward className="rotate-45 ml-1" />
                 </button>
 
               </form>
-              <p className="text-[12px] font-semibold sm:text-[10px] text-[#173366]/85 text-end">
+              <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
                 We will reach you within 45 minutes <span className="text-red-500">*</span>
               </p>
 

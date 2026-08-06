@@ -4,36 +4,33 @@ function Navbar({ sections }) {
   const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
-    const activeSections = new Map();
+    let ticking = false; // Prevents excessive function calls
 
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        activeSections.set(entry.target.id, entry.isIntersecting);
-      });
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const middleScreen = window.innerHeight / 3; // Adjusted for better accuracy
 
-      // Find the first intersecting section in document order
-      for (const section of sections) {
-        if (activeSections.get(section.id)) {
-          setActiveSection(section.id);
-          break;
-        }
+          sections.forEach((section) => {
+            const element = document.getElementById(section.id);
+            if (element) {
+              const rect = element.getBoundingClientRect();
+
+              if (rect.top <= middleScreen && rect.bottom >= middleScreen) {
+                setActiveSection(section.id);
+              }
+            }
+          });
+
+          ticking = false;
+        });
+
+        ticking = true;
       }
     };
 
-    const observer = new IntersectionObserver(observerCallback, {
-      root: null,
-      rootMargin: "-25% 0px -45% 0px", // triggers when section is in the middle section of screen
-      threshold: 0,
-    });
-
-    sections.forEach((section) => {
-      const element = document.getElementById(section.id);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, [sections]);
 
   const handleClick = (e, id) => {
