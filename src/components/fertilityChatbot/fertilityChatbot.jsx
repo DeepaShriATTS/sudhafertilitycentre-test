@@ -2,11 +2,14 @@
 
 import { useState, useEffect, useRef } from "react";
 import { X, ArrowUp, MessageCircle, Maximize2, Minimize2 } from "lucide-react";
-import { branchtableListEndpoint } from "@/pages/api/shipapi";
+import { fetchBranchList } from "@/lib/api/branches";
+import { apiClient } from "@/lib/axios/instance";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import "./fertilityChatbot.css";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
+
+
 
 // Dynamic branching conversational flow configurations
 const FLOWS = {
@@ -118,12 +121,12 @@ const COMMON_REG_QUESTIONS = [
 ];
 
 const CITY_MAP_LINKS = {
-  "Chennai": { map: "https://maps.app.goo.gl/3XgZ9N1b4GZ8pS7Q8", web: "/Branch/chennai" },
-  "Coimbatore": { map: "https://maps.app.goo.gl/CoimbatoreMapLink", web: "/Branch/coimbatore" },
-  "Madurai": { map: "https://maps.app.goo.gl/MaduraiMapLink", web: "/Branch/madurai" },
-  "Trichy": { map: "https://maps.app.goo.gl/TrichyMapLink", web: "/Branch/trichy" },
-  "Bengaluru": { map: "https://maps.app.goo.gl/BengaluruMapLink", web: "/Branch/bengaluru" },
-  "Hyderabad": { map: "https://maps.app.goo.gl/HyderabadMapLink", web: "/Branch/hyderabad" }
+  "Chennai":    { map: "https://maps.app.goo.gl/ooLkknzC2oPQDU7L9", web: "/fertility-centre-in-chennai" },
+  "Coimbatore": { map: "https://maps.app.goo.gl/FzY9JxNQMHxAPzzv9", web: "/fertility-centre-in-coimbatore" },
+  "Madurai":    { map: "https://maps.app.goo.gl/2S83qpF2nRqjFg4c7", web: "/fertility-centre-in-madurai" },
+  "Trichy":     { map: "https://maps.app.goo.gl/jP1sDSHqVXsXmdvK8", web: "/fertility-centre-in-trichy" },
+  "Bengalore":  { map: "https://maps.app.goo.gl/GZSDWRzyTaZgY3Le8", web: "/fertility-centre-in-bangalore" },
+  "Hyderabad":  { map: "https://maps.app.goo.gl/1j6HjWA7kSvZW7LNA", web: "/fertility-centre-in-hyderabad" }
 };
 
 // How long the bot "thinks" before each message appears (ms)
@@ -144,26 +147,24 @@ export default function FertilityChatbotWidget() {
   const [formData, setFormData] = useState({});
   const [branchList, setBranchList] = useState([]);
   const [selectedCity, setSelectedCity] = useState("");
+  const [isConfirming, setIsConfirming] = useState(false);
 
   const messagesEndRef = useRef(null);
   const toggleBtnRef = useRef(null);
   const inputRef = useRef(null);
   const typingTimeoutRef = useRef(null);
 
-  // Fetch branch list on mount
+  // Fetch branch list via internal proxy — CRM URL never exposed to client
   useEffect(() => {
-    async function fetchBranches() {
-      try {
-        const res = await fetch(branchtableListEndpoint);
-        if (res.ok) {
-          const data = await res.json();
-          setBranchList(data?.data?.list || []);
-        }
-      } catch (err) {
-        console.error("Fetch branches error:", err);
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
       }
-    }
-    fetchBranches();
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Initialize welcome flow when chat opens
@@ -224,6 +225,13 @@ export default function FertilityChatbotWidget() {
 
   // Resolve current active question config
   const getCurrentQuestion = () => {
+    if (isConfirming) {
+      return {
+        type: "buttons",
+        options: ["Yes, Confirm", "No, Cancel"]
+      };
+    }
+
     if (currentFlowKey === "welcome") {
       return { type: "buttons", options: FLOWS.welcome.options };
     }
@@ -253,13 +261,93 @@ export default function FertilityChatbotWidget() {
     const trimmedVal = typeof value === "string" ? value.trim() : value;
     if (trimmedVal === "" && currentQuestion?.type !== "date" && currentQuestion?.type !== "select") return;
 
+    if (isConfirming) {
+      const messagesWithUser = [...messages, { sender: "user", text: trimmedVal }];
+      if (trimmedVal === "Yes, Confirm") {
+        setIsConfirming(false);
+        setIsBotTyping(true);
+
+        try {
+          // Normalize date
+          const d = formData.appointmentDate ? new Date(formData.appointmentDate) : null;
+          const appointmentDate = d
+            ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
+            : "";
+
+          const crmPayload = {
+            name: formData.name,
+            branch: formData.branch,
+            mobile: formData.whatsapp,
+            source_type: "21",
+            lead_type: "4",
+          };
+
+          // Direct POST to CRM endpoint using global base URL configuration
+          await apiClient.post("/lead/websitelead/", crmPayload);
+
+          // Phase 3: The Peaceful Goodbye
+          pushBotMessage(messagesWithUser, {
+            sender: "bot",
+            text: "Thank you. Your story is safe with us. Our coordinator will call you within 24 hours. Rest easy tonight. Your miracle is closer. 🤍"
+          });
+          setIsComplete(true);
+        } catch (err) {
+          console.error("Chatbot submission error:", err);
+          const responseData = err.response?.data;
+          const errMsg = responseData?.message || responseData?.error || err.message || "Something went wrong.";
+          setIsBotTyping(false);
+          pushBotMessage(messagesWithUser, {
+            sender: "bot",
+            text: `⚠️ Submission failed: ${errMsg}\n\n Try again later`,
+            type: "buttons",
+            // options: ["No, Edit Details"]
+          });
+          setIsConfirming(true); // Keep in confirming state
+        }
+      } else {
+        // Edit Details
+        setIsConfirming(false);
+        // Reset step index to the start of COMMON_REG_QUESTIONS
+        const flow = FLOWS[currentFlowKey];
+        const initialStepsCount = flow?.steps?.length || 0;
+        setStepIndex(initialStepsCount);
+
+        // Clear previous registration details
+        setFormData(prev => {
+          const next = { ...prev };
+          delete next.name;
+          delete next.whatsapp;
+          delete next.branch;
+          delete next.appointmentDate;
+          return next;
+        });
+
+        // Push bot message asking for the first registration question again (Name)
+        const firstRegQuestion = COMMON_REG_QUESTIONS[0];
+        pushBotMessage(messagesWithUser, {
+          sender: "bot",
+          text: `Sure. ${firstRegQuestion.text}`,
+          type: firstRegQuestion.type,
+          options: firstRegQuestion.options
+        });
+      }
+      return;
+    }
+
     // Save answer data
     const questionKey = currentQuestion?.key || `step_${stepIndex}`;
     const updatedForm = { ...formData, [questionKey]: trimmedVal };
     setFormData(updatedForm);
 
     // Show the user's message immediately
-    const messagesWithUser = [...messages, { sender: "user", text: trimmedVal }];
+    let displayVal = trimmedVal;
+    if (currentQuestion?.type === "select") {
+      const selectedBranchObj = branchList.find((b) => String(b.id) === String(trimmedVal));
+      if (selectedBranchObj) {
+        displayVal = selectedBranchObj.branch_name;
+      }
+    }
+    const messagesWithUser = [...messages, { sender: "user", text: displayVal }];
     const nextIndex = stepIndex + 1;
     setStepIndex(nextIndex);
     setInputValue("");
@@ -309,29 +397,20 @@ export default function FertilityChatbotWidget() {
           options: nextQuestion.options
         });
       } else {
-        // Submit gathered info to backend
-        try {
-          await fetch("/api/saveData", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: updatedForm.name,
-              mobile: updatedForm.whatsapp,
-              branch: updatedForm.branch,
-              appointmentDate: updatedForm.appointmentDate,
-              formType: "Chatbot Lead - " + currentFlowKey
-            })
-          });
-        } catch (err) {
-          console.error("Local save data error:", err);
-        }
+        // Ask for confirmation before submitting
+        setIsConfirming(true);
+        const nameVal = updatedForm.name || "";
+        const mobileVal = updatedForm.whatsapp || "";
+        const selectedBranchObj = branchList.find((b) => String(b.id) === String(updatedForm.branch));
+        const branchVal = selectedBranchObj ? selectedBranchObj.branch_name : (updatedForm.branch || "");
+        const dateVal = updatedForm.appointmentDate || "";
 
-        // Phase 3: The Peaceful Goodbye
         pushBotMessage(messagesWithUser, {
           sender: "bot",
-          text: "Thank you. Your story is safe with us. Our coordinator will call you within 24 hours. Rest easy tonight. Your miracle is closer. 🤍"
+          text: `Please confirm your appointment details:\n\n👤 Name: ${nameVal}\n📱 Phone: ${mobileVal}\n🏥 Branch: ${branchVal}\n📅 Date: ${dateVal}\n\nIs this correct?`,
+          type: "buttons",
+          options: ["Yes, Confirm", "No"]
         });
-        setIsComplete(true);
       }
     }
   };
@@ -342,7 +421,7 @@ export default function FertilityChatbotWidget() {
 
     const details = CITY_MAP_LINKS[selectedCity] || {
       map: `https://www.google.com/maps/search/?api=1&query=Sudha+Fertility+Centre+${selectedCity}`,
-      web: `/Branch/${selectedCity.toLowerCase()}`
+      web: `/fertility-centre-in-${selectedCity.toLowerCase()}`
     };
 
     const messagesWithUser = [
@@ -352,13 +431,21 @@ export default function FertilityChatbotWidget() {
 
     pushBotMessage(messagesWithUser, {
       sender: "bot",
-      text: `📍 Found it! Here are the links for our ${selectedCity} branch:\n\n🌐 [Branch Website](${details.web})\n🗺️ [Get Map Link](${details.map})`
+      text: `📍 Found it! Here are the links for our ${selectedCity} branch:`,
+      type: "branch_links",
+      links: [
+        { label: "Branch Website", icon: "🌐", href: details.web, external: false },
+        { label: "Get Map Link",   icon: "🗺️", href: details.map, external: true  }
+      ]
     });
     setIsComplete(true);
   };
 
   const widgetW = isExpanded ? "w-[480px]" : "w-96";
   const widgetH = isExpanded ? "h-[700px]" : "h-[580px]";
+
+ 
+
 
   return (
     <>
@@ -416,39 +503,33 @@ export default function FertilityChatbotWidget() {
                 style={{ animation: "slideUp 0.28s ease-out backwards" }}
               >
                 <div className={`cb-bubble ${msg.sender === "bot" ? "cb-bubble-bot" : "cb-bubble-user"}`}>
-                  {msg.text.split("\n").map((line, idx) => {
-                    const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-                    const parts = [];
-                    let lastIndex = 0;
-                    let match;
-
-                    while ((match = linkRegex.exec(line)) !== null) {
-                      if (match.index > lastIndex) {
-                        parts.push(line.substring(lastIndex, match.index));
-                      }
-                      parts.push(
-                        <a
-                          key={match.index}
-                          href={match[2]}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="underline font-semibold text-[#ffc65c] hover:text-white"
-                        >
-                          {match[1]}
-                        </a>
-                      );
-                      lastIndex = linkRegex.lastIndex;
-                    }
-                    if (lastIndex < line.length) {
-                      parts.push(line.substring(lastIndex));
-                    }
-
-                    return (
+                  {/* Render branch link cards */}
+                  {msg.type === "branch_links" ? (
+                    <>
+                      <p>{msg.text}</p>
+                      <div className="cb-branch-links">
+                        {msg.links.map((link, li) => (
+                          <a
+                            key={li}
+                            href={link.href}
+                            target={link.external ? "_blank" : "_self"}
+                            rel={link.external ? "noopener noreferrer" : undefined}
+                            className="cb-branch-link-item"
+                          >
+                            <span className="cb-link-icon">{link.icon}</span>
+                            {link.label}
+                          </a>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    /* Standard text messages */
+                    msg.text.split("\n").map((line, idx) => (
                       <p key={idx} className={idx > 0 ? "mt-1.5" : ""}>
-                        {parts.length > 0 ? parts : line}
+                        {line}
                       </p>
-                    );
-                  })}
+                    ))
+                  )}
                 </div>
               </div>
             ))}
@@ -583,7 +664,7 @@ export default function FertilityChatbotWidget() {
                       onChange={(val) => setInputValue(val)}
                       placeholder="Select Location"
                       labelKey="branch_name"
-                      valueKey="branch_name"
+                      valueKey="id"
                       theme="light"
                       align="top"
                     />
@@ -633,261 +714,6 @@ export default function FertilityChatbotWidget() {
         </div>
       )}
 
-      {/* Styles */}
-      <style jsx>{`
-        @keyframes expandIn {
-          from { opacity: 0; transform: scale(0.85) translateY(16px); }
-          to   { opacity: 1; transform: scale(1)    translateY(0);     }
-        }
-        @keyframes popIn {
-          0%   { transform: scale(0);   }
-          60%  { transform: scale(1.15);}
-          100% { transform: scale(1);   }
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0);   }
-        }
-        @keyframes pulseRing {
-          0%   { opacity: 0.55; transform: scale(1);   }
-          100% { opacity: 0;    transform: scale(1.55);}
-        }
-        @keyframes typingBounce {
-          0%, 60%, 100% { transform: translateY(0);    opacity: 0.5; }
-          30%           { transform: translateY(-5px); opacity: 1;   }
-        }
-        @keyframes badgePop {
-          0%   { transform: scale(0);   }
-          70%  { transform: scale(1.25);}
-          100% { transform: scale(1);   }
-        }
-
-        .animate-expandIn { animation: expandIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards; }
-        .animate-popIn    { animation: popIn    0.5s  cubic-bezier(0.34,1.56,0.64,1); }
-
-        .cb-widget {
-          background: #ffffff;
-          border-radius: 20px;
-          box-shadow:
-            0 0 0 1px rgba(23,51,102,0.12),
-            0 24px 60px rgba(0,0,0,0.16);
-          overflow: hidden;
-          transition: width 0.3s ease, height 0.3s ease;
-        }
-
-        .cb-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 12px 14px;
-          background: #173366;
-          flex-shrink: 0;
-        }
-        .cb-avatar {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.15);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-shrink: 0;
-        }
-        .cb-title {
-          font-size: 0.9375rem;
-          font-weight: 600;
-          color: #ffffff;
-          margin: 0;
-          line-height: 1.2;
-        }
-        .cb-subtitle {
-          font-size: 0.75rem;
-          color: #ffc65c;
-          margin: 0;
-          line-height: 1.3;
-        }
-        .cb-header-btn {
-          width: 30px;
-          height: 30px;
-          border-radius: 8px;
-          border: none;
-          background: transparent;
-          color: rgba(255,255,255,0.75);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: background 0.2s, color 0.2s;
-        }
-        .cb-header-btn:hover {
-          background: rgba(255,255,255,0.15);
-          color: #ffffff;
-        }
-
-        .cb-messages {
-          background: #f6f8fc;
-        }
-        .cb-bubble {
-          max-width: 82%;
-          padding: 10px 14px;
-          border-radius: 18px;
-          font-size: 0.875rem;
-          line-height: 1.55;
-        }
-        .cb-bubble-bot {
-          background: #ffffff;
-          color: #1a1a2e;
-          border: 1px solid #e4eaf5;
-          border-bottom-left-radius: 4px;
-        }
-        .cb-bubble-user {
-          background: #173366;
-          color: #ffffff;
-          border-bottom-right-radius: 4px;
-        }
-
-        /* Typing indicator dots */
-        .cb-typing {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          padding: 14px 16px;
-        }
-        .cb-dot {
-          width: 7px;
-          height: 7px;
-          border-radius: 50%;
-          background: #9aa8c2;
-          animation: typingBounce 1.8s infinite ease-in-out;
-        }
-        .cb-dot:nth-child(1) { animation-delay: 0s;    }
-        .cb-dot:nth-child(2) { animation-delay: 0.18s; }
-        .cb-dot:nth-child(3) { animation-delay: 0.36s; }
-
-        .cb-input-area {
-          flex-shrink: 0;
-          padding: 12px;
-          background: #ffffff;
-          border-top: 1px solid #edf0f7;
-        }
-
-        .cb-input-row {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          background: #ffffff;
-          border: 1px solid #B1B2B3;
-          border-radius: 999px;
-          padding: 5px 14px;
-          transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .cb-input-row:hover {
-          border-color: #9ca3af;
-        }
-        .cb-input-row:focus-within {
-          border-color: #1C315E;
-          box-shadow: 0 0 0 1px #1C315E;
-        }
-
-        .cb-input {
-          flex: 1 !important;
-          min-width: 0 !important;
-          border: none !important;
-          border-width: 0 !important;
-          border-color: transparent !important;
-          border-radius: 0 !important;
-          outline: none !important;
-          box-shadow: none !important;
-          -webkit-appearance: none !important;
-          appearance: none !important;
-          background: transparent !important;
-          font-size: 0.875rem !important;
-          color: #1a1a2e !important;
-          font-family: inherit !important;
-          padding: 0 !important;
-          line-height: 1.4 !important;
-        }
-
-        .cb-send {
-          flex-shrink: 0;
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          border: none;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #173366;
-          color: #ffffff;
-          transition: background 0.2s, transform 0.15s, opacity 0.2s;
-        }
-        .cb-send:not(:disabled):hover  { background: #0d254e; transform: scale(1.08); }
-        .cb-send:not(:disabled):active { transform: scale(0.92); }
-        .cb-send:disabled {
-          opacity: 0.28;
-          cursor: default;
-        }
-
-        .cb-chip {
-          display: inline-flex;
-          align-items: center;
-          padding: 6px 14px;
-          border-radius: 999px;
-          border: 1.5px solid #c7d7ef;
-          background: #ffffff;
-          color: #173366;
-          font-size: 0.8125rem;
-          font-weight: 500;
-          font-family: inherit;
-          cursor: pointer;
-          transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.12s;
-        }
-        .cb-chip:hover  { background: #173366; border-color: #173366; color: #fff; transform: translateY(-1px); }
-        .cb-chip:active { transform: scale(0.95); }
-
-        .cb-fab {
-          position: relative;
-          width: 44px;
-          height: 44px;
-          border-radius: 50%;
-          border: none;
-          background: #173366;
-          color: #ffffff;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          box-shadow: 0 6px 20px rgba(23,51,102,0.38);
-          transition: background 0.2s, transform 0.2s;
-        }
-        .cb-fab:hover  { background: #0d254e; transform: scale(1.08); }
-        .cb-fab:active { transform: scale(0.94); }
-
-        /* Pulsing ring that breathes around the closed FAB */
-        .cb-fab-ring {
-          position: absolute;
-          inset: -4px;
-          border-radius: 50%;
-          border: 2px solid #173366;
-          opacity: 0;
-          pointer-events: none;
-          animation: pulseRing 2.6s ease-out infinite;
-        }
-
-        /* Small unread badge shown before first open */
-        .cb-fab-badge {
-          position: absolute;
-          top: -2px;
-          right: -2px;
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: #ff5a5f;
-          border: 2px solid #ffffff;
-          animation: badgePop 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.6s backwards;
-        }
-      `}</style>
     </>
   );
 }

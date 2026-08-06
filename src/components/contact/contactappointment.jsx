@@ -12,11 +12,14 @@ import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
 import SuccessMessage from "../SuccessMessage";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import { branches } from "../footer/footer";
 import DatePicker from "../DatePicker/datePicker";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
 import { appointmentSchema } from "@/schemas/appointmentSchema";
+import { fetchBranchList } from "@/lib/api/branches";
+import { apiClient } from "@/lib/axios/instance";
+import { cleanPhone } from "@/lib/utility";
+
 
 const enquery = [
   { id: 1, enquery: "treatment" },
@@ -36,6 +39,7 @@ const typeofenquirys = [
 function ContactAppointmentForm() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
+  const [branchList, setBranchList] = useState([]);
   const nameInputRef = useRef(null);
 
   // Initialize react-hook-form with Zod validation resolver
@@ -72,47 +76,55 @@ function ContactAppointmentForm() {
     }
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const handleFormSubmit = async (formData) => {
     setSubmissionError("");
 
     try {
-      const response = await fetch("/api/saveData", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          formType: "Appointment",
-        }),
+      const crmPayload = {
+        name: formData.name,
+        branch: formData.branch,
+        mobile: cleanPhone(formData.mobile),
+        source_type: "21",
+        lead_type: "4",
+      };
+
+      await apiClient.post("/lead/websitelead/", crmPayload);
+
+      setSuccessMessage(true);
+      reset({
+        name: "",
+        mobile: "",
+        enquiry: "treatment",
+        branch: "",
+        appointmentDate: null,
+        typeofenquiry: "",
+        remarks: "",
+        consent: false,
+        formType: "Appointment",
       });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setSuccessMessage(true);
-        reset({
-          name: "",
-          mobile: "",
-          enquiry: "treatment",
-          branch: "",
-          appointmentDate: null,
-          typeofenquiry: "",
-          remarks: "",
-          consent: false,
-          formType: "Appointment",
+    } catch (err) {
+      const responseData = err.response?.data;
+      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
+      if (responseData && responseData.errors) {
+        Object.entries(responseData.errors).forEach(([field, msg]) => {
+          setError(field, { type: "server", message: String(msg) });
         });
+        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
       } else {
-        if (result.errors) {
-          // Map backend validation errors back to react-hook-form fields
-          Object.entries(result.errors).forEach(([field, msg]) => {
-            setError(field, { type: "server", message: msg });
-          });
-        } else {
-          setSubmissionError(result.message || "Failed to submit the form. Please try again.");
-        }
+        setSubmissionError(errorMessage);
       }
-    } catch (error) {
-      console.error(error);
-      setSubmissionError("Network error. Please check your connection.");
     }
   };
 
@@ -304,11 +316,11 @@ function ContactAppointmentForm() {
                         control={control}
                         render={({ field }) => (
                           <SearchableSelect
-                            options={branches}
+                            options={branchList}
                             value={field.value}
                             onChange={field.onChange}
-                            labelKey="title"
-                            valueKey="title"
+                            labelKey="branch_name"
+                            valueKey="id"
                             placeholder="Search & select branch location"
                             error={errors.branch?.message}
                           />
@@ -433,12 +445,12 @@ function ContactAppointmentForm() {
                   className={`button-all w-full flex justify-center items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                 >
-                  {isSubmitting ? "Submitting..." : "Take your free step toward parenthood"}
+                  {isSubmitting ? "Submitting..." : " Schedule My Free Fertility Check"}
                   <MdArrowOutward className="rotate-45 ml-2" />
                 </button>
 
               </form>
-              <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
+              <p className="text-[12px] sm:text-[10px] font-semibold text-[#173366]/85 text-end">
                 We will reach you within 45 minutes <span className="text-red-500">*</span>
               </p>
 

@@ -2,24 +2,25 @@
 import ThanjavurPage from '@/pages/Branch/thanjavur'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 
 
 export const metadata = {
   title: "Best Fertility Centre in Thanjavur - Sudha Fertility Centre",
   description: "At Sudha Fertility Centre in Thanjavur, advanced IVF science is seamlessly blended with compassionate IUI care. Reserve your spot today.",
-  keywords: "Fertility Centre in Thanjavur"
+  keywords: "Fertility Centre in Thanjavur",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-thanjavur",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-thanjavur",
+    },
+  },
 };
 
 
 export default function page() {
 
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-thanjavur" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

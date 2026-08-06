@@ -3,7 +3,6 @@ import AttapurPage from '@/pages/Branch/attapur'
 import BengaluruPage from '@/pages/Branch/bengaluru'
 import React from 'react'
 import Script from "next/script";
-import Head from 'next/head';
 
 
 
@@ -13,14 +12,15 @@ export const metadata = {
   title: "Best Fertility Centre in Bangalore - Sudha Fertility Centre",
   description: "Discover Sudha Fertility Centre in Bangalore, offering top-notch IVF & IUI treatments, expert guidance, and supportive care. Call us today.",
   keywords: "Fertility Centre in Bangalore",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-bangalore",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-bangalore",
+    },
+  },
 };
 function page() {
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-bangalore" hreflang="en-in" />
-
-  </Head>
-
+  
 
   return (
     <>

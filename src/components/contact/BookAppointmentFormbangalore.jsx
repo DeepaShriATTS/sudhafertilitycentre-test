@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { MdArrowOutward } from "react-icons/md";
 import { Toaster } from "react-hot-toast";
@@ -13,40 +13,65 @@ import SuccessMessage from "../SuccessMessage";
 import { branches } from "../footer/footer";
 import { useRouter } from "next/navigation";
 import SearchableSelect from "../searchAndSelect/SearchableSelect";
+import { fetchBranchList } from "@/lib/api/branches";
+import { apiClient } from "@/lib/axios/instance";
+import { cleanPhone } from "@/lib/utility";
+
 
 function BookAppointmentFormbangalore() {
   const [successMessage, setSuccessMessage] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
+  const [branchList, setBranchList] = useState([]);
   const router = useRouter();
   // Using useForm for validation
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const onSubmit = async (formData) => {
     setSubmissionError("");
     try {
-      const response = await fetch("/api/saveData", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const crmPayload = {
+        name: formData.name,
+        branch: formData.branch,
+        mobile: formData.mobile,
+        source_type: "21",
+        lead_type: "4",
+      };
 
-      if (response.ok) {
-        router.push("/thank-you");
-        setSuccessMessage(true);
+      await apiClient.post("/lead/websitelead/", crmPayload);
+
+      router.push("/thank-you");
+      setSuccessMessage(true);
+    } catch (err) {
+      const responseData = err.response?.data;
+      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
+      if (responseData && responseData.errors) {
+        Object.entries(responseData.errors).forEach(([field, msg]) => {
+          setError(field, { type: "server", message: String(msg) });
+        });
+        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
       } else {
-        const errorData = await response.json().catch(() => ({}));
-        setSubmissionError(errorData.error || "Failed to submit the form. Please try again.");
+        setSubmissionError(errorMessage);
       }
-    } catch (error) {
-      console.error("Network error:", error);
-      setSubmissionError("Network error. Please check your connection.");
     }
   };
+
+  useEffect(() => {
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <>
@@ -210,9 +235,9 @@ function BookAppointmentFormbangalore() {
                     render={({ field }) => (
                       <SearchableSelect
                         {...field}
-                        options={branches}
-                        labelKey="title"
-                        valueKey="title"
+                        options={branchList}
+                        labelKey="branch_name"
+                        valueKey="id"
                         placeholder="ನಿಮ್ಮ ಹತ್ತಿರದ ಸುಧಾ ಫಲವತ್ತತೆ ಕೇಂದ್ರ ಶಾಖೆ"
                         error={errors.branch?.message}
                       />
@@ -233,10 +258,11 @@ function BookAppointmentFormbangalore() {
                 <div className="pt-5">
                   <button
                     type="submit"
-                    className="button-all w-full justify-center mx-auto text-center"
+                    disabled={isSubmitting}
+                    className={`button-all w-full justify-center mx-auto text-center flex items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                   >
-                    ಇಂದೇ ನಿಮ್ಮ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಿ.
-                    <MdArrowOutward className="rotate-45" />
+                    {isSubmitting ? "ಬುಕಿಂಗ್ ಮಾಡಲಾಗುತ್ತಿದೆ..." : "ಇಂದೇ ನಿಮ್ಮ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಬುಕ್ ಮಾಡಿ."}
+                    {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
                   </button>
                 </div>
               </form>

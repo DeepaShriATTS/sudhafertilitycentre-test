@@ -1,30 +1,51 @@
 "use client";
-import { useState, useEffect } from "react";
-import Modals from "./Modal";
+import { useState, useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
+const Modals = dynamic(() => import("./Modal"));
 import { FaArrowRight } from "react-icons/fa";
 
 export default function FloatingButton() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+  const isFooterVisibleRef = useRef(false);
 
   useEffect(() => {
+    const footer = document.getElementById("footer");
+    let observer;
+
+    if (footer) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          isFooterVisibleRef.current = entry.isIntersecting;
+          const scrolledY = window.scrollY;
+          const showButton = scrolledY > 500;
+          setIsVisible(showButton && !isFooterVisibleRef.current);
+        },
+        { root: null, threshold: 0 }
+      );
+      observer.observe(footer);
+    }
+
+    let ticking = false;
     const handleScroll = () => {
-      const header = document.getElementById("header");
-      const footer = document.getElementById("footer");
-
-      const headerHeight = header?.offsetHeight || 0;
-      const footerTop = footer?.getBoundingClientRect().top || window.innerHeight;
-      const windowHeight = window.innerHeight;
-      const scrolledY = window.scrollY;
-
-      const showButton = scrolledY > headerHeight + 400;
-      const hideButton = footerTop < windowHeight;
-
-      setIsVisible(showButton && !hideButton);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolledY = window.scrollY;
+          const showButton = scrolledY > 500;
+          setIsVisible(showButton && !isFooterVisibleRef.current);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      if (observer && footer) {
+        observer.unobserve(footer);
+      }
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
@@ -37,7 +58,7 @@ export default function FloatingButton() {
           onClick={() => setIsOpen(true)}
           className="button-all mx-auto"
         >
-          Take your free step toward parenthood<FaArrowRight />
+          Schedule My Free Fertility Check<FaArrowRight />
         </button>
       </div>
 
@@ -45,3 +66,4 @@ export default function FloatingButton() {
     </>
   );
 }
+

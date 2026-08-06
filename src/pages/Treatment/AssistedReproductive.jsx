@@ -5,12 +5,22 @@ import Banner from "@/assets/Treatments/Blastocyst/Banner.webp";
 import Card from "@/components/card";
 import Button from "@/components/button/button";
 import FAQItem from "@/components/accordion";
-import Buttonbottm from "@/components/button";
+
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { MarqueeComponent } from "@/components/marqueeSlider";
+
+
 import ContactForm from "@/components/contact/contactForm";
-import { Ambattur } from "@/middleware/imagesroute";
+
+import dynamic from "next/dynamic";
+import { Homevideos } from "@/middleware/videosRoute";
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
+
+
+const GallerySlider = dynamic(
+  () => import('@/components/videoCard/videoPlaylistSlider'),
+  { loading: () => <VideoSkeletonRow count={3} /> }
+);
+
 
 function AssistedReproductive() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -264,26 +274,9 @@ function AssistedReproductive() {
         <ContactForm />
       </section>
 
-      {/* MarqueeComponent */}
+  
       <section className="mt-[70px] md:mt-[100px] mb-[70px] md:mb-[100px]">
-        <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        />
-        <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
-          <h3 className=" font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
-        {/* <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
+        <GallerySlider items={Homevideos} />
       </section>
 
     </>

@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState } from "react";
 import Banner from "@/assets/About/Banner.webp";
 import DotBg from "@/assets/About/DotBg.webp";
@@ -16,15 +17,20 @@ import Award1 from "@/assets/About/award1.webp";
 import Award2 from "@/assets/About/award2.webp";
 import ManagementCards from "@/components/MangemntCard/ManagementCard";
 import TimelineTabs from "@/components/TimelineTab/TimeLineTab";
-import { MarqueeComponent } from "@/components/marqueeSlider";
-import Buttonbottm from "@/components/button";
-import { Ambattur } from "@/middleware/imagesroute";
+
+
 import Thumbnail from "@/assets/About/dhanabagyam-thumbnail.png";
 import sudhakarthumbnail from "@/assets/About/sudhakar-thumbnail.webp";
-import ContactForm from "@/components/contact/contactForm";
-import BookingButton from "@/components/button/bookingButton";
-import Head from "next/head";
 import Playbtn from "@/assets/book-appointment/playbtn.svg";
+
+import { homeVideos } from "@/data/homeVideos";
+import dynamic from "next/dynamic";
+import VideoSkeletonRow from "@/components/loaders/VideoCardSkeleton";
+const GallerySlider = dynamic(
+  () => import("@/components/videoCard/videoPlaylistSlider"),
+  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
+  
+);
 
 const cardData = [
   {
@@ -585,36 +591,11 @@ function About() {
         </div>
       </div>
 
-      {/* MarqueeComponent */}
+
       <section className="md:mt-[100px] mt-[70px] md:mb-[100px] mb-[70px]">
-        {/* <div className="container mx-auto">
-          <div className=" mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class "
-        />
-
-        {/* <GallerySlider items={Ambattur.gallery} /> */}
-
-        <div className="flex justify-center gap-4 items-center flex-wrap mt-4 mb-4">
-          <h3 className=" font-bold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm
-            text="Watch on Youtube "
-            link="https://www.youtube.com/@sudhafertilitycentre"
-          />
-        </div>
-        {/* <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
-        {/* </div>
-        </div> */}
+       
+        <GallerySlider items={homeVideos} />
+      
       </section>
     </>
   );

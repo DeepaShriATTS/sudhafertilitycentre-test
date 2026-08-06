@@ -2,20 +2,21 @@
 import TiruppurPage from '@/pages/Branch/tiruppur'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 export const metadata = {
   title: "Best Fertility Centre in Tiruppur - Sudha Fertility Centre",
   description: "Powered by top reproductive experts, Sudha Fertility Centre in Tiruppur helps couples fulfil dreams via IVF & IUI. Schedule a visit.",
-  keywords: "Fertility Centre in Tiruppur"
+  keywords: "Fertility Centre in Tiruppur",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-tiruppur",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-tiruppur",
+    },
+  },
 };
 
 export default function page() {
 
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-tiruppur" hreflang="en-in" />
-  </Head>
-
+  
 
   return (
     <div>

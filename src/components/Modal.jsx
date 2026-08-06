@@ -2,20 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion"; // Import motion & AnimatePresence
-import ContactForm from "./contact/contactForm";
 import { Controller, useForm } from "react-hook-form";
-import { branches } from "./footer/footer";
 import { MdArrowOutward } from "react-icons/md";
 import SuccessMessage from "./SuccessMessage";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import DatePicker from "./DatePicker/datePicker";
 import { SlClose } from "react-icons/sl";
-import {
-  websiteleadCreateListEndpoint,
-  branchtableListEndpoint,
-} from "@/pages/api/shipapi";
+import { fetchBranchList } from "@/lib/api/branches";
+import { apiClient } from "@/lib/axios/instance";
+import { cleanPhone } from "@/lib/utility";
 import SearchableSelect from "./searchAndSelect/SearchableSelect";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useKeyboardShortcut } from "@/hooks/useKeyboardShortcut";
+
+
 const Modals = ({ isOpen, onClose }) => {
   const [successMessage, setSuccessMessage] = useState(false);
   const [submissionError, setSubmissionError] = useState("");
@@ -25,97 +25,54 @@ const Modals = ({ isOpen, onClose }) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    setError,
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const inputRef = useRef(null);
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // const onSubmit = async (formData) => {
-  //   setSubmissionError("");
-  //   try {
-  //     const response = await fetch("/api/saveData", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     if (response.ok) {
-  //       onClose();
-  //       // setSuccessMessage(true);
-  //       reset();
-  //     } else {
-  //       setSubmissionError("Failed to submit the form. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     setSubmissionError("Network error. Please check your connection.");
-  //   }
-  // };
-
   const onSubmit = async (formData) => {
     setSubmissionError("");
     try {
-      // 1️⃣ Normalize date
       const d = formData.appointmentDate;
       const appointmentDate = d
-        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
-          2,
-          "0"
-        )}-${String(d.getDate()).padStart(2, "0")}`
+        ? `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
         : "";
 
-      // 2️⃣ First submit to local api/saveData for server-side validation check
-      const saveResponse = await fetch("/api/saveData", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...formData,
-          formType: "Appointment",
-        }),
-      });
-
-      if (!saveResponse.ok) {
-        const errorData = await saveResponse.json().catch(() => ({}));
-        console.log("Server Error.",errorData);
-        setSubmissionError(errorData.error || "Failed to validate form on server.");
-        return;
-      }
-
-      // 3️⃣ Submit to CRM
-      const cleanMobile = formData.mobile ? formData.mobile.replace(/\D/g, "") : "";
-      const phoneWithoutCountryCode = cleanMobile.startsWith("91") && cleanMobile.length === 12
-        ? cleanMobile.substring(2)
-        : cleanMobile;
-
-      const body = {
+      const crmPayload = {
         name: formData.name,
         branch: formData.branch,
-        mobile: phoneWithoutCountryCode,
-        appointment_date: appointmentDate,
+        mobile: cleanPhone(formData.mobile),
         source_type: "21",
         lead_type: "4",
       };
 
-      const response = await fetch(websiteleadCreateListEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
-      });
-
-      if (!response.ok) {
-        console.error("CRM submission failed");
-        setSubmissionError("Failed to submit to CRM. Please try again.");
-        return;
-      }
+      // Direct POST to CRM endpoint using global base URL configuration
+      await apiClient.post("/lead/websitelead/", crmPayload);
 
       setSuccessMessage(true);
       reset();
       setSelectedDate(null);
-    } catch (error) {
-      console.error("Server Error.", error);
-      setSubmissionError("Network error. Please try again later.");
+    } catch (err) {
+      const responseData = err.response?.data;
+      const errorMessage = responseData?.message || responseData?.error || err.message || "Failed to submit lead to CRM.";
+      if (responseData && responseData.errors) {
+        Object.entries(responseData.errors).forEach(([field, msg]) => {
+          setError(field, { type: "server", message: String(msg) });
+        });
+        setSubmissionError(errorMessage || "Please correct the highlighted fields.");
+      } else {
+        setSubmissionError(errorMessage);
+      }
     }
   };
+
+  const modalRef = useRef(null);
+
+  // Set up keyboard accessibility
+  useFocusTrap(modalRef, isOpen);
+  useKeyboardShortcut("Escape", onClose, isOpen);
 
   useEffect(() => {
     if (inputRef.current) {
@@ -124,20 +81,15 @@ const Modals = ({ isOpen, onClose }) => {
   }, []);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch(branchtableListEndpoint);
-        if (res.ok) {
-          const data = await res.json();
-          setBranchList(data?.data?.list);
-        } else {
-          console.error("API responded with an error");
-        }
-      } catch (err) {
-        console.error("Fetch Error!", err);
+    let isMounted = true;
+    fetchBranchList().then((list) => {
+      if (isMounted) {
+        setBranchList(list);
       }
-    }
-    fetchData();
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -150,6 +102,10 @@ const Modals = ({ isOpen, onClose }) => {
           exit={{ opacity: 0 }}
         >
           <motion.div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
             className="bg-white p-6 rounded-3xl shadow-lg w-[100%] md:w-[34%]"
             initial={{ scale: 0.8, opacity: 0 }} // Start small & invisible
             animate={{ scale: 1, opacity: 1 }} // Scale up & fade in
@@ -157,17 +113,26 @@ const Modals = ({ isOpen, onClose }) => {
             transition={{ duration: 0.3, ease: "easeInOut" }} // Smooth transition
           >
             {/* Header Animation */}
-            <div className="flex justify-between">
+            <div className="flex justify-between items-start">
               <motion.h3
-                className="font-semibold  mb-4"
+                id="modal-title"
+                className="font-semibold mb-4"
                 initial={{ opacity: 0, y: -20 }} // Start off-screen
                 animate={{ opacity: 1, y: 0 }} // Fade and slide into place
                 transition={{ duration: 0.5 }}
               >
                 Ready to Start Your Journey to <br /> Meet Your Little One?
               </motion.h3>
-              <SlClose onClick={onClose} size={30} className="text-[#061C3D]" />
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close modal"
+                className="text-[#061C3D] hover:opacity-70 focus:outline-none focus:ring-2 focus:ring-[#173366] rounded-md p-1 min-h-[44px] flex items-center justify-center transition-opacity"
+              >
+                <SlClose size={30} aria-hidden="true" />
+              </button>
             </div>
+
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <input type="hidden" name="formType" value="Appointment" />
@@ -229,8 +194,8 @@ const Modals = ({ isOpen, onClose }) => {
                       value?.trim().replace(/\s+/g, " "),
                   })}
                   className={`w-full px-3 h-10 rounded-lg border text-sm transition-all focus:outline-none ${errors.name
-                      ? "border-[#EB3C3C] bg-[#FFF9F9] focus:border-[#EB3C3C]"
-                      : "border-[#B1B2B3] hover:border-neutral-400 focus:border-[#1C315E] focus:ring-1 focus:ring-[#1C315E] bg-white text-neutral-800"
+                    ? "border-[#EB3C3C] bg-[#FFF9F9] focus:border-[#EB3C3C]"
+                    : "border-[#B1B2B3] hover:border-neutral-400 focus:border-[#1C315E] focus:ring-1 focus:ring-[#1C315E] bg-white text-neutral-800"
                     }`}
                 />
                 {errors.name && (
@@ -348,18 +313,19 @@ const Modals = ({ isOpen, onClose }) => {
               {/* Submit Button */}
               <motion.button
                 type="submit"
-                className="button-all w-full flex justify-center"
+                disabled={isSubmitting}
+                className={`button-all w-full flex justify-center items-center ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.8 }}
               >
-                Take your free step toward parenthood
-                <MdArrowOutward className="rotate-45" />
+                {isSubmitting ? "Submitting..." : " Schedule My Free Fertility Check"}
+                {!isSubmitting && <MdArrowOutward className="rotate-45 ml-1" />}
               </motion.button>
             </form>
-            <p className="text-[10px] sm:text-[11px] text-[#173366]/85 text-end">
-                    We will reach you within 45 minutes <span className="text-red-500">*</span>
-                </p>
+            <p className="text-[12px] font-semibold sm:text-[10px] text-[#173366]/85 text-end">
+              We will reach you within 45 minutes <span className="text-red-500">*</span>
+            </p>
 
             {/* Success Message */}
             <SuccessMessage

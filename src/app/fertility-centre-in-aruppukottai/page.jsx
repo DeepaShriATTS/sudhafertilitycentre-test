@@ -1,28 +1,29 @@
 
 
-import AruppukottaiPage from '@/pages/Branch/aruppukottai'
+// import AruppukottaiPage from '@/pages/Branch/aruppukottai'
 import React from 'react'
-import Script from "next/script";
-import Head from 'next/head';
+// import Script from "next/script";
 
 
 export const metadata = {
   title: "Best Fertility Centre in Aruppukottai - Sudha Fertility Centre",
   description: "Step into Sudha Fertility Centre in Aruppukkottai to access world-class IVF & IUI care and high-end diagnostic setups. Plan your visit.",
   keywords: "Fertility Centre in Aruppukottai",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-aruppukottai",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-aruppukottai",
+    },
+  },
 };
 
 
 
-function page() {
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-aruppukottai" hreflang="en-in" />
-
-  </Head>
-  return (
+export default function page() {
+    return (
     <>
 
-      <Script
+      {/* <Script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -156,11 +157,9 @@ function page() {
           ]
         })
       }}
-    />
-      <AruppukottaiPage />
-    </>
+    /> */}
+      {/* <AruppukottaiPage /> */}
+    </> 
   )
 }
 
-
-export default page

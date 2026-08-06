@@ -8,7 +8,7 @@ class MyDocument extends Document {
       "@type": "MedicalOrganization",
       "name": "Sudha Fertility Centre",
       "url": "https://sudhafertilitycentre.com",
-      "logo": "https://sudhafertilitycentre.com/src/assets/logo-dark.svg", // Replace with actual hosted URL
+      "logo": "https://sudhafertilitycentre.com/src/assets/logo-dark.webp", // Replace with actual hosted URL
       "image": "https://sudhafertilitycentre.com/src/assets/og_sudha.jpeg",
       "description": "Sudha Fertility Centre is a leading fertility clinic specializing in IVF, IUI, and advanced reproductive treatments.",
       "address": {

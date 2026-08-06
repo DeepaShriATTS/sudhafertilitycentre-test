@@ -1,15 +1,19 @@
 /** @type {import('tailwindcss').Config} */
-const flowbite = require("flowbite-react/tailwind");
-const {
-  default: flattenColorPalette,
-} = require("tailwindcss/lib/util/flattenColorPalette");
+
 
 export default {
+  // 'class' strategy: dark: variants are only generated when .dark is on <html>
+  // This prevents Tailwind from emitting dark: variants eagerly on every class.
+  darkMode: 'class',
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    flowbite.content(),
+    "./src/utils/**/*.{js,ts,jsx,tsx}",
+    "./src/data/**/*.{js,ts,jsx,tsx}",
+    "./src/hooks/**/*.{js,ts,jsx,tsx}",
+    "./src/context/**/*.{js,ts,jsx,tsx}",
+    "./src/lib/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -23,6 +27,9 @@ export default {
             transform: "translate(calc(-50% - 0.5rem))",
           },
         },
+        shimmer: {
+          "100%": { transform: "translateX(100%)" },
+        },
       },
       colors: {
         background: "var(--background)",
@@ -33,17 +40,16 @@ export default {
       },
     },
   },
-  plugins: [addVariablesForColors, flowbite.plugin()],
+  plugins: [addBrandVariables],
 };
 
 
-function addVariablesForColors({ addBase, theme }) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
-    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
-  );
- 
+function addBrandVariables({ addBase }) {
   addBase({
-    ":root": newVars,
+    ":root": {
+      "--brand-primary": "#173366",
+      "--brand-accent":  "#FFC65C",
+      "--brand-light":   "#EBF2FE",
+    },
   });
 }

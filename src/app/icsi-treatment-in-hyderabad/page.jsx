@@ -1,6 +1,5 @@
 import React from "react";
 import Script from "next/script";
-import Head from "next/head";
 import ICSITreatmentHyderabad from "@/pages/Branch/ICSITreatmentinHyderabad";
 
 export const metadata = {
@@ -10,16 +9,15 @@ export const metadata = {
     "ICSI treatment at Sudha Fertility Centre Hyderabad — advanced solution for male factor infertility. Single sperm injection technique with 80–85% fertilisation rate. Book FREE consultation. ",
   keywords:
     "ICSI treatment in Hyderabad , best ICSI centre Hyderabad , ICSI specialist Hyderabad ,intracytoplasmic sperm injection Hyderabad ,ICSI for male infertility Hyderabad ,ICSI cost Hyderabad ,ICSI vs IVF success rate ,how ICSI works ,low sperm count treatment Hyderabad ,ICSI clinic Hyderabad ,ICSI treatment process India ,ICSI with TESE Hyderabad ,ICSI fertilisation rate ,male infertility IVF ICSI ",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/icsi-treatment-in-hyderabad",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/icsi-treatment-in-hyderabad",
+    },
+  },
 };
 export default function page() {
-  <Head>
-    <link
-      rel="alternate"
-      href="https://sudhafertilitycentre.com/icsi-treatment-in-hyderabad"
-      hreflang="en-in"
-    />
-  </Head>;
-
+  
   return (
     <div>
       <Script

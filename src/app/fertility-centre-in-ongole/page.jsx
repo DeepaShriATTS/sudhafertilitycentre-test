@@ -1,20 +1,21 @@
 import Ongole from '@/pages/Branch/ongole'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 export const metadata = {
   title: "Best Fertility Centre in Ongole - Sudha Fertility Centre",
   description: "Realise your dreams at Sudha Fertility Centre in Ongole, offering specialised IVF & IUI treatments and expert family care. Plan your visit",
-  keywords: "Fertility Centre in Ongole"
+  keywords: "Fertility Centre in Ongole",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-ongole",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-ongole",
+    },
+  },
 };
 
 export default function page() {
 
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-ongole" hreflang="en-in" />
-  </Head>
-  return (
+    return (
     <div>
 
       <Script

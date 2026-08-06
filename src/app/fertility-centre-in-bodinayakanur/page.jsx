@@ -1,27 +1,27 @@
-import BodinayakanurPage from '@/pages/Branch/bodinayakanur'
+// import BodinayakanurPage from '@/pages/Branch/bodinayakanur'
 import React from 'react'
-import Script from "next/script";
-import Head from 'next/head';
+// import Script from "next/script";
 
 
 export const metadata = {
   title: "Best Fertility Centre in Bodinayakanur - Sudha Fertility Centre",
   description: "Sudha Fertility Centre in Bodinayakanur is a top choice for IVF & IUI solutions, renowned for its personalised care plans. Schedule now.",
   keywords: "Fertility Centre in Bodinayakanur",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-bodinayakanur",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-bodinayakanur",
+    },
+  },
 };
 
 
 export default function page() {
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-bodinayakanur" hreflang="en-in" />
-
-  </Head>
-
+  
 
   return (
     <div>
-
+{/* 
       <Script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -154,9 +154,9 @@ export default function page() {
           ]
         })
       }}
-    />
+    /> */}
      
-      <BodinayakanurPage />
+      {/* <BodinayakanurPage /> */}
     </div>
   )
 }

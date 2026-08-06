@@ -3,18 +3,20 @@
 import HyderabadPage from '@/pages/Branch/hyderabad'
 import React from 'react'
 import Script from "next/script";
-import Head from 'next/head';
 
 export const metadata = {
   title: "Best Fertility Centre in Hyderabad - Sudha Fertility Centre",
   description: "Sudha Fertility Centre in Hyderabad offers exceptional care with trusted IVF & IUI specialists to fulfil your journey. Call us to book.",
-  keywords: "Fertility Centre in Hyderabad"
+  keywords: "Fertility Centre in Hyderabad",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-hyderabad",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-hyderabad",
+    },
+  },
 };
 export default function page() {
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-hyderabad" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

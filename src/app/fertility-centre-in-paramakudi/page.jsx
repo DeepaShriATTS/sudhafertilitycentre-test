@@ -1,22 +1,24 @@
 import ParamakudiPage from '@/pages/Branch/paramakudi'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 
 
 export const metadata = {
   title: "Best Fertility Centre in Paramakudi - Sudha Fertility Centre",
   description: "Sudha Fertility Centre in Paramakudi is known for compassionate IVF care, advanced IUI treatments, and expert family guidance. Consult us.",
-  keywords: "Fertility Centre in Paramakudi"
+  keywords: "Fertility Centre in Paramakudi",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-paramakudi",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-paramakudi",
+    },
+  },
 };
 
 export default function page() {
 
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-paramakudi" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

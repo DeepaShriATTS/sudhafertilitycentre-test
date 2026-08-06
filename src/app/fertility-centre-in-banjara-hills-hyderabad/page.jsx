@@ -1,6 +1,5 @@
 import React from "react";
 import Script from "next/script";
-import Head from "next/head";
 import ICSITreatmentHyderabad from "@/pages/Branch/ICSITreatmentinHyderabad";
 import IVFCostinHyderabad from "@/pages/Branch/IVFCostinHyderabad";
 import FertilityCentreinBanjaraHillsHyderabad from "@/pages/Branch/FertilityCentreinBanjaraHillsHyderabad";
@@ -12,16 +11,15 @@ export const metadata = {
     "ICSI treatment at Sudha Fertility Centre Hyderabad — advanced solution for male factor infertility. Single sperm injection technique with 85%+ fertilisation rate. Book FREE consultation.",
   keywords:
     "fertility centre in Banjara Hills ,IVF clinic Banjara Hills Hyderabad ,best fertility doctor Banjara Hills ,fertility centre Banjara Hills Hyderabad ,IVF centre near Banjara Hills ,fertility treatment near me Banjara Hills ,best IVF centre Banjara Hills ,IVF hospital Banjara Hills ,infertility specialist Banjara Hills ,fertility clinic near me Hyderabad ,fertility centre Jubilee Hills ,IVF clinic near me Hyderabad ,IUI treatment Banjara Hills ,ICSI Banjara Hills ,PMOS (PCOS) doctor Banjara Hills ",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-banjara-hills-hyderabad",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-banjara-hills-hyderabad",
+    },
+  },
 };
 export default function page() {
-  <Head>
-    <link
-      rel="alternate"
-      href="https://sudhafertilitycentre.com/fertility-centre-in-banjara-hills-hyderabad"
-      hreflang="en-in"
-    />
-  </Head>;
-
+  
   return (
     <div>
       <Script

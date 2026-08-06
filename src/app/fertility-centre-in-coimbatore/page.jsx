@@ -1,23 +1,23 @@
 import CoimbatorePage from '@/pages/Branch/coimbatore'
 import React from 'react'
 import Script from "next/script";
-import Head from 'next/head';
 
 
 export const metadata = {
   title: "Best Fertility Centre in Coimbatore - Sudha Fertility Centre",
   description: "Experience the region's best reproductive care at Sudha Fertility Centre in Coimbatore, featuring renowned IVF & IUI specialists. Book now.",
   keywords: "Fertility Centre in Coimbatore",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-coimbatore",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-coimbatore",
+    },
+  },
 };
 
 
 export default function page() {
-  <Head>
-
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-coimbatore" hreflang="en-in" />
-
-  </Head>
-
+  
 
   return (
     <div>

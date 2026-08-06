@@ -25,7 +25,9 @@
    Mobile-first. Breakpoints: 375 | 480 | 640 | 768 | 1024 | 1280 | 1536
    ══════════════════════════════════════════════════ */
 
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&display=swap");
+/* Fraunces is loaded via next/font/google in src/app/layout.js.
+   The CSS variable --font-fraunces is injected onto <body> via fraunces.variable.
+   The render-blocking @import url() has been removed. */
 
 :root {
   --hero-navy: #14213d;
@@ -33,7 +35,7 @@
   --hero-gold: #e8a33d;
   --hero-paper: #fbf7f1;
   --hero-teal: #1f6f6b;
-  --font-fraunces: "Fraunces", Georgia, "Times New Roman", serif;
+  /* --font-fraunces is set by next/font on the <body> element */
 }
 
 /* ─────────────────────────────────────────
@@ -407,6 +409,12 @@
   max-width: 100%;
 }
 
+@media (max-width: 480px) {
+  .hero-stats-row {
+    gap: 10px;
+  }
+}
+
 @media (min-width: 480px) {
   .hero-stats-row {
     margin-bottom: 28px;
@@ -447,6 +455,13 @@
   white-space: nowrap;
 }
 
+@media (max-width: 480px) {
+  .hero-stat span {
+    font-size: 0.52rem;
+    letter-spacing: 0.01em;
+  }
+}
+
 .hero-stat-divider {
   width: 1px;
   height: 22px;
@@ -473,38 +488,74 @@
 .hero-pg-dots {
   display: flex;
   align-items: center;
-  gap: 8px;
+  /* Buttons are now 44×44px (full touch target). Setting gap to 0 and using
+     negative margins keeps the visual 8px dots close together without gaps
+     between them being 44px wide. */
+  gap: 0;
+  margin: 0 -10px; /* pull adjacent buttons so visual dots appear with ~4px gap */
 }
 
+/* ── Pagination dot — 44×44 transparent touch target (WCAG 2.5.5 compliant)
+   Visual states are entirely on pseudo-elements so only GPU-composited
+   properties (opacity, transform) animate. No width/border-radius/background
+   changes on the host element → zero layout recalculation. ── */
 .hero-pg-dot {
   position: relative;
-  width: 8px;
-  height: 8px;
-  padding: 0px 4px;
-  border-radius: 50%;
-  background: rgba(20, 33, 61, 0.18);
+  /* Full 44×44 touch target — transparent so layout stays compact */
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  /* Dots sit next to each other with no gap between touch areas */
+  flex-shrink: 0;
+  overflow: visible;
 }
 
-/* accessible touch target padding — expands hit area without visual shift */
+/* ── Inactive dot: small 8×8 circle, centered in the 44px button ── */
 .hero-pg-dot::before {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  min-height: 28px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(20, 33, 61, 0.18);
+  /* Fade out when active — GPU composited */
+  opacity: 1;
+  transition: opacity 0.25s ease;
 }
 
-.hero-pg-dot.is-active {
-  background: var(--hero-gold);
+.hero-pg-dot.is-active::before {
+  opacity: 0;
+}
+
+/* ── Active pill: scaleX from left — zero layout cost ── */
+.hero-pg-dot::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 24px;
+  height: 8px;
   border-radius: 4px;
+  background: var(--hero-gold);
+  transform-origin: left center;
+  /* Collapsed (hidden) by default */
+  transform: translate(-50%, -50%) scaleX(0);
+  opacity: 0;
+  /* Only compositable properties */
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.hero-pg-dot.is-active::after {
+  transform: translate(-50%, -50%) scaleX(1);
+  opacity: 1;
 }
 
 .hero-pg-arrow {
@@ -656,25 +707,30 @@
   box-shadow: 0 32px 64px rgba(20, 33, 61, 0.16);
 }
 
-/* Active Slide Transitions */
+/* Active Slide Transitions — only opacity is animated (compositable, no paint) */
 .hero-image-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  animation: heroFadeIn 0.6s ease-in-out forwards;
+  visibility: hidden;
+  /* Only transition opacity — both compositable, zero layout/paint */
+  transition: opacity 0.6s ease-in-out;
+  pointer-events: none;
 }
 
 .hero-image-slide.is-active {
   opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.hero-image-slide.pointer-events-none {
+  pointer-events: none;
 }
 
 @keyframes heroFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -683,22 +739,16 @@
     transform: none;
   }
   .hero-image-slide {
-    animation: none;
+    transition: none;
     opacity: 1;
+    visibility: visible;
   }
 }
 
 
-.hero-canvas:hover  {
+/* Consolidated hover lift — one rule, no conflict */
+.hero-canvas:hover {
   transform: translateY(-3px);
-}
-
-
-
-
-
-.hero-canvas:hover{
-  transform: translateY(3px);
 }
 
 .hero-badge-dot {

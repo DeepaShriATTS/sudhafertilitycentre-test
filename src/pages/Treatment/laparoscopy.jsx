@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Banner from "@/assets/Treatments/laparoscopy/Banner.webp";
-import { MarqueeComponent } from "@/components/marqueeSlider";
 import Button from "@/components/button/button";
 import About from "@/assets/Treatments/laparoscopy/About.webp";
 import Microscope from "@/assets/Treatments/IVF/microscope.webp";
@@ -11,11 +10,21 @@ import Facilities from "@/assets/Treatments/IVF/Facilities.webp";
 import Image from "next/image";
 import FAQItem from "@/components/accordion";
 import SubBanner from "@/assets/contact-us/SubBanner.webp";
-import { Ambattur } from "@/middleware/imagesroute";
-import { FaArrowLeft, FaArrowRight, FaYoutube } from "react-icons/fa";
-import Buttonbottm from "@/components/button";
+
+
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import ContactForm from "@/components/contact/contactForm";
+import dynamic from "next/dynamic";
+import { Homevideos } from "@/middleware/videosRoute";
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
+
+
+const GallerySlider = dynamic(
+  () => import('@/components/videoCard/videoPlaylistSlider'),
+  { loading: () => <VideoSkeletonRow count={3} /> }
+);
+
+
 const FAQ = [
   {
     question: "What is laparoscopy done for?",
@@ -536,29 +545,11 @@ function Laparoscopy() {
 
       <section className="mt-[70px] md:mt-[100px]" id="contactus">
 
-<ContactForm/>
-</section>
+       <ContactForm/>
+        </section>
 
-      {/* MarqueeComponent */}
       <section className="mt-[70px] md:mt-[100px] mb-[70px] md:mb-[100px]">
-        <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        />
-        <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
-        <h3 className="font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
-        {/* <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
+       <GallerySlider items={Homevideos} />
       </section>
     </>
   );

@@ -128,7 +128,7 @@ export default function BranchesDirectory() {
 
       <h1 className={`mb-5 text-3xl font-bold leading-tight tracking-tight md:mb-8 md:text-5xl ${BRAND_NAVY}`}>
         Find your nearest{' '}
-        <span style={{ color: BRAND_GOLD }}>branch</span>
+        <span style={{ color: '#9A6B00' }}>branch</span>
       </h1>
 
       <div className="mb-6 rounded-2xl border border-[#E8EDF5] bg-[#F8FAFC] p-5 shadow-sm">

@@ -1,8 +1,8 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
-import Logo from "@/assets/logo-dark.svg";
+import Logo from "@/assets/logo-dark.webp";
 import whatsapp from "@/assets/footer/whatsapp.svg";
 import Link from "next/link";
 import { MdArrowOutward, MdLocationOn } from "react-icons/md";
@@ -11,65 +11,33 @@ import fb from "@/assets/footer/fb.svg";
 import Insta from "@/assets/footer/insta.svg";
 import yt from "@/assets/footer/yt.svg";
 import { MdEmail } from "react-icons/md";
-import Button from "../button/button";
+import { branches } from "./footerData";
 
-export const branches = [
-  { title: "Ambattur", link: "fertility-centre-in-ambattur" },
-  { title: "Attapur", link: "fertility-centre-in-attapur" },
-  // { title: "Aruppukottai", link: "fertility-centre-in-aruppukottai", },
-  // { title: "Bodinayakanur", link: "fertility-centre-in-bodinayakanur", },
-  { title: "Bangalore", link: "fertility-centre-in-bangalore" },
-  { title: "Chennai", link: "fertility-centre-in-chennai" },
-  { title: "Chilakaluripet", link: "fertility-centre-in-chilakaluripet" },
-  { title: "Coimbatore", link: "fertility-centre-in-coimbatore" },
-  { title: "Erode", link: "fertility-centre-in-erode" },
-  { title: "Dindigul", link: "fertility-centre-in-dindigul" },
-  // { title: "Hosur", link: "fertility-centre-in-hosur" },
-  { title: "Hyderabad", link: "fertility-centre-in-hyderabad" },
-  { title: "Hanamkonda", link: "fertility-centre-in-hanamkonda" },
-  // { title: "Karur", link: "fertility-centre-in-karur" },
-  // { title: "Karaikudi", link: "fertility-centre-in-karaikudi" },
-  // { title: "Kallakurichi", link: "fertility-centre-in-kallakurichi" },
-  { title: "Krishnagiri", link: "fertility-centre-in-krishnagiri" },
-  { title: "Madurai", link: "fertility-centre-in-madurai" },
-  { title: "Manapparai", link: "fertility-centre-in-manapparai" },
-  { title: "Nagercoil", link: "fertility-centre-in-nagercoil" },
-  { title: "Ongole", link: "fertility-centre-in-ongole" },
-  // { title: "Perambalur", link: "fertility-centre-in-perambalur" },
-  { title: "Pondicherry", link: "fertility-centre-in-pondicherry" },
-  { title: "Ramanathapuram", link: "fertility-centre-in-ramanathapuram" },
-  { title: "Salem", link: "fertility-centre-in-salem" },
-  // { title: "Sivangangai", link: "fertility-centre-in-sivagangai" },
-  // { title: "Tenali", link: "fertility-centre-in-tenali" },
-  { title: "Tiruvannamalai", link: "fertility-centre-in-tiruvannamalai" },
-  { title: "Trichy", link: "fertility-centre-in-trichy" },
-  { title: "Thanjavur", link: "fertility-centre-in-thanjavur" },
-  { title: "Thoothukudi", link: "fertility-centre-in-thoothukudi" },
-  { title: "Tiruppur", link: "fertility-centre-in-tiruppur" },
-  { title: "Theni", link: "fertility-centre-in-theni" },
-  { title: "Tirunelveli", link: "fertility-centre-in-tirunelveli" },
-  { title: "Vellore", link: "fertility-centre-in-vellore" },
-  // { title: "Vaniyambadi", link: "fertility-centre-in-vaniyambadi" },
-  { title: "Vijayawada", link: "fertility-centre-in-vijayawada" },
-  { title: "Paramakudi", link: "fertility-centre-in-paramakudi" },
-  { title: "Viluppuram", link: "fertility-centre-in-viluppuram" },
-  { title: "Nellore", link: "fertility-centre-in-nellore" },
-  { title: "Tindivanam", link: "fertility-centre-in-tindivanam" },
-  { title: "Tirupathur", link: "fertility-centre-in-tirupathur" },
 
-];
+const BranchesDirectory = dynamic(() => import("./knowyourBranch"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[200px] w-full animate-pulse bg-neutral-100 rounded-xl flex items-center justify-center text-sm text-neutral-500">
+      Loading branches…
+    </div>
+),
+});
+
+
+
+
 
 export default function Footer() {
   return (
     <footer className="container mx-auto relative h-full py-7" id="footer">
-      <div className="max-w-7xl mx-auto px-6   sm:px-8 lg:px-10 h-full">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 h-full">
         {/* Branches Section */}
         <div>
-          <h3 className="font-semibold text-blue-900 text-lg md:text-xl">
+          <h2 className="font-semibold text-blue-900 text-lg md:text-xl">
             Our Branches
-          </h3>
-          <div>
-            <ul className="flex flex-wrap gap-4 mt-5 text-sm md:text-base text-[#000] font-medium ">
+          </h2>
+       
+            {/* <ul className="flex flex-wrap gap-4 mt-5 text-sm md:text-base text-[#000] font-medium ">
               {branches.map((item, index) => (
                 <li
                   className="hover:text-[#FFC65C] transition-colors duration-300 cursor-pointer"
@@ -80,8 +48,9 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-            </ul>
-          </div>
+            </ul> */}
+            <BranchesDirectory />
+        
         </div>
 
         <div className="border-b border-gray-300 my-6"></div>
@@ -110,8 +79,6 @@ export default function Footer() {
                 </button>
               </Link>
             </div>
-
-
 
 
             <div className="flex items-center justify-center md:justify-start mb-2">
@@ -145,9 +112,9 @@ export default function Footer() {
           <div className="order-2 sm:order-2 md:order-2 lg:order-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-5">
               <div className="order-2 sm:order-3 md:order-2 lg:order-2 text-center sm:text-left">
-                <h3 className="font-semibold text-[#173366] text-lg md:text-xl">
+                <h4 className="font-semibold text-[#173366] text-lg md:text-xl">
                   Quick Links
-                </h3>
+                </h4>
                 <ul className="text-[#000]  text-sm md:text-base mt-5 space-y-5">
                   <li className="hover:text-[#FFC65C] font-medium">
                     <Link href="/fertility-treatments">
@@ -185,9 +152,9 @@ export default function Footer() {
 
               {/* Contact Us Section */}
               <div className="order-3 sm:order-3 md:order-3 lg:order-3 text-center sm:text-left">
-                <h3 className="font-semibold text-[#173366] text-lg md:text-xl">
+                <h4 className="font-semibold text-[#173366] text-lg md:text-xl">
                   Contact Us
-                </h3>
+                </h4>
 
 
 

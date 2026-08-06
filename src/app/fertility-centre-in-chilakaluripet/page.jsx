@@ -1,6 +1,5 @@
 import React from "react";
 import Script from "next/script";
-import Head from "next/head";
 import Chilakaluripet from "@/pages/Branch/chilakaluripet";
 
 export const metadata = {
@@ -9,16 +8,15 @@ export const metadata = {
     "Access world-class reproductive medicine at Sudha Fertility Centre in Chilakaluripet, offering effective IVF & IUI. Schedule a consultation.",
   keywords:
     "Fertility Centre in Chilakaluripet",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-chilakaluripet",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-chilakaluripet",
+    },
+  },
 };
 export default function page() {
-  <Head>
-    <link
-      rel="alternate"
-      href="https://sudhafertilitycentre.com/fertility-centre-in-chilakaluripet"
-      hreflang="en-in"
-    />
-  </Head>;
-
+  
   return (
     <div>
       <Script

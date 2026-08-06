@@ -140,7 +140,7 @@ export default function Home() {
 
       {/* ── Banner Section ── */}
       <div className="relative w-full lg:mt-[-17px]">
-        {/*
+        {/* 
           HeroBannerSlider carries its own "use client" (it has a slider + animated
           stats), so it is already a client boundary. Importing it here is fine —
           Next.js will only hydrate that sub-tree on the client.

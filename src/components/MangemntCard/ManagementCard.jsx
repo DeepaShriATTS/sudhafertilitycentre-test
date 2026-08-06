@@ -10,7 +10,7 @@ import { MdArrowOutward } from "react-icons/md";
 const managementData = [
   {
     id: 1,
-    name: "Dr. Kandaswamy",
+    name: "Dr. D. Kandaswamy",
     role: "Chairman, Sudha Hospitals Pvt ltd",
     course: "MD., DTCD., MIL (Preventive Cardiology) ",
     description: "",
@@ -29,7 +29,7 @@ const managementData = [
   },
   {
     id: 3,
-    name: "Dr. Sudhakar",
+    name: "Dr. K. Sudhakar",
     role: "Managing Director, Sudha Hospitals Pvt ltd ",
     course: "MD., DNB (Cardiology) ",
     description:"",

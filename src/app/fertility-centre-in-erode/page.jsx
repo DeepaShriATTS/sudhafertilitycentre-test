@@ -1,20 +1,22 @@
 import ErodePage from '@/pages/Branch/erode'
 import React from 'react'
 import Script from "next/script";
-import Head from 'next/head';
 
 
 
 export const metadata = {
   title: "Best Fertility Centre in Erode - Sudha Fertility Centre",
   description: "Sudha Fertility Centre in Erode offers exceptional IVF & IUI services with top-notch medical care, standing out as the best. Book today.",
-  keywords: "Fertility Centre in Erode"
+  keywords: "Fertility Centre in Erode",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-erode",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-erode",
+    },
+  },
 };
 export default function page() {
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-erode" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

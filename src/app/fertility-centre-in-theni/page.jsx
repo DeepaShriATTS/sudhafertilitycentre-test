@@ -1,22 +1,24 @@
 import TheniPage from '@/pages/Branch/theni'
 import React from 'react'
 import Script from "next/script";
-import Head from "next/head";
 
 
 
 export const metadata = {
   title: "Best Fertility Centre in Theni - Sudha Fertility Centre",
   description: "Begin your parenting path with Sudha Fertility Centre in Theni, trusted for modern IVF/IUI labs and personalised care. Plan your visit.",
-  keywords: "Fertility Centre in Theni"
+  keywords: "Fertility Centre in Theni",
+  alternates: {
+    canonical: "https://sudhafertilitycentre.com/fertility-centre-in-theni",
+    languages: {
+      "en-IN": "https://sudhafertilitycentre.com/fertility-centre-in-theni",
+    },
+  },
 };
 
 export default function page() {
 
-  <Head>
-    <link rel="alternate" href="https://sudhafertilitycentre.com/fertility-centre-in-theni" hreflang="en-in" />
-  </Head>
-
+  
   return (
     <div>
       <Script

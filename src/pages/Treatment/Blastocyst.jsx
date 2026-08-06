@@ -4,24 +4,29 @@ import Banner from "@/assets/Treatments/Blastocyst/Banner.webp";
 import About from "@/assets/Treatments/Blastocyst/About.webp";
 import Microscope from "@/assets/Treatments/IVF/microscope.webp";
 import WhyChoose from "@/assets/Treatments/IVF/WhyChoose.webp";
-import ChooseIVF from "@/assets/Treatments/IVF/ChooseIVF.webp";
-import Tick from "@/assets/Treatments/IVF/Tick.svg";
+
 import Facilities from "@/assets/Treatments/IVF/Facilities.webp";
-import PrepareIVF from "@/assets/Treatments/IVF/PrepareIVF.webp";
+
 import Button from "@/components/button/button";
 import Image from "next/image";
-import FAQItem from "@/components/accordion";
+
 import SubBanner from "@/assets/contact-us/SubBanner.webp";
 import { Ambattur } from "@/middleware/imagesroute";
-import Insta from "@/assets/Home/insta.svg";
-import Linkedin from "@/assets/Home/linkedin.svg";
-import youtube from "@/assets/Home/youtube.svg";
-import x from "@/assets/Home/x.svg";
-import fb from "@/assets/Home/fb.svg";
-import { MarqueeComponent } from "@/components/marqueeSlider";
-import { FaYoutube } from "react-icons/fa";
-import Buttonbottm from "@/components/button";
+
+import dynamic from "next/dynamic";
+import { Homevideos } from "@/middleware/videosRoute";
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
 import ContactForm from "@/components/contact/contactForm";
+
+
+const GallerySlider = dynamic(
+  () => import('@/components/videoCard/videoPlaylistSlider'),
+  { loading: () => <VideoSkeletonRow count={3} /> }
+);
+
+
+
+
 
 const facilities = [
   {
@@ -497,26 +502,9 @@ function Blastocyst() {
         <ContactForm />
       </section>
 
-      {/* MarqueeComponent */}
+
       <section className="mt-[70px] md:mt-[100px] mb-[70px] mb:mt-[100px]">
-        <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        />
-        <div className="flex md:flex-row  flex-col justify-center gap-4 items-center mt-4 mb-4">
-        <h3 className=" font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
-        {/* <MarqueeComponent
-          items={Ambattur.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
+        <GallerySlider items={Homevideos} />
       </section>
     </>
   );

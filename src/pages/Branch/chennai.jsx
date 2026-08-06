@@ -1,20 +1,17 @@
 "use client";
 import React, { useState } from "react";
 import BgAbout from "@/assets/branch/ambatur/hospital.webp";
-import Calendar from "@/assets/branch/ambatur/callender.svg";
 import Image from "next/image";
-import PadmavathiDevi from "@/assets/branch/chennai/davuluru.webp";
 import Button from "@/components/button";
 import SudhaAbout from "@/assets/branch/chennai/chennai_about.webp";
 import { motion } from "framer-motion";
 import Pradeepa from "@/assets/branch/ambatur/pradeepa.webp";
-import Shanmugavalli from "@/assets/dummy-image.webp";
-import Indhumathy from "@/assets/branch/chennai/indhumathy.webp";
+import Padmavathi from "@/assets/branch/chennai/padmavathi.webp";
 import Hospital from "@/assets/branch/chennai/chennai.webp";
-import Buttonbottm from "@/components/button";
+
 import { IoMdArrowBack, IoMdArrowForward } from "react-icons/io";
 import ImageGrid from "@/components/imagegrid";
-import { MdArrowOutward, MdLocationOn } from "react-icons/md";
+import {  MdLocationOn } from "react-icons/md";
 
 import { IoCallOutline } from "react-icons/io5";
 import { AiTwotoneMail } from "react-icons/ai";
@@ -22,15 +19,29 @@ import FAQItem from "@/components/accordion";
 import AppointmentForm from "@/components/appointmentForm";
 import Navbar from "@/components/branchNav";
 import ImageSlider from "@/components/imageSlider";
-import { MarqueeComponent } from "@/components/marqueeSlider";
 import { Ambattur, Chennai } from "@/middleware/imagesroute";
 import ScrollMotion from "@/components/animation/scrollMotion";
 import BranchForm from "@/components/branchForm";
-import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
+// import { InfiniteMovingCardsDemo } from "@/components/review_Card/reviewCard";
 import { CiLocationOn } from "react-icons/ci";
 import Link from "next/link";
 import { chennaiVideos } from "@/middleware/videosRoute";
-import GallerySlider from "@/components/videoCard/videoPlaylistSlider";
+
+import LoadingSpinner from '@/components/ui/loadingSpinner';
+import dynamic from "next/dynamic";
+import Davuluru from "@/assets/branch/ambatur/davuluru.webp";
+import { VideoSkeletonRow } from "@/components/loaders/VideoCardSkeleton";
+// Dynamic imports with same loading component
+const InfiniteMovingCardsDemo = dynamic(
+  () => import('@/components/review_Card/reviewCard'),
+  { loading: () => <LoadingSpinner height="400px" /> }
+);
+
+const GallerySlider = dynamic(
+  () => import("@/components/videoCard/videoPlaylistSlider"),
+  { loading: () => <VideoSkeletonRow count={3} badge caption />   },
+  
+);
 
 function ChennaiPage() {
   const [visibleCount, setVisibleCount] = useState(5);
@@ -376,7 +387,7 @@ function ChennaiPage() {
                       </ul>
                     </div>
                     <div className="w-full lg:w-1/2 mt-5">
-                      <ImageSlider images={Ambattur.Facilities.Facilitiesimg} className="rounded-xl" />
+                      <ImageSlider images={Chennai.Facilities.FacChennai} className="rounded-xl" />
 
                       {/* <Image src={Facilities} alt="Facilities" className="w-full h-full object-cover" /> */}
                     </div>
@@ -421,11 +432,11 @@ function ChennaiPage() {
                       <h3 className="text-[20px] font-semibold mt-2 leading-[1.4]">
                         Chief Doctors of Sudha Fertility Centre in Chennai
                       </h3>
-                     <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
+                      <h4 className="text-[18px] text-[#173366] font-semibold mt-3">
                         Dr.S.Pradeepa Sudhakar.,
                       </h4>
                       <p className="text-md text-[#000000] mt-3">
-                       DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist 
+                        DGO, DNB (OG), MNAMS, FICOG Senior Consultant IVF & ART Specialist
                       </p>
                       {/* <p className="text-[#000000] mt-3">
                         Senior Consultant IVF & ART Specialist Senior Faculty FNB (Reproductive Medicine - NBEMS)
@@ -485,6 +496,14 @@ function ChennaiPage() {
                     transition={{ duration: 0.5 }}
                   >
 
+                     <div className="w-full lg:w-1/2">
+                      <Image
+                        src={Davuluru}
+                        alt="Davuluru Sandhyarani"
+                        className="w-full h-auto rounded-xl"
+                      />
+                    </div>
+
                     <div className="w-full lg:w-1/2">
                       {/* <h3 className="text-[20px] font-semibold mt-2">
                                     Our Fertility Specialist in Ambattur 
@@ -505,16 +524,43 @@ function ChennaiPage() {
 
                       </p>
                     </div>
+                   
+                  </motion.div>
+
+                  <motion.div
+                    className="flex flex-col-reverse lg:flex-row gap-8 mt-5"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+
+                    <div className="w-full lg:w-1/2">
+                      {/* <h3 className="text-[20px] font-semibold mt-2">
+                                        Our Fertility Specialist in Ambattur 
+                                        </h3> */}
+                      <h3 className="text-[18px] text-[#173366] font-semibold mt-2">
+                       Prof. Dr. Padmavathi Narahari
+
+                      </h3>
+                      <p className="text-md text-[#000000] mt-3">
+                       MBBS, MS (OG), Fellowship in Advanced Laparoscopy
+                      </p>
+                      <p className="text-md text-[#000000] mt-3">
+                        Fertility Consultant
+                      </p>
+                      <p className="text-md text-gray-600 mt-3">
+                       Prof. Dr. Padmavathi Narahari is an experienced Fertility Consultant at Sudha Fertility Centre. With a specialized Fellowship in Advanced Laparoscopy, she treats structural reproductive issues through minimally invasive keyhole surgeries. She performs procedures to treat and remove uterine fibroids, ovarian tumors, pelvic adhesions, and deeply infiltrating endometriosis. By surgically treating these internal blockages, she helps restore normal anatomy, resolve chronic pelvic pain, and improve a patient's natural chances of pregnancy.
+
+                      </p>
+                    </div>
                     <div className="w-full lg:w-1/2">
                       <Image
-                        src={PadmavathiDevi}
-                        alt="Padmavathi Devi"
+                        src={Padmavathi}
+                        alt="Padmavathi"
                         className="w-full h-auto rounded-xl"
                       />
                     </div>
                   </motion.div>
-
-
 
                   <hr className="mt-5 border-gray-300" />
                 </section>
@@ -717,30 +763,10 @@ function ChennaiPage() {
       </div>
 
       <section>
-        {/* <div className="container mx-auto">
-            <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 h-full"> */}
-        {/* <MarqueeComponent
-          items={Chennai.gallery}
-          direction="left"
-          speed="fast"
-          className="custom-class"
-        /> */}
+       
 
-          <GallerySlider items={chennaiVideos} />
-        <div className="flex justify-center flex-wrap gap-4 items-center mt-4 mb-4">
-          <h3 className=" font-semibold text-center ">
-            Childless Couples to Happy Parents
-          </h3>
-          <Buttonbottm text="Watch on Youtube " link="https://www.youtube.com/@sudhafertilitycentre" />
-        </div>
-        {/* <MarqueeComponent
-          items={Chennai.gallery}
-          direction="right"
-          speed="fast"
-          className="custom-class"
-        /> */}
-        {/* </div>
-          </div> */}
+        <GallerySlider items={chennaiVideos} />
+       
       </section>
     </>
   );

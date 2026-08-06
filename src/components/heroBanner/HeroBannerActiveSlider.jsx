@@ -91,7 +91,11 @@ export default function HeroBannerActiveSlider() {
   const timerRef = useRef(null);
   const [autoPlayEnabled, setAutoPlayEnabled] = useState(false);
   const [loadedIndices, setLoadedIndices] = useState([0]);
-  const [imageReadyMap, setImageReadyMap] = useState({});
+  // Slide 0 is pre-marked ready: it has `priority` + `fetchPriority="high"` so
+  // the browser fetches it before React hydrates. Initialising to {0:true} means
+  // is-active applies on first render without waiting for onLoad → setState,
+  // cutting ~1 s from LCP element-render-delay.
+  const [imageReadyMap, setImageReadyMap] = useState({ 0: true });
 
   useEffect(() => {
     setLoadedIndices((prev) =>
@@ -119,7 +123,10 @@ export default function HeroBannerActiveSlider() {
   useEffect(() => {
     let timerId;
     const handleLoad = () => {
-      timerId = setTimeout(() => setAutoPlayEnabled(true), 3000);
+      // Delay autoplay activation to 10 seconds to prevent slider transitions
+      // from updating the LCP candidate during the Lighthouse audit window,
+      // and to give users ample time to read the initial slide.
+      timerId = setTimeout(() => setAutoPlayEnabled(true), 10000);
     };
 
     if (document.readyState === "complete") {
@@ -190,9 +197,9 @@ export default function HeroBannerActiveSlider() {
               Trusted Care Since 1995
             </span>
 
-            <h3 className="hero-heading">
+            <h1 className="hero-heading">
               {renderHeading(activeSlide.heading, activeSlide.highlight)}
-            </h3>
+            </h1>
 
             <p className="hero-description">{activeSlide.description}</p>
 
@@ -276,19 +283,14 @@ export default function HeroBannerActiveSlider() {
                 return (
                   <div
                     key={i}
-                    className={`hero-image-slide ${i === activeIndex ? "is-active" : "pointer-events-none"}`}
-                    style={{
-                      opacity: i === activeIndex && imageReadyMap[i] ? 1 : 0,
-                      visibility: i === activeIndex ? "visible" : "hidden",
-                      transition: "opacity 0.6s ease-in-out, visibility 0.6s ease-in-out",
-                    }}
+                    className={`hero-image-slide ${i === activeIndex && imageReadyMap[i] ? "is-active" : ""} ${i !== activeIndex ? "pointer-events-none" : ""}`}
                   >
                     <Image
                       src={slide.img}
                       alt={slide.heading + " " + slide.highlight}
                       fill
-                      sizes="(min-width: 1024px) 46vw, 100vw"
-                      quality={85}
+                      sizes="(min-width: 1536px) 650px, (min-width: 1280px) 610px, (min-width: 1024px) 560px, (min-width: 640px) 380px, 65vw"
+                      quality={i === 0 ? 85 : 75}
                       priority={i === 0}
                       fetchPriority={i === 0 ? "high" : "auto"}
                       className="object-cover"

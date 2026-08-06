@@ -339,6 +339,14 @@
   transition: background 0.25s ease, transform 0.25s ease, letter-spacing 0.25s ease;
 }
 
+@media (max-width: 639px) {
+  .navx-cta-pill {
+    padding: 6px 14px;
+    font-size: 11.5px;
+    gap: 4px;
+  }
+}
+
 .navx-cta-pill:hover,
 .navx-cta-pill:focus-visible {
   background: #0c1730;

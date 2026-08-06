@@ -64,7 +64,7 @@ export default function SearchableSelect({
 
   const textClasses = theme === "dark"
     ? `text-[15px] truncate ${displayLabel ? "text-white" : "text-white/70"}`
-    : `text-sm truncate ${displayLabel ? "text-neutral-800" : "text-neutral-400"}`;
+    : `text-sm truncate ${displayLabel ? "text-neutral-800" : "text-neutral-600"}`;
 
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
