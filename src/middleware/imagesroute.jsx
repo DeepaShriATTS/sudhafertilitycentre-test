@@ -7,6 +7,8 @@ import Imagefive from "../assets/branch/ambatur/gallery/5.webp";
 import Facilitiesimg from "../assets/branch/ambatur/img.webp";
 
 
+import ManapparaiImgFac from "../assets/branch/manapparai/ManapparaiFac.webp";
+
 
 // Attapur
 import AttapurImageone from "../assets/branch/attapur/gallery/1.webp";
@@ -28,6 +30,7 @@ import BengaluruImagetwo from "../assets/branch/bengaluru/gallery/2.webp";
 import BengaluruImagethree from "../assets/branch/bengaluru/gallery/3.webp";
 import BengaluruImagefour from "../assets/branch/bengaluru/gallery/4.webp";
 import BengaluruImagefive from "../assets/branch/bengaluru/gallery/5.webp";
+import FacilitiesimgBengaluru from "../assets/branch/bengaluru/BangaloreFac.webp";
 
 // Chennai
 import ChennaiImageone from "../assets/branch/chennai/gallery/1.webp";
@@ -35,6 +38,7 @@ import ChennaiImagetwo from "../assets/branch/chennai/gallery/2.webp";
 import ChennaiImagethree from "../assets/branch/chennai/gallery/3.webp";
 import ChennaiImagefour from "../assets/branch/chennai/gallery/4.webp";
 import ChennaiImagefive from "../assets/branch/chennai/gallery/5.webp";
+import FacChennai from "../assets/branch/chennai/ChennaiFac.webp";
 
 // Chennai
 import coimbatoreImageone from "../assets/branch/coimbatore/gallery/1.webp";
@@ -56,6 +60,7 @@ import dindigulImagetwo from "../assets/branch/dindigul/gallery/2.webp";
 import dindigulImagethree from "../assets/branch/dindigul/gallery/3.webp";
 import dindigulImagefour from "../assets/branch/dindigul/gallery/4.webp";
 import dindigulImagefive from "../assets/branch/dindigul/gallery/4.webp";
+import dindigulImgFac from "../assets/branch/dindigul/DindigulFac.webp";
 
 // hyderabad
 import hyderabadImageone from "../assets/branch/hyderabad/gallery/1.webp";
@@ -63,6 +68,7 @@ import hyderabadImagetwo from "../assets/branch/hyderabad/gallery/2.webp";
 import hyderabadImagethree from "../assets/branch/hyderabad/gallery/3.webp";
 import hyderabadImagefour from "../assets/branch/hyderabad/gallery/4.webp";
 import hyderabadImagefive from "../assets/branch/hyderabad/gallery/5.webp";
+import hyderabadImgFac from "../assets/branch/hyderabad/HyderabadFac.webp";
 
 // karur
 import karurImageone from "../assets/branch/karur/gallery/1.webp";
@@ -77,6 +83,7 @@ import KishnagiriImagetwo from "../assets/branch/kishnagiri/gallery/2.webp";
 import KishnagiriImagethree from "../assets/branch/kishnagiri/gallery/3.webp";
 import KishnagiriImagefour from "../assets/branch/kishnagiri/gallery/4.webp";
 import KishnagiriImagefive from "../assets/branch/kishnagiri/gallery/5.webp";
+import KishnagiriImgFac from "../assets/branch/kishnagiri/KrishnagiriFac.webp";
 
 // Madurai
 import MaduraiImageone from "../assets/branch/madurai/gallery/1.webp";
@@ -99,6 +106,7 @@ import PuducherryImagetwo from "../assets/branch/Puducherry/gallery/2.webp";
 import PuducherryImagethree from "../assets/branch/Puducherry/gallery/3.webp";
 import PuducherryImagefour from "../assets/branch/Puducherry/gallery/4.webp";
 import PuducherryImagefive from "../assets/branch/Puducherry/gallery/5.webp";
+import PuducherryImgFac from "../assets/branch/Puducherry/PondicherryFac.webp";
 
 
 // Ramanathapuram
@@ -107,6 +115,7 @@ import RamanathapuramImagetwo from "../assets/branch/Ramanathapuram/gallery/2.we
 import RamanathapuramImagethree from "../assets/branch/Ramanathapuram/gallery/3.webp";
 import RamanathapuramImagefour from "../assets/branch/Ramanathapuram/gallery/4.webp";
 import RamanathapuramImagefive from "../assets/branch/Ramanathapuram/gallery/5.webp";
+import RamanathapuramFac from "../assets/branch/Ramanathapuram/RamanathapuramFac.webp";
 
 // Salem
 import SalemImageone from "../assets/branch/Salem/gallery/1.webp";
@@ -114,6 +123,7 @@ import SalemImagetwo from "../assets/branch/Salem/gallery/2.webp";
 import SalemImagethree from "../assets/branch/Salem/gallery/3.webp";
 import SalemImagefour from "../assets/branch/Salem/gallery/4.webp";
 import SalemImagefive from "../assets/branch/Salem/gallery/5.webp";
+import SalemFac from "../assets/branch/Salem/SalemFac.webp";
 
 // Tiruvannamalai
 import TiruvannamalaiImageone from "../assets/branch/tiruvannamalai/gallery/1.webp";
@@ -135,6 +145,7 @@ import TrichyImagetwo from "../assets/branch/Trichy/gallery/2.webp";
 import TrichyImagethree from "../assets/branch/Trichy/gallery/3.webp";
 import TrichyImagefour from "../assets/branch/Trichy/gallery/4.webp";
 import TrichyImagefive from "../assets/branch/Trichy/gallery/5.webp";
+import TrichyFac from "../assets/branch/Trichy/TrichyFac.webp";
 
 // Thanjavur
 import ThanjavurImageone from "../assets/branch/Thanjavur/gallery/1.webp";
@@ -150,6 +161,7 @@ import TiruppurImagetwo from "../assets/branch/Tiruppur/gallery/2.webp";
 import TiruppurImagethree from "../assets/branch/Tiruppur/gallery/3.webp";
 import TiruppurImagefour from "../assets/branch/Tiruppur/gallery/4.webp";
 import TiruppurImagefive from "../assets/branch/Tiruppur/gallery/5.webp";
+import TiruppurFac from "../assets/branch/Tiruppur/TirupurFac.webp";
 
 // Theni
 import TheniImageone from "../assets/branch/theni/gallery/1.webp";
@@ -157,6 +169,7 @@ import TheniImagetwo from "../assets/branch/theni/gallery/2.webp";
 import TheniImagethree from "../assets/branch/theni/gallery/3.webp";
 import TheniImagefour from "../assets/branch/theni/gallery/4.webp";
 import TheniImagefive from "../assets/branch/theni/gallery/5.webp";
+import TheniFac from "../assets/branch/theni/TheniFac.webp";
 
 // Tirunelveli
 import TirunelveliImageone from "../assets/branch/tirunelveli/gallery/1.webp";
@@ -164,6 +177,7 @@ import TirunelveliImagetwo from "../assets/branch/tirunelveli/gallery/2.webp";
 import TirunelveliImagethree from "../assets/branch/tirunelveli/gallery/3.webp";
 import TirunelveliImagefour from "../assets/branch/tirunelveli/gallery/4.webp";
 import TirunelveliImagefive from "../assets/branch/tirunelveli/gallery/5.webp";
+import TirunelveliFac from "../assets/branch/tirunelveli/TirunelveliFac.webp";
 
 // Vellore
 import VelloreImageone from "../assets/branch/vellore/gallery/1.webp";
@@ -171,6 +185,7 @@ import VelloreImagetwo from "../assets/branch/vellore/gallery/2.webp";
 import VelloreImagethree from "../assets/branch/vellore/gallery/3.webp";
 import VelloreImagefour from "../assets/branch/vellore/gallery/4.webp";
 import VelloreImagefive from "../assets/branch/vellore/gallery/5.webp";
+import VelloreFac from "../assets/branch/vellore/VelloreFac.webp";
 
 // Vijayawada
 import VijayawadaImageone from "../assets/branch/vijayawada/gallery/1.webp";
@@ -186,6 +201,7 @@ import VijayawadaImageten from "../assets/branch/vijayawada/gallery/10.webp";
 import VijayawadaImageeleven from "../assets/branch/vijayawada/gallery/11.webp";
 import VijayawadaImagetwele from "../assets/branch/vijayawada/gallery/12.webp";
 import VijayawadaImageethirteen from "../assets/branch/vijayawada/gallery/13.webp";
+import VijayawadaFac from "../assets/branch/vijayawada/VijayawadaFac.webp";
 
 // Hosur
 import HosurImageone from "../assets/branch/hosur/gallery/1.webp";
@@ -214,6 +230,7 @@ import chilakaluripetImageFour from "../assets/branch/chilakaluripet/gallery/4.w
 import chilakaluripetImageFive from "../assets/branch/chilakaluripet/gallery/5.webp";
 import chilakaluripetImagesix from "../assets/branch/chilakaluripet/gallery/6.webp";
 import chilakaluripetImageseven from "../assets/branch/chilakaluripet/gallery/7.webp";
+import Chilakaluripetimg from "../assets/branch/chilakaluripet/ChilakauripetFac.webp";
 
 // karaikudi
 import karaikudiImageone from "../assets/branch/karaikudi/gallery/1.webp";
@@ -233,6 +250,11 @@ import hanamkondaImageFour from "../assets/branch/hanamkonda/gallery/4.webp";
 import hanamkondaImageFive from "../assets/branch/hanamkonda/gallery/5.webp";
 import hanamkondaImagesix from "../assets/branch/hanamkonda/gallery/6.webp";
 import hanamkondaImageseven from "../assets/branch/hanamkonda/gallery/7.webp";
+import HanamkondaImgFac from "../assets/branch/hanamkonda/HanamkondaFac.webp";
+
+
+import OngoleImgFac from "../assets/branch/ongole/OngoleFac.webp";
+
 import Link from "next/link";
 
 
@@ -309,10 +331,12 @@ export const Ambattur = {
 
 
 export const Aruppukottai = {
-  gallery: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
+  // gallery: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
+  gallery: [Imageone, Imagetwo, Imagethree, Imagefive],
   Facilities: { Facilitiesimg },
 
-  marquee: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
+  // marquee: [Imageone, Imagetwo, Imagethree, Imagefour, Imagefive],
+  marquee: [Imageone, Imagetwo, Imagethree, Imagefive],
   faqs: [
     {
       question: "What fertility treatments are available in Aruppukottai?  ",
@@ -485,7 +509,7 @@ export const Bengaluru = {
     BengaluruImagefour,
     BengaluruImagefive,
   ],
-
+   Facilities: { FacilitiesimgBengaluru },
   marquee: [
     BengaluruImageone,
     BengaluruImagetwo,
@@ -687,6 +711,7 @@ export const Chennai = {
     ChennaiImagefour,
     ChennaiImagefour,
   ],
+   Facilities: { FacChennai },
   faqs: [
     {
       question: "What fertility treatments are available in Chennai?",
@@ -944,6 +969,7 @@ export const Dindigul = {
     dindigulImagefour,
     dindigulImagefive,
   ],
+   Facilities: { dindigulImgFac },
   faqs: [
     {
       question: "What fertility treatments are available in Dindigul?  ",
@@ -1028,6 +1054,7 @@ export const Hyderabad = {
     hyderabadImagefour,
     hyderabadImagefive,
   ],
+  Facilities: { hyderabadImgFac },
   faqs: [
     {
       question: "What fertility treatments are available for fertility issues in Hyderabad?",
@@ -1445,6 +1472,7 @@ export const Hanamkondas = {
     hanamkondaImageFour,
     hanamkondaImageFive,
   ],
+   Facilities: { HanamkondaImgFac },
   faqs: [
     {
       question: "What fertility treatments are available in Hanamkonda? ",
@@ -1675,10 +1703,8 @@ export const Tenalis = {
           <p className="text-gray-600 mt-3">
           When choosing the best fertility hospital you have to look at these factors, the location of the hospital, the treatments they offer, the facilities, the success rates, and the expertise of the fertility doctors in the hospital. Sudha Fertility Centre, the best fertility hospital in Tenali is equipped with world-class facilities and the best fertility experts and holds a high success rate.  
           </p>
-         
-
           
-
+          
 
         </>),
     },
@@ -1751,6 +1777,7 @@ export const Chilakaluripets = {
     chilakaluripetImageFive,
     chilakaluripetImagesix,
   ],
+   Facilities: {  Chilakaluripetimg },
   faqs: [
     {
       question: "What fertility treatments are available in Chilakaluripet?   ",
@@ -1961,84 +1988,35 @@ export const Kallakurichi = {
   ],
   faqs: [
     {
-      question: "What fertility treatments are available in Kallakurichi? ",
-      answer:
-        (<>
-          <p className="text-gray-600 mt-3">
-           There are many fertility treatments available, Sudha Fertility Centre in Kallakurichi provides personalised treatments suitable for your needs. We offer various treatments including IVF, ICSI, IUI, and fertility preservation options. As the best fertility centre in Kallakurichi, we specialise in providing comprehensive care with advanced technologies.  
-          </p>
-         
-
-
-        </>),
+      question: "What fertility treatments are available in Kallakurichi?",
+      answer:  "Numerous fertility treatments are available in Kallakurichi. However, Sudha Fertility Centre is the only fertility hospital offering all types of fertility counselling and treatments under one roof. We provide various treatments, including IVF, IUI, ICSI, fertility preservation options, and other modern treatments in Kallakurichi."
+    
+        
     },
+    
     {
-      question: "What is the cost of IVF in Kallakurichi? ",
+      question: "  What is the cost of IVF in Kallakurichi?   ",
       answer:
-        "The cost of IVF treatment in Kallakurichi depends on many factors like your medical history, the number of cycles it takes, hormonal conditions, etc. The average cost of IVF treatment in Kallakurichi may vary for each individual. At Sudha Fertility Centre, with the best IVF doctors in Kallakurichi, we provide exceptional IVF treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IVF hospital in Kallakurichi.   ",
-    },
+       "The cost of IVF in Kallakurichi may vary for each individual, considering their body health, medical history, hormone levels, and more. At Sudha Fertility Centre, the fertility experts take a complete report of your body condition and provide IVF at the best cost."
+      },
     {
-      question: "What is the cost of fertility treatments in Kallakurichi? ",
+      question: " What is the cost of fertility treatments in Kallakurichi?   ",
+      answer: 
+          "There are plenty of varieties in fertility treatments, as each treatment has different procedures, and each patient requires a different treatment. Thus, the cost of fertility treatments depends on the specific treatment, medicine, and number of cycles required. However, Sudha Fertility Centre in Kallakurichi offers the best fertility treatments at an affordable cost with utmost care. "   
+    },
+   
+    {
+      question: "How can I choose the best fertility hospital in Kallakurichi? ",
       answer:
-        "Each fertility treatment is offered at different costs as it involves different processes. Also, the cost of fertility treatments depends on multiple factors like medical history, health condition, hormonal imbalance, etc. Sudha Fertility Centre in Kallakurichi provides the best fertility treatments at an affordable cost. As the best fertility hospital in Kallakurichi, we treat our patients with utmost care, and our experienced fertility specialists in Kallakurichi are here to support you at every step of your parenthood journey.  ",
-    },
-    {
-      question: "How can I choose the best fertility hospital in Kallakurichi?  ",
-      answer:(<>
-          <p className="text-gray-600 mt-3">
-          When choosing the best fertility hospital you have to look at these factors, the location of the hospital, the treatments they offer, the facilities, the success rates, and the expertise of the fertility doctors in the hospital. Sudha Fertility Centre, the best fertility hospital in Kallakurichi, is equipped with world-class facilities and the best fertility experts and holds a high success rate.  
-          </p>
-         
-
-          
-
-
-        </>),
-    },
-    {
-      question: "Which is the best fertility hospital in Kallakurichi? ",
-      answer:
-        "Sudha Fertility Centre is the best fertility hospital in Kallakurichi. We offer world-class fertility treatments with intellectually equipped fertility doctors in Kallakurichi, with a high success rate.   ",
-    },
+        "Choosing the best fertility hospital is vital to availing quality treatment. When looking for the best fertility hospital, check for the treatments they offer, facilities, success rates, expertise of the doctors, and location. Nevertheless, Sudha Fertility meets all these criteria by providing world-class treatment facilities and the best fertility experts.  "
+      },
 
     {
-      question: "Which hospital has the best fertility doctors in Kallakurichi?  ",
+      question: " Which is the best fertility hospital in Kallakurichi?",
       answer:
-        "Dr. S. Pradeepa, the chief consultant of Sudha Fertility Centre in Kallakurichi, is one the best fertility experts in Kallakurichi. This branch is equipped with the best fertility doctors in Kallakurichi with a record of thousands of couples delivering healthy babies, and free medical camps conducted every month.  ",
-    },
-    {
-      question:
-        "Which hospital is best for PCOD/PMOS (PCOS) treatment in Kallakurichi? ",
-      answer:
-        "Find the best treatments for Polyendocrine Metabolic Ovarian Syndrome (Polycystic Ovarian Syndrome)  and Polycystic Ovarian Disease by the best fertility doctors and gynecologists in Kallakurichi at Sudha Fertility Centre in Kallakurichi. The doctors examine you completely to diagnose the root cause and provide you with the best PCOD/PMOS (PCOS) treatments. ",
-    },
-    {
-      question: "Can I do household work during IVF treatment? ",
-      answer:
-        "Light household work for 10 to 15 minutes is generally fine during IVF treatment. However, prolonged activity or lifting heavy objects is not advisable. If you experience any discomfort, consult your doctor immediately. At Sudha Fertility Centre in Kallakurichi, our IVF doctors provide you a personalised treatment and comprehensive care and will guide you throughout your parenthood journey.",
-    },
-    {
-      question:
-        "Which is the No. 1 fertility hospital in South India?  ",
-      answer:
-        "With a high success rate and equipped with the best fertility experts, world-class facilities, and exceptional fertility treatments, Sudha Fertility Centre in Kallakurichi is the No. 1 fertility hospital in South India ",
-    },
-    {
-      question:
-        "What reduces male fertility? ",
-      answer:
-        "Male fertility is affected by many factors such as lifestyle choices, exposure to toxins, medications, genetics, testicle surgeries, tight-fitting clothes, etc. At Sudha Fertility Centre our fertility doctors examine you and identify the root cause of male infertility and provide you with the best treatments.  ",
-    },
-    {
-      question: "When is the right time to start IVF treatment?",
-      answer:
-        "If you’re looking to start IVF treatment, the right time to begin IVF treatment depends on individual factors like your age, fertility history, health condition, and previous treatment history. Couples are advised to opt for IVF if they have tried pregnancy naturally for more than a year. If you’re over 35, IVF can help you with a successful pregnancy. At Sudha Fertility Centre, the best IVF hospital in Kallakurichi, our IVF doctors examine you and suggest the best time and approach for your IVF treatment.",
-    },
-    {
-      question: "What is the cost of IUI treatment in Kallakurichi?  ",
-      answer:
-        "The cost of IUI treatment in Kallakurichi depends on many factors like your medical history, medications, hormonal conditions, etc. The average cost of IUI treatment in Kallakurichi may vary for each individual. At Sudha Fertility Centre, with the best IUI doctors in Kallakurichi, we provide exceptional IUI treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IUI hospital in Kallakurichi. ",
-    },
+        "Without a doubt, Sudha Fertility Centre is the best fertility hospital in Kallakurichi, as they offer numerous fertility treatments, straightforward counselling, and guide you throughout the fertility journey.  "
+      },
+   
 
     // Add more FAQs as needed
   ],
@@ -2146,6 +2124,7 @@ export const Kishnagiri = {
     KishnagiriImagefour,
     KishnagiriImagefive,
   ],
+  Facilities: { KishnagiriImgFac },
   faqs: [
     {
       id: 1,
@@ -2337,6 +2316,7 @@ export const Manapparai = {
     MaduraiImagefour,
     MaduraiImagefive,
   ],
+   Facilities: { ManapparaiImgFac },
   faqs: [
     {
       id: 1,
@@ -2520,7 +2500,7 @@ export const Puducherry = {
     PuducherryImagefour,
     PuducherryImagefive,
   ],
-
+  Facilities: { PuducherryImgFac },
   marquee: [
     PuducherryImageone,
     PuducherryImagetwo,
@@ -2528,6 +2508,7 @@ export const Puducherry = {
     PuducherryImagefour,
     PuducherryImagefive,
   ],
+
   faqs: [
     {
       id: 1,
@@ -2718,6 +2699,7 @@ export const Ramanathapuram = {
     RamanathapuramImagefour,
     RamanathapuramImagefive,
   ],
+  Facilities: { RamanathapuramFac },
   faqs: [
     {
       id: 1,
@@ -2813,6 +2795,7 @@ export const Salem = {
     SalemImagefour,
     SalemImagefive,
   ],
+  Facilities: { SalemFac },
   faqs: [
     {
       id: 1,
@@ -2911,76 +2894,35 @@ export const Sivagangai = {
   faqs: [
     {
       id: 1,
-      question: "What fertility treatments are available in Sivagangai?",
+      question: "What fertility treatments are available in Sivagangai? ",
       answer:
-        "There are many fertility treatments available, Sudha Fertility Centre in Sivagangai provides personalised treatments suitable for your needs. We offer various treatments including IVF, ICSI, IUI, and fertility preservation options. As the best fertility centre in Sivagangai, we specialise in providing comprehensive care with advanced technologies.  ",
-    },
+       "Sivagangai has a diverse range of fertility treatments. However, Sudha Fertility Centre is the exclusive provider of all these fertility services. We provide a variety of fertility treatments, including IUI, IVF, ICSI, fertility preservation options, and numerous additional treatments."
+      },
     {
       id: 2,
       question: "What is the cost of IVF in Sivagangai? ",
       answer:
-        "The cost of IVF treatment in Sivagangai depends on many factors like your medical history, the number of cycles it takes, hormonal conditions, etc. The average cost of IVF treatment in Sivagangai may vary for each individual. At Sudha Fertility Centre, with the best IVF doctors in Sivagangai, we provide exceptional IVF treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IVF hospital in Sivagangai. ",
-    },
+        "The cost of IVF treatment differs for each person, influenced by factors such as hormone levels, medical history, and overall health. At Sudha Fertility Centre, we simplify this process by assessing your health and delivering a tailored treatment plan that ensures you receive the best care."
+      },
     {
       id: 3,
       question: "What is the cost of fertility treatments in Sivagangai? ",
       answer:
-        "Each fertility treatment is offered at different costs as it involves different processes. Also, the cost of fertility treatments depends on multiple factors like medical history, health condition, hormonal imbalance, etc. Sudha Fertility Centre in Sivagangai provides the best fertility treatments at an affordable cost. As the best fertility hospital in Sivagangai, we treat our patients with utmost care, and our experienced fertility specialists in Sivagangai are here to support you at every step of your parenthood journey.",
-    },
+       "Fertility treatments in Sivagangai differ greatly because each one includes various procedures, and every patient needs a tailored approach. As a result, the cost of these treatments depends on the specific procedure, medication, and the number of cycles required. Sudha Fertility Centre in Sivagangai provides top-quality fertility treatments at an affordable price while ensuring excellent care."
+      },
     {
       id: 4,
       question: "How can I choose the best fertility hospital in Sivagangai?  ",
       answer:
-        "When choosing the best fertility hospital you have to look at these factors, the location of the hospital, the treatments they offer, the facilities, the success rates, and the expertise of the fertility doctors in the hospital. Sudha Fertility Centre, the best fertility hospital in Sivagangai, is equipped with world-class facilities and the best fertility experts and holds a high success rate.  ",
-    },
+       "Selecting the right fertility hospital is crucial for receiving quality care. Several factors should guide your decision in finding the best option, including the available treatments, facilities, success rates, doctors' expertise, and location. Sudha Fertility Centre stands out by offering excellent treatment facilities and a team of highly skilled fertility specialists."
+      },
     {
       id: 5,
       question: "Which is the best fertility hospital in Sivagangai? ",
       answer:
-        "Sudha Fertility Centre is the best fertility hospital in Sivagangai. We offer world-class fertility treatments with intellectually equipped fertility doctors in Sivagangai, with a high success rate.    ",
-    },
-    {
-      id: 6,
-      question: "Which hospital has the best fertility doctors in Sivagangai? ",
-      answer:
-        "Dr. S. Pradeepa, the chief consultant of Sudha Fertility Centre in Sivagangai, is one the best fertility experts in Sivagangai. This branch is equipped with the best fertility doctors in Sivagangai with a record of thousands of couples delivering healthy babies, and free medical camps conducted every month.  ",
-    },
-    {
-      id: 7,
-      question: "Which hospital is best for PCOD/PMOS (PCOS) treatment in Sivagangai? ",
-      answer:
-        "Find the best treatments for Polyendocrine Metabolic Ovarian Syndrome (Polycystic Ovarian Syndrome)  and Polycystic Ovarian Disease by the best fertility doctors and gynecologists in Sivagangai at Sudha Fertility Centre in Sivagangai. The doctors examine you completely to diagnose the root cause and provide you with the best PCOD/PMOS (PCOS) treatments.    ",
-    },
-    {
-      id: 8,
-      question: "Can I do household work during IVF treatment?",
-      answer:
-        "Light household work for 10 to 15 minutes is generally fine during IVF treatment. However, prolonged activity or lifting heavy objects is not advisable. If you experience any discomfort, consult your doctor immediately. At Sudha Fertility Centre in Sivagangai, our IVF doctors provide you a personalised treatment and comprehensive care and will guide you throughout your parenthood journey.  ",
-    },
-    {
-      id: 9,
-      question: "Which is the No. 1 fertility hospital in South India?",
-      answer:
-        "With a high success rate and equipped with the best fertility experts, world-class facilities, and exceptional fertility treatments, Sudha Fertility Centre in Sivagangai is the No. 1 fertility hospital in South India. ",
-    },
-    {
-      id: 10,
-      question: "What reduces male fertility? ",
-      answer:
-        "Male fertility is affected by many factors such as lifestyle choices, exposure to toxins, medications, genetics, testicle surgeries, tight-fitting clothes, etc. At Sudha Fertility Centre our fertility doctors examine you and identify the root cause of male infertility and provide you with the best treatments.",
-    },
-    {
-      id: 11,
-      question: "When is the right time to start IVF treatment? ",
-      answer:
-        " If you’re looking to start IVF treatment, the right time to begin IVF treatment depends on individual factors like your age, fertility history, health condition, and previous treatment history. Couples are advised to opt for IVF if they have tried pregnancy naturally for more than a year. If you’re over 35, IVF can help you with a successful pregnancy. At Sudha Fertility Centre, the best IVF hospital in Sivagangai, our IVF doctors examine you and suggest the best time and approach for your IVF treatment.",
-    },
-    {
-      id: 12,
-      question: "What is the cost of IUI treatment in Sivagangai? ",
-      answer:
-        "The cost of IUI treatment in Sivagangai depends on many factors like your medical history, medications, hormonal conditions, etc. The average cost of IUI treatment in Sivagangai may vary for each individual. At Sudha Fertility Centre, with the best IUI doctors in Sivagangai, we provide exceptional IUI treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IUI hospital in Sivagangai. ",
-    },
+       "Sudha Fertility Centre stands out as the best fertility hospital in Sivagangai, providing numerous fertility treatments, clear counselling, and guidance throughout the fertility journey."
+      },
+    
 
     // Add more FAQs as needed
   ],
@@ -3194,6 +3136,7 @@ export const Trichy = {
     TrichyImagethree,
     TrichyImagefour,
   ],
+  Facilities: { TrichyFac },
   faqs: [
     {
       id: 1,
@@ -3384,6 +3327,7 @@ export const Tiruppur = {
     TiruppurImagefour,
     TiruppurImagefive,
   ],
+    Facilities: { TiruppurFac },
   faqs: [
     {
       id: 1,
@@ -3479,6 +3423,7 @@ export const Theni = {
     TheniImagefour,
     TheniImagefive,
   ],
+  Facilities: { TheniFac },
   faqs: [
     {
       id: 1,
@@ -3575,6 +3520,7 @@ export const Tirunelveli = {
     TirunelveliImagefour,
     TirunelveliImagefive,
   ],
+  Facilities: { TirunelveliFac },
   faqs: [
     {
       id: 1,
@@ -3671,6 +3617,7 @@ export const Vellore = {
     VelloreImagefour,
     VelloreImagefive,
   ],
+  Facilities: { VelloreFac },
   faqs: [
     {
       id: 1,
@@ -3854,7 +3801,7 @@ export const Ongole = {
     VijayawadaImagefive,
     VijayawadaImagesix,
   ],
-
+  Facilities: { OngoleImgFac },
   marquee: [
     VijayawadaImageseven,
     VijayawadaImageeight,
@@ -3936,7 +3883,7 @@ export const Ongole = {
       answer:
         "The cost of IUI treatment in Ongole depends on many factors like your medical history, medications, hormonal conditions, etc. The average cost of IUI treatment in Ongole may vary for each individual. At Sudha Fertility Centre, with the best IUI doctors in Ongole, we provide exceptional IUI treatments tailored to your needs and lifestyle. Our patient-centered approach retains us as the best IUI hospital in Ongole.",
     },
-
+   
     // Add more FAQs as needed
   ],
 };
@@ -3959,6 +3906,7 @@ export const Vijayawada = {
     VijayawadaImageeleven,
     VijayawadaImagetwele,
   ],
+  Facilities: { VijayawadaFac },
   faqs: [
     {
       id: 1,
